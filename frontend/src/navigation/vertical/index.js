@@ -71,16 +71,6 @@ const navigation = () => {
       title: "Form Layouts",
       path: "/form-layouts",
     },
-    {
-      icon: CubeOutline,
-      title: "백재원",
-      path: "/jay",
-    },
-    {
-      icon: CubeOutline,
-      title: "공장결정시스템제작",
-      path: "/decisionFactory",
-    },
   ];
 };
 
