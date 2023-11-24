@@ -1,13 +1,13 @@
-package com.pofect.factorydecision;
+package com.poscodx.pofect;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FactorydecisionApplication {
+public class PofectApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FactorydecisionApplication.class, args);
+		SpringApplication.run(PofectApplication.class, args);
 	}
 
 }
