@@ -71,6 +71,19 @@ const navigation = () => {
       title: "Form Layouts",
       path: "/form-layouts",
     },
+    {
+      sectionTitle: "여기서 부터 url 추가하면 돼",
+    },
+    {
+      icon: CubeOutline,
+      title: "재원 대시보드",
+      path: "/dashboard",
+    },
+    {
+      icon: CubeOutline,
+      title: "필수재기준",
+      path: "/essential-goods",
+    },
   ];
 };
 
