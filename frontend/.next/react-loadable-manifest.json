@@ -1,5 +1,5 @@
 {
-  "../@core/components/react-apexcharts/index.js -> react-apexcharts": {
+  "..\\@core\\components\\react-apexcharts\\index.js -> react-apexcharts": {
     "id": "./node_modules/react-apexcharts/dist/react-apexcharts.min.js",
     "files": [
       "static/chunks/node_modules_react-apexcharts_dist_react-apexcharts_min_js.js"

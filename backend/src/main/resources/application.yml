@@ -8,8 +8,7 @@ spring:
         format_sql: 'true'
     hibernate:
       database: mysql
-#      ddl-auto: create
-      ddl-auto: update
+      ddl-auto: update  # create
     show-sql: 'true'
   # DB
   datasource:
