@@ -1,3 +1,10 @@
+@font-face {
+  font-family: "LINESeedKR-Bd";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
 html,
 body {
   min-height: 100%;
@@ -13,7 +20,6 @@ code {
     "Droid Sans", "Helvetica Neue";
   padding: 0.1rem 0.4rem;
   font-size: 90%;
-  color: #d400ff;
   border-radius: 0.1335rem;
 }
 code:not([class*="language-"]):before,

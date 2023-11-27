@@ -11,12 +11,12 @@ const Typography = (theme) => {
       color: theme.palette.text.primary,
     },
     h3: {
+      fontFamily: "LINESeedKR-Bd",
       fontWeight: 500,
       letterSpacing: 0,
       color: theme.palette.text.primary,
     },
     h4: {
-      fontFamily: "Black Han Sans",
       fontWeight: 400,
       letterSpacing: "0.25px",
       color: theme.palette.text.primary,
