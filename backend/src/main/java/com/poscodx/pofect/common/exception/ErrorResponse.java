@@ -1,9 +1,8 @@
-package com.poscodx.pofect.config.exception;
+package com.poscodx.pofect.common.exception;
 
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;
-import com.poscodx.pofect.exception.ErrorCode;
 
 import java.time.LocalDateTime;
 

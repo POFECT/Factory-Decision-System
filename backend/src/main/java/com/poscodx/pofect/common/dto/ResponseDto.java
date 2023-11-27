@@ -1,4 +1,4 @@
-package com.poscodx.pofect.config;
+package com.poscodx.pofect.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

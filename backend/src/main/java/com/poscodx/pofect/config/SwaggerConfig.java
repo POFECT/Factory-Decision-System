@@ -1,4 +1,4 @@
-package app.bada.flower.config;
+package com.poscodx.pofect.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +14,10 @@ import springfox.documentation.spring.web.plugins.Docket;
 import java.util.Arrays;
 import java.util.List;
 
+/*
+http://localhost:8080/api/swagger-ui/index.html#/
+ */
+
 @Configuration
 @EnableWebMvc
 public class SwaggerConfig {
@@ -26,7 +30,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .useDefaultResponseMessages(false)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("app.bada.flower.api.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.poscodx.pofect.domain"))
                 .paths(PathSelectors.any())
                 .build()
                 .enable(true);
@@ -51,15 +55,11 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("꽃바다 API")
-                .description("꽃바다 관련 API 테스트 상세소개 및 사용법")
+                .title("POFECT API")
+                .description("Factory Decesion System 관련 API 테스트 상세소개 및 사용법")
                 .version("0.0.1")
-                .contact(new Contact("flowerbada", "flowerbada.app", "wendy0301666@gmail.com"))
+                .contact(new Contact("pofect", "http://52.79.114.216", "wendy0301666@gmail.com"))
                 .build();
     }
 
 }
-
-/*
-http://localhost:8080/api/v1/swagger-ui/index.html#/
- */

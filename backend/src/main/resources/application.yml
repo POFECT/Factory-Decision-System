@@ -8,7 +8,8 @@ spring:
         format_sql: 'true'
     hibernate:
       database: mysql
-      ddl-auto: create-drop
+#      ddl-auto: create
+      ddl-auto: update
     show-sql: 'true'
   # DB
   datasource:
@@ -17,7 +18,14 @@ spring:
     username: pofect
     password: pofect1!
 #  datasource:
-#    password: kkotbada15!
 #    driver-class-name: com.mysql.cj.jdbc.Driver
-#    username: flowerbada_dev
-#    url: jdbc:mysql://k7a405.p.ssafy.io:3306/flower_db?characterEncoding=UTF-8&serverTimezone=UTC
+#    url: jdbc:mysql://pofect-database.c4jotwudvoiz.ap-northeast-2.rds.amazonaws.com:3306/pofect?characterEncoding=UTF-8&serverTimezone=UTC
+#    username: pofect
+#    password: 2wh1234!!
+
+
+# ??
+server:
+  port: '8080'
+  servlet:
+    context-path: /api

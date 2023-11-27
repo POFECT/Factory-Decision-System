@@ -1,4 +1,4 @@
-package com.poscodx.pofect.exception;
+package com.poscodx.pofect.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
