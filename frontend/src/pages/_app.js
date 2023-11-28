@@ -26,8 +26,8 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 
 // ** Global css styles
 import '../../styles/globals.css'
-
 const clientSideEmotionCache = createEmotionCache()
+
 
 // ** Pace Loader
 if (themeConfig.routingLoader) {
