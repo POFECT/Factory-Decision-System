@@ -111,51 +111,54 @@ public class FactoryOrderInfoResDto {
     @Size(max = 2)
     private String oilingMethodCd;  // 32.제품도유방법지정코드
 
+    @Size(max = 16)
+    private String planningItemCodeN;  // 33.PlanningItem코드
+
     @Size(max = 14)
-    private String smSteelGrdN;  // 33.출강목표번호
+    private String smSteelGrdN;  // 34.출강목표번호
 
     @Size(max = 6)
-    private String moltenSteelCharCdN;  // 34.품질설계용강특성코드
+    private String moltenSteelCharCdN;  // 35.품질설계용강특성코드
 
     @Size(max = 4)
-    private String tsAim;  // 35.품질설계목표TS
+    private String tsAim;  // 36.품질설계목표TS
 
-    private Double unitWeight;  // 36.제품칫수계산단중
-
-    @Size(max = 1)
-    private String hrSpComposite;  // 37.품질설계열연SkinPass합성지정구분
+    private Double unitWeight;  // 37.제품칫수계산단중
 
     @Size(max = 1)
-    private String surfaceGrd;  // 38.품질설계표면등급구분
+    private String hrSpComposite;  // 38.품질설계열연SkinPass합성지정구분
 
     @Size(max = 1)
-    private String shapeGrd;  // 39.품질설계형상등급구분
+    private String surfaceGrd;  // 39.품질설계표면등급구분
+
+    @Size(max = 1)
+    private String shapeGrd;  // 40.품질설계형상등급구분
 
     @Size(max = 13)
-    private String poscoProdGrdN;  // 40.제품사내보증번호
+    private String poscoProdGrdN;  // 41.제품사내보증번호
 
-    private Double hrProdThkAim;  // 41.품질설계열연목표두께
+    private Double hrProdThkAim;  // 42.품질설계열연목표두께
 
-    private Double hrProdWthAim;  // 42.품질설계열연목표폭
+    private Double hrProdWthAim;  // 43.품질설계열연목표폭
 
     @Size(max = 3)
-    private String sm2ndRfnCd;  // 43.품질설계제강2차정련코드
+    private String sm2ndRfnCd;  // 44.품질설계제강2차정련코드
 
     @Size(max = 1)
-    private String skinpassFlag;  // 44.제품SkinPass지정여부
+    private String skinpassFlag;  // 45.제품SkinPass지정여부
 
     @Size(max = 5)
-    private String packingType;  // 45.제품포장방법코드
+    private String packingType;  // 46.제품포장방법코드
 
-    private Integer facAllocWgt;  // 46.소내공장결정중량
+    private Integer facAllocWgt;  // 47.소내공장결정중량
 
-    private LocalDateTime faAllocDate;  // 47.생산가능공장결정일자
+    private LocalDateTime faAllocDate;  // 48.생산가능공장결정일자
 
     @Size(max = 200)
-    private String errorMessage;  // 48.ErrorMessage내용
+    private String errorMessage;  // 49.ErrorMessage내용
 
     @Size(max = 5)
-    private String msgcode;  // 49.박판공정계획Message코드
+    private String msgcode;  // 50.박판공정계획Message코드
 
     private LocalDateTime lastUpdateDate;  // 최종수정일자
 
@@ -194,6 +197,7 @@ public class FactoryOrderInfoResDto {
                 .surfaceFinishCd(factoryOrderInfo.getSurfaceFinishCd())
                 .postTreatmentMethodCdN(factoryOrderInfo.getPostTreatmentMethodCdN())
                 .oilingMethodCd(factoryOrderInfo.getOilingMethodCd())
+                .planningItemCodeN(factoryOrderInfo.getPlanningItemCodeN())
                 .smSteelGrdN(factoryOrderInfo.getSmSteelGrdN())
                 .moltenSteelCharCdN(factoryOrderInfo.getMoltenSteelCharCdN())
                 .tsAim(factoryOrderInfo.getTsAim())
