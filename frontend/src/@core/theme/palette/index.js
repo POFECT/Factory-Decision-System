@@ -1,6 +1,7 @@
 const DefaultPalette = (mode, themeColor) => {
   // ** Vars
-  const lightColor = "58, 53, 65";
+  // 전역 css
+  const lightColor = "5, 80, 125";
   const darkColor = "231, 227, 252";
   const mainColor = mode === "light" ? lightColor : darkColor;
 
@@ -34,7 +35,7 @@ const DefaultPalette = (mode, themeColor) => {
     primary: {
       light: "#0e9dde",
       main: "#0e9dde",
-      dark: "#804BDF",
+      dark: "#05507d",
       contrastText: "#FFF",
     },
     secondary: {
