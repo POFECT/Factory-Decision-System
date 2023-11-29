@@ -10,12 +10,12 @@ import { Grid, Typography } from "@mui/material";
 import styles from './styles.module.css';
 
 const rowSpan = (params) => {
-  var 공정 = params.data ? params.data.공정 : undefined;
-  if (공정 === '제강' || 공정 === '열연' || 공정 === '열연정정') {
+  var process = params.data ? params.data.process : undefined;
+  if (process === '제강' || process === '열연' || process === '열연정정') {
     return 2;
-  } else if (공정 === '냉간압연' || 공정 === '1차소둔') {
+  } else if (process === '냉간압연' || process === '1차소둔') {
     return 3;
-  } else if (공정 === '2차소둔' || 공정 === '도금') {
+  } else if (process === '2차소둔' || process === '도금') {
     return 2;
   } else {
     return 1;
@@ -25,32 +25,31 @@ const Capacity = () => {
   const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
   const gridStyle = useMemo(() => ({ height: '70%', width: '80%'}), []);
   const [rowData,setRowData] = useState([
-    { 공정:"제강", 공장:1, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"", 공장:2, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"열연", 공장:1, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"", 공장:2, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"열연정정", 공장:1, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"", 공장:2, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"냉간압연", 공장:1, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"", 공장:2, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"", 공장:3, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"1차소둔", 공장:1, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"", 공장:2, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"", 공장:3, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"2차소둔", 공장:1, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"", 공장:3, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"도금", 공장:3, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"", 공장:4, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
-    { 공정:"정정", 공장:1, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"제강",   공정:"제강", 공장:1, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"",       공정:"제강", 공장:2, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"열연",   공정:"열연", 공장:1, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"",       공정:"열연", 공장:2, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"열연정정",공정:"열연정정", 공장:1, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"",       공정:"열연정정", 공장:2, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"냉간압연",공정:"냉간압연", 공장:1, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"",       공정:"냉간압연", 공장:2, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"",       공정:"냉간압연", 공장:3, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"1차소둔", 공정:"1차소둔", 공장:1, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"",       공정:"1차소둔", 공장:2, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"",       공정:"1차소둔", 공장:3, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"2차소둔", 공정:"2차소둔", 공장:1, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"",       공정:"2차소둔", 공장:3, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"도금",   공정:"도금", 공장:3, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"",       공정:"도금", 공장:4, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
+    { process:"정정",   공정:"정정", 공장:1, 능력량:1020, 조정량:0, 투입량:20, 잔여량:1000 },
   ]);
 
   const [columnDefs,setColumnDefs] = useState([
-    { field: '공정',
-      rowSpan: rowSpan,
+    {field:'process',width:100,
+    rowSpan: rowSpan,
       cellClassRules: {
         'cell-span': "value==='제강' || value==='열연' || value==='열연정전'|| value==='냉간압연'|| value==='1차소둔'|| value==='2차소둔'|| value==='도금'",
       },
-      width:200,
     },
     { field: "공장", width:80 },
     { field: "능력량", width:120 },
@@ -64,21 +63,22 @@ const Capacity = () => {
     return {
       width: 170,
       resizable: true,
+      sortable:true,
     };
   }, []);
 
-  //const [clickedCount, setClickedCount] = useState(0);
+  const [clickedCount, setClickedCount] = useState(0);
 
   // // good callback, no hook, no stale data
-  // const onCellClicked = (event) => {
-  //   console.log(event);
-  // };
+   const onCellClicked = (event) => {
+     console.log(event);
+   };
 
   // // bad callback - stale data, dependency missing,
   // // will ALWAYS print 0
-  // const onCellValueChanged = useCallback(() => {
-  //   console.log(`number of clicks is ${clickedCount}`);
-  // }, []);
+  const onCellValueChanged = useCallback(() => {
+    console.log(`number of clicks is ${clickedCount}`);
+  }, []);
 
 
 
@@ -93,7 +93,7 @@ const Capacity = () => {
           <AgGridReact style={styles}
             rowData={rowData}
             columnDefs={columnDefs}
-            //onCellClicked={onCellClicked}
+            onCellClicked={onCellClicked}
             //onCellValueChanged={onCellValueChanged}
             defaultColDef={defaultColDef}
             suppressRowTransform={true}

@@ -89,11 +89,6 @@ const navigation = () => {
       title: "투입 능력 관리",
       path: "/input-capacity",
     },
-    {
-      icon: CubeOutline,
-      title: "예시 표 페이지",
-      path: "/ex",
-    },
   ];
 };
 
