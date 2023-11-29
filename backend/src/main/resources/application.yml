@@ -1,5 +1,9 @@
 spring:
-  # JPA ??
+  # yml 파일 등록
+  config:
+    import: account.yml
+  
+  # JPA 설정
   jpa:
     properties:
       hibernate:
@@ -13,17 +17,12 @@ spring:
   # DB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/pofect?characterEncoding=UTF-8&serverTimezone=UTC
-    username: pofect
-    password: pofect1!
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://pofect-database.c4jotwudvoiz.ap-northeast-2.rds.amazonaws.com:3306/pofect?characterEncoding=UTF-8&serverTimezone=UTC
-#    username: pofect
-#    password: 2wh1234!!
+    url: ${mysql.url}
+    username: ${mysql.username}
+    password: ${mysql.password}
 
 
-# ??
+# 서버
 server:
   port: '8080'
   servlet:
