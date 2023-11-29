@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Builder
+@SuperBuilder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,15 +24,15 @@ public class PossibleFactoryStandard extends BaseEntity {
 
     @Column(name = "MILL_CD", length = 1)
     @NotNull
-    private String MillCd;  // 2.공정계획박판Mill구분
+    private String millCd;  // 2.공정계획박판Mill구분
 
     @Column(name = "PROCESS_CD", length = 2)
     @NotNull
-    private String ProcessCd;  // 3.박판공정계획공정구분
+    private String processCd;  // 3.박판공정계획공정구분
 
     @Column(name = "BTI_POSB_PS_FAC_TP", length = 2)
     @NotNull
-    private String BtiPosbPsFacTp;  // 4.박판가능통과공장구분
+    private String btiPosbPsFacTp;  // 4.박판가능통과공장구분
 
     @Column(name = "FEASIBLE_ROUTING_GROUP", length = 30)
     private String feasibleRoutingGroup;  // 5.공정계획작업가능통과공정코드

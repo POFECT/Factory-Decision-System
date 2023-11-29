@@ -1,10 +1,11 @@
 package com.poscodx.pofect.domain.main.entity;
 
 import com.poscodx.pofect.domain.entity.BaseEntity;
+import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-@Builder
+@SuperBuilder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -171,5 +172,14 @@ public class FactoryOrderInfo extends BaseEntity {
 
     @Column(name = "MSGCODE", length = 5)
     private String msgcode;  // 50.박판공정계획Message코드
+
+
+    public static FactoryOrderInfo toEntity(FactoryOrderInfoReqDto factoryOrderInfoReqDto) {
+        return FactoryOrderInfo.builder()
+                .gcsCompCode(factoryOrderInfoReqDto.getGcsCompCode())
+                .millCd(factoryOrderInfoReqDto.getMillCd())
+                .orderHeadLineNo(factoryOrderInfoReqDto.getOrderHeadLineNo())
+                .build();
+    }
 
 }

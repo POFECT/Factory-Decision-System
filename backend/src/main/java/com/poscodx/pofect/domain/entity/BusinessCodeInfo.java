@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Builder
+@SuperBuilder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,7 +31,7 @@ public class BusinessCodeInfo extends BaseEntity {
 
     @Column(name = "CD_V_INQUIRY_SEQ")
     @NotNull
-    private Integer CD_V_INQUIRY_SEQ;  // 4.코드값조회순서
+    private Integer cdVInquirySeq;  // 4.코드값조회순서
 
     @Column(name = "CD_TP_EXPLAIN", length = 200)
     private String cdTpExplain;  // 5.코드유형설명

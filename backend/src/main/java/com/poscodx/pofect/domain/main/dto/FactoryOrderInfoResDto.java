@@ -1,10 +1,7 @@
 package com.poscodx.pofect.domain.main.dto;
 
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -14,6 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class FactoryOrderInfoResDto {
 
     @NotBlank

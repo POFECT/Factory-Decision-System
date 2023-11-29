@@ -2,6 +2,8 @@ package com.poscodx.pofect.domain.main.controller;
 
 import com.poscodx.pofect.common.dto.ResponseDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
+import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
+import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 import com.poscodx.pofect.domain.main.service.FactoryOrderInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,12 +34,34 @@ public class MainController {
     @ApiOperation(value = "주문 데이터 조회", notes = "ID로 주문 데이터를 조회한다.")
     public ResponseEntity<ResponseDto> getOrderById(@PathVariable Long id) {
         FactoryOrderInfoResDto result = factoryOrderInfoService.getById(id);
+        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+    }
 
-        if(result != null) {
-            return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+    @PostMapping
+    @ApiOperation(value = "주문 데이터 생성", notes = "주문 데이터를 생성한다.")
+    public ResponseEntity<ResponseDto> createOrder(@RequestBody FactoryOrderInfoReqDto factoryOrderInfoReqDto) {
+        FactoryOrderInfo factoryOrderInfo = factoryOrderInfoService.insertOrder(factoryOrderInfoReqDto);
+
+        if(factoryOrderInfo != null) {
+            return new ResponseEntity<>(new ResponseDto(factoryOrderInfo), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<>(new ResponseDto("Fail"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ResponseDto("order create fail"), HttpStatus.FORBIDDEN);
         }
     }
+
+    @DeleteMapping("{id}")
+    @ApiOperation(value = "주문 데이터 삭제", notes = "주문 데이터를 삭제한다.")
+    public ResponseEntity<ResponseDto> deleteOrder(@PathVariable Long id) {
+        Boolean result = factoryOrderInfoService.deleteOrder(id);
+
+        if(result) {
+            return new ResponseEntity<>(new ResponseDto("success"), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(new ResponseDto("order delete fail"), HttpStatus.FORBIDDEN);
+        }
+    }
+
+
 }
