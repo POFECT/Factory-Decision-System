@@ -93,33 +93,33 @@ yarn dev
 
 ## What's in Premium Version 💎
 
-| Materio Free Version | Materio Premium Version |
-| :------------------- | :---------------------- |
-| [Demo](https://demos.themeselection.com/materio-mui-react-nextjs-admin-template-free/) | [Demo](https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/landing/)                |
-| [Download](https://themeselection.com/products/materio-free-mui-react-nextjs-admin-template/) | [Purchase](https://themeselection.com/products/materio-mui-react-nextjs-admin-template/) |
-| Simple vertical menu | Vertical (+ vertical collapsed) menu & Horizontal menu |
-| Default skin | Default, bordered & semi-dark skins |
-| 1 Simple Dashboard | 3 Niche Dashboards |
-| - | Multiple applications like Email, Chat, Calendar, Invoice, User List, User View, and Roles and permission |
-| Simple from layouts | Form elements, advanced form layouts, form validation & form wizard |
-| Basic Cards | Basic, Advanced, Statistics, Analytics, Gamification and Actions Cards |
-| 3 Custom Components | 15 Custom Components |
-| - | Quick Search - Quickly navigate between pages (with hotkey support) |
-| Basic tables | Advanced tables + Data Grid Tables |
-| 1 Chart Library | 3 Chart Libraries |
-| User Overridable Layout | User Overridable Layout & Theme |
-| Account Settings, Login, Register, and Error pages | Authentication pages in 2 Variants + Ready to use pages like User Profile, Account Settings, FAQ, Pricing and some Misc pages |
-| Single-level menu | Multi-level menu (Grouped menu items) |
-| - | Multiple navbar & footer options |
-| - | JWT Authentication |
-| - | RTL (Right-to-Left) Support |
-| - | Redux |
-| - | Access Control (ACL - CASL) |
-| - | Multi-lingual Support |
-| - | Starter-kit |
-| - | Customizer drawer to check options in live app |
-| Limited customization | Endless customization possibilities |
-| Regular Support | Premium Support |
+| Materio Free Version                                                                          | Materio Premium Version                                                                                                       |
+| :-------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| [Demo](https://demos.themeselection.com/materio-mui-react-nextjs-admin-template-free/)        | [Demo](https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/landing/)                                     |
+| [Download](https://themeselection.com/products/materio-free-mui-react-nextjs-admin-template/) | [Purchase](https://themeselection.com/products/materio-mui-react-nextjs-admin-template/)                                      |
+| Simple vertical menu                                                                          | Vertical (+ vertical collapsed) menu & Horizontal menu                                                                        |
+| Default skin                                                                                  | Default, bordered & semi-dark skins                                                                                           |
+| 1 Simple Dashboard                                                                            | 3 Niche Dashboards                                                                                                            |
+| -                                                                                             | Multiple applications like Email, Chat, Calendar, Invoice, User List, User View, and Roles and permission                     |
+| Simple from layouts                                                                           | Form elements, advanced form layouts, form validation & form wizard                                                           |
+| Basic Cards                                                                                   | Basic, Advanced, Statistics, Analytics, Gamification and Actions Cards                                                        |
+| 3 Custom Components                                                                           | 15 Custom Components                                                                                                          |
+| -                                                                                             | Quick Search - Quickly navigate between pages (with hotkey support)                                                           |
+| Basic tables                                                                                  | Advanced tables + Data Grid Tables                                                                                            |
+| 1 Chart Library                                                                               | 3 Chart Libraries                                                                                                             |
+| User Overridable Layout                                                                       | User Overridable Layout & Theme                                                                                               |
+| Account Settings, Login, Register, and Error pages                                            | Authentication pages in 2 Variants + Ready to use pages like User Profile, Account Settings, FAQ, Pricing and some Misc pages |
+| Single-level menu                                                                             | Multi-level menu (Grouped menu items)                                                                                         |
+| -                                                                                             | Multiple navbar & footer options                                                                                              |
+| -                                                                                             | JWT Authentication                                                                                                            |
+| -                                                                                             | RTL (Right-to-Left) Support                                                                                                   |
+| -                                                                                             | Redux                                                                                                                         |
+| -                                                                                             | Access Control (ACL - CASL)                                                                                                   |
+| -                                                                                             | Multi-lingual Support                                                                                                         |
+| -                                                                                             | Starter-kit                                                                                                                   |
+| -                                                                                             | Customizer drawer to check options in live app                                                                                |
+| Limited customization                                                                         | Endless customization possibilities                                                                                           |
+| Regular Support                                                                               | Premium Support                                                                                                               |
 
 ## Documentation 📜
 

@@ -22,11 +22,11 @@ class CustomDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
           />
           <link
-            rel="apple-touch-icon"
+            rel="logo-white"
             sizes="180x180"
-            href="/images/apple-touch-icon.png"
+            href="/images/logo-white.png"
           />
-          <link rel="shortcut icon" href="/images/favicon.png" />
+          <link rel="shortcut icon" href="/images/favicon-pofect.png" />
           {/* black han sans */}
           <link
             href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Stylish&display=swap"
