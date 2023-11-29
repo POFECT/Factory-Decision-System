@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Builder
+@SuperBuilder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,22 +26,25 @@ public class CapacityInfo extends BaseEntity {
     @NotNull
     private String millCd;  // 2.공정계획박판Mill구분
 
-    @Column(name = "ORDER_HEAD_LINE_NO", length = 13)
+    @Column(name = "ORD_RCP_TAP_WEK_CD", length = 8)
     @NotNull
-    private String orderHeadLineNo;  // 3.OrderHeadLineNumber
+    private String ordRcpTapWekCd;  // 3.주문투입출강주코드
 
-    @Column(name = "FA_CAPACITY_FLAG", length = 1)
+    @Column(name = "PROCESS_CD", length = 2)
     @NotNull
-    private String faCapacityFlag;  // 4.공장결정능력구분
+    private String processCd;  // 4.박판공정계획공정구분
 
-    @Column(name = "CAPA_ITEM_SEQ")
+    @Column(name = "FIRM_PS_FAC_TP", length = 1)
     @NotNull
-    private Integer capaItemSeq;  // 5.공정능력관리번호
+    private String firmPsFacTp;  // 5.확정통과공장구분
 
-    @Column(name = "ORD_THW_TAP_WEK_CD", length = 8)
-    private String ordThwTapWekCd;  // 6.주문투입출강주코드
+    @Column(name = "FA_ADJUSTMENT_WGT")
+    private Long faAdjustmentWgt;  // 6.공장결정조정능력
+
+    @Column(name = "PROGRESS_QTY")
+    private Long progressQty;  // 7.주문진행량
 
     @Column(name = "USER_ID", length = 8)
-    private String userId;  // 7.박판공정계획사용자ID
+    private String userId;  // 8.박판공정계획사용자ID
 
 }
