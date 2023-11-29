@@ -25,9 +25,9 @@ public class MainProcessCode extends BaseEntity {
     @NotNull
     private String millCd;  // 2.공정계획박판Mill구분
 
-    @Column(name = "HIERARCHY_OP_TP", length = 2)
+    @Column(name = "PROCESS_CD", length = 2)
     @NotNull
-    private String hierarchyOpTp;  // 3.Hierarchy공정구분
+    private String processCd;  // 3.박판공정계획공정구분
 
     @Column(name = "CD_EXPL", length = 680)
     private String cdExpl;  // 4.코드설명

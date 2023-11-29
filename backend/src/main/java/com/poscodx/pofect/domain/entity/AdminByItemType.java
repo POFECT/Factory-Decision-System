@@ -21,6 +21,10 @@ public class AdminByItemType extends BaseEntity {
     @NotNull
     private String gcsCompCode;  // 1.연결결산법인구분
 
+    @Column(name = "WORKS_CODE", length = 1)
+    @NotNull
+    private String worksCode;
+
     @Column(name = "MILL_CD", length = 1)
     @NotNull
     private String millCd;  // 2.공정계획박판Mill구분
@@ -32,7 +36,7 @@ public class AdminByItemType extends BaseEntity {
     @Column(name = "ITEM_TYPE_GROUP_NAME", length = 30)
     private String itemTypeGroupName;  // 4.품종그룹명
 
-    @Column(name = "PPL_MMAT_CNG_INVP_ID", length = 6)
+    @Column(name = "PPL_MMAT_CNG_INVP_ID", length = 8)
     private String pplMmatCngInvpId;  // 5.공정계획필수재변경검토자ID
 
     @Column(name = "PPL_MMAT_CNG_INVP_NM", length = 50)
