@@ -1,7 +1,6 @@
 package com.poscodx.pofect.domain.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -50,7 +49,7 @@ public class EssentialStandard extends BaseEntity {
     @Column(name = "CON_CALC_OPXA01", length = 20)
     private String conCalcOpxa01;  // 9.계산식연산자명1
 
-    @Column(name = "ORD_PDT_ITP_CD_N", length = 2)
+    @Column(name = "ORD_PDT_ITP_CD_N", length = 30)
     private String ordPdtItpCdN;  // 10.주문품종코드
 
     @Column(name = "CON_CALC_OPXA02", length = 20)
@@ -62,13 +61,13 @@ public class EssentialStandard extends BaseEntity {
     @Column(name = "CON_CALC_OPXA03", length = 20)
     private String conCalcOpxa03;  // 13.계산식연산자명3
 
-    @Column(name = "CUSTOMER_NUMBER", length = 5)
+    @Column(name = "CUSTOMER_NUMBER", length = 30)
     private String customerNumber;  // 14.고객사코드
 
     @Column(name = "CON_CALC_OPXA04", length = 20)
     private String conCalcOpxa04;  // 15.계산식연산자명4
 
-    @Column(name = "ORDER_USAGE_CD_N", length = 6)
+    @Column(name = "ORDER_USAGE_CD_N", length = 200)
     private String orderUsageCdN;  // 16.주문용도지정코드
 
     @Column(name = "CON_CALC_OPXA05", length = 20)
@@ -92,7 +91,7 @@ public class EssentialStandard extends BaseEntity {
     @Column(name = "CON_CALC_OPXA07", length = 20)
     private String conCalcOpxa07;  // 23.계산식연산자명7
 
-    @Column(name = "SPECIFICATION_CD_N", length = 30)
+    @Column(name = "SPECIFICATION_CD_N", length = 200)
     private String specificationCdN;  // 24.제품규격약호
 
     @Column(name = "CON_CALC_OPXA08", length = 20)
@@ -110,7 +109,7 @@ public class EssentialStandard extends BaseEntity {
     @Column(name = "CON_CALC_OPXA10", length = 20)
     private String conCalcOpxa10;  // 29.계산식연산자명10
 
-    @Column(name = "POST_TREATMENT_METHOD_CD_N", length = 3)
+    @Column(name = "POST_TREATMENT_METHOD_CD_N", length = 50)
     private String postTreatmentMethodCdN;  // 30.주문제품후처리방법지정코드
 
     @Column(name = "USER_ID", length = 8)

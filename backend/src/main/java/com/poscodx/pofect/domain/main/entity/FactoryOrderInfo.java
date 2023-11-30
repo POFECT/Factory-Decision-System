@@ -66,7 +66,7 @@ public class FactoryOrderInfo extends BaseEntity {
     private String ordThwTapWekCd;  // 14.주문투입출강주코드
 
     @Column(name = "ORDER_TYPE", length = 2)
-    private String orderType;  // 15.OrderType
+    private String orderType;  // 15.OrderType(수주구분)
 
     @Column(name = "ORDER_LINE_QTY")
     private Integer orderLineQty;  // 16.OrderLine 주문량
