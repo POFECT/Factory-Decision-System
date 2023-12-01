@@ -23,9 +23,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EssentialStandardController {
     private final EssentialStandardService essentialStandardService;
-    @GetMapping("")
+    @GetMapping("/essential-standard")
     @ApiOperation(value = "필수재 기준 조회", notes = "필수재 기준을 조회한다.")
-    public ResponseEntity<ResponseDto> getOrderList() {
+    public ResponseEntity<ResponseDto> getEssentialStandardList() {
         List<EssentialStandardResDto> result = essentialStandardService.getList();
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
