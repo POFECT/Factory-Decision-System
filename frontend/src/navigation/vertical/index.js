@@ -89,6 +89,11 @@ const navigation = () => {
       title: "투입 능력 관리",
       path: "/input-capacity",
     },
+    {
+      icon: CubeOutline,
+      title: "가능통과공장 설계",
+      path: "/main-capacity",
+    },
   ];
 };
 
