@@ -6,14 +6,13 @@ import "react-datasheet-grid/dist/style.css";
 import { AgGridReact } from "ag-grid-react";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import { Button, Grid, Typography } from "@mui/material";
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import Select from '@mui/material/Select';
-import TablePagination from '@mui/material/TablePagination'
+import Select from "@mui/material/Select";
+import TablePagination from "@mui/material/TablePagination";
 // import { Grid, Typography } from "@mui/material";
-
 
 function MyCell(props) {
   let style = {
@@ -280,7 +279,7 @@ const Standard = () => {
   const columns = [
     { field: "공정", width: 150 },
     { field: "공장", width: 150, sortable: false },
-    { field: "thickMin", headerName: "min", width: 100,},
+    { field: "thickMin", headerName: "min", width: 100 },
     { field: "thickMax", headerName: "max", width: 100 },
     { field: "widthMin", headerName: "min", width: 100 },
     { field: "widthMax", headerName: "max", width: 100 },
@@ -293,31 +292,19 @@ const Standard = () => {
   const columnGroupingModel = [
     {
       groupId: "두께",
-      children: [
-        { field: "thickMin", },
-        { field: "thickMax" },
-      ],
+      children: [{ field: "thickMin" }, { field: "thickMax" }],
     },
     {
       groupId: "폭",
-      children: [
-        { field: "widthMin" },
-        { field: "widthMax" },
-      ],
+      children: [{ field: "widthMin" }, { field: "widthMax" }],
     },
     {
       groupId: "길이",
-      children: [
-        { field: "lengthMin" },
-        { field: "lengthMax" },
-      ],
+      children: [{ field: "lengthMin" }, { field: "lengthMax" }],
     },
     {
       groupId: "단중",
-      children: [
-        { field: "tonMin" },
-        { field: "tonMax" },
-      ],
+      children: [{ field: "tonMin" }, { field: "tonMax" }],
     },
   ];
 
@@ -327,18 +314,19 @@ const Standard = () => {
         <Typography variant="h3">공장 공정 별 사이즈 기준</Typography>
       </Grid>
 
-
-      <InputLabel id='form-layouts-separator-select-label'>소구분</InputLabel>
+      <InputLabel id="form-layouts-separator-select-label">소구분</InputLabel>
 
       <Select
-        label='Country'
-        defaultValue='T'
+        label="Country"
+        defaultValue="T"
         // id='form-layouts-separator-select'
         // labelId='form-layouts-separator-select-label'
-        onClick={(e) => { console.log(e) }}
+        onClick={(e) => {
+          console.log(e);
+        }}
       >
-        <MenuItem value='T'>포항</MenuItem>
-        <MenuItem value='K'>광양</MenuItem>
+        <MenuItem value="T">포항</MenuItem>
+        <MenuItem value="K">광양</MenuItem>
       </Select>
 
       <div
