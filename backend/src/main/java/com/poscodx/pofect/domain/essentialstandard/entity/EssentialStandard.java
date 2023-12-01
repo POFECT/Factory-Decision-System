@@ -1,4 +1,4 @@
-package com.poscodx.pofect.domain.essentialstandard;
+package com.poscodx.pofect.domain.essentialstandard.entity;
 
 import com.poscodx.pofect.domain.entity.BaseEntity;
 import lombok.AllArgsConstructor;
