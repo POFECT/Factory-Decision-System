@@ -1,4 +1,3 @@
-// ** Icon imports
 import Login from "mdi-material-ui/Login";
 import Table from "mdi-material-ui/Table";
 import CubeOutline from "mdi-material-ui/CubeOutline";
@@ -91,13 +90,13 @@ const navigation = () => {
     },
     {
       icon: CubeOutline,
-<<<<<<< HEAD
       title: "사이즈 기준 관리",
       path: "/size-standard",
-=======
+    },
+    {
+      icon: CubeOutline,
       title: "가능/확통 기준",
       path: "/factory-standard",
->>>>>>> e24169cc1f61be83d51e2ad16a34c0b4f2acec43
     },
   ];
 };
