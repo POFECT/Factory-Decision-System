@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 import "react-datasheet-grid/dist/style.css";
 import { AgGridReact } from "ag-grid-react";
@@ -54,7 +54,15 @@ const EssentialGoods = () => {
   ]);
 
   const [columnDefs] = useState([
-    { field: "seq", sortable: true, filter: true },
+    {
+      field: "seq",
+      sortable: true,
+      filter: true,
+      minWidth: 180,
+      headerCheckboxSelection: true,
+      headerCheckboxSelectionFilteredOnly: true,
+      checkboxSelection: true,
+    },
     { field: "해지일자", sortable: true, filter: true },
     {
       headerName: "품종",
@@ -73,7 +81,15 @@ const EssentialGoods = () => {
         },
       ],
     },
-    { field: "공정", sortable: true, filter: true },
+    {
+      field: "공정",
+      sortable: true,
+      filter: true,
+      cellStyle: {
+        color: "rgb(110,120,55)",
+        backgroundColor: "rgb(110,120,55)",
+      },
+    },
     { field: "가능통과공장코드", sortable: true, filter: true },
     { field: "품명", sortable: true, filter: true },
     { field: "규격", sortable: true, filter: true },
@@ -83,6 +99,13 @@ const EssentialGoods = () => {
     { field: "수정자", sortable: true, filter: true },
     { field: "수정일시", sortable: true, filter: true },
   ]);
+  const defaultColDef = useMemo(() => {
+    return {
+      flex: 1,
+      minWidth: 100,
+      resizable: true,
+    };
+  }, []);
 
   const [clickedCount, setClickedCount] = useState(0);
 
@@ -94,6 +117,9 @@ const EssentialGoods = () => {
     console.log(`number of clicks is ${clickedCount}`);
   }, []);
 
+  const gridRef = useRef();
+  const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
+  const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const clickMenu = (e) => {
     console.log(e);
   };
@@ -109,33 +135,17 @@ const EssentialGoods = () => {
           marginBottom: "15px",
         }}
       >
-        <Button
-          size="small"
-          type="submit"
-          variant="contained"
-          sx={{ width: "7%" }}
-        >
+        <Button size="small" type="submit" variant="contained">
           조회
         </Button>
-        <Button
-          size="small"
-          type="submit"
-          variant="contained"
-          sx={{ width: "7%" }}
-        >
+        <Button size="small" type="submit" variant="contained">
           저장
         </Button>
-        <Button
-          size="small"
-          type="submit"
-          variant="contained"
-          sx={{ width: "7%" }}
-        >
+        <Button size="small" type="submit" variant="contained">
           Excel
         </Button>
       </div>
-      <div style={{ width: "100%", height: "100%", display: "flex" }}>
-        <Box sx={{ minHeight: 180, flexGrow: 1, maxWidth: 300 }}>
+      {/* <Box sx={{ minHeight: 180, flexGrow: 1, maxWidth: 300 }}>
           <TreeView
             aria-label="file system navigator"
             defaultCollapseIcon={<ExpandMoreIcon />}
@@ -153,23 +163,26 @@ const EssentialGoods = () => {
               <TreeItem nodeId="9" label="CAL(BAF)" />
             </TreeItem>
           </TreeView>
-        </Box>
-        <div
-          className="ag-theme-alpine"
-          style={{
-            width: "80%",
-            height: "70%",
-            margin: "0",
-            fontFamily: "HakgyoansimWoojuR",
-          }}
-        >
-          <AgGridReact
-            rowData={rowData}
-            columnDefs={columnDefs}
-            onCellClicked={onCellClicked}
-            onCellValueChanged={onCellValueChanged}
-          />
-        </div>
+        </Box> */}
+      <div
+        className="ag-theme-alpine"
+        style={{
+          width: "100%",
+          height: "70%",
+          margin: "0",
+          fontFamily: "HakgyoansimWoojuR",
+        }}
+      >
+        <AgGridReact
+          rowData={rowData}
+          columnDefs={columnDefs}
+          onCellClicked={onCellClicked}
+          onCellValueChanged={onCellValueChanged}
+          ref={gridRef}
+          defaultColDef={defaultColDef}
+          suppressRowClickSelection={true}
+          rowSelection={"multiple"}
+        />
       </div>
     </>
   );

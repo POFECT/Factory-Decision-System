@@ -1,4 +1,3 @@
-"use strict";
 import { useCallback, useState, useMemo, StrictMode } from "react";
 import { DataSheetGrid, textColumn, keyColumn } from "react-datasheet-grid";
 
@@ -7,7 +6,6 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { Grid, Typography } from "@mui/material";
-import styles from "./styles.module.css";
 
 const rowSpan = (params) => {
   var process = params.data ? params.data.process : undefined;
@@ -23,7 +21,7 @@ const rowSpan = (params) => {
 };
 const Capacity = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
-  const gridStyle = useMemo(() => ({ height: "70%", width: "80%" }), []);
+  const gridStyle = useMemo(() => ({ height: "70%", width: "100%" }), []);
   const [rowData, setRowData] = useState([
     {
       process: "제강",
@@ -185,16 +183,64 @@ const Capacity = () => {
       field: "process",
       width: 100,
       rowSpan: rowSpan,
+      filter: false,
       cellClassRules: {
         "cell-span":
           "value==='제강' || value==='열연' || value==='열연정전'|| value==='냉간압연'|| value==='1차소둔'|| value==='2차소둔'|| value==='도금'",
       },
+      cellStyle: {
+        color: "white",
+        backgroundColor: "gray",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      },
     },
-    { field: "공장", width: 80 },
-    { field: "능력량", width: 120 },
-    { field: "조정량", width: 120 },
-    { field: "투입량", width: 120 },
-    { field: "잔여량", width: 120 },
+    {
+      field: "공장",
+      width: 80,
+      cellStyle: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      },
+    },
+    {
+      field: "능력량",
+      width: 120,
+      cellStyle: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      },
+    },
+    {
+      field: "조정량",
+      width: 120,
+      cellStyle: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      },
+    },
+    {
+      field: "투입량",
+      width: 120,
+      cellStyle: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      },
+    },
+    {
+      field: "잔여량",
+      width: 120,
+      cellStyle: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      },
+    },
   ]);
 
   const defaultColDef = useMemo(() => {
@@ -230,7 +276,6 @@ const Capacity = () => {
             className="ag-theme-alpine"
           >
             <AgGridReact
-              style={styles}
               rowData={rowData}
               columnDefs={columnDefs}
               onCellClicked={onCellClicked}

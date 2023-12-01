@@ -16,6 +16,10 @@ const Button = (theme) => {
         contained: {
           boxShadow: theme.shadows[3],
           padding: `${theme.spacing(1.875, 5.5)}`,
+          width: "100px",
+          height: "35px",
+          fontSize: "18px",
+          fontWeight: "bolder",
         },
         outlined: {
           padding: `${theme.spacing(1.625, 5.25)}`,
