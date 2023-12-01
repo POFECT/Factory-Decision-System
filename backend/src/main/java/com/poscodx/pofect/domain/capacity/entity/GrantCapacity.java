@@ -1,4 +1,4 @@
-package com.poscodx.pofect.domain.passstandard;
+package com.poscodx.pofect.domain.capacity.entity;
 
 import com.poscodx.pofect.domain.entity.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -15,8 +15,8 @@ import javax.validation.constraints.NotNull;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-// 확정통과공장코드 기준 (FC010)
-public class ConfirmFactoryStandard extends BaseEntity {
+// 주문별 능력 부여 관리 (FC100)
+public class GrantCapacity extends BaseEntity {
 
     @Column(name = "GCS_COMP_CODE", length = 2)
     @NotNull
@@ -31,14 +31,12 @@ public class ConfirmFactoryStandard extends BaseEntity {
     private String processCd;  // 3.박판공정계획공정구분
 
     @Column(name = "FIRM_PS_FAC_TP", length = 1)
-    @NotNull
     private String firmPsFacTp;  // 4.확정통과공장구분
 
-    @Column(name = "CD_EXPL", length = 680)
-    private String cdExpl;  // 5.코드설명
+    @Column(name = "PLAN_QTY")
+    private Integer PlanQty;  // 5.계획량
 
     @Column(name = "USER_ID", length = 8)
     private String userId;  // 6.박판공정계획사용자ID
-
 
 }

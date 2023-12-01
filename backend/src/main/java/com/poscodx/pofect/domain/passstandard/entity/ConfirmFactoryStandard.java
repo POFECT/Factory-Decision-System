@@ -1,4 +1,4 @@
-package com.poscodx.pofect.domain.passstandard;
+package com.poscodx.pofect.domain.passstandard.entity;
 
 import com.poscodx.pofect.domain.entity.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -15,8 +15,8 @@ import javax.validation.constraints.NotNull;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-// 가능통과공장코드 기준 (FC020)
-public class PossibleFactoryStandard extends BaseEntity {
+// 확정통과공장코드 기준 (FC010)
+public class ConfirmFactoryStandard extends BaseEntity {
 
     @Column(name = "GCS_COMP_CODE", length = 2)
     @NotNull
@@ -30,17 +30,15 @@ public class PossibleFactoryStandard extends BaseEntity {
     @NotNull
     private String processCd;  // 3.박판공정계획공정구분
 
-    @Column(name = "BTI_POSB_PS_FAC_TP", length = 2)
+    @Column(name = "FIRM_PS_FAC_TP", length = 1)
     @NotNull
-    private String btiPosbPsFacTp;  // 4.박판가능통과공장구분
-
-    @Column(name = "FEASIBLE_ROUTING_GROUP", length = 30)
-    private String feasibleRoutingGroup;  // 5.공정계획작업가능통과공정코드
+    private String firmPsFacTp;  // 4.확정통과공장구분
 
     @Column(name = "CD_EXPL", length = 680)
-    private String cdExpl;  // 6.코드설명
+    private String cdExpl;  // 5.코드설명
 
     @Column(name = "USER_ID", length = 8)
-    private String userId;  // 7.박판공정계획사용자ID
+    private String userId;  // 6.박판공정계획사용자ID
+
 
 }
