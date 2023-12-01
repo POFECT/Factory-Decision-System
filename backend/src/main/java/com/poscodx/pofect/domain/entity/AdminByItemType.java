@@ -1,7 +1,6 @@
 package com.poscodx.pofect.domain.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -21,10 +20,6 @@ public class AdminByItemType extends BaseEntity {
     @Column(name = "GCS_COMP_CODE", length = 2)
     @NotNull
     private String gcsCompCode;  // 1.연결결산법인구분
-
-    @Column(name = "WORKS_CODE", length = 1)
-    @NotNull
-    private String worksCode;
 
     @Column(name = "MILL_CD", length = 1)
     @NotNull

@@ -1,7 +1,6 @@
 package com.poscodx.pofect.domain.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -39,13 +38,8 @@ public class BusinessCodeInfo extends BaseEntity {
     @Column(name = "CD_EXPL", length = 680)
     private String cdExpl;  // 6.코드설명
 
-    @Column(name = "CD_EXPL1", length = 680)
-    private String cdExpl1;  // 7.코드설명1
-
     @Column(name = "USER_ID", length = 8)
-    private String userId;  // 8.박판공정계획사용자ID
+    private String userId;  // 7.박판공정계획사용자ID
 
-    @Column(name = "CD_V_EXPLAIN", length = 200)
-    private String cdVExplain;  // 10.코드값설명
 
 }
