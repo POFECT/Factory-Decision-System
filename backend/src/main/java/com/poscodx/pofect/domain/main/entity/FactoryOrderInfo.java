@@ -152,26 +152,29 @@ public class FactoryOrderInfo extends BaseEntity {
     @Column(name = "HR_PROD_WTH_AIM")
     private Double hrProdWthAim;  // 43.품질설계열연목표폭
 
+    @Column(name = "HR_ROLL_UNIT_WGT_MAX")
+    private Double hrRollUnitWgtMax;  // 44.열연공장압연가능재료상한중량
+
     @Column(name = "SM_2ND_RFN_CD", length = 3)
-    private String sm2ndRfnCd;  // 44.품질설계제강2차정련코드
+    private String sm2ndRfnCd;  // 45.품질설계제강2차정련코드
 
     @Column(name = "SKINPASS_FLAG", length = 1)
-    private String skinpassFlag;  // 45.제품SkinPass지정여부
+    private String skinpassFlag;  // 46.제품SkinPass지정여부
 
     @Column(name = "PACKING_TYPE", length = 5)
-    private String packingType;  // 46.제품포장방법코드
+    private String packingType;  // 47.제품포장방법코드
 
     @Column(name = "FAC_ALLOC_WGT")
-    private Integer facAllocWgt;  // 47.소내공장결정중량
+    private Integer facAllocWgt;  // 48.소내공장결정중량
 
     @Column(name = "FA_ALLOC_DATE")
-    private LocalDateTime faAllocDate;  // 48.생산가능공장결정일자
+    private LocalDateTime faAllocDate;  // 49.생산가능공장결정일자
 
     @Column(name = "ERROR_MESSAGE", length = 200)
-    private String errorMessage;  // 49.ErrorMessage내용
+    private String errorMessage;  // 50.ErrorMessage내용
 
     @Column(name = "MSGCODE", length = 5)
-    private String msgcode;  // 50.박판공정계획Message코드
+    private String msgcode;  // 51.박판공정계획Message코드
 
 
     public static FactoryOrderInfo toEntity(FactoryOrderInfoReqDto factoryOrderInfoReqDto) {
