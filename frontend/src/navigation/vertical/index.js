@@ -89,6 +89,11 @@ const navigation = () => {
       title: "투입 능력 관리",
       path: "/input-capacity",
     },
+    {
+      icon: CubeOutline,
+      title: "사이즈 기준 관리",
+      path: "/size-standard",
+    },
   ];
 };
 
