@@ -85,7 +85,7 @@ const navigation = () => {
     },
     {
       icon: CubeOutline,
-      title: "투입 능력 관리",
+      title: "투입 능력 관리 --- test",
       path: "/input-capacity",
     },
     {
@@ -98,6 +98,26 @@ const navigation = () => {
       title: "가능/확통 기준",
       path: "/factory-standard",
     },
+    {
+      icon: CubeOutline,
+      title: "투입 능력 관리",
+      path: "/capacity",
+    },
+    {
+      icon: CubeOutline,
+      title: "공장 결정",
+      path: "/main",
+    }, 
+    {
+      icon: CubeOutline,
+      title: "가능 통과 공장 설계",
+      path: "/pass-standard",
+    },
+    {
+      icon: CubeOutline,
+      title: "출강 Lot 집약",
+      path: "/lot",
+    },   
   ];
 };
 
