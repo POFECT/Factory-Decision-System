@@ -22,11 +22,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PossibleFactoryStandardController {
     private final PossibleFactoryStandardService possibleStandardService;
-    @GetMapping("")
-    @ApiOperation(value = "주문 데이터 리스트 조회", notes = "전체 주문 데이터를 조회한다.")
-    public ResponseEntity<ResponseDto> getOrderList() {
+    @GetMapping("/getPossibleAll")
+    @ApiOperation(value = "가능통과공장코드 리스트 조회", notes = "전체 가통기준 데이터를 조회한다.")
+    public ResponseEntity<ResponseDto> getPossibleStandardList() {
         List<PossibleFactoryStandardResDto> result = possibleStandardService.getList();
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
-
 }
