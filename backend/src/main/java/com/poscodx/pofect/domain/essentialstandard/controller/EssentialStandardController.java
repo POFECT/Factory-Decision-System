@@ -18,7 +18,7 @@ import java.util.List;
 
 @Api(value = "EssentialStandard API", tags = {"필수재기준"})
 @CrossOrigin("*")
-@RequestMapping("/essential-standard")
+@RequestMapping()
 @RestController
 @RequiredArgsConstructor
 public class EssentialStandardController {
