@@ -279,7 +279,7 @@ const Standard = () => {
 
   const columns = [
     { field: "공정", width: 150 },
-    { field: "공장", width: 150 },
+    { field: "공장", width: 150, sortable: false },
     { field: "thickMin", headerName: "min", width: 100,},
     { field: "thickMax", headerName: "max", width: 100 },
     { field: "widthMin", headerName: "min", width: 100 },
