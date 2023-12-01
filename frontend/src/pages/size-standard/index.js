@@ -279,15 +279,15 @@ const Standard = () => {
 
   const columns = [
     { field: "공정", width: 150 },
-    { field: "공장", width: 150, sortable: false },
-    { field: "thickMin", headerName: "min", width: 100,},
-    { field: "thickMax", headerName: "max", width: 100 },
-    { field: "widthMin", headerName: "min", width: 100 },
-    { field: "widthMax", headerName: "max", width: 100 },
-    { field: "lengthMin", headerName: "min", width: 100 },
-    { field: "lengthMax", headerName: "max", width: 100 },
-    { field: "tonMin", headerName: "min", width: 100 },
-    { field: "tonMax", headerName: "max", width: 100 },
+    { field: "공장", width: 150, sortable: false},
+    { field: "thickMin", headerName: "min", width: 100, sortable: false, editable: true },
+    { field: "thickMax", headerName: "max", width: 100, sortable: false, editable: true },
+    { field: "widthMin", headerName: "min", width: 100, sortable: false, editable: true },
+    { field: "widthMax", headerName: "max", width: 100, sortable: false, editable: true },
+    { field: "lengthMin", headerName: "min", width: 100, sortable: false, editable: true },
+    { field: "lengthMax", headerName: "max", width: 100, sortable: false, editable: true },
+    { field: "tonMin", headerName: "min", width: 100, sortable: false, editable: true },
+    { field: "tonMax", headerName: "max", width: 100, sortable: false, editable: true },
   ];
 
   const columnGroupingModel = [
