@@ -1,5 +1,6 @@
-package com.poscodx.pofect.domain.entity;
+package com.poscodx.pofect.domain.processstandard;
 
+import com.poscodx.pofect.domain.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
