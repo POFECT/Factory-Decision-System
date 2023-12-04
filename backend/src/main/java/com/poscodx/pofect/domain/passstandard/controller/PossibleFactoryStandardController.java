@@ -6,7 +6,6 @@ import com.poscodx.pofect.domain.passstandard.service.PossibleFactoryStandardSer
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,11 +21,11 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class PossibleFactoryStandardController {
-    private final PossibleFactoryStandardService possibleFactoryStandardService;
+    private final PossibleFactoryStandardService possibleStandardService;
     @GetMapping("/getPossibleAll")
     @ApiOperation(value = "가능통과공장코드 리스트 조회", notes = "전체 가통기준 데이터를 조회한다.")
     public ResponseEntity<ResponseDto> getPossibleStandardList() {
-        List<PossibleFactoryStandardResDto> result = possibleFactoryStandardService.getList();
+        List<PossibleFactoryStandardResDto> result = possibleStandardService.getList();
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 }
