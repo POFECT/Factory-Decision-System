@@ -39,25 +39,28 @@ function MyCell(props) {
 
 const MainCapacity = () => {
   /* 데이터 */
-  const [orderList, setOrderList] = useState([]); // 주문 데이터 리스트
+  const [orderList, setOrderList] = useState({
+    list: [],
+    order: null,
+  }); // 주문 데이터 리스트
+
   const [selectedOrder, setSelectedOrder] = useState(0); // 선택 주문 데이터
+  // const [isFlag, setIsFlag] = useState(false);
+
+  // {
+  //   setOrderList(Object.assign({}, orderList, {
+  //     order :
+  //   }))
+
+  // }
 
   useEffect(() => {
     MainCapacityApi.getList((data) => {
-      setOrderList(data.response);
-
-      if (orderList.length != 0) {
-        setSelectedOrder(orderList[0].id);
-      }
-      // setSelectedOrder(data.response[0].id);
+      const list = data.response;
+      const order = list[0].id;
+      setOrderList({ list, order });
     });
   }, []);
-
-  // useEffect(() => {
-  //   if (orderList.length != 0) {
-  //     setSelectedOrder(orderList[0].id);
-  //   }
-  // }, [orderList]);
 
   /* column 필드 */
   const columns = [
@@ -471,10 +474,15 @@ const MainCapacity = () => {
           experimentalFeatures={{ columnGrouping: true }}
           checkboxSelection
           disableRowSelectionOnClick
-          rows={orderList}
+          rows={orderList.list}
           columns={columns}
           onCellClick={(e) => {
-            setSelectedOrder(e.row.id);
+            setOrderList(
+              Object.assign({}, orderList, {
+                order: e.row.id,
+              })
+            );
+            console.log(orderList.order);
           }}
           slots={{
             cell: MyCell,
@@ -482,7 +490,8 @@ const MainCapacity = () => {
           rowHeight={40}
         />
       </div>
-      <CapacityDetail orderNo={selectedOrder} />
+
+      {orderList.order ? <CapacityDetail orderNo={orderList.order} /> : null}
     </div>
   );
 };
