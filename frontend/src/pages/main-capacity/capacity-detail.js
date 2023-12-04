@@ -31,9 +31,9 @@ const MainCapacity = (props) => {
 
   useEffect(async () => {
     await MainCapacityApi.getOrder(props.orderNo, (data) => {
-      setOrder({ ...data.response });
+      setOrder(data.response);
     });
-  }, []);
+  }, [order]);
 
   const rows = [
     {
