@@ -50,6 +50,7 @@
     "@mui/icons-material": "^5.14.18",
     "@mui/lab": "^5.0.0-alpha.70",
     "@mui/material": "^5.14.18",
+    "@mui/styles": "^5.14.19",
     "@mui/x-charts": "^6.18.2",
     "@mui/x-data-grid": "^6.18.2",
     "@popperjs/core": "^2.11.2",

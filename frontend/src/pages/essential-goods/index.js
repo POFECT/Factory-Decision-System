@@ -1,190 +1,405 @@
-import { useCallback, useMemo, useRef, useState } from "react";
-
-import "react-datasheet-grid/dist/style.css";
-import { AgGridReact } from "ag-grid-react";
-
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import { Button, Grid, Typography } from "@mui/material";
-import Box from "@mui/material/Box";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { TreeItem, TreeView } from "@mui/lab";
+import { React, useState, useEffect } from "react";
+import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
+import {
+  Grid,
+  Typography,
+  Button,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+} from "@mui/material";
+import MainCapacityApi from "src/api/MainCapacityApi";
+import EssentialStandardApi from "src/api/EssentialStandardApi";
+function MyCell(props) {
+  let style = {
+    minWidth: props.width,
+    maxWidth: props.width,
+    minHeight: props.height,
+    maxHeight: props.height === "auto" ? "none" : props.height,
+    ...props.style,
+  };
+  const apiRef = useGridApiContext();
+  const row = apiRef.current.getRow(props.rowId);
+  if (row && row.rowSpan && row.rowSpan[props.column.field]) {
+    const span = row.rowSpan[props.column.field];
+    style = {
+      ...style,
+      minHeight: props.height * span,
+      maxHeight: props.height * span,
+      backgroundColor: "gray",
+      zIndex: 1,
+    };
+  }
+  return <GridCell {...props} style={style} />;
+}
 
 const EssentialGoods = () => {
-  const [rowData] = useState([
-    {
-      seq: "1",
-      해지일자: "2023-08-01",
-      공정: "열연",
-      가능통과공장코드: 80,
-      품종: "ㄴㅇㅁㅇ",
-    },
-    {
-      seq: "2",
-      해지일자: "2023-08-01",
-      공정: "열연",
-      가능통과공장코드: 80,
-      부호: "ㄴㅁㅇ",
-      기준: "ㄴㅇㅁ",
-    },
-    { seq: "3", 해지일자: "2023-08-01", 공정: "열연", 가능통과공장코드: 80 },
-    { seq: "4", 해지일자: "2023-08-01", 공정: "열연", 가능통과공장코드: 80 },
-    { seq: "5", 해지일자: "2023-08-01", 공정: "열연", 가능통과공장코드: 80 },
-    { seq: "6", 해지일자: "2023-08-01", 공정: "열연", 가능통과공장코드: 80 },
-    {
-      seq: "7",
-      해지일자: "2023-08-01",
-      공정: "열연",
-      가능통과공장코드: 80,
-    },
-    {
-      seq: "8",
-      해지일자: "2023-08-01",
-      공정: "열연",
-      가능통과공장코드: 80,
-      품명: "ㅇㅁㄴㅇ",
-    },
-    { seq: "8", 해지일자: "2023-08-01", 공정: "열연", 가능통과공장코드: 80 },
-    { seq: "8", 해지일자: "2023-08-01", 공정: "열연", 가능통과공장코드: 80 },
-    { seq: "8", 해지일자: "2023-08-01", 공정: "열연", 가능통과공장코드: 80 },
-    { seq: "8", 해지일자: "2023-08-01", 공정: "열연", 가능통과공장코드: 80 },
-    { seq: "8", 해지일자: "2023-08-01", 공정: "열연", 가능통과공장코드: 80 },
-    { seq: "8", 해지일자: "2023-08-01", 공정: "열연", 가능통과공장코드: 80 },
-  ]);
+  const [essentialList, setessentialList] = useState([]);
 
-  const [columnDefs] = useState([
+  useEffect(() => {
+    EssentialStandardApi.getEssentialStandardList((data) => {
+      setessentialList(data.response);
+    });
+  }, []);
+
+  const columns = [
+    {
+      field: "gcsCompCode",
+      headerName: "연결결산법인구분",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "millCd",
+      headerName: "공정계획박판Mill구분",
+      width: 180,
+      editable: true,
+    },
+    {
+      field: "pplMmatCngMgtNo",
+      headerName: "공정계획필수재변경관리번호",
+      width: 150,
+      editable: true,
+    },
     {
       field: "seq",
-      sortable: true,
-      filter: true,
-      minWidth: 180,
-      headerCheckboxSelection: true,
-      headerCheckboxSelectionFilteredOnly: true,
-      checkboxSelection: true,
+      headerName: "일련번호",
+      width: 150,
+      editable: true,
     },
-    { field: "해지일자", sortable: true, filter: true },
     {
-      headerName: "품종",
+      field: "processCd",
+      headerName: "박판공정계획공정구분",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "pplMmatCancAppDt",
+      headerName: "공정계획필수해지적용일자",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "pplBasPsgnoTp",
+      headerName: "공정계획기준가등록구분",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "btiPosbPsFacTp",
+      headerName: "박판가능통과공장구분",
+      width: 100,
+      editable: true,
+    },
+    {
+      field: "conCalcOpxa01",
+      headerName: "계산식연산자명1",
+      width: 100,
+      editable: true,
+    },
+    {
+      field: "ordPdtItpCdN",
+      headerName: "주문품종코드",
+      width: 180,
+      editable: true,
+    },
+    {
+      field: "conCalcOpxa02",
+      headerName: "계산식연산자명2",
+      width: 100,
+      editable: true,
+    },
+    {
+      field: "ordPdtItdsCdN",
+      headerName: "주문품명코드",
+      width: 320,
+      editable: true,
+    },
+    {
+      field: "conCalcOpxa03",
+      headerName: "계산식연산자명3",
+      width: 130,
+      editable: true,
+    },
+    {
+      field: "customerNumber",
+      headerName: "고객사코드",
+      width: 100,
+      editable: true,
+    },
+    {
+      field: "conCalcOpxa04",
+      headerName: "계산식연산자명4",
+      width: 100,
+      editable: true,
+    },
+    {
+      field: "orderUsageCdN",
+      headerName: "주문용도지정코드",
+      width: 100,
+      editable: true,
+    },
+    {
+      field: "conCalcOpxa05",
+      headerName: "계산식연산자명5",
+      width: 100,
+      editable: true,
+    },
+    {
+      field: "orderThickMin",
+      headerName: "제품주문두께1",
+      width: 100,
+      editable: true,
+    },
+    {
+      field: "orderThickMax",
+      headerName: "제품주문두께2",
+      width: 130,
+      editable: true,
+    },
+    {
+      field: "conCalcOpxa06",
+      headerName: "계산식연산자명6",
+      width: 130,
+      editable: true,
+    },
+    {
+      field: "orderWidthMin",
+      headerName: "제품주문폭1",
+      width: 130,
+      editable: true,
+    },
+    {
+      field: "orderWidthMax",
+      headerName: "제품주문폭2",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "conCalcOpxa07",
+      headerName: "계산식연산자명7",
+      width: 100,
+      editable: true,
+    },
+    {
+      field: "specificationCdN",
+      headerName: "제품규격약호",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "conCalcOpxa08",
+      headerName: "계산식연산자명8",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "salCusLocLClsTp",
+      headerName: "판매고객사지역대분류구분",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "conCalcOpxa09",
+      headerName: "계산식연산자명9",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "smSteelGrdN",
+      headerName: "출강목표번호",
+      width: 100,
+      editable: true,
+    },
+    {
+      field: "conCalcOpxa10",
+      headerName: "계산식연산자명10",
+      width: 180,
+      editable: true,
+    },
+    {
+      field: "postTreatmentMethodCdN",
+      headerName: "제품후처리방법지정코드",
+      width: 180,
+      editable: true,
+    },
+    {
+      field: "userId",
+      headerName: "박판공정계획사용자ID",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "lastUpdateDate",
+      headerName: "최종수정일자",
+      width: 150,
+      editable: true,
+    },
+  ];
+
+  const columnGroupingModel = [
+    {
+      groupId: "품종",
+      children: [{ field: "conCalcOpxa01" }, { field: "ordPdtItpCdN" }],
+    },
+    {
+      groupId: "품명",
+      children: [{ field: "conCalcOpxa02" }, { field: "ordPdtItdsCdN" }],
+    },
+    {
+      groupId: "고객사코드",
+      children: [{ field: "conCalcOpxa03" }, { field: "customerNumber" }],
+    },
+    {
+      groupId: "주문용도지정코드",
+      children: [{ field: "conCalcOpxa04" }, { field: "orderUsageCdN" }],
+    },
+    {
+      groupId: "제품두께",
       children: [
-        {
-          field: "부호",
-          minWidth: 100,
-          maxWidth: 100,
-          flex: 2,
-        },
-        {
-          field: "기준",
-          flex: 1,
-          minWidth: 100,
-          maxWidth: 100,
-        },
+        { field: "conCalcOpxa05" },
+        { field: "orderThickMin" },
+        { field: "orderThickMax" },
       ],
     },
     {
-      field: "공정",
-      sortable: true,
-      filter: true,
-      cellStyle: {
-        color: "rgb(110,120,55)",
-        backgroundColor: "rgb(110,120,55)",
-      },
+      groupId: "제품주문폭",
+      children: [
+        { field: "conCalcOpxa06" },
+        { field: "orderWidthMin" },
+        { field: "orderWidthMax" },
+      ],
     },
-    { field: "가능통과공장코드", sortable: true, filter: true },
-    { field: "품명", sortable: true, filter: true },
-    { field: "규격", sortable: true, filter: true },
-    { field: "용도", sortable: true, filter: true },
-    { field: "주문두께", sortable: true, filter: true },
-    { field: "주문폭", sortable: true, filter: true },
-    { field: "수정자", sortable: true, filter: true },
-    { field: "수정일시", sortable: true, filter: true },
-  ]);
-  const defaultColDef = useMemo(() => {
-    return {
-      flex: 1,
-      minWidth: 100,
-      resizable: true,
-    };
-  }, []);
+    {
+      groupId: "제품규격약호",
+      children: [{ field: "conCalcOpxa07" }, { field: "specificationCdN" }],
+    },
+    {
+      groupId: "판매고객사지역대분류구분",
+      children: [{ field: "conCalcOpxa08" }, { field: "salCusLocLClsTp" }],
+    },
+    {
+      groupId: "출강목표번호",
+      children: [{ field: "conCalcOpxa09" }, { field: "smSteelGrdN" }],
+    },
+    {
+      groupId: "주문제품후처리방법지정코드",
+      children: [
+        { field: "conCalcOpxa10" },
+        { field: "postTreatmentMethodCdN" },
+      ],
+    },
+  ];
 
-  const [clickedCount, setClickedCount] = useState(0);
-
-  const onCellClicked = (event) => {
-    console.log(event);
-  };
-
-  const onCellValueChanged = useCallback(() => {
-    console.log(`number of clicks is ${clickedCount}`);
-  }, []);
-
-  const gridRef = useRef();
-  const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
-  const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const clickMenu = (e) => {
-    console.log(e);
-  };
   return (
-    <>
+    <div style={{ height: "800px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Typography variant="h3">필수재 기준</Typography>
       </Grid>
       <div
         style={{
           display: "flex",
-          justifyContent: "end",
-          marginBottom: "15px",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        <Button size="small" type="submit" variant="contained">
-          조회
-        </Button>
-        <Button size="small" type="submit" variant="contained">
-          저장
-        </Button>
-        <Button size="small" type="submit" variant="contained">
-          Excel
-        </Button>
-      </div>
-      {/* <Box sx={{ minHeight: 180, flexGrow: 1, maxWidth: 300 }}>
-          <TreeView
-            aria-label="file system navigator"
-            defaultCollapseIcon={<ExpandMoreIcon />}
-            defaultExpandIcon={<ChevronRightIcon />}
+        <div>
+          <FormControl
+            sx={{ m: 1 }}
+            style={{
+              paddingTop: 10,
+              paddingBottom: 20,
+              marginRight: 10,
+            }}
           >
-            <TreeItem nodeId="1" label="광양" onClick={clickMenu}>
-              <TreeItem nodeId="2" label="제강" />
-            </TreeItem>
-            <TreeItem nodeId="3" label="포항">
-              <TreeItem nodeId="4" label="제강" />
-              <TreeItem nodeId="5" label="열연" />
-              <TreeItem nodeId="6" label="열연정정" />
-              <TreeItem nodeId="7" label="PCM(APL, CRM, ZRM)" />
-              <TreeItem nodeId="8" label="HGGL" />
-              <TreeItem nodeId="9" label="CAL(BAF)" />
-            </TreeItem>
-          </TreeView>
-        </Box> */}
-      <div
-        className="ag-theme-alpine"
-        style={{
-          width: "100%",
-          height: "70%",
-          margin: "0",
-          fontFamily: "HakgyoansimWoojuR",
-        }}
-      >
-        <AgGridReact
-          rowData={rowData}
-          columnDefs={columnDefs}
-          onCellClicked={onCellClicked}
-          onCellValueChanged={onCellValueChanged}
-          ref={gridRef}
-          defaultColDef={defaultColDef}
-          suppressRowClickSelection={true}
-          rowSelection={"multiple"}
+            <InputLabel id="label1" style={{ paddingTop: 10 }}>
+              구분
+            </InputLabel>
+            <Select
+              labelId="분류"
+              id="demo-multiple-name"
+              defaultValue="T"
+              input={<OutlinedInput label="구분" />}
+              onChange={(e) => {
+                console.log(e);
+              }}
+              style={{ height: 40 }}
+            >
+              <MenuItem value="T">포항</MenuItem>
+              <MenuItem value="K">광양</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl
+            sx={{ m: 1 }}
+            style={{
+              paddingTop: 10,
+              paddingBottom: 20,
+              marginRight: 10,
+            }}
+          >
+            <InputLabel id="label2" style={{ paddingTop: 10 }}>
+              품종
+            </InputLabel>
+
+            <Select
+              labelId="분류"
+              id="demo-multiple-name"
+              defaultValue="T"
+              input={<OutlinedInput label="품종" />}
+              onChange={(e) => {
+                console.log(e);
+              }}
+              style={{ height: 40 }}
+            >
+              <MenuItem value="T">제강</MenuItem>
+              <MenuItem value="K">열연</MenuItem>
+              <MenuItem value="K">열연정정</MenuItem>
+              <MenuItem value="K">PCM(APL,CRM,ZRM)</MenuItem>
+              <MenuItem value="K">HCGL</MenuItem>
+              <MenuItem value="K">CAL(BAF)</MenuItem>
+              <MenuItem value="K">DNL</MenuItem>
+              <MenuItem value="K">CGL(포스코강판)</MenuItem>
+              <MenuItem value="K">DRM(ACL,COF)</MenuItem>
+              <MenuItem value="K">EGL</MenuItem>
+              <MenuItem value="K">HCL</MenuItem>
+              <MenuItem value="K">CGL(CR포스맥)</MenuItem>
+              <MenuItem value="K">RCL</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        <div>
+          <Button size="small" type="submit" variant="contained">
+            조회
+          </Button>
+          <Button size="small" type="submit" variant="contained">
+            저장
+          </Button>
+          <Button size="small" type="submit" variant="contained">
+            Excel
+          </Button>
+        </div>
+      </div>
+      <div style={{ height: 600 }}>
+        <DataGrid
+          experimentalFeatures={{ columnGrouping: true }}
+          checkboxSelection
+          disableRowSelectionOnClick
+          rows={essentialList}
+          columns={columns}
+          columnGroupingModel={columnGroupingModel}
+          onCellClick={(e) => {
+            console.log(e);
+          }}
+          slots={{
+            cell: MyCell,
+          }}
+          rowHeight={40}
         />
       </div>
-    </>
+    </div>
   );
 };
 

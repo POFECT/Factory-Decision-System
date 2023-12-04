@@ -139,11 +139,6 @@ const navigation = () => {
       title: "필수재 기준",
       path: "/essential-goods",
     },
-    {
-      icon: CubeOutline,
-      title: "가능/확통 기준",
-      path: "/factory-standard",
-    },
 
     {
       sectionTitle: "모니터링",

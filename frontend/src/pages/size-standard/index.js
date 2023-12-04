@@ -35,6 +35,12 @@ function MyCell(props) {
       justifyContent: "center",
       zIndex: 1,
     };
+  } else if (props.column.field === "firmPsFacTp") {
+    style = {
+      ...style,
+      alignItems: "center",
+      justifyContent: "center",
+    }
   }
   return <GridCell {...props} style={style} />;
 }
@@ -48,281 +54,47 @@ const Standard = () => {
       const test = data.response;
 
       const test2 = test.map(item => {
-        if(item.processCd === "10"){
-          return { ...item, processCd: "제강"}
-        } else if (item.processCd === "20"){
-          return { ...item, processCd: "열연"}
-        } else if (item.processCd === "30"){
-          return { ...item, processCd: "열연정정"}
-        } else if (item.processCd === "40"){
-          return { ...item, processCd: "냉간압연"}
-        } else if (item.processCd === "50"){
-          return { ...item, processCd: "1차소둔"}
-        } else if (item.processCd === "60"){
-          return { ...item, processCd: "2차소둔"}
-        } else if (item.processCd === "70"){
-          return { ...item, processCd: "도금"}
-        } else if (item.processCd === "80"){
-          return { ...item, processCd: "정정"}
+        if (item.processCd === "10") {
+          return { ...item, processCd: "제강" }
+        } else if (item.processCd === "20") {
+          return { ...item, processCd: "열연" }
+        } else if (item.processCd === "30") {
+          return { ...item, processCd: "열연정정" }
+        } else if (item.processCd === "40") {
+          return { ...item, processCd: "냉간압연" }
+        } else if (item.processCd === "50") {
+          return { ...item, processCd: "1차소둔" }
+        } else if (item.processCd === "60") {
+          return { ...item, processCd: "2차소둔" }
+        } else if (item.processCd === "70") {
+          return { ...item, processCd: "도금" }
+        } else if (item.processCd === "80") {
+          return { ...item, processCd: "정정" }
         }
 
         return item;
       })
 
       setSizeStandardList(test2);
-  
 
-      if(sizeStandardList.length != 0) {
+
+      if (sizeStandardList.length != 0) {
         setSizeStandardList(sizeStandardList[0].id);
       }
     });
   }, []);
 
-
-
-  // const [rowData, setRowData] = useState([
-  //   {
-  //     id: 1,
-  //     공정: "제강",
-  //     rowSpan: { 공정: "2" },
-  //     공장: 1,
-  //     thickMin: 108,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 2,
-  //     공정: "제강",
-  //     공장: 2,
-  //     thickMin: 108,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 3,
-  //     공정: "열연",
-  //     rowSpan: { 공정: "2" },
-  //     공장: 1,
-  //     thickMin: 6756,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 4,
-  //     공정: "열연",
-  //     공장: 2,
-  //     thickMin: 7654,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 5,
-  //     공정: "열연정정",
-  //     rowSpan: { 공정: "2" },
-  //     공장: 1,
-  //     thickMin: 272,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 6,
-  //     공정: "열연정정",
-  //     공장: 2,
-  //     thickMin: 6754,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 7,
-  //     공정: "냉간압연",
-  //     rowSpan: { 공정: "3" },
-  //     공장: 1,
-  //     thickMin: 545,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 8,
-  //     공정: "냉간압연",
-  //     공장: 2,
-  //     thickMin: 375,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 9,
-  //     공정: "냉간압연",
-  //     공장: 3,
-  //     thickMin: 7765,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 10,
-  //     공정: "1차소둔",
-  //     rowSpan: { 공정: "3" },
-  //     공장: 1,
-  //     thickMin: 34,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 11,
-  //     공정: "1차소둔",
-  //     공장: 2,
-  //     thickMin: 7954,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 12,
-  //     공정: "1차소둔",
-  //     공장: 3,
-  //     thickMin: 345,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 13,
-  //     공정: "2차소둔",
-  //     rowSpan: { 공정: "3" },
-  //     공장: 1,
-  //     thickMin: 7654,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 14,
-  //     공정: "2차소둔",
-  //     공장: 3,
-  //     thickMin: 124,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 15,
-  //     공정: "도금",
-  //     rowSpan: { 공정: "2" },
-  //     공장: 3,
-  //     thickMin: 765,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 16,
-  //     공정: "도금",
-  //     공장: 4,
-  //     thickMin: 134,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  //   {
-  //     id: 17,
-  //     공정: "정정",
-  //     rowSpan: { 공정: "1" },
-  //     공장: 1,
-  //     thickMin: 789,
-  //     thickMax: 0,
-  //     widthMin: 412,
-  //     widthMax: 3,
-  //     lengthMin: 55,
-  //     lengthMax: 11,
-  //     tonMin: 1020,
-  //     tonMax: 0,
-  //   },
-  // ]);
-
   const columns = [
     { field: "processCd", headerName: "공정", width: 180, sortable: false },
-    { field: "firmPsFacTp", headerName: "공장", width: 170, sortable: false },
-    { field: "orderThickMin", headerName: "min", width: 130, sortable: false, editable: true },
-    { field: "orderThickMax", headerName: "max", width: 130, sortable: false, editable: true },
-    { field: "orderWidthMin", headerName: "min", width: 130, sortable: false, editable: true },
-    { field: "orderWidthMax", headerName: "max", width: 130, sortable: false, editable: true },
-    { field: "orderLengthMin", headerName: "min", width: 130, sortable: false, editable: true },
-    { field: "orderLengthMax", headerName: "max", width: 130, sortable: false, editable: true },
-    { field: "hrRollUnitWgtMax1", headerName: "min", width: 130, sortable: false, editable: true },
-    { field: "hrRollUnitWgtMax2", headerName: "max", width: 130, sortable: false, editable: true },
+    { field: "firmPsFacTp", headerName: "공장", width: 100, sortable: false },
+    { field: "orderThickMin", headerName: "min", width: 138, sortable: false, editable: true },
+    { field: "orderThickMax", headerName: "max", width: 138, sortable: false, editable: true },
+    { field: "orderWidthMin", headerName: "min", width: 138, sortable: false, editable: true },
+    { field: "orderWidthMax", headerName: "max", width: 138, sortable: false, editable: true },
+    { field: "orderLengthMin", headerName: "min", width: 138, sortable: false, editable: true },
+    { field: "orderLengthMax", headerName: "max", width: 138, sortable: false, editable: true },
+    { field: "hrRollUnitWgtMax1", headerName: "min", width: 138, sortable: false, editable: true },
+    { field: "hrRollUnitWgtMax2", headerName: "max", width: 138, sortable: false, editable: true },
   ];
 
   const columnGroupingModel = [
@@ -343,6 +115,12 @@ const Standard = () => {
       children: [{ field: "hrRollUnitWgtMax1" }, { field: "hrRollUnitWgtMax2" }],
     },
   ];
+
+  const hideVerticalScrollbar = {
+    "& .MuiDataGrid-virtualScroller": {
+      overflowY: "hidden",
+    },
+  };
 
   return (
     <div style={{ height: "600px", width: "100%" }}>
@@ -399,7 +177,8 @@ const Standard = () => {
           </Button>
         </div>
       </div>
-      <div style={{ height: "83%", width: "100%" }}>
+
+      <div style={{ height: "83%", width: "100%", ...hideVerticalScrollbar }}>
         <DataGrid
           experimentalFeatures={{ columnGrouping: true }}
           // checkboxSelection
@@ -415,7 +194,8 @@ const Standard = () => {
           }}
           disableColumnFilter
           disableColumnMenu
-          hideFooter = {true}
+          hideFooterPagination={true}
+          hideFooter={true}
         />
       </div>
     </div>
