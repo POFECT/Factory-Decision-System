@@ -34,22 +34,19 @@ const Capacity = () => {
   const [millCd,setMillCd]=useState([]);//소구분
 
   useEffect(()=>{
-    FactoryStandardApi.getList((data)=>{
-      console.log(data.response);
-      const codenum=1;
-      possibleList={
-        data:[
-          { code:data.response[0].btiPosbPsFacTp,
-            10:data.response[0].feasibleRoutingGroup,
-            20:data.response[0]
-          }
-        ]
-      }
-      console.log(possibleList);
-      setPossibleList(data.response);
+    FactoryStandardApi.getGridList((data)=>{
+      const dataMap=data.reduce((acc,[code,processCd,feasibleRoutingGroup])=>{
+        acc[code]=acc[code]||{};
+        acc[code][processCd]=feasibleRoutingGroup;
+        return acc;
+      },{});
+      const transformData=Object.entries(dataMap).map(([code,processCd]) =>({ id:code,code,...processCd
+    }));
+
+    setPossibleList(transformData);
 
       if(possibleList.length!=0){
-        setPossibleList(possibleList[0].id);
+        //setPossibleList(possibleList[0].id);
       }
     });
   },[]);
@@ -62,12 +59,12 @@ const Capacity = () => {
     { field: "40", headerName: "냉간압연", width: 100, type:'number'  },
     { field: "50", headerName: "1차소둔", width: 100, type:'number'  },
     { field: "60", headerName: "2차소둔", width: 100, type:'number'  },
-    { field: "80", headerName: "정정", width: 100, type:'number'  },
     { field: "70", headerName: "도금", width: 100, type:'number'  },
+    { field: "80", headerName: "정정", width: 100, type:'number'  },
   ];
 
   return (
-    <div style={{ height: "600px", width: "100%" }}>
+    <div style={{ height: "500px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Typography variant="h3">가능통과공장/확정통과공장 코드</Typography>
       </Grid>
@@ -88,25 +85,25 @@ const Capacity = () => {
               marginRight: 10,
             }}
           >
-            <InputLabel id="label1" style={{ paddingTop: 10 }}>
-              구분
-            </InputLabel>
-            <Select
-              labelId="분류"
-              id="demo-multiple-name"
-              defaultValue="T"
-              input={<OutlinedInput label="구분" />}
-              onChange={(e) => {
-                console.log(e.target.value);
-                setMillCd(e.target.value);
-              }}
-              style={{ height: 40 }}
-            >
-              <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
+          <InputLabel id="label1" style={{ paddingTop: 10 }}>
+            구분
+          </InputLabel>
+          <Select
+            labelId="분류"
+            id="demo-multiple-name"
+            defaultValue="T"
+            input={<OutlinedInput label="구분" />}
+            onChange={(e) => {
+              console.log(e.target.value);
+              setMillCd(e.target.value);
+            }}
+            style={{ height: 40 }}
+          >
+            <MenuItem value="T">포항</MenuItem>
+            <MenuItem value="K">광양</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
         <div>
           <Button size="small" type="submit" variant="contained">
             경유공정
@@ -121,16 +118,14 @@ const Capacity = () => {
       </div>
       <div style={{height:400}}>
       <DataGrid
-        disableRowSelectionOnClick
+        //disableRowSelectionOnClick
         rows={possibleList}
         columns={columns}
         onCellClick={(e) => {
-          setPossibleList(e.row.id);
+          setPossibleList(e);
           console.log('소구분 : '+e);
         }}
-        slots={{
-          cell: MyCell,
-        }}
+        hideFooter = {true}
       />
       </div>
     </div>

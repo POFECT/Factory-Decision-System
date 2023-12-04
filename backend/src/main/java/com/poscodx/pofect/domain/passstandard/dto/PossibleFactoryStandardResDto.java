@@ -3,9 +3,11 @@ package com.poscodx.pofect.domain.passstandard.dto;
 import com.poscodx.pofect.domain.passstandard.entity.PossibleFactoryStandard;
 import lombok.*;
 
+import javax.persistence.Query;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -44,7 +46,7 @@ public class PossibleFactoryStandardResDto {
 
     private LocalDateTime lastUpdateDate;  // 최종수정일자
 
-    public static PossibleFactoryStandardResDto toDto(PossibleFactoryStandard possibleFactoryStandard){
+    public static PossibleFactoryStandardResDto toDto(PossibleFactoryStandard possibleFactoryStandard) {
         return PossibleFactoryStandardResDto.builder()
                 .id(possibleFactoryStandard.getId())
                 .gcsCompCode(possibleFactoryStandard.getGcsCompCode())
@@ -57,4 +59,6 @@ public class PossibleFactoryStandardResDto {
                 .lastUpdateDate(possibleFactoryStandard.getLastUpdateDate())
                 .build();
     }
+
+
 }
