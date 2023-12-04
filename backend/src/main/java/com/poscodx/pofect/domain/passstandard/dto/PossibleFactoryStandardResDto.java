@@ -51,6 +51,7 @@ public class PossibleFactoryStandardResDto {
                 .millCd(possibleFactoryStandard.getMillCd())
                 .btiPosbPsFacTp(possibleFactoryStandard.getBtiPosbPsFacTp())
                 .feasibleRoutingGroup(possibleFactoryStandard.getFeasibleRoutingGroup())
+                .processCd(possibleFactoryStandard.getProcessCd())
                 .cdExpl(possibleFactoryStandard.getCdExpl())
                 .userId(possibleFactoryStandard.getUserId())
                 .lastUpdateDate(possibleFactoryStandard.getLastUpdateDate())

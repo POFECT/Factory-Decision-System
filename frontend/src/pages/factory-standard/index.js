@@ -27,29 +27,25 @@ function MyCell(props) {
   }
   return <GridCell {...props} style={style} />;
 }
-// const axios = require('axios');
-// const GetPos = axios.get('http://localhost:8080/api/factory-standard/getPossibleAll')
-//   .then(function (response) {
-//     // 성공 핸들링
-//     console.log(response);
-//   })
-//   .catch(function (error) {
-//     // 에러 핸들링
-//     console.log(error);
-//   })
-//   .finally(function () {
-//     // 항상 실행되는 영역
-//   });
-
-// console.log(GetPos);
 const Capacity = () => {
   /* Data */
   const [possibleList,setPossibleList]=useState([]);//가통리스트
   const [confirmList,setConfirmList]=useState([]);//확통리스트
+  const [millCd,setMillCd]=useState([]);//소구분
 
   useEffect(()=>{
     FactoryStandardApi.getList((data)=>{
-      console.log(data);
+      console.log(data.response);
+      const codenum=1;
+      possibleList={
+        data:[
+          { code:data.response[0].btiPosbPsFacTp,
+            10:data.response[0].feasibleRoutingGroup,
+            20:data.response[0]
+          }
+        ]
+      }
+      console.log(possibleList);
       setPossibleList(data.response);
 
       if(possibleList.length!=0){
@@ -58,28 +54,31 @@ const Capacity = () => {
     });
   },[]);
 
-  const rows = [
-    { id:1,10:"1",20:"1",30:"1",40:"1",50:"1",60:"1",70:"",80:"1" },
-    { id:2,10:"2",20:"2",30:"2",40:"",50:"",60:"",70:"",80:"2" },
-  ];
-
   const columns = [
-    { field: "10", headerName: "제강", width: 100, editable: true, type:'number' },
-    { field: "20", headerName: "열연", width: 100, editable: true, type:'number'  },
-    { field: "30", headerName: "열연정정", width: 100, editable: true, type:'number'  },
-    { field: "40", headerName: "냉간압연", width: 100, editable: true, type:'number'  },
-    { field: "50", headerName: "1차소둔", width: 100, editable: true, type:'number'  },
-    { field: "60", headerName: "2차소둔", width: 100, editable: true, type:'number'  },
-    { field: "70", headerName: "도금", width: 100, editable: true, type:'number'  },
-    { field: "80", headerName: "정정", width: 100, editable: true, type:'number'  },
+    { field: "code",headerName:"Code", width:100, type:'number'},
+    { field: "10", headerName: "제강", width: 100, type:'number' },
+    { field: "20", headerName: "열연", width: 100, editable: true,     type:'number'  },
+    { field: "30", headerName: "열연정정", width: 100, type:'number'  },
+    { field: "40", headerName: "냉간압연", width: 100, type:'number'  },
+    { field: "50", headerName: "1차소둔", width: 100, type:'number'  },
+    { field: "60", headerName: "2차소둔", width: 100, type:'number'  },
+    { field: "80", headerName: "정정", width: 100, type:'number'  },
+    { field: "70", headerName: "도금", width: 100, type:'number'  },
   ];
 
   return (
-    <div>
+    <div style={{ height: "600px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Typography variant="h3">가능통과공장/확정통과공장 코드</Typography>
       </Grid>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
       <div>
           <FormControl
             sx={{ m: 1 }}
@@ -98,58 +97,8 @@ const Capacity = () => {
               defaultValue="T"
               input={<OutlinedInput label="구분" />}
               onChange={(e) => {
-                console.log(e);
-              }}
-              style={{ height: 40 }}
-            >
-              <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl
-            sx={{ m: 1 }}
-            style={{
-              paddingTop: 10,
-              paddingBottom: 20,
-              marginRight: 10,
-            }}
-          >
-            <InputLabel id="label2" style={{ paddingTop: 10 }}>
-              품종
-            </InputLabel>
-
-            <Select
-              labelId="분류"
-              id="demo-multiple-name"
-              defaultValue="T"
-              input={<OutlinedInput label="품종" />}
-              onChange={(e) => {
-                console.log(e);
-              }}
-              style={{ height: 40 }}
-            >
-              <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl
-            sx={{ m: 1 }}
-            style={{
-              paddingTop: 10,
-              paddingBottom: 20,
-              marginRight: 10,
-            }}
-          >
-            <InputLabel id="label3" style={{ paddingTop: 10 }}>
-              출강주
-            </InputLabel>
-            <Select
-              labelId="출강주"
-              id="demo-multiple-name"
-              defaultValue="T"
-              input={<OutlinedInput label="출강주" />}
-              onChange={(e) => {
-                console.log(e);
+                console.log(e.target.value);
+                setMillCd(e.target.value);
               }}
               style={{ height: 40 }}
             >
@@ -160,13 +109,10 @@ const Capacity = () => {
         </div>
         <div>
           <Button size="small" type="submit" variant="contained">
-            대상 조회
+            경유공정
           </Button>
           <Button size="small" type="submit" variant="contained">
-            설계
-          </Button>
-          <Button size="small" type="submit" variant="contained">
-            확정 처리
+            조회
           </Button>
           <Button size="small" type="submit" variant="contained">
             Excel
@@ -175,14 +121,12 @@ const Capacity = () => {
       </div>
       <div style={{height:400}}>
       <DataGrid
-        // experimentalFeatures={{ columnGrouping: true }}
-        //checkboxSelection
         disableRowSelectionOnClick
         rows={possibleList}
         columns={columns}
         onCellClick={(e) => {
           setPossibleList(e.row.id);
-          console.log(e);
+          console.log('소구분 : '+e);
         }}
         slots={{
           cell: MyCell,
