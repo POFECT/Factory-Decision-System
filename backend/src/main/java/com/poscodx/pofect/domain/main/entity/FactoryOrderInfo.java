@@ -1,6 +1,6 @@
 package com.poscodx.pofect.domain.main.entity;
 
-import com.poscodx.pofect.domain.entity.BaseEntity;
+import com.poscodx.pofect.domain.etc.entity.BaseEntity;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

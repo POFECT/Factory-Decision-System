@@ -1,4 +1,4 @@
-package com.poscodx.pofect.domain.entity;
+package com.poscodx.pofect.domain.etc.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

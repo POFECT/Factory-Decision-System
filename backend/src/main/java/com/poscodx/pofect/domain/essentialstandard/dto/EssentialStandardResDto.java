@@ -1,16 +1,12 @@
 package com.poscodx.pofect.domain.essentialstandard.dto;
 
 
-import com.poscodx.pofect.domain.entity.BaseEntity;
+import com.poscodx.pofect.domain.etc.entity.BaseEntity;
 import com.poscodx.pofect.domain.essentialstandard.entity.EssentialStandard;
 import lombok.*;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
