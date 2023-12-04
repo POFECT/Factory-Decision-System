@@ -125,18 +125,19 @@ const navigation = () => {
     },
     {
       icon: CubeOutline,
+      title: "사이즈 기준 관리",
       title: "사이즈 기준",
       path: "/size-standard",
     },
     {
       icon: CubeOutline,
-      title: "필수재 기준",
-      path: "/essential-goods",
+      title: "가능/확통 기준",
+      path: "/factory-standard",
     },
     {
       icon: CubeOutline,
-      title: "가능/확통 기준",
-      path: "/factory-standard",
+      title: "필수재 기준",
+      path: "/essential-goods",
     },
 
     {
