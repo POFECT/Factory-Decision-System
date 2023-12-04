@@ -43,22 +43,19 @@ const MainCapacity = () => {
     list: [],
     order: null,
   }); // 주문 데이터 리스트
-
-  const [selectedOrder, setSelectedOrder] = useState(0); // 선택 주문 데이터
-  // const [isFlag, setIsFlag] = useState(false);
-
-  // {
-  //   setOrderList(Object.assign({}, orderList, {
-  //     order :
-  //   }))
-
-  // }
+  const [codeNameList, setCodeNameList] = useState([]);
+  const [selectCodeName, setSelectCodeName] = useState("FS");
 
   useEffect(() => {
-    MainCapacityApi.getList((data) => {
+    MainCapacityApi.getOrderList((data) => {
       const list = data.response;
       const order = list[0].id;
-      setOrderList({ list, order });
+      setOrderList(() => {
+        list, order;
+      });
+    });
+    MainCapacityApi.getCodeNameList((data) => {
+      setCodeNameList(data.response);
     });
   }, []);
 
@@ -358,7 +355,7 @@ const MainCapacity = () => {
     {
       field: "lastUpdateDate",
       headerName: "최종수정일자",
-      width: 100,
+      width: 150,
       editable: true,
     },
   ];
@@ -417,15 +414,20 @@ const MainCapacity = () => {
             <Select
               labelId="분류"
               id="demo-multiple-name"
-              defaultValue="T"
+              defaultValue="FS"
               input={<OutlinedInput label="품종" />}
               onChange={(e) => {
-                console.log(e);
+                setSelectCodeName(e.target.value);
               }}
               style={{ height: 40 }}
             >
-              <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
+              {codeNameList.map((code, idx) => {
+                return (
+                  <MenuItem key={idx} value={code.cdNm}>
+                    {code.cdNm}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
           <FormControl

@@ -3,6 +3,12 @@ import { Grid, Typography } from "@mui/material";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import MainCapacityApi from "/src/api/MainCapacityApi";
 
+const createData = (name, calories, fat, carbs, protein) => {
+  return { name, calories, fat, carbs, protein };
+};
+
+const rows = [createData("Frozen yoghurt", 159, 6.0, 24, 4.0)];
+
 function MyCell(props) {
   let style = {
     minWidth: props.width,
@@ -168,6 +174,7 @@ const MainCapacity = (props) => {
           가능통과공장 설계 상세 내역 : {order.id}
         </Typography>
       </Grid>
+
       <div
         style={{
           width: "73%",
