@@ -98,19 +98,18 @@ const navigation = () => {
     {
       icon: CubeOutline,
       title: "가능 통과 공장 설계",
-      path: "/pass-standard",
+      path: "/main-capacity",
     },
     {
       icon: CubeOutline,
       title: "공장 결정",
       path: "/main",
-    }, 
+    },
     {
       icon: CubeOutline,
       title: "투입 능력 관리",
       path: "/capacity",
     },
-
 
     {
       sectionTitle: "기준 관리",
@@ -131,9 +130,6 @@ const navigation = () => {
       path: "/factory-standard",
     },
 
-
-
-
     {
       sectionTitle: "모니터링",
     },
@@ -146,7 +142,7 @@ const navigation = () => {
       icon: CubeOutline,
       title: "출강 Lot 집약",
       path: "/lot",
-    },   
+    },
   ];
 };
 
