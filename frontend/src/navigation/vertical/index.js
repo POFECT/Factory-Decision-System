@@ -1,4 +1,3 @@
-// ** Icon imports
 import Login from "mdi-material-ui/Login";
 import Table from "mdi-material-ui/Table";
 import CubeOutline from "mdi-material-ui/CubeOutline";
@@ -72,32 +71,92 @@ const navigation = () => {
       path: "/form-layouts",
     },
     {
-      sectionTitle: "여기서 부터 url 추가하면 돼",
+      sectionTitle: "Login & UserInfo",
+    },
+    {
+      title: "Login",
+      icon: Login,
+      path: "/login&userInfo/login",
+      openInNewTab: false,
+    },
+    {
+      sectionTitle: "참고 화면",
     },
     {
       icon: CubeOutline,
-      title: "재원 대시보드",
-      path: "/dashboard",
+      title: "재원 대시보드-ref",
+      path: "/dashboard-ref",
     },
     {
       icon: CubeOutline,
-      title: "필수재기준",
-      path: "/essential-goods",
+      title: "필수재기준-ref",
+      path: "/essential-goods-ref",
+    },
+    {
+      icon: CubeOutline,
+      title: "투입 능력 관리-ref",
+      path: "/input-capacity-ref",
+    },
+    {
+      sectionTitle: "dev",
+    },
+    {
+      sectionTitle: "업무 화면",
+    },
+
+    {
+      icon: CubeOutline,
+      title: "가능 통과 공장 설계",
+      path: "/main-capacity",
+    },
+    {
+      icon: CubeOutline,
+      title: "공장 결정",
+      path: "/main",
     },
     {
       icon: CubeOutline,
       title: "투입 능력 관리",
-      path: "/input-capacity",
+      path: "/capacity",
+    },
+
+    {
+      sectionTitle: "기준 관리",
     },
     {
       icon: CubeOutline,
       title: "사이즈 기준 관리",
+      title: "사이즈 기준",
       path: "/size-standard",
     },
     {
       icon: CubeOutline,
       title: "가능/확통 기준",
       path: "/factory-standard",
+    },
+    {
+      icon: CubeOutline,
+      title: "필수재 기준",
+      path: "/essential-goods",
+    },
+    {
+      icon: CubeOutline,
+      title: "가능/확통 기준",
+      path: "/factory-standard",
+    },
+
+    {
+      sectionTitle: "모니터링",
+    },
+    {
+      icon: CubeOutline,
+      title: "대시보드",
+      path: "/dashboard",
+    },
+    {
+      icon: CubeOutline,
+      title: "출강 Lot 집약",
+      path: "/lot",
     },
   ];
 };
