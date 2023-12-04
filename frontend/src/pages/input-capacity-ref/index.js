@@ -19,7 +19,7 @@ const rowSpan = (params) => {
     return 1;
   }
 };
-const Capacity = () => {
+const CapacityRef = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "70%", width: "100%" }), []);
   const [rowData, setRowData] = useState([
@@ -290,4 +290,4 @@ const Capacity = () => {
   );
 };
 
-export default Capacity;
+export default CapacityRef;
