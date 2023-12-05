@@ -3,8 +3,10 @@ package com.poscodx.pofect.domain.passstandard.service;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleFactoryStandardResDto;
 import com.poscodx.pofect.domain.passstandard.repository.PossibleFactoryStandardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 

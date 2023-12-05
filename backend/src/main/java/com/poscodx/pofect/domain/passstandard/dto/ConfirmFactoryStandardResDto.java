@@ -48,6 +48,7 @@ public class ConfirmFactoryStandardResDto {
                 .millCd(confrimFactoryStandard.getMillCd())
                 .firmPsFacTp(confrimFactoryStandard.getFirmPsFacTp())
                 .cdExpl(confrimFactoryStandard.getCdExpl())
+                .processCd(confrimFactoryStandard.getProcessCd())
                 .userId(confrimFactoryStandard.getUserId())
                 .lastUpdateDate(confrimFactoryStandard.getLastUpdateDate())
                 .build();

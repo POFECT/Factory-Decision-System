@@ -28,4 +28,9 @@ public class ConfirmFactoryStandardController {
         List<ConfirmFactoryStandardResDto> result = confirmStandardService.getList();
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
+    @GetMapping("/getConfirmCodes")
+    @ApiOperation(value = "확정통과공장코드 Grid맞춤데이터 조회", notes = "전체 확통기준 데이터를 조회한다.")
+    public List<Object[]> getGridData(){
+        return confirmStandardService.getGridData();
+    }
 }
