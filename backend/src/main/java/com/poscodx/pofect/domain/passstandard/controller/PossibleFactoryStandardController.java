@@ -22,8 +22,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class PossibleFactoryStandardController {
-    private final PossibleFactoryStandardService possibleFactoryStandardService;
     private final PossibleFactoryStandardRepository possibleFactoryStandardRepository;
+    private final PossibleFactoryStandardService possibleFactoryStandardService;
+
     @GetMapping("/getPossibleAll")
     @ApiOperation(value = "가능통과공장코드 리스트 조회", notes = "전체 가통기준 데이터를 조회한다.")
     public ResponseEntity<ResponseDto> getPossibleStandardList() {

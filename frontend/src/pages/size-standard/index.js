@@ -85,6 +85,7 @@ const Standard = () => {
   }, []);
 
   const columns = [
+
     { field: "processCd", headerName: "공정", width: 180, sortable: false },
     { field: "firmPsFacTp", headerName: "공장", width: 100, sortable: false },
     { field: "orderThickMin", headerName: "min", width: 138, sortable: false, editable: true },
@@ -115,12 +116,6 @@ const Standard = () => {
       children: [{ field: "hrRollUnitWgtMax1" }, { field: "hrRollUnitWgtMax2" }],
     },
   ];
-
-  const hideVerticalScrollbar = {
-    "& .MuiDataGrid-virtualScroller": {
-      overflowY: "hidden",
-    },
-  };
 
   return (
     <div style={{ height: "600px", width: "100%" }}>
@@ -178,7 +173,7 @@ const Standard = () => {
         </div>
       </div>
 
-      <div style={{ height: "83%", width: "100%", ...hideVerticalScrollbar }}>
+      <div style={{ height: "83%", width: "100%" }}>
         <DataGrid
           experimentalFeatures={{ columnGrouping: true }}
           // checkboxSelection
