@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import {GridToolbar } from "@mui/x-data-grid";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
-import ModalTest from "./modal-test";
 import React, {
   useEffect,
   useState,
@@ -202,7 +201,7 @@ const CapacityMgt = () => {
 
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Paper></Paper>
-        <Typography variant="h3">투입 능력 관리</Typography>
+        <Typography variant="h3">경유 관리</Typography>
       </Grid>
       <div
         style={{
