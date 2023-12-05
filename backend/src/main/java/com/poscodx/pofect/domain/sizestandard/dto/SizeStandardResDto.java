@@ -46,6 +46,8 @@ public class SizeStandardResDto {
 
     private String userId;  // 13.박판공정계획사용자ID
 
+    private RowSpan rowSpan;
+
     private LocalDateTime lastUpdateDate;  // 최종수정일자
 
 

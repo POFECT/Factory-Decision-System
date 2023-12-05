@@ -1,5 +1,6 @@
 package com.poscodx.pofect.domain.sizestandard.service;
 
+import com.poscodx.pofect.domain.sizestandard.dto.RowSpan;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
 import com.poscodx.pofect.domain.sizestandard.repository.SizeStandardRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,34 @@ public class SizeStandardServiceImpl implements SizeStandardService{
 
     @Override
     public List<SizeStandardResDto> getList() {
-        return repository.findAll().stream().map(SizeStandardResDto::toDto).toList();
+
+        List<SizeStandardResDto> dtoList = repository.findAll().stream().map(SizeStandardResDto::toDto)
+                .sorted(Comparator.comparing(SizeStandardResDto::getProcessCd)).toList();
+
+        Map<String, Long> processCdToFirstIdMap = dtoList.stream()
+                .collect(Collectors.toMap(
+                        SizeStandardResDto::getProcessCd,
+                        SizeStandardResDto::getId,
+                        (existing, replacement) -> existing
+                ));
+
+        List<Long> collect = processCdToFirstIdMap.values().stream()
+                .toList();
+
+        for (Long l : collect) {
+            for (SizeStandardResDto sizeStandardResDto : dtoList) {
+                if(sizeStandardResDto.getId() == l){
+                    int count = 0;
+                    for (SizeStandardResDto standardResDto : dtoList) {
+                        if (sizeStandardResDto.getProcessCd().equals(standardResDto.getProcessCd())){
+                            count++;
+                        }
+                        sizeStandardResDto.setRowSpan(new RowSpan(count));
+                    }
+                }
+            }
+        }
+
+        return dtoList;
     }
 }
