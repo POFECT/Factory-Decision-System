@@ -2,7 +2,7 @@ import { axiosApi } from "./api";
 
 const CacpacityApi = {
   getList:async(callback)=>{
-    await axiosApi().get("/factory-standard/getPossibleAll")
+    await axiosApi().get("/capacity")
     .then((response)=>{
       callback && callback(response.data);
     })
@@ -13,7 +13,7 @@ const CacpacityApi = {
   },
   getWeek:async(callback)=>{
     await axiosApi().
-    get("/factory-standard/getPossibleCodes")
+    get("/capacitynpm/getPossibleCodes")
     .then((response)=>{
       console.log(response)
       callback && callback(response.data);

@@ -18,7 +18,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import CapacityStandardApi from "src/api/CapacityApi";
+import PassStandardApi from "src/api/PassStandardApi";
 
 function MyCell(props) {
   let style = {
@@ -29,7 +29,8 @@ function MyCell(props) {
     ...props.style,
     //중앙배열
       display: "flex",
-    alignItems: "center", 
+    alignItems: "center",
+    headerAlign: 'center',
     justifyContent: "center", 
   };
   const apiRef = useGridApiContext();
@@ -48,154 +49,38 @@ function MyCell(props) {
   return <GridCell {...props} style={style} />;
 }
 
-const CapacityMgt = () => {
+const passStandard = () => {
 
-  const [capacity, setCapacity] = useState([]);
-  const [week, setWeek] = useState([]);
+  const [passStandard, setPassStandard] = useState([]);
 
+  
   useEffect(() => {
     // CapacityStandardApi.getList((data) => {
     //   setCapacity(data.response);
     // });
 
-        CapacityStandardApi.getWeek((data) => {
-      setWeek(data.response);
+        PassStandardApi.getList((data) => {
+      setPassStandard(data.response);
     });
   }, []);
 
-    const uniqueWeekCodes = [...new Set(week.map((item) => item.ordThwTapWekCd))];
-  const handleWeekSelectChange = (e) => {
-    console.log(e);
-  };
+  //   const uniqueWeekCodes = [...new Set(week.map((item) => item.ordThwTapWekCd))];
+  // const handleWeekSelectChange = (e) => {
+  //   console.log(e);
+  // };
+const columns = [
+  { field: "ordPdtItdsCdN", headerName: "|    품명    |", width: 130, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN1", headerName: "|   제강   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN2", headerName: "|   열연   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN3", headerName: "|   열연정정   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN4", headerName: "|   냉연   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN5", headerName: "|   1차소둔   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN6", headerName: "|   2차소둔   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN7", headerName: "|   도금   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN8", headerName: "|   정정   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+];
 
-  const rows = [
-    {
-      id: 1,
-      공정: "제강",
-      rowSpan: { 공정: "2" },
 
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 2,
-      공장: "1",
-      공정: "제강",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 3,
-      공정: "열연",
-      rowSpan: { 공정: "3" },
-
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 4,
-      공장: "2",
-      공정: "열연",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-        {
-      id: 5,
-      공장: "3",
-      공정: "열연",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 6,
-      공정: "열연정정",
-      rowSpan: { 공정: "2" },
-
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 7,
-      공장: "2",
-      공정: "열연정정",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-        {
-      id: 8,
-      공정: "열연정정",
-      rowSpan: { 공정: "2" },
-
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 9,
-      공장: "2",
-      공정: "열연정정",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-        {
-      id: 10,
-      공정: "열연정정",
-      rowSpan: { 공정: "2" },
-
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id:11,
-      공장: "2",
-      공정: "열연정정",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    
-  ];
-
-  const columns = [
-    { field: "공정", headerName: "공정", width: 95, editable: true },
-    { field: "공장", headerName: "공장", width: 70, editable: true },
-    { field: "능력량", headerName: "능력량", width: 95, editable: true },
-    { field: "조정량", headerName: "조정량", width: 95, editable: true },
-    { field: "투입량", headerName: "투입량", width: 95, editable: true },
-    { field: "잔여량", headerName: "잔여량", width: 95, editable: true },
- 
-  ];
  return (
     <>
 
@@ -209,7 +94,7 @@ const CapacityMgt = () => {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: "20px", // Added margin for better spacing
+          marginBottom: "20px",
         }}
       >
         <div style={{ display: "flex" }}>
@@ -229,7 +114,7 @@ const CapacityMgt = () => {
               <MenuItem value="K">광양</MenuItem>
             </Select>
           </FormControl>
-          {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <FormControl sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="label2">품종</InputLabel>
             <Select
               labelId="분류"
@@ -244,8 +129,8 @@ const CapacityMgt = () => {
               <MenuItem value="T">포항</MenuItem>
               <MenuItem value="K">광양</MenuItem>
             </Select>
-          </FormControl> */}
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
+          </FormControl>
+          {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="label3">출강주</InputLabel>
             <Select
               labelId="출강주"
@@ -263,7 +148,7 @@ const CapacityMgt = () => {
                 </MenuItem>
               ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
         </div>
         <div>
 
@@ -287,44 +172,29 @@ const CapacityMgt = () => {
             padding: "16px",
           }}
         >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            components={{
-              Toolbar: GridToolbar,
-              Cell: MyCell,
-            }}
-          />
+          
+<DataGrid
+          rows={passStandard}
+          columns={columns}
+          components={{
+            Toolbar: GridToolbar,
+            Cell: MyCell,
+          }}
+        />
         </Paper>
-        <Paper
+        {/* <Paper
           elevation={3}
           style={{
             flexBasis: "70%", 
             padding: "16px",
           }}
         >
-          <Typography variant="h6">Chart</Typography>
-          <Typography>차트....................</Typography>
-<Typography variant="h6">Capacity 데이터</Typography>
-{/* <ul>
-  {capacity.map((item) => (
-    <li key={item.id}>
-      ID: {item.id}, Company Code: {item.gcsCompCode}, Mill Code: {item.millCd}, ...
-    </li>
-  ))}
-</ul> */}
+         
 
-<ul>
-  {week.map((item) => (
-    <li key={item.id}>
-      ID: {item.id}, WEek Code: {item.ordThwTapWekCd}, Mill Code: {item.millCd}, ...
-    </li>
-  ))}
-</ul>
-        </Paper>
+        </Paper> */}
       </div>
     </>
   );
 };
 
-export default CapacityMgt;
+export default passStandard;
