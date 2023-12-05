@@ -1,6 +1,5 @@
 package com.poscodx.pofect.domain.dashboard.dto;
 
-import com.poscodx.pofect.domain.entity.BaseEntity;
 import lombok.*;
 
 import javax.validation.constraints.Size;
