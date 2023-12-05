@@ -9,5 +9,7 @@ public interface CapacityService {
 
     List<GrantCapacityDto> getList();
 
+
+
     GrantCapacityDto getById(Long id);
 }
