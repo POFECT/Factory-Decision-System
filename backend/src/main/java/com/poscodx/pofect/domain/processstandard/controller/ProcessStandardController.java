@@ -1,11 +1,8 @@
-package com.poscodx.pofect.domain.capacity.controller;
+package com.poscodx.pofect.domain.processstandard.controller;
 
 import com.poscodx.pofect.common.dto.ResponseDto;
-import com.poscodx.pofect.domain.capacity.dto.GrantCapacityDto;
-import com.poscodx.pofect.domain.capacity.service.CapacityService;
-import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
-import com.poscodx.pofect.domain.main.repository.FactoryOrderInfoRepository;
-import com.poscodx.pofect.domain.main.service.FactoryOrderInfoService;
+import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
+import com.poscodx.pofect.domain.processstandard.service.ProcessStandardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -13,42 +10,40 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
-@Api(value = "Capacity API", tags = {"투입능력관리"})
+@Api(value = "PassProcessStandard API", tags = {"경유공정기준"})
 @CrossOrigin("*")
-@RequestMapping("/capacity")
+@RequestMapping("/pass-standard")
 @RestController
 @RequiredArgsConstructor
-public class CapacityController {
+public class ProcessStandardController {
 
-    private final CapacityService capacityService;
-    private final FactoryOrderInfoService factoryOrderInfoService;
+    private final ProcessStandardService processStandardService;
 
     @GetMapping("")
-    @ApiOperation(value = "능력 리스트 조회", notes = "전체 능력 데이터 조회")
+    @ApiOperation(value = "경유 공정 리스트 조회", notes = "전체 경유 공정 데이터 조회")
     public ResponseEntity<ResponseDto> getCapacityList() {
-        List<GrantCapacityDto> rs = capacityService.getList();
+        List<ProcessStandardDto> rs = processStandardService.getList();
         return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
-    @ApiOperation(value = "능력 조회", notes = "ID로 능력 데이터 조회")
-    public ResponseEntity<ResponseDto> getCapacityById(
-            @PathVariable Long id) {
-        GrantCapacityDto rs = capacityService.getById(id);
-        return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
-    }
-
-    @GetMapping("/week")
-    @ApiOperation(value = "출강주 조회", notes = "전체 주문 건 출강주 조회")
-    public ResponseEntity<ResponseDto> getOrdWeekList() {
-        List<FactoryOrderInfoResDto> rs = factoryOrderInfoService.getList();
-        System.out.println("ResponseDto(rs) = " + new ResponseDto(rs));
-        return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
-
-
-    }
+//    @GetMapping("{id}")
+//    @ApiOperation(value = "능력 조회", notes = "ID로 능력 데이터 조회")
+//    public ResponseEntity<ResponseDto> getCapacityById(
+//            @PathVariable Long id) {
+//        GrantCapacityDto rs = capacityService.getById(id);
+//        return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/week")
+//    @ApiOperation(value = "출강주 조회", notes = "전체 주문 건 출강주 조회")
+//    public ResponseEntity<ResponseDto> getOrdWeekList() {
+//        List<FactoryOrderInfoResDto> rs = factoryOrderInfoService.getList();
+//        System.out.println("ResponseDto(rs) = " + new ResponseDto(rs));
+//        return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
+//
+//
+//    }
 
 }

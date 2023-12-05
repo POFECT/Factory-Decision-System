@@ -1,15 +1,14 @@
-package com.poscodx.pofect.domain.capacity.service;
+package com.poscodx.pofect.domain.processstandard.service;
 
-import com.poscodx.pofect.domain.capacity.dto.GrantCapacityDto;
-import com.poscodx.pofect.domain.capacity.entity.GrantCapacity;
+import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
 
 import java.util.List;
 
-public interface CapacityService {
+public interface ProcessStandardService {
 
-    List<GrantCapacityDto> getList();
+    List<ProcessStandardDto> getList();
 
 
 
-    GrantCapacityDto getById(Long id);
+//    GrantCapacityDto getById(Long id);
 }
