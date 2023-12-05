@@ -5,38 +5,34 @@ import { AgGridReact } from "ag-grid-react";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { Box, Modal, Button, Grid, Typography, Paper, } from "@mui/material";
+import { Box, Modal, Button, Grid, Typography, Paper } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-      
+
 const useStyles = makeStyles((theme) => ({
   modalPaper: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 700,
-    outline: 'none',
-    overflow: 'auto',
-    borderRadius: '12px',
+    outline: "none",
+    overflow: "auto",
+    borderRadius: "12px",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(4),
-    backgroundColor: '#f8f8f8', 
-    fontFamily: "Arial, sans-serif", 
+    backgroundColor: "#f8f8f8",
   },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     top: theme.spacing(2),
     right: theme.spacing(2),
-    fontSize: '1.5rem',
-    fontWeight: 'bold',
-    color: '#555',
-    '&:hover': {
-      color: '#000',
+    fontSize: "1.5rem",
+    fontWeight: "bold",
+    color: "#555",
+    "&:hover": {
+      color: "#000",
     },
   },
-
-
- 
 }));
 
 const ModalTest = () => {
@@ -45,9 +41,7 @@ const ModalTest = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
   const [rowData] = useState([
-    
     {
       seq: "1",
       해지일자: "2023-08-01",
@@ -123,7 +117,7 @@ const ModalTest = () => {
 
   const onCellClicked = (event) => {
     console.log(event);
-     const { data, colDef } = event;
+    const { data, colDef } = event;
     if (colDef.field === "공정" && data.공정 === "열연") {
       handleOpen(data);
     }
@@ -158,7 +152,6 @@ const ModalTest = () => {
         </Paper>
       </Modal>
 
-      
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Typography variant="h3">필수재 기준</Typography>
       </Grid>
@@ -195,7 +188,6 @@ const ModalTest = () => {
         </Button>
       </div>
       <div style={{ width: "100%", height: "100%", display: "flex" }}>
-
         <div
           className="ag-theme-alpine"
           style={{
@@ -218,4 +210,3 @@ const ModalTest = () => {
 };
 
 export default ModalTest;
-

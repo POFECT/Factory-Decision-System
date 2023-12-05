@@ -112,7 +112,7 @@ const navigation = () => {
     {
       icon: CubeOutline,
       title: "공장 결정",
-      path: "/main",
+      path: "/main-confirm",
     },
     {
       icon: CubeOutline,
@@ -138,6 +138,14 @@ const navigation = () => {
       title: "가능/확통 기준",
       path: "/factory-standard",
     },
+
+    {
+      icon: CubeOutline,
+      title: "경유 기준 관리",
+      path: "/pass-standard",
+
+    },
+
     {
       icon: CubeOutline,
       title: "필수재 기준",
