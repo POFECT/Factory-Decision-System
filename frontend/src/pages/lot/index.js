@@ -16,37 +16,27 @@ import makeAnimated from 'react-select/animated';
 
 function MyCell(props) {
     let style = {
-        minWidth: props.width,
-        maxWidth: props.width,
-        minHeight: props.height,
-        maxHeight: props.height === "auto" ? "none" : props.height,
-        ...props.style,
+      minWidth: props.width,
+      maxWidth: props.width,
+      minHeight: props.height,
+      maxHeight: props.height === "auto" ? "none" : props.height,
+      ...props.style,
     };
     const apiRef = useGridApiContext();
     const row = apiRef.current.getRow(props.rowId);
     if (row && row.rowSpan && row.rowSpan[props.column.field]) {
-        const span = row.rowSpan[props.column.field];
-        style = {
-            ...style,
-            minHeight: props.height * span,
-            maxHeight: props.height * span,
-            backgroundColor: "gray",
-            color: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 1,
-        };
-    } else if (props.column.field === "firmPsFacTp") {
-        style = {
-            ...style,
-            alignItems: "center",
-            justifyContent: "center",
-        }
+      const span = row.rowSpan[props.column.field];
+      style = {
+        ...style,
+        minHeight: props.height * span,
+        maxHeight: props.height * span,
+        backgroundColor: "gray",
+        color: "white",
+        zIndex: 1,
+      };
     }
     return <GridCell {...props} style={style} />;
-}
-
+  }
 
 const Lot = () => {
     const [isChecked, setIsChecked] = useState(false);
@@ -62,7 +52,7 @@ const Lot = () => {
         },
         {
             id: 2,
-            강종: "",
+            강종: "A123123",
             구분: "기투입",
             a9701: 30,
 
@@ -78,7 +68,87 @@ const Lot = () => {
         },
         {
             id: 4,
-            강종: "",
+            강종: "A15703",
+            구분: "기투입",
+            a15703: 10,
+
+        },
+        {
+            id: 5,
+            강종: "A4567",
+            rowSpan: { 강종: "2" },
+            구분: "투입대기",
+            a1270대기: 500,
+
+
+        },
+        {
+            id: 6,
+            강종: "A4567",
+            구분: "기투입",
+            a15703: 10,
+
+        },
+        {
+            id: 7,
+            강종: "A6545",
+            rowSpan: { 강종: "2" },
+            구분: "투입대기",
+            a1270대기: 500,
+
+
+        },
+        {
+            id: 8,
+            강종: "A6545",
+            구분: "기투입",
+            a15703: 10,
+
+        },
+        {
+            id: 9,
+            강종: "A25456",
+            rowSpan: { 강종: "2" },
+            구분: "투입대기",
+            a1270대기: 500,
+
+
+        },
+        {
+            id: 10,
+            강종: "A25456",
+            구분: "기투입",
+            a15703: 10,
+
+        },
+        {
+            id: 11,
+            강종: "A43125",
+            rowSpan: { 강종: "2" },
+            구분: "투입대기",
+            a1270대기: 500,
+
+
+        },
+        {
+            id: 12,
+            강종: "A43125",
+            구분: "기투입",
+            a15703: 10,
+
+        },
+        {
+            id: 13,
+            강종: "A15703",
+            rowSpan: { 강종: "2" },
+            구분: "투입대기",
+            a1270대기: 500,
+
+
+        },
+        {
+            id: 14,
+            강종: "A15703",
             구분: "기투입",
             a15703: 10,
 
@@ -209,7 +279,7 @@ const Lot = () => {
     const customStyles = {
         control: (provided, state) => ({
             ...provided,
-            width: 360,
+            width: 380,
         }),
     };
 
@@ -251,7 +321,7 @@ const Lot = () => {
                             onChange={(e) => {
                                 console.log(e);
                             }}
-                            style={{ height: 40, width: 130 }}
+                            style={{ height: 40, width: 150 }}
                         >
                             <MenuItem value="test">20231121</MenuItem>
                         </Select>
@@ -282,7 +352,7 @@ const Lot = () => {
                         checked={isChecked}
                         onChange={handleCheckboxChange}
                     />
-                    <label htmlFor="myCheckbox" style={{ fontSize: '16px', paddingLeft: 5 }}>
+                    <label style={{ fontSize: '16px', paddingLeft: 5 }}>
                         기투입 포함
                     </label>
                     <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 30 }}>
@@ -325,16 +395,15 @@ const Lot = () => {
             <div style={{ height: "83%", width: "100%", marginTop: 10 }}>
                 <DataGrid
                     experimentalFeatures={{ columnGrouping: true }}
-                    // checkboxSelection
                     disableRowSelectionOnClick
                     rows={rowList}
                     columns={columns}
                     onCellClick={(e) => {
-                        console.log(e);
+                      console.log(e);
                     }}
                     columnGroupingModel={columnGroupingModel}
                     slots={{
-                        cell: MyCell,
+                      cell: MyCell,
                     }}
                 />
             </div>
