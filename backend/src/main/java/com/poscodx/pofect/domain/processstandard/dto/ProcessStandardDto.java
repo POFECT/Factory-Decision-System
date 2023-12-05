@@ -1,6 +1,6 @@
-package com.poscodx.pofect.domain.capacity.dto;
+package com.poscodx.pofect.domain.processstandard.dto;
 
-import com.poscodx.pofect.domain.capacity.entity.GrantCapacity;
+import com.poscodx.pofect.domain.processstandard.entity.ProcessStandard;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GrantCapacityDto {
+public class ProcessStandardDto {
 
     @NotBlank
     private Long id;
@@ -23,33 +23,51 @@ public class GrantCapacityDto {
 
     @NotBlank
     @Size(max = 1)
-
     private String millCd; // 2.공정계획박판Mill구분
 
     @NotBlank
+    @Size(max = 4)
+    private String ordPdtItdsCdN; // 3.주문품명코드
+
+
     @Size(max = 2)
-    private String processCd; // 3.박판공정계획공정구분
-
-    @NotBlank
-    @Size(max = 1)
-    private String firmPsFacTp; // 4.확정통과공장구분
-
-    private Integer planQty; // 5.계획량
+    private String availablePassFacCdN1; // 4.가능통과공장구분1
+    @Size(max = 2)
+    private String availablePassFacCdN2; // 4.가능통과공장구분1
+    @Size(max = 2)
+    private String availablePassFacCdN3; // 4.가능통과공장구분1
+    @Size(max = 2)
+    private String availablePassFacCdN4; // 4.가능통과공장구분1
+    @Size(max = 2)
+    private String availablePassFacCdN5; // 4.가능통과공장구분1
+    @Size(max = 2)
+    private String availablePassFacCdN6; // 4.가능통과공장구분1
+    @Size(max = 2)
+    private String availablePassFacCdN7; // 4.가능통과공장구분1
+    @Size(max = 2)
+    private String availablePassFacCdN8; // 4.가능통과공장구분1
 
     @Size(max = 8)
-    private String userId; // 6.박판공정계획사용자ID
+    private String userId; // 12.박판공정계획사용자ID
+
 
     private LocalDateTime lastUpdateDate;  // 최종수정일자
 
-    public static GrantCapacityDto toDto(GrantCapacity grantCapacity){
-        return GrantCapacityDto.builder()
-                .id(grantCapacity.getId())
-                .gcsCompCode(grantCapacity.getGcsCompCode())
-                .millCd(grantCapacity.getMillCd())
-                .processCd(grantCapacity.getProcessCd())
-                .firmPsFacTp(grantCapacity.getFirmPsFacTp())
-                .planQty(grantCapacity.getPlanQty())
-                .userId(grantCapacity.getUserId())
+    public static ProcessStandardDto toDto(ProcessStandard processStandard){
+        return ProcessStandardDto.builder()
+                .id(processStandard.getId())
+                .gcsCompCode(processStandard.getGcsCompCode())
+                .millCd(processStandard.getMillCd())
+                .ordPdtItdsCdN(processStandard.getOrdPdtItdsCdN())
+                .availablePassFacCdN1(processStandard.getAvailablePassFacCdN1())
+                .availablePassFacCdN2(processStandard.getAvailablePassFacCdN2())
+                .availablePassFacCdN3(processStandard.getAvailablePassFacCdN3())
+                .availablePassFacCdN4(processStandard.getAvailablePassFacCdN4())
+                .availablePassFacCdN5(processStandard.getAvailablePassFacCdN5())
+                .availablePassFacCdN6(processStandard.getAvailablePassFacCdN6())
+                .availablePassFacCdN7(processStandard.getAvailablePassFacCdN7())
+                .availablePassFacCdN8(processStandard.getAvailablePassFacCdN8())
+                .userId(processStandard.getUserId())
                 .build();
     }
 }

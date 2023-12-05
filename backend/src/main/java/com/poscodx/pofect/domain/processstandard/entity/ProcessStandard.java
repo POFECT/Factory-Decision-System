@@ -1,4 +1,4 @@
-package com.poscodx.pofect.domain.processstandard;
+package com.poscodx.pofect.domain.processstandard.entity;
 
 import com.poscodx.pofect.domain.etc.entity.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -43,7 +43,7 @@ public class ProcessStandard extends BaseEntity {
     private String availablePassFacCdN4;  // 7.가능통과공장구분4
 
     @Column(name = "AVAILABLE_PASS_FAC_CD_N5", length = 2)
-    private String availablePassFacCdN;  // 8.가능통과공장구분5
+    private String availablePassFacCdN5;  // 8.가능통과공장구분5
 
     @Column(name = "AVAILABLE_PASS_FAC_CD_N6", length = 2)
     private String availablePassFacCdN6;  // 9.가능통과공장구분6
