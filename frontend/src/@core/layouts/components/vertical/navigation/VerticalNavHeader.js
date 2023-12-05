@@ -47,12 +47,16 @@ const VerticalNavHeader = (props) => {
         userVerticalNavMenuBranding(props)
       ) : (
         <Link href="/" passHref>
-          <img
+          {/* <img
             src="/images/logo-white.png"
             alt="My Image"
             width={200}
             height={80}
-          />
+          /> */}
+            <span style={{ fontSize: "50px" ,             fontFamily: "LINESeedKR-Bd",
+              }}>POFECT</span>
+
+
         </Link>
       )}
     </MenuHeaderWrapper>
