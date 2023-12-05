@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ConfirmFactoryStandardService {
 
-    List<ConfirmFactoryStandardResDto> getList();
-    List<Object[]> getGridData();
+//    List<ConfirmFactoryStandardResDto> getList();
+    List<ConfirmFactoryStandardResDto> getGridData();
 }

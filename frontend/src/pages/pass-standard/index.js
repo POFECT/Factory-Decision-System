@@ -2,7 +2,7 @@ import "react-datasheet-grid/dist/style.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import {
-  Paper,
+  Card,
   Grid,
   Typography,
   Button,
@@ -53,7 +53,6 @@ const passStandard = () => {
 
   const [passStandard, setPassStandard] = useState([]);
 
-  
   useEffect(() => {
     // CapacityStandardApi.getList((data) => {
     //   setCapacity(data.response);
@@ -68,27 +67,27 @@ const passStandard = () => {
   // const handleWeekSelectChange = (e) => {
   //   console.log(e);
   // };
-const columns = [
-  { field: "ordPdtItdsCdN", headerName: "|    품명    |", width: 130, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
-  { field: "availablePassFacCdN1", headerName: "|   제강   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
-  { field: "availablePassFacCdN2", headerName: "|   열연   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
-  { field: "availablePassFacCdN3", headerName: "|   열연정정   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
-  { field: "availablePassFacCdN4", headerName: "|   냉연   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
-  { field: "availablePassFacCdN5", headerName: "|   1차소둔   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
-  { field: "availablePassFacCdN6", headerName: "|   2차소둔   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
-  { field: "availablePassFacCdN7", headerName: "|   도금   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
-  { field: "availablePassFacCdN8", headerName: "|   정정   |", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  const columns = [
+  { field: "ordPdtItdsCdN", headerName: "품명", width: 130, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN1", headerName: "제강", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN2", headerName: "열연", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN3", headerName: "열연정정", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN4", headerName: "냉연", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN5", headerName: "1차소둔", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN6", headerName: "2차소둔", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN7", headerName: "도금", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
+  { field: "availablePassFacCdN8", headerName: "정정", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' } },
 ];
 
 
  return (
     <>
-
+    <div style={{ height: "600px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
-        <Paper></Paper>
-        <Typography variant="h3">경유 관리</Typography>
+        <Card></Card>
+        <Typography variant="h3">경유 공정 기준</Typography>
       </Grid>
-      <div
+    <div
         style={{
           display: "flex",
           flexDirection: "row",
@@ -97,9 +96,17 @@ const columns = [
           marginBottom: "20px",
         }}
       >
-        <div style={{ display: "flex" }}>
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="label1">구분</InputLabel>
+        <div>
+          <FormControl 
+            sx={{ m: 1 }}
+            style={{
+              paddingTop: 10,
+              paddingBottom: 20,
+              marginRight: 10,
+            }}>
+           <InputLabel id="label1" style={{ paddingTop: 10 }}>
+              품종
+            </InputLabel>
             <Select
               labelId="분류"
               id="demo-multiple-name"
@@ -114,13 +121,21 @@ const columns = [
               <MenuItem value="K">광양</MenuItem>
             </Select>
           </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="label2">품종</InputLabel>
+         <FormControl 
+            sx={{ m: 1 }}
+            style={{
+              paddingTop: 10,
+              paddingBottom: 20,
+              marginRight: 10,
+            }}>
+           <InputLabel id="label1" style={{ paddingTop: 10 }}>
+              품종
+            </InputLabel>
             <Select
               labelId="분류"
               id="demo-multiple-name"
               defaultValue="T"
-              input={<OutlinedInput label="품종" />}
+              input={<OutlinedInput label="구분" />}
               onChange={(e) => {
                 console.log(e);
               }}
@@ -130,25 +145,6 @@ const columns = [
               <MenuItem value="K">광양</MenuItem>
             </Select>
           </FormControl>
-          {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="label3">출강주</InputLabel>
-            <Select
-              labelId="출강주"
-              id="demo-multiple-name"
-              defaultValue="T"
-              input={<OutlinedInput label="출강주" />}
-              onChange={(e) => {
-                console.log(e);
-              }}
-              style={{ height: 40 }}
-            >
-                {uniqueWeekCodes.map((code) => (
-                <MenuItem key={code} value={code}>
-                  {code}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl> */}
         </div>
         <div>
 
@@ -163,26 +159,32 @@ const columns = [
           </Button>
         </div>
       </div>
-      <div style={{ display: "flex" }}>
-        <Paper
+      <div style={{ height: 400 , display: "flex" , justifyContent: "center" , marginTop: 30,}}>
+        <Card
           elevation={3}
           style={{
-            flexBasis: "calc(70% - 16px)",
-            marginRight: "16px",
-            padding: "16px",
+            flexBasis: "85",
+            marginRight: "16px ",
+            padding: "20px",
           }}
         >
           
-<DataGrid
+        <DataGrid
+          disableRowSelectionOnClick
           rows={passStandard}
           columns={columns}
+            onCellClick={(e) => {
+            console.log(e);
+          }}
           components={{
             Toolbar: GridToolbar,
             Cell: MyCell,
           }}
+                    rowHeight={40}
+
         />
-        </Paper>
-        {/* <Paper
+        </Card>
+        {/* <Card
           elevation={3}
           style={{
             flexBasis: "70%", 
@@ -191,7 +193,8 @@ const columns = [
         >
          
 
-        </Paper> */}
+        </Card> */}
+      </div>
       </div>
     </>
   );

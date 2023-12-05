@@ -9,6 +9,7 @@ import {
   FormControl,
   InputLabel,
   OutlinedInput,
+  Card,
 } from "@mui/material";
 import MainCapacityApi from "src/api/MainCapacityApi";
 import OrderDetail from "./order-detail";
@@ -470,7 +471,7 @@ const MainConfirm = () => {
           </Button>
         </div>
       </div>
-      <div style={{ height: 400 }}>
+      <Card style={{ height: 400 }}>
         <DataGrid
           experimentalFeatures={{ columnGrouping: true }}
           checkboxSelection
@@ -489,7 +490,7 @@ const MainConfirm = () => {
           }}
           rowHeight={40}
         />
-      </div>
+      </Card>
 
       {orderList.order ? <OrderDetail order={orderList.order} /> : null}
     </div>

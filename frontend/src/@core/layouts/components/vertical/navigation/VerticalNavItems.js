@@ -1,24 +1,24 @@
 // ** Custom Menu Components
-import VerticalNavLink from './VerticalNavLink'
-import VerticalNavSectionTitle from './VerticalNavSectionTitle'
+import VerticalNavLink from "./VerticalNavLink";
+import VerticalNavSectionTitle from "./VerticalNavSectionTitle";
 
-const resolveNavItemComponent = item => {
-  if (item.sectionTitle) return VerticalNavSectionTitle
+const resolveNavItemComponent = (item) => {
+  if (item.sectionTitle) return VerticalNavSectionTitle;
 
-  return VerticalNavLink
-}
+  return VerticalNavLink;
+};
 
-const VerticalNavItems = props => {
+const VerticalNavItems = (props) => {
   // ** Props
-  const { verticalNavItems } = props
+  const { verticalNavItems } = props;
 
   const RenderMenuItems = verticalNavItems?.map((item, index) => {
-    const TagName = resolveNavItemComponent(item)
+    const TagName = resolveNavItemComponent(item);
 
-    return <TagName {...props} key={index} item={item} />
-  })
+    return <TagName {...props} key={index} item={item} />;
+  });
 
-  return <>{RenderMenuItems}</>
-}
+  return <>{RenderMenuItems}</>;
+};
 
-export default VerticalNavItems
+export default VerticalNavItems;
