@@ -458,13 +458,13 @@ const MainCapacity = () => {
         </div>
         <div>
           <Button size="small" type="submit" variant="contained">
-            대상 조회
+            대상조회
           </Button>
           <Button size="small" type="submit" variant="contained">
             설계
           </Button>
           <Button size="small" type="submit" variant="contained">
-            확정 처리
+            확정처리
           </Button>
           <Button size="small" type="submit" variant="contained">
             Excel

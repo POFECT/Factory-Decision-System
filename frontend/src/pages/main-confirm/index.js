@@ -457,7 +457,7 @@ const MainConfirm = () => {
         </div>
         <div>
           <Button size="small" type="submit" variant="contained">
-            대상 조회
+            대상조회
           </Button>
           <Button size="small" type="submit" variant="contained">
             공장부여
