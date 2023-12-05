@@ -1,6 +1,6 @@
 package com.poscodx.pofect.domain.main.entity;
 
-import com.poscodx.pofect.domain.entity.BaseEntity;
+import com.poscodx.pofect.domain.etc.entity.BaseEntity;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -176,6 +176,8 @@ public class FactoryOrderInfo extends BaseEntity {
     @Column(name = "MSGCODE", length = 5)
     private String msgcode;  // 51.박판공정계획Message코드
 
+    @Column(name = "POSB_PASS_FAC_UPDATE_DATE")
+    private LocalDateTime posbPassFacUpdateDate;  // 53. 가통설계일자
 
     public static FactoryOrderInfo toEntity(FactoryOrderInfoReqDto factoryOrderInfoReqDto) {
         return FactoryOrderInfo.builder()

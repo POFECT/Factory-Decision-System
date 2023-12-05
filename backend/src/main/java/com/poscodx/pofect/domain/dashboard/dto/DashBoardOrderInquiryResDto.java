@@ -8,9 +8,14 @@ import javax.validation.constraints.Size;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DashBoardInputStatusResDto {
+public class DashBoardOrderInquiryResDto {
     @Size(max = 2)
     private String ordPdtItpCdN;  // 10.주문품종코드
 
-    private int count;
+    private int countA;
+    private int countB;
+    private int countC;
+    private int countD;
+    private int countE;
+    private int countF;
 }

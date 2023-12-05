@@ -1,6 +1,7 @@
 package com.poscodx.pofect.domain.dashboard.service;
 
 import com.poscodx.pofect.domain.dashboard.dto.DashBoardInputStatusResDto;
+import com.poscodx.pofect.domain.dashboard.dto.DashBoardOrderInquiryResDto;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 import com.poscodx.pofect.domain.main.repository.FactoryOrderInfoRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +34,25 @@ public class DashBoardServiceImpl implements DashBoardService{
             dashBoardInputStatusResDtoList.add(dto);
         }
         return dashBoardInputStatusResDtoList;
+    }
+
+    @Override
+    public List<DashBoardOrderInquiryResDto> getOrderInquiry() {
+        List<Object[]> result = factoryOrderInfoRepository.getOrderInquiry();
+        List<DashBoardOrderInquiryResDto> dashBoardOrderInquiryResDtoList = new ArrayList<>();
+
+        for (Object[] array : result) {
+            DashBoardOrderInquiryResDto dto = new DashBoardOrderInquiryResDto();
+
+                dto.setOrdPdtItpCdN((String) array[0]);
+                dto.setCountA(Integer.parseInt(array[1].toString()));
+                dto.setCountB(Integer.parseInt(array[2].toString()));
+                dto.setCountC(Integer.parseInt(array[3].toString()));
+                dto.setCountD(Integer.parseInt(array[4].toString()));
+                dto.setCountE(Integer.parseInt(array[5].toString()));
+                dto.setCountF(Integer.parseInt(array[6].toString()));
+                dashBoardOrderInquiryResDtoList.add(dto);
+        }
+        return dashBoardOrderInquiryResDtoList;
     }
 }

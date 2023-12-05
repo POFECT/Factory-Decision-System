@@ -1,10 +1,11 @@
 package com.poscodx.pofect.domain.capacity.entity;
 
-import com.poscodx.pofect.domain.entity.BaseEntity;
+import com.poscodx.pofect.domain.etc.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
