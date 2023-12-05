@@ -11,92 +11,92 @@ import GoogleCirclesExtended from "mdi-material-ui/GoogleCirclesExtended";
 
 const navigation = () => {
   return [
-    {
-      title: "Dashboard",
-      icon: HomeOutline,
-      path: "/",
-    },
-    {
-      title: "Account Settings",
-      icon: AccountCogOutline,
-      path: "/account-settings",
-    },
-    {
-      sectionTitle: "Pages",
-    },
-    {
-      title: "Login",
-      icon: Login,
-      path: "/pages/login",
-      openInNewTab: true,
-    },
-    {
-      title: "Register",
-      icon: AccountPlusOutline,
-      path: "/pages/register",
-      openInNewTab: true,
-    },
-    {
-      title: "Error",
-      icon: AlertCircleOutline,
-      path: "/pages/error",
-      openInNewTab: true,
-    },
-    {
-      sectionTitle: "User Interface",
-    },
-    {
-      title: "Typography",
-      icon: FormatLetterCase,
-      path: "/typography",
-    },
-    {
-      title: "Icons",
-      path: "/icons",
-      icon: GoogleCirclesExtended,
-    },
-    {
-      title: "Cards",
-      icon: CreditCardOutline,
-      path: "/cards",
-    },
-    {
-      title: "Tables",
-      icon: Table,
-      path: "/tables",
-    },
-    {
-      icon: CubeOutline,
-      title: "Form Layouts",
-      path: "/form-layouts",
-    },
-    {
-      sectionTitle: "Login & UserInfo",
-    },
-    {
-      title: "Login",
-      icon: Login,
-      path: "/login&userInfo/login",
-      openInNewTab: false,
-    },
-    {
-      sectionTitle: "참고 화면",
-    },
-    {
-      icon: CubeOutline,
-      title: "재원 대시보드-ref",
-      path: "/dashboard-ref",
-    },
-    {
-      icon: CubeOutline,
-      title: "필수재기준-ref",
-      path: "/essential-goods-ref",
-    },
-    {
-      icon: CubeOutline,
-      title: "투입 능력 관리-ref",
-      path: "/input-capacity-ref",
-    },
+    // {
+    //   title: "Dashboard",
+    //   icon: HomeOutline,
+    //   path: "/",
+    // },
+    // {
+    //   title: "Account Settings",
+    //   icon: AccountCogOutline,
+    //   path: "/account-settings",
+    // },
+    // {
+    //   sectionTitle: "Pages",
+    // },
+    // {
+    //   title: "Login",
+    //   icon: Login,
+    //   path: "/pages/login",
+    //   openInNewTab: true,
+    // },
+    // {
+    //   title: "Register",
+    //   icon: AccountPlusOutline,
+    //   path: "/pages/register",
+    //   openInNewTab: true,
+    // },
+    // {
+    //   title: "Error",
+    //   icon: AlertCircleOutline,
+    //   path: "/pages/error",
+    //   openInNewTab: true,
+    // },
+    // {
+    //   sectionTitle: "User Interface",
+    // },
+    // {
+    //   title: "Typography",
+    //   icon: FormatLetterCase,
+    //   path: "/typography",
+    // },
+    // {
+    //   title: "Icons",
+    //   path: "/icons",
+    //   icon: GoogleCirclesExtended,
+    // },
+    // {
+    //   title: "Cards",
+    //   icon: CreditCardOutline,
+    //   path: "/cards",
+    // },
+    // {
+    //   title: "Tables",
+    //   icon: Table,
+    //   path: "/tables",
+    // },
+    // {
+    //   icon: CubeOutline,
+    //   title: "Form Layouts",
+    //   path: "/form-layouts",
+    // },
+    // {
+    //   sectionTitle: "Login & UserInfo",
+    // },
+    // {
+    //   title: "Login",
+    //   icon: Login,
+    //   path: "/login&userInfo/login",
+    //   openInNewTab: false,
+    // },
+    // {
+    //   sectionTitle: "참고 화면",
+    // },
+    // {
+    //   icon: CubeOutline,
+    //   title: "재원 대시보드-ref",
+    //   path: "/dashboard-ref",
+    // },
+    // {
+    //   icon: CubeOutline,
+    //   title: "필수재기준-ref",
+    //   path: "/essential-goods-ref",
+    // },
+    // {
+    //   icon: CubeOutline,
+    //   title: "투입 능력 관리-ref",
+    //   path: "/input-capacity-ref",
+    // },
     {
       sectionTitle: "dev",
     },
@@ -141,16 +141,11 @@ const navigation = () => {
 
     {
       icon: CubeOutline,
-      title: "경유 기준 관리",
+      title: "경유 공정 기준",
       path: "/pass-standard",
 
     },
 
-    {
-      icon: CubeOutline,
-      title: "필수재 기준",
-      path: "/essential-goods",
-    },
 
     {
       sectionTitle: "모니터링",
