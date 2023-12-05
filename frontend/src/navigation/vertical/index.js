@@ -125,9 +125,13 @@ const navigation = () => {
     },
     {
       icon: CubeOutline,
-      title: "사이즈 기준 관리",
       title: "사이즈 기준",
       path: "/size-standard",
+    },
+    {
+      icon: CubeOutline,
+      title: "필수재 기준",
+      path: "/essential-goods",
     },
     {
       icon: CubeOutline,
