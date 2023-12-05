@@ -7,3 +7,4 @@ import java.util.List;
 public interface SizeStandardService {
     List<SizeStandardResDto> getList();
 }
+
