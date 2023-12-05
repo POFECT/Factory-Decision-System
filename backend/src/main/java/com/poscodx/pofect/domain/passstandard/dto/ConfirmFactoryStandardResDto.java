@@ -55,9 +55,9 @@ public class ConfirmFactoryStandardResDto {
 //    }
     public static ConfirmFactoryStandardResDto toDto(Object[] confirmFactoryStandard) {
     return ConfirmFactoryStandardResDto.builder()
-            .processCd(confirmFactoryStandard[0].toString())
-            .firmPsFacTp(confirmFactoryStandard[1].toString())
-            .cdExpl(confirmFactoryStandard[2].toString())
+            .cdExpl(confirmFactoryStandard[0].toString())
+            .processCd(confirmFactoryStandard[1].toString())
+            .firmPsFacTp(confirmFactoryStandard[2].toString())
             .build();
     }
 }

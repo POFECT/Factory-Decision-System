@@ -13,7 +13,7 @@ const FactoryStandardApi={
     .finally(()=>{});
   },
   getCommonList:async(callback)=>{
-    await axiosApi().get("/factory-standard/getConfirmAll")
+    await axiosApi().get("/factory-standard/getConfirmCodes")
     .then((response)=>{
       console.log(response.data);
       callback && callback(response.data);

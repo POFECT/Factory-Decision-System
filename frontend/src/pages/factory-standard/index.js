@@ -12,11 +12,12 @@ const Capacity = () => {
   const [millCd,setMillCd]=useState([]);//소구분
   
   useEffect(() => {
+    
     FactoryStandardApi.getPossibleList((data) => {
-      const dataMap = data.response.reduce((acc, { btiPosbPsFacTp, processCd, feasibleRoutingGroup }) => {
-        acc[btiPosbPsFacTp] = acc[btiPosbPsFacTp] || {};
-        acc[btiPosbPsFacTp][processCd] = feasibleRoutingGroup;
-        return acc;
+      const dataMap = data.response.reduce((list, { btiPosbPsFacTp, processCd, feasibleRoutingGroup }) => {
+        list[btiPosbPsFacTp] = list[btiPosbPsFacTp] || {};
+        list[btiPosbPsFacTp][processCd] = feasibleRoutingGroup;
+        return list;
       }, {});
 
       const transformData = Object.entries(dataMap).map(([code, processCd]) => ({
@@ -26,6 +27,24 @@ const Capacity = () => {
       }));
 
       setPossibleList(transformData);
+    }, []);
+
+    FactoryStandardApi.getCommonList((data) => {
+      console.log(data.response);
+      const dataMap = data.response.reduce((list, { cdExpl,firmPsFacTp, id,lastUpdate, processCd }) => {
+        console.log(firmPsFacTp+", "+processCd+", "+cdExpl)
+        list[firmPsFacTp] = list[firmPsFacTp] || {};
+        list[firmPsFacTp][processCd] = cdExpl;
+        return list;
+      }, {});
+
+      const transformData = Object.entries(dataMap).map(([code, processCd]) => ({
+        id: code,
+        code,
+        ...processCd,
+      }));
+
+      setConfirmList(transformData);
     }, []);
   },[]);
 
@@ -44,15 +63,15 @@ const Capacity = () => {
 
   //확통 컬럼
   const confirmColumns=[
-    { field: "code",headerName:"Code", width:120, type:'number'},
-    { field: "10", headerName: "제강", width:120, type:'number' },
-    { field: "20", headerName: "열연", width:120, editable: true,     type:'number'  },
-    { field: "30", headerName: "열연정정", width:120, type:'number'  },
-    { field: "40", headerName: "냉간압연", width:120, type:'number'  },
-    { field: "50", headerName: "1차소둔", width:120, type:'number'  },
-    { field: "60", headerName: "2차소둔", width:120, type:'number'  },
-    { field: "70", headerName: "도금", width:120, type:'number'  },
-    { field: "80", headerName: "정정", width:120, type:'number'  },
+    { field: "code",headerName:"Code", width:120, type:'txt'},
+    { field: "10", headerName: "제강", width:120, type:'txt' },
+    { field: "20", headerName: "열연", width:120, type:'txt'  },
+    { field: "30", headerName: "열연정정", width:120, type:'txt'  },
+    { field: "40", headerName: "냉간압연", width:120, type:'txt'  },
+    { field: "50", headerName: "1차소둔", width:120, type:'txt'  },
+    { field: "60", headerName: "2차소둔", width:120, type:'txt'  },
+    { field: "70", headerName: "도금", width:120, type:'txt'  },
+    { field: "80", headerName: "정정", width:120, type:'txt'  },
   ]
 
   return (
