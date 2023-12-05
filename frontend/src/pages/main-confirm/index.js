@@ -11,8 +11,7 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import MainCapacityApi from "src/api/MainCapacityApi";
-
-import CapacityDetail from "./capacity-detail";
+import OrderDetail from "./order-detail";
 
 function MyCell(props) {
   let style = {
@@ -37,7 +36,7 @@ function MyCell(props) {
   return <GridCell {...props} style={style} />;
 }
 
-const MainCapacity = () => {
+const MainConfirm = () => {
   /* 데이터 */
   const [orderList, setOrderList] = useState({
     list: [],
@@ -49,9 +48,9 @@ const MainCapacity = () => {
   useEffect(() => {
     MainCapacityApi.getOrderList((data) => {
       const list = data.response;
-      const order = list[0].id;
+      const order = list[0];
       setOrderList((prev) => {
-        return { ...prev, order, list };
+        return { ...prev, list, order };
       });
     });
     MainCapacityApi.getCodeNameList((data) => {
@@ -363,7 +362,7 @@ const MainCapacity = () => {
   return (
     <div style={{ height: "600px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
-        <Typography variant="h3">가능통과공장 설계</Typography>
+        <Typography variant="h3">공장 결정</Typography>
       </Grid>
       <div
         style={{
@@ -461,10 +460,10 @@ const MainCapacity = () => {
             대상조회
           </Button>
           <Button size="small" type="submit" variant="contained">
-            설계
+            공장부여
           </Button>
           <Button size="small" type="submit" variant="contained">
-            확정처리
+            제조투입
           </Button>
           <Button size="small" type="submit" variant="contained">
             Excel
@@ -481,7 +480,7 @@ const MainCapacity = () => {
           onCellClick={(e) => {
             setOrderList(
               Object.assign({}, orderList, {
-                order: e.row.id,
+                order: e.row,
               })
             );
           }}
@@ -492,9 +491,9 @@ const MainCapacity = () => {
         />
       </div>
 
-      {orderList.order ? <CapacityDetail orderNo={orderList.order} /> : null}
+      {orderList.order ? <OrderDetail order={orderList.order} /> : null}
     </div>
   );
 };
 
-export default MainCapacity;
+export default MainConfirm;
