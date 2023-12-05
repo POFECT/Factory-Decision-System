@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Grid, Typography } from "@mui/material";
+import { Card, Grid, Typography } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
+import FactoryDetail from "./factory-detail";
 
 const OrderDetail = (props) => {
   const [cfCode, setCfCode] = useState("");
@@ -32,7 +33,7 @@ const OrderDetail = (props) => {
           justifyContent: "space-between",
         }}
       >
-        <div>
+        <Card>
           <TableContainer style={{ marginBottom: 20 }}>
             <Table
               aria-label="custom pagination table"
@@ -91,7 +92,7 @@ const OrderDetail = (props) => {
             </Table>
           </TableContainer>
 
-          <TableContainer component={Paper}>
+          <TableContainer>
             <Table aria-label="spanning table">
               <TableHead>
                 <TableRow>
@@ -123,39 +124,10 @@ const OrderDetail = (props) => {
               </TableBody>
             </Table>
           </TableContainer>
-        </div>
-        <div>
-          <TableContainer component={Paper}>
-            <Table aria-label="spanning table">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center">구분</TableCell>
-                  <TableCell align="center">제강</TableCell>
-                  <TableCell align="center">열연</TableCell>
-                  <TableCell align="center">열연정정</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell align="center" style={{ fontWeight: "bold" }}>
-                    공장
-                  </TableCell>
-                  <TableCell align="center">ddd</TableCell>
-                  <TableCell align="center">sss</TableCell>
-                  <TableCell align="center">fff</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell align="center" style={{ fontWeight: "bold" }}>
-                    공장
-                  </TableCell>
-                  <TableCell align="center">ddd</TableCell>
-                  <TableCell align="center">sss</TableCell>
-                  <TableCell align="center">fff</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
+        </Card>
+        <Card>
+          <FactoryDetail />
+        </Card>
       </div>
     </>
   );
