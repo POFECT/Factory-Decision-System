@@ -14,7 +14,7 @@ const themeOptions = (settings) => {
   const themeConfig = {
     palette: palette(mode, themeColor),
     typography: {
-      fontFamily: ["Gowun Dodum"].join(","),
+      fontFamily: ["JalnanGothic"].join(","),
     },
     shadows: shadows(mode),
     ...spacing,
