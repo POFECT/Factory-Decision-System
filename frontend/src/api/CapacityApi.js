@@ -13,7 +13,7 @@ const CacpacityApi = {
   },
   getWeek:async(callback)=>{
     await axiosApi().
-    get("/capacitynpm/getPossibleCodes")
+    get("/capacity/week")
     .then((response)=>{
       console.log(response)
       callback && callback(response.data);
