@@ -6,5 +6,7 @@ import com.poscodx.pofect.domain.passstandard.entity.PossibleFactoryStandard;
 import java.util.List;
 
 public interface PossibleFactoryStandardService {
-    List<PossibleFactoryStandardResDto> getList();
+//    List<PossibleFactoryStandardResDto> getList();
+
+    List<PossibleFactoryStandardResDto> getGridData();
 }

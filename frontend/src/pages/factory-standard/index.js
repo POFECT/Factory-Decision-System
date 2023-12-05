@@ -2,53 +2,50 @@ import { React, useState, useEffect } from "react";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 
 import "react-datasheet-grid/dist/style.css";
-import { Grid, Typography, Button, Select, MenuItem, FormControl, InputLabel, OutlinedInput, } from "@mui/material";
+import { Grid, Typography, Button, Select, MenuItem, FormControl, InputLabel, OutlinedInput, accordionActionsClasses, } from "@mui/material";
 import FactoryStandardApi from "src/api/FactoryStandardApi";
 
-// function MyCell(props) {
-//   let style = {
-//     minWidth: props.width,
-//     maxWidth: props.width,
-//     minHeight: props.height,
-//     maxHeight: props.height === "auto" ? "none" : props.height,
-//     ...props.style,
-//   };
-//   const apiRef = useGridApiContext();
-//   const row = apiRef.current.getRow(props.rowId);
-//   if (row && row.rowSpan && row.rowSpan[props.column.field]) {
-//     const span = row.rowSpan[props.column.field];
-//     style = {
-//       ...style,
-//       minHeight: props.height * span,
-//       maxHeight: props.height * span,
-//       backgroundColor: "gray",
-//       zIndex: 1,
-//     };
-//   }
-//   return <GridCell {...props} style={style} />;
-// }
 const Capacity = () => {
   /* Data */
   const [possibleList,setPossibleList]=useState([]);//가통리스트
   const [confirmList,setConfirmList]=useState([]);//확통리스트
   const [millCd,setMillCd]=useState([]);//소구분
   
-  useEffect(()=>{
-    FactoryStandardApi.getGridList((data)=>{
-      const dataMap=data.reduce((acc,[code,processCd,feasibleRoutingGroup])=>{
-        acc[code]=acc[code]||{};
-        acc[code][processCd]=feasibleRoutingGroup;
-        return acc;
-      },{});
-      const transformData=Object.entries(dataMap).map(([code,processCd]) =>({ id:code,code,...processCd
-    }));
+  useEffect(() => {
+    
+    FactoryStandardApi.getPossibleList((data) => {
+      const dataMap = data.response.reduce((list, { btiPosbPsFacTp, processCd, feasibleRoutingGroup }) => {
+        list[btiPosbPsFacTp] = list[btiPosbPsFacTp] || {};
+        list[btiPosbPsFacTp][processCd] = feasibleRoutingGroup;
+        return list;
+      }, {});
 
-    setPossibleList(transformData);
+      const transformData = Object.entries(dataMap).map(([code, processCd]) => ({
+        id: code,
+        code,
+        ...processCd,
+      }));
 
-      if(possibleList.length!=0){
-        //setPossibleList(possibleList[0].id);
-      }
-    });
+      setPossibleList(transformData);
+    }, []);
+
+    FactoryStandardApi.getCommonList((data) => {
+      console.log(data.response);
+      const dataMap = data.response.reduce((list, { cdExpl,firmPsFacTp, id,lastUpdate, processCd }) => {
+        console.log(firmPsFacTp+", "+processCd+", "+cdExpl)
+        list[firmPsFacTp] = list[firmPsFacTp] || {};
+        list[firmPsFacTp][processCd] = cdExpl;
+        return list;
+      }, {});
+
+      const transformData = Object.entries(dataMap).map(([code, processCd]) => ({
+        id: code,
+        code,
+        ...processCd,
+      }));
+
+      setConfirmList(transformData);
+    }, []);
   },[]);
 
   //가통 컬럼
@@ -66,15 +63,15 @@ const Capacity = () => {
 
   //확통 컬럼
   const confirmColumns=[
-    { field: "code",headerName:"Code", width:120, type:'number'},
-    { field: "10", headerName: "제강", width:120, type:'number' },
-    { field: "20", headerName: "열연", width:120, editable: true,     type:'number'  },
-    { field: "30", headerName: "열연정정", width:120, type:'number'  },
-    { field: "40", headerName: "냉간압연", width:120, type:'number'  },
-    { field: "50", headerName: "1차소둔", width:120, type:'number'  },
-    { field: "60", headerName: "2차소둔", width:120, type:'number'  },
-    { field: "70", headerName: "도금", width:120, type:'number'  },
-    { field: "80", headerName: "정정", width:120, type:'number'  },
+    { field: "code",headerName:"Code", width:120, type:'txt'},
+    { field: "10", headerName: "제강", width:120, type:'txt' },
+    { field: "20", headerName: "열연", width:120, type:'txt'  },
+    { field: "30", headerName: "열연정정", width:120, type:'txt'  },
+    { field: "40", headerName: "냉간압연", width:120, type:'txt'  },
+    { field: "50", headerName: "1차소둔", width:120, type:'txt'  },
+    { field: "60", headerName: "2차소둔", width:120, type:'txt'  },
+    { field: "70", headerName: "도금", width:120, type:'txt'  },
+    { field: "80", headerName: "정정", width:120, type:'txt'  },
   ]
 
   return (

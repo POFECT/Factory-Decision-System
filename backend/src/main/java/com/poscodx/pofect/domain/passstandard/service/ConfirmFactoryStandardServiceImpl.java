@@ -13,15 +13,17 @@ import java.util.stream.Collectors;
 public class ConfirmFactoryStandardServiceImpl implements ConfirmFactoryStandardService {
 
     private final ConfirmFactoryStandardRepository confirmFactoryStandardRepository;
-    @Override
-    public List<ConfirmFactoryStandardResDto> getList() {
-        return confirmFactoryStandardRepository.findAll().stream()
-                .map(ConfirmFactoryStandardResDto::toDto)
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<ConfirmFactoryStandardResDto> getList() {
+//        return confirmFactoryStandardRepository.findAll().stream()
+//                .map(ConfirmFactoryStandardResDto::toDto)
+//                .collect(Collectors.toList());
+//    }
 
     @Override
-    public List<Object[]> getGridData() {
-        return null;
+    public List<ConfirmFactoryStandardResDto> getGridData() {
+        return confirmFactoryStandardRepository.getGridData().stream()
+                .map(ConfirmFactoryStandardResDto::toDto)
+                .collect(Collectors.toList());
     }
 }
