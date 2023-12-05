@@ -50,8 +50,8 @@ const MainCapacity = () => {
     MainCapacityApi.getOrderList((data) => {
       const list = data.response;
       const order = list[0].id;
-      setOrderList(() => {
-        list, order;
+      setOrderList((prev) => {
+        return { ...prev, order, list };
       });
     });
     MainCapacityApi.getCodeNameList((data) => {
@@ -484,7 +484,6 @@ const MainCapacity = () => {
                 order: e.row.id,
               })
             );
-            console.log(orderList.order);
           }}
           slots={{
             cell: MyCell,

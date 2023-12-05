@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import MainCapacityApi from "/src/api/MainCapacityApi";
-
-const createData = (name, calories, fat, carbs, protein) => {
-  return { name, calories, fat, carbs, protein };
-};
-
-const rows = [createData("Frozen yoghurt", 159, 6.0, 24, 4.0)];
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { ConsoleLine } from "mdi-material-ui";
 
 function MyCell(props) {
   let style = {
@@ -31,15 +32,16 @@ function MyCell(props) {
   }
   return <GridCell {...props} style={style} />;
 }
-
 const MainCapacity = (props) => {
-  const [order, setOrder] = useState([]);
+  const [order, setOrder] = useState({ id: 0 });
 
   useEffect(async () => {
     await MainCapacityApi.getOrder(props.orderNo, (data) => {
-      setOrder(data.response);
+      // console.log(data.response);
+      const order = data.response;
+      setOrder({ id: order.id });
     });
-  }, [order]);
+  }, [props.orderNo]);
 
   const rows = [
     {
@@ -108,7 +110,6 @@ const MainCapacity = (props) => {
       대기4: "대기",
     },
   ];
-
   const columns = [
     { field: "강종", headerName: "적용", width: 100 },
     { field: "제강1", headerName: "1", width: 50 },
@@ -127,7 +128,6 @@ const MainCapacity = (props) => {
     { field: "도금3", headerName: "3", width: 50 },
     { field: "정정", headerName: "1", width: 50 },
   ];
-
   const columnGroupingModel = [
     {
       groupId: "제강",
@@ -166,7 +166,6 @@ const MainCapacity = (props) => {
       children: [{ field: "정정" }],
     },
   ];
-
   return (
     <>
       <Grid item xs={12} sx={{ paddingBottom: 4 }} style={{ padding: 20 }}>
@@ -183,6 +182,58 @@ const MainCapacity = (props) => {
           margin: "auto",
         }}
       >
+        <TableContainer style={{ marginBottom: 20 }}>
+          <Table
+            aria-label="custom pagination table"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+            }}
+          >
+            <TableBody component={Paper} style={{ border: "1px solid black" }}>
+              <TableRow key="1">
+                <TableCell
+                  style={{
+                    width: 160,
+                    backgroundColor: "#8E8E8E",
+                    color: "#FFFFFF",
+                  }}
+                  align="center"
+                >
+                  설계 일시
+                </TableCell>
+                <TableCell
+                  style={{ width: 200, color: "000000" }}
+                  align="center"
+                >
+                  {order.lastUpdateDate}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+            <TableBody component={Paper} style={{ border: "1px solid black" }}>
+              <TableRow key="1">
+                <TableCell
+                  style={{
+                    width: 160,
+                    backgroundColor: "#8E8E8E",
+                    color: "#FFFFFF",
+                  }}
+                  align="center"
+                >
+                  설계 일시
+                </TableCell>
+                <TableCell
+                  style={{ width: 200, color: "000000" }}
+                  align="center"
+                >
+                  {order.lastUpdateDate}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+
         <DataGrid
           experimentalFeatures={{ columnGrouping: true }}
           disableRowSelectionOnClick
@@ -202,5 +253,4 @@ const MainCapacity = (props) => {
     </>
   );
 };
-
 export default MainCapacity;
