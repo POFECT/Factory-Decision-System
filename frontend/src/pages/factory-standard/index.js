@@ -1,292 +1,161 @@
-import { useCallback, useState, useMemo, StrictMode } from "react";
-import { DataSheetGrid, textColumn, keyColumn } from "react-datasheet-grid";
+import { React, useState, useEffect } from "react";
+import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 
 import "react-datasheet-grid/dist/style.css";
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Button, Select, MenuItem, FormControl, InputLabel, OutlinedInput, } from "@mui/material";
+import FactoryStandardApi from "src/api/FactoryStandardApi";
 
-const rowSpan = (params) => {
-  var process = params.data ? params.data.process : undefined;
-  if (process === "제강" || process === "열연" || process === "열연정정") {
-    return 2;
-  } else if (process === "냉간압연" || process === "1차소둔") {
-    return 3;
-  } else if (process === "2차소둔" || process === "도금") {
-    return 2;
-  } else {
-    return 1;
-  }
-};
+// function MyCell(props) {
+//   let style = {
+//     minWidth: props.width,
+//     maxWidth: props.width,
+//     minHeight: props.height,
+//     maxHeight: props.height === "auto" ? "none" : props.height,
+//     ...props.style,
+//   };
+//   const apiRef = useGridApiContext();
+//   const row = apiRef.current.getRow(props.rowId);
+//   if (row && row.rowSpan && row.rowSpan[props.column.field]) {
+//     const span = row.rowSpan[props.column.field];
+//     style = {
+//       ...style,
+//       minHeight: props.height * span,
+//       maxHeight: props.height * span,
+//       backgroundColor: "gray",
+//       zIndex: 1,
+//     };
+//   }
+//   return <GridCell {...props} style={style} />;
+// }
 const Capacity = () => {
-  const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
-  const gridStyle = useMemo(() => ({ height: "70%", width: "100%" }), []);
-  const [rowData, setRowData] = useState([
-    {
-      process: "제강",
-      공정: "제강",
-      공장: 1,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "",
-      공정: "제강",
-      공장: 2,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "열연",
-      공정: "열연",
-      공장: 1,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "",
-      공정: "열연",
-      공장: 2,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "열연정정",
-      공정: "열연정정",
-      공장: 1,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "",
-      공정: "열연정정",
-      공장: 2,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "냉간압연",
-      공정: "냉간압연",
-      공장: 1,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "",
-      공정: "냉간압연",
-      공장: 2,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "",
-      공정: "냉간압연",
-      공장: 3,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "1차소둔",
-      공정: "1차소둔",
-      공장: 1,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "",
-      공정: "1차소둔",
-      공장: 2,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "",
-      공정: "1차소둔",
-      공장: 3,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "2차소둔",
-      공정: "2차소둔",
-      공장: 1,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "",
-      공정: "2차소둔",
-      공장: 3,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "도금",
-      공정: "도금",
-      공장: 3,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "",
-      공정: "도금",
-      공장: 4,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-    {
-      process: "정정",
-      공정: "정정",
-      공장: 1,
-      능력량: 1020,
-      조정량: 0,
-      투입량: 20,
-      잔여량: 1000,
-    },
-  ]);
+  /* Data */
+  const [possibleList,setPossibleList]=useState([]);//가통리스트
+  const [confirmList,setConfirmList]=useState([]);//확통리스트
+  const [millCd,setMillCd]=useState([]);//소구분
+  
+  useEffect(()=>{
+    FactoryStandardApi.getGridList((data)=>{
+      const dataMap=data.reduce((acc,[code,processCd,feasibleRoutingGroup])=>{
+        acc[code]=acc[code]||{};
+        acc[code][processCd]=feasibleRoutingGroup;
+        return acc;
+      },{});
+      const transformData=Object.entries(dataMap).map(([code,processCd]) =>({ id:code,code,...processCd
+    }));
 
-  const [columnDefs, setColumnDefs] = useState([
-    {
-      field: "process",
-      width: 100,
-      rowSpan: rowSpan,
-      filter: false,
-      cellClassRules: {
-        "cell-span":
-          "value==='제강' || value==='열연' || value==='열연정전'|| value==='냉간압연'|| value==='1차소둔'|| value==='2차소둔'|| value==='도금'",
-      },
-      cellStyle: {
-        color: "white",
-        backgroundColor: "gray",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      },
-    },
-    {
-      field: "공장",
-      width: 80,
-      cellStyle: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      },
-    },
-    {
-      field: "능력량",
-      width: 120,
-      cellStyle: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      },
-    },
-    {
-      field: "조정량",
-      width: 120,
-      cellStyle: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      },
-    },
-    {
-      field: "투입량",
-      width: 120,
-      cellStyle: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      },
-    },
-    {
-      field: "잔여량",
-      width: 120,
-      cellStyle: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      },
-    },
-  ]);
+    setPossibleList(transformData);
 
-  const defaultColDef = useMemo(() => {
-    return {
-      width: 170,
-      resizable: true,
-      sortable: true,
-    };
-  }, []);
+      if(possibleList.length!=0){
+        //setPossibleList(possibleList[0].id);
+      }
+    });
+  },[]);
 
-  const [clickedCount, setClickedCount] = useState(0);
+  //가통 컬럼
+  const possibleColumns = [
+    { field: "code",headerName:"Code", width:120, type:'number',alignItems:'left'},
+    { field: "10", headerName: "제강", width:120, type:'number' },
+    { field: "20", headerName: "열연", width:120, editable: true,     type:'number'  },
+    { field: "30", headerName: "열연정정", width:120, type:'number'  },
+    { field: "40", headerName: "냉간압연", width:120, type:'number'  },
+    { field: "50", headerName: "1차소둔", width:120, type:'number'  },
+    { field: "60", headerName: "2차소둔", width:120, type:'number'  },
+    { field: "70", headerName: "도금", width:120, type:'number'  },
+    { field: "80", headerName: "정정", width:120, type:'number'  },
+  ];
 
-  // // good callback, no hook, no stale data
-  const onCellClicked = (event) => {
-    console.log(event);
-  };
-
-  // // bad callback - stale data, dependency missing,
-  // // will ALWAYS print 0
-  const onCellValueChanged = useCallback(() => {
-    console.log(`number of clicks is ${clickedCount}`);
-  }, []);
+  //확통 컬럼
+  const confirmColumns=[
+    { field: "code",headerName:"Code", width:120, type:'number'},
+    { field: "10", headerName: "제강", width:120, type:'number' },
+    { field: "20", headerName: "열연", width:120, editable: true,     type:'number'  },
+    { field: "30", headerName: "열연정정", width:120, type:'number'  },
+    { field: "40", headerName: "냉간압연", width:120, type:'number'  },
+    { field: "50", headerName: "1차소둔", width:120, type:'number'  },
+    { field: "60", headerName: "2차소둔", width:120, type:'number'  },
+    { field: "70", headerName: "도금", width:120, type:'number'  },
+    { field: "80", headerName: "정정", width:120, type:'number'  },
+  ]
 
   return (
-    <>
+    <div style={{ height: "500px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
-        <Typography variant="h3">투입 능력 관리</Typography>
+        <Typography variant="h3">가능통과공장/확정통과공장 코드</Typography>
       </Grid>
-      <StrictMode>
-        <div style={containerStyle}>
-          <div
-            style={{ height: "70%", width: "80%" }}
-            className="ag-theme-alpine"
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+      <div>
+          <FormControl
+            sx={{ m: 1 }}
+            style={{
+              paddingTop: 10,
+              paddingBottom: 20,
+              marginRight: 10,
+            }}
           >
-            <AgGridReact
-              rowData={rowData}
-              columnDefs={columnDefs}
-              onCellClicked={onCellClicked}
-              //onCellValueChanged={onCellValueChanged}
-              defaultColDef={defaultColDef}
-              suppressRowTransform={true}
-            />
-          </div>
+          <InputLabel id="label1" style={{ paddingTop: 10 }}>
+            구분
+          </InputLabel>
+          <Select
+            labelId="분류"
+            id="demo-multiple-name"
+            defaultValue="T"
+            input={<OutlinedInput label="구분" />}
+            onChange={(e) => {
+              console.log(e.target.value);
+              setMillCd(e.target.value);
+            }}
+            style={{ height: 40 }}
+          >
+            <MenuItem value="T">포항</MenuItem>
+            <MenuItem value="K">광양</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+        <div>
+          <Button size="small" type="submit" variant="contained">
+            경유공정
+          </Button>
+          <Button size="small" type="submit" variant="contained">
+            조회
+          </Button>
+          <Button size="small" type="submit" variant="contained">
+            Excel
+          </Button>
         </div>
-      </StrictMode>
-    </>
+      </div>
+      <div style={{height:400, marginBottom:20}}>
+      <DataGrid
+        //disableRowSelectionOnClick
+        rows={possibleList}
+        columns={possibleColumns}
+        onCellClick={(e) => {
+          
+          setPossibleList(e);
+          console.log('소구분 : '+e);
+        }}
+        hideFooter = {true}
+      /></div>
+      <div style={{height:300}}>
+      <DataGrid
+        //disableRowSelectionOnClick
+        rows={confirmList}
+        columns={confirmColumns}
+        onCellClick={(e) => {
+          
+          setConfirmList(e);
+          console.log('소구분 : '+e);
+        }}
+        hideFooter = {true}
+      />
+      </div>
+    </div>
   );
 };
 

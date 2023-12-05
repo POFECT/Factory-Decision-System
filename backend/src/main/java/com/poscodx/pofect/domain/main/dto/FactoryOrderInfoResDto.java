@@ -160,7 +160,9 @@ public class FactoryOrderInfoResDto {
     @Size(max = 5)
     private String msgcode;  // 51.박판공정계획Message코드
 
-    private LocalDateTime lastUpdateDate;  // 최종수정일자
+    private LocalDateTime lastUpdateDate;  // 52. 최종수정일자
+
+    private LocalDateTime posbPassFacUpdateDate;  // 53. 가통설계일자
 
     public static FactoryOrderInfoResDto toDto(FactoryOrderInfo factoryOrderInfo) {
         return FactoryOrderInfoResDto.builder()
@@ -217,6 +219,7 @@ public class FactoryOrderInfoResDto {
                 .errorMessage(factoryOrderInfo.getErrorMessage())
                 .msgcode(factoryOrderInfo.getMsgcode())
                 .lastUpdateDate(factoryOrderInfo.getLastUpdateDate())
+                .posbPassFacUpdateDate(factoryOrderInfo.getPosbPassFacUpdateDate())
                 .build();
     }
 }

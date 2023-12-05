@@ -1,7 +1,7 @@
 package com.poscodx.pofect.domain.user;
 
 
-import com.poscodx.pofect.domain.entity.BaseEntity;
+import com.poscodx.pofect.domain.etc.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
