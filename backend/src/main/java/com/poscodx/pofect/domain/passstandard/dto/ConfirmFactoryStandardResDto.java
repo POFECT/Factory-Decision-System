@@ -41,15 +41,16 @@ public class ConfirmFactoryStandardResDto {
 
     private LocalDateTime lastUpdateDate;  // 최종수정일자
 
-    public static ConfirmFactoryStandardResDto toDto(ConfirmFactoryStandard confrimFactoryStandard){
+    public static ConfirmFactoryStandardResDto toDto(ConfirmFactoryStandard confirmFactoryStandard){
         return ConfirmFactoryStandardResDto.builder()
-                .id(confrimFactoryStandard.getId())
-                .gcsCompCode(confrimFactoryStandard.getGcsCompCode())
-                .millCd(confrimFactoryStandard.getMillCd())
-                .firmPsFacTp(confrimFactoryStandard.getFirmPsFacTp())
-                .cdExpl(confrimFactoryStandard.getCdExpl())
-                .userId(confrimFactoryStandard.getUserId())
-                .lastUpdateDate(confrimFactoryStandard.getLastUpdateDate())
+                .id(confirmFactoryStandard.getId())
+                .gcsCompCode(confirmFactoryStandard.getGcsCompCode())
+                .millCd(confirmFactoryStandard.getMillCd())
+                .firmPsFacTp(confirmFactoryStandard.getFirmPsFacTp())
+                .cdExpl(confirmFactoryStandard.getCdExpl())
+                .processCd(confirmFactoryStandard.getProcessCd())
+                .userId(confirmFactoryStandard.getUserId())
+                .lastUpdateDate(confirmFactoryStandard.getLastUpdateDate())
                 .build();
     }
 }

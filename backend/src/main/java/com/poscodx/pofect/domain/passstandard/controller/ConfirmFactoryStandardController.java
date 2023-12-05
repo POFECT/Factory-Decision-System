@@ -21,11 +21,16 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class ConfirmFactoryStandardController {
-    private final ConfirmFactoryStandardService confirmStandardService;
+    private final ConfirmFactoryStandardService confirmFactoryStandardService;
     @GetMapping("/getConfirmAll")
     @ApiOperation(value = "확정통과공장코드 리스트 조회", notes = "전체 확통기준 데이터를 조회한다.")
     public ResponseEntity<ResponseDto> getConfirmStandardList() {
-        List<ConfirmFactoryStandardResDto> result = confirmStandardService.getList();
+        List<ConfirmFactoryStandardResDto> result = confirmFactoryStandardService.getList();
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+    }
+    @GetMapping("/getGridData")
+    @ApiOperation(value = "확정통과공장코드 Grid맞춤데이터 조회", notes = "전체 확통기준 데이터를 조회한다.")
+    public List<Object[]> getGridData(){
+        return confirmFactoryStandardService.getGridData();
     }
 }

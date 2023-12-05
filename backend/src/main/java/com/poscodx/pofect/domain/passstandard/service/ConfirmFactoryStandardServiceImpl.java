@@ -19,4 +19,9 @@ public class ConfirmFactoryStandardServiceImpl implements ConfirmFactoryStandard
                 .map(ConfirmFactoryStandardResDto::toDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Object[]> getGridData() {
+        return null;
+    }
 }
