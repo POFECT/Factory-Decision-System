@@ -7,7 +7,9 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
+import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
+
 import { ConsoleLine } from "mdi-material-ui";
 
 function MyCell(props) {
@@ -33,13 +35,20 @@ function MyCell(props) {
   return <GridCell {...props} style={style} />;
 }
 const MainCapacity = (props) => {
-  const [order, setOrder] = useState({ id: 0 });
+  const [order, setOrder] = useState({
+    id: 0,
+    posbPassFacUpdateDate: null,
+    posbPassFacCdN: null,
+  });
 
   useEffect(async () => {
     await MainCapacityApi.getOrder(props.orderNo, (data) => {
-      // console.log(data.response);
       const order = data.response;
-      setOrder({ id: order.id });
+      setOrder({
+        id: order.id,
+        posbPassFacUpdateDate: order.posbPassFacUpdateDate,
+        posbPassFacCdN: order.posbPassFacCdN,
+      });
     });
   }, [props.orderNo]);
 
@@ -177,7 +186,6 @@ const MainCapacity = (props) => {
       <div
         style={{
           width: "73%",
-          height: 400,
           paddingBottom: 20,
           margin: "auto",
         }}
@@ -191,7 +199,10 @@ const MainCapacity = (props) => {
               justifyContent: "space-evenly",
             }}
           >
-            <TableBody component={Paper} style={{ border: "1px solid black" }}>
+            <TableBody
+              component={Paper}
+              style={{ border: "1px solid #8E8E8E" }}
+            >
               <TableRow key="1">
                 <TableCell
                   style={{
@@ -207,11 +218,14 @@ const MainCapacity = (props) => {
                   style={{ width: 200, color: "000000" }}
                   align="center"
                 >
-                  {order.lastUpdateDate}
+                  {order.posbPassFacUpdateDate}
                 </TableCell>
               </TableRow>
             </TableBody>
-            <TableBody component={Paper} style={{ border: "1px solid black" }}>
+            <TableBody
+              component={Paper}
+              style={{ border: "1px solid #8E8E8E" }}
+            >
               <TableRow key="1">
                 <TableCell
                   style={{
@@ -221,20 +235,20 @@ const MainCapacity = (props) => {
                   }}
                   align="center"
                 >
-                  설계 일시
+                  설계 결과
                 </TableCell>
                 <TableCell
                   style={{ width: 200, color: "000000" }}
                   align="center"
                 >
-                  {order.lastUpdateDate}
+                  {order.posbPassFacCdN}
                 </TableCell>
               </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
 
-        <DataGrid
+        {/* <DataGrid
           experimentalFeatures={{ columnGrouping: true }}
           disableRowSelectionOnClick
           rows={rows}
@@ -248,7 +262,90 @@ const MainCapacity = (props) => {
           }}
           rowHeight={40}
           headerAlign={"center"}
-        />
+        /> */}
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+            <TableHead>
+              <TableRow>
+                <TableCell rowSpan={2} align="center">
+                  적용
+                </TableCell>
+                <TableCell colSpan={2} align="center">
+                  제강
+                </TableCell>
+                <TableCell colSpan={2} align="center">
+                  열연
+                </TableCell>
+                <TableCell colSpan={3} align="center">
+                  냉간압연
+                </TableCell>
+                <TableCell colSpan={3} align="center">
+                  1차소둔
+                </TableCell>
+                <TableCell colSpan={2} align="center">
+                  2차소둔
+                </TableCell>
+                <TableCell colSpan={2} align="center">
+                  도금
+                </TableCell>
+                <TableCell align="center">정정</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell align="center">1</TableCell>
+                <TableCell align="center">2</TableCell>
+                <TableCell align="center">1</TableCell>
+                <TableCell align="center">2</TableCell>
+                <TableCell align="center">1</TableCell>
+                <TableCell align="center">2</TableCell>
+                <TableCell align="center">3</TableCell>
+                <TableCell align="center">1</TableCell>
+                <TableCell align="center">2</TableCell>
+                <TableCell align="center">3</TableCell>
+                <TableCell align="center">1</TableCell>
+                <TableCell align="center">3</TableCell>
+                <TableCell align="center">2</TableCell>
+                <TableCell align="center">3</TableCell>
+                <TableCell align="center">1</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell style={{ fontWeight: "bold" }}>경유공정</TableCell>
+                <TableCell
+                  colSpan={2}
+                  align="center"
+                  style={{ background: "grey" }}
+                ></TableCell>
+                <TableCell colSpan={2} align="center"></TableCell>
+                <TableCell
+                  colSpan={3}
+                  align="center"
+                  style={{ background: "grey" }}
+                ></TableCell>
+                <TableCell colSpan={3} align="center"></TableCell>
+                <TableCell
+                  colSpan={2}
+                  align="center"
+                  style={{ background: "grey" }}
+                ></TableCell>
+                <TableCell colSpan={2} align="center"></TableCell>
+                <TableCell
+                  align="center"
+                  style={{ background: "grey" }}
+                ></TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ fontWeight: "bold" }}>필수재</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ fontWeight: "bold" }}>사이즈</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ fontWeight: "bold" }}>설계 결과</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     </>
   );
