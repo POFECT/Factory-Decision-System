@@ -1,20 +1,21 @@
 import { axiosApi } from "./api";
 
 const FactoryStandardApi={
-  getList:async(callback)=>{
-    await axiosApi().get("/factory-standard/getPossibleAll")
-    .then((response)=>{
-      callback && callback(response.data);
-    })
-    .catch((error)=>{
-      console.log(error);
-    })
-    .finally(()=>{});
-  },
-  getGridList:async(callback)=>{
+  getPossibleList:async(callback)=>{
     await axiosApi().get("/factory-standard/getPossibleCodes")
     .then((response)=>{
-      console.log(response)
+      callback && callback(response.data);
+      console.log(response.data);
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
+    .finally(()=>{});
+  },
+  getCommonList:async(callback)=>{
+    await axiosApi().get("/factory-standard/getConfirmAll")
+    .then((response)=>{
+      console.log(response.data);
       callback && callback(response.data);
     })
     .catch((error)=>{
@@ -22,17 +23,6 @@ const FactoryStandardApi={
     })
     .finally(()=>{});
   },
-  // getCellOne:async(code,processCd,callback)=>{
-  //   await axiosApi()
-  //   .get(`/factory-standard/getPossibleCodes`)
-  //   .then((response) => {
-  //     callback && callback(response.data);
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   })
-  //   .finally(() => {});
-  // }
 }
 
 export default FactoryStandardApi;

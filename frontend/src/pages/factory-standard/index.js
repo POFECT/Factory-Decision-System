@@ -2,53 +2,31 @@ import { React, useState, useEffect } from "react";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 
 import "react-datasheet-grid/dist/style.css";
-import { Grid, Typography, Button, Select, MenuItem, FormControl, InputLabel, OutlinedInput, } from "@mui/material";
+import { Grid, Typography, Button, Select, MenuItem, FormControl, InputLabel, OutlinedInput, accordionActionsClasses, } from "@mui/material";
 import FactoryStandardApi from "src/api/FactoryStandardApi";
 
-// function MyCell(props) {
-//   let style = {
-//     minWidth: props.width,
-//     maxWidth: props.width,
-//     minHeight: props.height,
-//     maxHeight: props.height === "auto" ? "none" : props.height,
-//     ...props.style,
-//   };
-//   const apiRef = useGridApiContext();
-//   const row = apiRef.current.getRow(props.rowId);
-//   if (row && row.rowSpan && row.rowSpan[props.column.field]) {
-//     const span = row.rowSpan[props.column.field];
-//     style = {
-//       ...style,
-//       minHeight: props.height * span,
-//       maxHeight: props.height * span,
-//       backgroundColor: "gray",
-//       zIndex: 1,
-//     };
-//   }
-//   return <GridCell {...props} style={style} />;
-// }
 const Capacity = () => {
   /* Data */
   const [possibleList,setPossibleList]=useState([]);//가통리스트
   const [confirmList,setConfirmList]=useState([]);//확통리스트
   const [millCd,setMillCd]=useState([]);//소구분
   
-  useEffect(()=>{
-    FactoryStandardApi.getGridList((data)=>{
-      const dataMap=data.reduce((acc,[code,processCd,feasibleRoutingGroup])=>{
-        acc[code]=acc[code]||{};
-        acc[code][processCd]=feasibleRoutingGroup;
+  useEffect(() => {
+    FactoryStandardApi.getPossibleList((data) => {
+      const dataMap = data.response.reduce((acc, { btiPosbPsFacTp, processCd, feasibleRoutingGroup }) => {
+        acc[btiPosbPsFacTp] = acc[btiPosbPsFacTp] || {};
+        acc[btiPosbPsFacTp][processCd] = feasibleRoutingGroup;
         return acc;
-      },{});
-      const transformData=Object.entries(dataMap).map(([code,processCd]) =>({ id:code,code,...processCd
-    }));
+      }, {});
 
-    setPossibleList(transformData);
+      const transformData = Object.entries(dataMap).map(([code, processCd]) => ({
+        id: code,
+        code,
+        ...processCd,
+      }));
 
-      if(possibleList.length!=0){
-        //setPossibleList(possibleList[0].id);
-      }
-    });
+      setPossibleList(transformData);
+    }, []);
   },[]);
 
   //가통 컬럼

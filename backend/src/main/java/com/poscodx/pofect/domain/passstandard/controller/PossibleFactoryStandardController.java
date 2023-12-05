@@ -24,16 +24,17 @@ import java.util.List;
 public class PossibleFactoryStandardController {
     private final PossibleFactoryStandardService possibleFactoryStandardService;
     private final PossibleFactoryStandardRepository possibleFactoryStandardRepository;
-    @GetMapping("/getPossibleAll")
-    @ApiOperation(value = "가능통과공장코드 리스트 조회", notes = "전체 가통기준 데이터를 조회한다.")
-    public ResponseEntity<ResponseDto> getPossibleStandardList() {
-        List<PossibleFactoryStandardResDto> result = possibleFactoryStandardService.getList();
-        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
-    }
+//    @GetMapping("/getPossibleAll")
+//    @ApiOperation(value = "가능통과공장코드 리스트 조회", notes = "전체 가통기준 데이터를 조회한다.")
+//    public ResponseEntity<ResponseDto> getPossibleStandardList() {
+//        List<PossibleFactoryStandardResDto> result = possibleFactoryStandardService.getList();
+//        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+//    }
 
     @GetMapping("/getPossibleCodes")
-    @ApiOperation(value = "가능통과공장코드 Grid맞춤데이터 조회", notes = "전체 가통기준 데이터를 조회한다.")
-    public List<Object[]> getGridData(){
-        return possibleFactoryStandardRepository.getGridData();
+    @ApiOperation(value = "가능통과공장코드 Grid 맞춤데이터 조회", notes = "전체 가통기준 데이터를 조회한다.")
+    public ResponseEntity<ResponseDto> getGridData(){
+        List<PossibleFactoryStandardResDto> result = possibleFactoryStandardService.getGridData();
+        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 }
