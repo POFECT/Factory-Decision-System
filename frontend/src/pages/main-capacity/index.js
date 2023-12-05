@@ -104,6 +104,12 @@ const MainCapacity = () => {
       editable: true,
     },
     {
+      field: "posbPassFacUpdateDate",
+      headerName: "가통설계일자",
+      width: 150,
+      editable: true,
+    },
+    {
       field: "cfirmPassOpCd",
       headerName: "확정통과공정코드",
       width: 150,

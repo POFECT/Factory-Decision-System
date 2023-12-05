@@ -33,13 +33,21 @@ function MyCell(props) {
   return <GridCell {...props} style={style} />;
 }
 const MainCapacity = (props) => {
-  const [order, setOrder] = useState({ id: 0 });
+  const [order, setOrder] = useState({
+    id: 0,
+    posbPassFacUpdateDate: null,
+    posbPassFacCdN: null,
+  });
 
   useEffect(async () => {
     await MainCapacityApi.getOrder(props.orderNo, (data) => {
       // console.log(data.response);
       const order = data.response;
-      setOrder({ id: order.id });
+      setOrder({
+        id: order.id,
+        posbPassFacUpdateDate: order.posbPassFacUpdateDate,
+        posbPassFacCdN: order.posbPassFacCdN,
+      });
     });
   }, [props.orderNo]);
 
@@ -169,15 +177,12 @@ const MainCapacity = (props) => {
   return (
     <>
       <Grid item xs={12} sx={{ paddingBottom: 4 }} style={{ padding: 20 }}>
-        <Typography variant="h5">
-          가능통과공장 설계 상세 내역 : {order.id}
-        </Typography>
+        <Typography variant="h5">가능통과공장 설계 상세 내역</Typography>
       </Grid>
 
       <div
         style={{
           width: "73%",
-          height: 400,
           paddingBottom: 20,
           margin: "auto",
         }}
@@ -191,7 +196,10 @@ const MainCapacity = (props) => {
               justifyContent: "space-evenly",
             }}
           >
-            <TableBody component={Paper} style={{ border: "1px solid black" }}>
+            <TableBody
+              component={Paper}
+              style={{ border: "1px solid #8E8E8E" }}
+            >
               <TableRow key="1">
                 <TableCell
                   style={{
@@ -207,11 +215,14 @@ const MainCapacity = (props) => {
                   style={{ width: 200, color: "000000" }}
                   align="center"
                 >
-                  {order.lastUpdateDate}
+                  {order.posbPassFacUpdateDate}
                 </TableCell>
               </TableRow>
             </TableBody>
-            <TableBody component={Paper} style={{ border: "1px solid black" }}>
+            <TableBody
+              component={Paper}
+              style={{ border: "1px solid #8E8E8E" }}
+            >
               <TableRow key="1">
                 <TableCell
                   style={{
@@ -221,13 +232,13 @@ const MainCapacity = (props) => {
                   }}
                   align="center"
                 >
-                  설계 일시
+                  설계 결과
                 </TableCell>
                 <TableCell
                   style={{ width: 200, color: "000000" }}
                   align="center"
                 >
-                  {order.lastUpdateDate}
+                  {order.posbPassFacCdN}
                 </TableCell>
               </TableRow>
             </TableBody>
