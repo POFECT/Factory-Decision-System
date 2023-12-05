@@ -85,17 +85,7 @@ const Standard = () => {
   }, []);
 
   const columns = [
-<<<<<<< HEAD
-    { field: "공장", width: 150, sortable: false},
-    { field: "thickMin", headerName: "min", width: 100, sortable: false, editable: true },
-    { field: "thickMax", headerName: "max", width: 100, sortable: false, editable: true },
-    { field: "widthMin", headerName: "min", width: 100, sortable: false, editable: true },
-    { field: "widthMax", headerName: "max", width: 100, sortable: false, editable: true },
-    { field: "lengthMin", headerName: "min", width: 100, sortable: false, editable: true },
-    { field: "lengthMax", headerName: "max", width: 100, sortable: false, editable: true },
-    { field: "tonMin", headerName: "min", width: 100, sortable: false, editable: true },
-    { field: "tonMax", headerName: "max", width: 100, sortable: false, editable: true },
-=======
+
     { field: "processCd", headerName: "공정", width: 180, sortable: false },
     { field: "firmPsFacTp", headerName: "공장", width: 100, sortable: false },
     { field: "orderThickMin", headerName: "min", width: 138, sortable: false, editable: true },
@@ -106,7 +96,6 @@ const Standard = () => {
     { field: "orderLengthMax", headerName: "max", width: 138, sortable: false, editable: true },
     { field: "hrRollUnitWgtMax1", headerName: "min", width: 138, sortable: false, editable: true },
     { field: "hrRollUnitWgtMax2", headerName: "max", width: 138, sortable: false, editable: true },
->>>>>>> 31efaf1aea7695d47e5b98cb16fafe702e39030d
   ];
 
   const columnGroupingModel = [
