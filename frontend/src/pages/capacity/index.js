@@ -19,7 +19,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import CapacityStandardApi from "src/api/CapacityStandardApi";
+import CapacityStandardApi from "src/api/CapacityApi";
 
 function MyCell(props) {
   let style = {

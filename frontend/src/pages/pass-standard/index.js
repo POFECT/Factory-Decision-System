@@ -18,8 +18,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-CapacityApi
-import CapacityStandardApi from "src/api/CapacityStandardApi";
+import CapacityStandardApi from "src/api/CapacityApi";
 
 function MyCell(props) {
   let style = {
@@ -202,7 +201,7 @@ const CapacityMgt = () => {
 
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Paper></Paper>
-        <Typography variant="h3">투입 능력 관리</Typography>
+        <Typography variant="h3">경유 관리</Typography>
       </Grid>
       <div
         style={{
