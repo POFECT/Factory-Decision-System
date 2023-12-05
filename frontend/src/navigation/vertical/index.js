@@ -141,16 +141,11 @@ const navigation = () => {
 
     {
       icon: CubeOutline,
-      title: "경유 기준 관리",
+      title: "경유 공정 기준",
       path: "/pass-standard",
 
     },
 
-    {
-      icon: CubeOutline,
-      title: "필수재 기준",
-      path: "/essential-goods",
-    },
 
     {
       sectionTitle: "모니터링",
