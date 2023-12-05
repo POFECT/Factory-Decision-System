@@ -108,7 +108,16 @@ const CapacityMgt = () => {
     labels: labels,
     datasets: [
       {
-        label: "품종",
+        label: "공장1",
+        data: capacity,
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+       {
+        label: "공장2",
+        data: capacity,
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      }, {
+        label: "공장3",
         data: capacity,
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
