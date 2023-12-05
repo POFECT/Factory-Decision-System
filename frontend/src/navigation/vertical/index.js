@@ -138,7 +138,7 @@ const navigation = () => {
     {
       icon: CubeOutline,
       title: "경유 기준 관리",
-      path: "/bypass",
+      path: "/pass-standard",
 
     },
 
