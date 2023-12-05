@@ -2,8 +2,7 @@ import "react-datasheet-grid/dist/style.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import {
-  Paper,
-  
+  Card,
   Grid,
   Typography,
   Button,
@@ -13,6 +12,18 @@ import {
   InputLabel,
   OutlinedInput,
 } from "@mui/material";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+} from "chart.js";
+import { Bar, Pie, Radar } from "react-chartjs-2";
+
 import {GridToolbar } from "@mui/x-data-grid";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import ModalTest from "./modal-test";
@@ -21,6 +32,17 @@ import React, {
   useState,
 } from "react";
 import CapacityStandardApi from "src/api/CapacityApi";
+
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement
+);
 
 function MyCell(props) {
   let style = {
@@ -53,13 +75,17 @@ function MyCell(props) {
 const CapacityMgt = () => {
 
   const [capacity, setCapacity] = useState([]);
+  const [inputStatusData, setInputStatusData] = useState([]);
+
+  const [labels, setLabels] = useState([]);
+
+
   const [week, setWeek] = useState([]);
 
   useEffect(() => {
-    // CapacityStandardApi.getList((data) => {
-    //   setCapacity(data.response);
-    // });
-
+    CapacityStandardApi.getList((data) => {
+      setCapacity(data.response);
+    });
         CapacityStandardApi.getWeek((data) => {
       setWeek(data.response);
     });
@@ -69,6 +95,26 @@ const CapacityMgt = () => {
   const handleWeekSelectChange = (e) => {
     console.log(e);
   };
+
+  const options = {
+    plugins: {
+      title: {
+        display: true,
+        text: "부하",
+      },
+    },
+  };
+  const inputStatusChartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: "품종",
+        data: capacity,
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+    ],
+  };
+
 
   const rows = [
     {
@@ -84,7 +130,7 @@ const CapacityMgt = () => {
     },
     {
       id: 2,
-      공장: "1",
+      공장: "2",
       공정: "제강",
       구분: "2",
       능력량: "100",
@@ -190,19 +236,19 @@ const CapacityMgt = () => {
   ];
 
   const columns = [
-    { field: "공정", headerName: "공정", width: 95, editable: true },
+    { field: "공정", headerName: "공정", width: 90, editable: true },
     { field: "공장", headerName: "공장", width: 70, editable: true },
-    { field: "능력량", headerName: "능력량", width: 95, editable: true },
-    { field: "조정량", headerName: "조정량", width: 95, editable: true },
-    { field: "투입량", headerName: "투입량", width: 95, editable: true },
-    { field: "잔여량", headerName: "잔여량", width: 95, editable: true },
+    { field: "능력량", headerName: "능력량", width: 90, editable: true },
+    { field: "조정량", headerName: "조정량", width: 90, editable: true },
+    { field: "투입량", headerName: "투입량", width: 90, editable: true },
+    { field: "잔여량", headerName: "잔여량", width: 90, editable: true },
  
   ];
- return (
-    <>
+return (
 
+  <>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
-        <Paper></Paper>
+        <Card></Card>
         <Typography variant="h3">투입 능력 관리</Typography>
       </Grid>
       <div
@@ -211,12 +257,19 @@ const CapacityMgt = () => {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: "20px", // Added margin for better spacing
         }}
       >
-        <div style={{ display: "flex" }}>
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="label1">구분</InputLabel>
+    <div>
+          <FormControl 
+            sx={{ m: 1 }}
+            style={{
+              paddingTop: 10,
+              paddingBottom: 20,
+              marginRight: 10,
+            }}>
+           <InputLabel id="label1" style={{ paddingTop: 10 }}>
+              품종
+            </InputLabel>
             <Select
               labelId="분류"
               id="demo-multiple-name"
@@ -231,28 +284,18 @@ const CapacityMgt = () => {
               <MenuItem value="K">광양</MenuItem>
             </Select>
           </FormControl>
-          {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="label2">품종</InputLabel>
-            <Select
-              labelId="분류"
-              id="demo-multiple-name"
-              defaultValue="T"
-              input={<OutlinedInput label="품종" />}
-              onChange={(e) => {
-                console.log(e);
-              }}
-              style={{ height: 40 }}
-            >
-              <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
-            </Select>
-          </FormControl> */}
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="label3">출강주</InputLabel>
+          <FormControl 
+             sx={{ m: 1 }}
+            style={{
+              paddingTop: 10,
+              paddingBottom: 20,
+              marginRight: 10,
+            }}>
+            <InputLabel id="label1" style={{ paddingTop: 10 }}>출강주</InputLabel>
             <Select
               labelId="출강주"
               id="demo-multiple-name"
-              defaultValue="T"
+              def6aultValue="T"
               input={<OutlinedInput label="출강주" />}
               onChange={(e) => {
                 console.log(e);
@@ -268,7 +311,6 @@ const CapacityMgt = () => {
           </FormControl>
         </div>
         <div>
-
           <Button size="small" type="submit" variant="contained">
             조회
           </Button>
@@ -280,8 +322,8 @@ const CapacityMgt = () => {
           </Button>
         </div>
       </div>
-      <div style={{ display: "flex" }}>
-        <Paper
+      <div style={{ display: "flex"  }}>
+        <Card
           elevation={3}
           style={{
             flexBasis: "calc(70% - 16px)",
@@ -290,15 +332,21 @@ const CapacityMgt = () => {
           }}
         >
           <DataGrid
+           disableRowSelectionOnClick
             rows={rows}
             columns={columns}
+              onCellClick={(e) => {
+            console.log(e);
+          }}
             components={{
               Toolbar: GridToolbar,
               Cell: MyCell,
             }}
+          rowHeight={40}
+
           />
-        </Paper>
-        <Paper
+        </Card>
+        <Card
           elevation={3}
           style={{
             flexBasis: "70%", 
@@ -306,8 +354,16 @@ const CapacityMgt = () => {
           }}
         >
           <Typography variant="h6">Chart</Typography>
-          <Typography>차트....................</Typography>
-<Typography variant="h6">Capacity 데이터</Typography>
+
+        <Grid item xs={4} sx={{ paddingBottom: 4 }}>
+          <Typography variant="h5">공장 부하 현황 </Typography>
+          
+            <Bar
+              options={options}
+              data={inputStatusChartData}
+              style={{ width: "100%", height: "80%" }}
+            />
+        </Grid>
 {/* <ul>
   {capacity.map((item) => (
     <li key={item.id}>
@@ -316,16 +372,17 @@ const CapacityMgt = () => {
   ))}
 </ul> */}
 
-<ul>
+{/* <ul>
   {week.map((item) => (
     <li key={item.id}>
       ID: {item.id}, WEek Code: {item.ordThwTapWekCd}, Mill Code: {item.millCd}, ...
     </li>
   ))}
-</ul>
-        </Paper>
+</ul> */}
+        </Card>
       </div>
-    </>
+
+</>
   );
 };
 
