@@ -112,7 +112,7 @@ const navigation = () => {
     {
       icon: CubeOutline,
       title: "공장 결정",
-      path: "/main",
+      path: "/main-confirm",
     },
     {
       icon: CubeOutline,

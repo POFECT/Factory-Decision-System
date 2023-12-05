@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
-import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
+import { GridCell, useGridApiContext } from "@mui/x-data-grid";
 import MainCapacityApi from "/src/api/MainCapacityApi";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,31 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
 
-import { ConsoleLine } from "mdi-material-ui";
-
-function MyCell(props) {
-  let style = {
-    minWidth: props.width,
-    maxWidth: props.width,
-    minHeight: props.height,
-    maxHeight: props.height === "auto" ? "none" : props.height,
-    ...props.style,
-  };
-  const apiRef = useGridApiContext();
-  const row = apiRef.current.getRow(props.rowId);
-  if (row && row.rowSpan && row.rowSpan[props.column.field]) {
-    const span = row.rowSpan[props.column.field];
-    style = {
-      ...style,
-      minHeight: props.height * span,
-      maxHeight: props.height * span,
-      backgroundColor: "gray",
-      zIndex: 1,
-    };
-  }
-  return <GridCell {...props} style={style} />;
-}
-const MainCapacity = (props) => {
+const CapacityDetail = (props) => {
   const [order, setOrder] = useState({
     id: 0,
     posbPassFacUpdateDate: null,
@@ -52,129 +28,6 @@ const MainCapacity = (props) => {
     });
   }, [props.orderNo]);
 
-  const rows = [
-    {
-      id: 1,
-      강종: "Hello",
-      구분: "World",
-      1: "1",
-      2: "2",
-      3: "3",
-      대기: "대기",
-      11: "11231",
-      22: "2231",
-      33: "32313",
-      대기4: "대기",
-    },
-    {
-      id: 2,
-      강종: "DataGridPro",
-      구분: "is Awesome",
-      1: "4",
-      2: "5",
-      3: "6",
-      대기: "대기",
-      11: "12",
-      22: "223",
-      33: "334",
-      대기4: "대기",
-    },
-    {
-      id: 3,
-      강종: "MUI",
-      구분: "is Amazing",
-      1: "7",
-      2: "8",
-      3: "9",
-      대기: "대기",
-      11: "111",
-      22: "222",
-      33: "333",
-      대기4: "대기",
-    },
-    {
-      id: 4,
-      강종: "DataGridPro",
-      구분: "is Awesome",
-      1: "4",
-      2: "5",
-      3: "6",
-      대기: "대기",
-      11: "12",
-      22: "223",
-      33: "334",
-      대기4: "대기",
-    },
-    {
-      id: 5,
-      강종: "DataGridPro",
-      구분: "is Awesome",
-      1: "4",
-      2: "5",
-      3: "6",
-      대기: "대기",
-      11: "12",
-      22: "223",
-      33: "334",
-      대기4: "대기",
-    },
-  ];
-  const columns = [
-    { field: "강종", headerName: "적용", width: 100 },
-    { field: "제강1", headerName: "1", width: 50 },
-    { field: "제강2", headerName: "2", width: 50 },
-    { field: "열연1", headerName: "1", width: 50 },
-    { field: "열연2", headerName: "2", width: 50 },
-    { field: "냉간압연1", headerName: "1", width: 50 },
-    { field: "냉간압연2", headerName: "2", width: 50 },
-    { field: "냉간압연3", headerName: "3", width: 50 },
-    { field: "1차소둔1", headerName: "1", width: 50 },
-    { field: "1차소둔2", headerName: "2", width: 50 },
-    { field: "1차소둔3", headerName: "3", width: 50 },
-    { field: "2차소둔1", headerName: "1", width: 50 },
-    { field: "2차소둔3", headerName: "3", width: 50 },
-    { field: "도금2", headerName: "2", width: 50 },
-    { field: "도금3", headerName: "3", width: 50 },
-    { field: "정정", headerName: "1", width: 50 },
-  ];
-  const columnGroupingModel = [
-    {
-      groupId: "제강",
-      children: [{ field: "제강1" }, { field: "제강2" }],
-    },
-    {
-      groupId: "열연",
-      children: [{ field: "열연1" }, { field: "열연2" }],
-    },
-    {
-      groupId: "냉간압연",
-      children: [
-        { field: "냉간압연1" },
-        { field: "냉간압연2" },
-        { field: "냉간압연3" },
-      ],
-    },
-    {
-      groupId: "1차소둔",
-      children: [
-        { field: "1차소둔1" },
-        { field: "1차소둔2" },
-        { field: "1차소둔3" },
-      ],
-    },
-    {
-      groupId: "2차소둔",
-      children: [{ field: "2차소둔1" }, { field: "2차소둔3" }],
-    },
-    {
-      groupId: "도금",
-      children: [{ field: "도금2" }, { field: "도금3" }],
-    },
-    {
-      groupId: "정정",
-      children: [{ field: "정정" }],
-    },
-  ];
   return (
     <>
       <Grid item xs={12} sx={{ paddingBottom: 4 }} style={{ padding: 20 }}>
@@ -276,6 +129,9 @@ const MainCapacity = (props) => {
                 <TableCell colSpan={2} align="center">
                   열연
                 </TableCell>
+                <TableCell colSpan={2} align="center">
+                  열연정정
+                </TableCell>
                 <TableCell colSpan={3} align="center">
                   냉간압연
                 </TableCell>
@@ -291,6 +147,8 @@ const MainCapacity = (props) => {
                 <TableCell align="center">정정</TableCell>
               </TableRow>
               <TableRow>
+                <TableCell align="center">1</TableCell>
+                <TableCell align="center">2</TableCell>
                 <TableCell align="center">1</TableCell>
                 <TableCell align="center">2</TableCell>
                 <TableCell align="center">1</TableCell>
@@ -318,21 +176,23 @@ const MainCapacity = (props) => {
                 ></TableCell>
                 <TableCell colSpan={2} align="center"></TableCell>
                 <TableCell
-                  colSpan={3}
+                  colSpan={2}
                   align="center"
                   style={{ background: "grey" }}
                 ></TableCell>
                 <TableCell colSpan={3} align="center"></TableCell>
                 <TableCell
-                  colSpan={2}
+                  colSpan={3}
                   align="center"
                   style={{ background: "grey" }}
                 ></TableCell>
                 <TableCell colSpan={2} align="center"></TableCell>
                 <TableCell
+                  colSpan={2}
                   align="center"
                   style={{ background: "grey" }}
                 ></TableCell>
+                <TableCell align="center"></TableCell>
               </TableRow>
               <TableRow>
                 <TableCell style={{ fontWeight: "bold" }}>필수재</TableCell>
@@ -350,4 +210,4 @@ const MainCapacity = (props) => {
     </>
   );
 };
-export default MainCapacity;
+export default CapacityDetail;
