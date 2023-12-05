@@ -17,6 +17,7 @@ public class CapacityServiceImpl implements CapacityService {
     private final GrantCapacityRepository grantCapacityRepository;
     @Override
     public List<GrantCapacityDto> getList() {
+
         return grantCapacityRepository.findAll().stream()
                 .map(GrantCapacityDto::toDto)
                 .collect(Collectors.toList());
@@ -27,4 +28,5 @@ public class CapacityServiceImpl implements CapacityService {
         return GrantCapacityDto.toDto(grantCapacityRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND)));
     }
+
 }
