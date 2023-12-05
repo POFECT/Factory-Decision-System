@@ -23,6 +23,7 @@ public class GrantCapacityDto {
 
     @NotBlank
     @Size(max = 1)
+
     private String millCd; // 2.공정계획박판Mill구분
 
     @NotBlank
