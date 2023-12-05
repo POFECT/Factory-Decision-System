@@ -1,0 +1,344 @@
+"use strict";
+import { useCallback, useRef, useState, useMemo, StrictMode, useEffect } from "react";
+
+import "react-datasheet-grid/dist/style.css";
+import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
+import { Button, Grid, Typography, FormControl, OutlinedInput } from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+import Select from "@mui/material/Select";
+import SizeStandardApi from "/src/api/SizeStandardApi";
+import SelectColumn from 'react-select';
+import makeAnimated from 'react-select/animated';
+// import { Grid, Typography } from "@mui/material";
+
+function MyCell(props) {
+    let style = {
+        minWidth: props.width,
+        maxWidth: props.width,
+        minHeight: props.height,
+        maxHeight: props.height === "auto" ? "none" : props.height,
+        ...props.style,
+    };
+    const apiRef = useGridApiContext();
+    const row = apiRef.current.getRow(props.rowId);
+    if (row && row.rowSpan && row.rowSpan[props.column.field]) {
+        const span = row.rowSpan[props.column.field];
+        style = {
+            ...style,
+            minHeight: props.height * span,
+            maxHeight: props.height * span,
+            backgroundColor: "gray",
+            color: "white",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1,
+        };
+    } else if (props.column.field === "firmPsFacTp") {
+        style = {
+            ...style,
+            alignItems: "center",
+            justifyContent: "center",
+        }
+    }
+    return <GridCell {...props} style={style} />;
+}
+
+
+const Lot = () => {
+    const [isChecked, setIsChecked] = useState(false);
+    const [rowList, setRowList] = useState([
+        {
+            id: 1,
+            강종: "A123123",
+            rowSpan: { 강종: "2" },
+            구분: "투입대기",
+            a9701: 11,
+
+
+        }, 
+        {
+            id: 2,
+            강종: "",
+            구분: "기투입",
+            a9701: 30,
+
+        }, 
+        {
+            id: 3,
+            강종: "A15703",
+            rowSpan: { 강종: "2" },
+            구분: "투입대기",
+            a1270대기: 500,
+
+
+        }, 
+        {
+            id: 4,
+            강종: "",
+            구분: "기투입",
+            a15703: 10,
+
+        }, 
+    ]);
+    const buttonList = [
+
+        {
+            value: "22",
+            label: "SLAB"
+        },
+        {
+            value: "33",
+            label: "HR"
+        },
+        {
+            value: "44",
+            label: "PO"
+        },
+        {
+            value: "55",
+            label: "FH"
+        },
+        {
+            value: "66",
+            label: "CR"
+        },
+        {
+            value: "77",
+            label: "BP"
+        },
+        {
+            value: "88",
+            label: "GI"
+        },
+        {
+            value: "99",
+            label: "CPM3/5"
+        },
+        {
+            value: "1010",
+            label: "PM1.5"
+        },
+        {
+            value: "1111",
+            label: "GA"
+        },
+        {
+            value: "1212",
+            label: "EG"
+        },
+        {
+            value: "1313",
+            label: "HG"
+        },
+        {
+            value: "1414",
+            label: "GO"
+        },
+        {
+            value: "1515",
+            label: "NO"
+        },
+
+        {
+            value: "1616",
+            label: "HGA"
+        },
+        {
+            value: "1717",
+            label: "H.PM3/5"
+        },
+        {
+            value: "1818",
+            label: "AlFe"
+        },
+
+    ];
+
+    const columns = [
+        { field: "강종", headerName: "강종", width: 150 },
+        { field: "구분", headerName: "구분", width: 150, sortable: false },
+        { field: "a9701", headerName: "1", width: 80, sortable: false },
+        { field: "a9702", headerName: "2", width: 80, sortable: false },
+        { field: "a9703", headerName: "3", width: 80, sortable: false },
+        { field: "a970대기", headerName: "대기", width: 80, sortable: false },
+        { field: "a12701", headerName: "1", width: 80, sortable: false },
+        { field: "a12702", headerName: "2", width: 80, sortable: false },
+        { field: "a12703", headerName: "3", width: 80, sortable: false },
+        { field: "a1270대기", headerName: "대기", width: 80, sortable: false },
+        { field: "a15701", headerName: "1", width: 80, sortable: false },
+        { field: "a15702", headerName: "2", width: 80, sortable: false },
+        { field: "a15703", headerName: "3", width: 80, sortable: false },
+        { field: "a1570대기", headerName: "대기", width: 80, sortable: false },
+        { field: "a15700", headerName: "1", width: 80, sortable: false },
+        { field: "a157001", headerName: "2", width: 80, sortable: false },
+        { field: "a157002", headerName: "3", width: 80, sortable: false },
+        { field: "a15700대기", headerName: "대기", width: 80, sortable: false },
+        { field: "합계", headerName: "1", width: 80, sortable: false },
+        { field: "합계2", headerName: "2", width: 80, sortable: false },
+        { field: "합계3", headerName: "3", width: 80, sortable: false },
+        { field: "합계대기", headerName: "대기", width: 80, sortable: false },
+    ];
+
+    const columnGroupingModel = [
+        {
+            groupId: "970",
+            children: [{ field: "9701" }, { field: "9702" }, { field: "9703" }, { field: "970대기" }],
+        },
+        {
+            groupId: "1270",
+            children: [{ field: "12701" }, { field: "12702" }, { field: "12703" }, { field: "1270대기" }],
+        },
+        {
+            groupId: "1570",
+            children: [{ field: "15701" }, { field: "15702" }, { field: "15703" }, { field: "1570대기" }],
+        },
+        {
+            groupId: "1570~",
+            children: [{ field: "15700" }, { field: "157001" }, { field: "157002" }, { field: "15700대기" }],
+        },
+        {
+            groupId: "합계량",
+            children: [{ field: "합계" }, { field: "합계2" }, { field: "합계3" }, { field: "합계대기" }],
+        },
+    ];
+
+    const customStyles = {
+        control: (provided, state) => ({
+            ...provided,
+            width: 777,
+        }),
+    };
+
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked);
+    };
+
+    return (
+        <div style={{ height: "600px", width: "100%" }}>
+            <Grid item xs={12} sx={{ paddingBottom: 4 }}>
+                <Typography variant="h3">출강Lot</Typography>
+            </Grid>
+
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                }}
+            >
+                <div>
+                    <FormControl
+                        sx={{ m: 1 }}
+                        style={{
+                            paddingTop: 10,
+                            paddingBottom: 10,
+                            marginRight: 10,
+                        }}
+                    >
+                        <InputLabel id="label1" style={{ paddingTop: 13, marginBottom: 100 }}>
+                            출강주
+                        </InputLabel>
+                        <Select
+                            labelId="분류"
+                            id="demo-multiple-name"
+                            defaultValue="test"
+                            input={<OutlinedInput label="구분" />}
+                            onChange={(e) => {
+                                console.log(e);
+                            }}
+                            style={{ height: 40, width: 130 }}
+                        >
+                            <MenuItem value="test">20231121</MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
+                <div>
+                    <Button size="small" type="submit" variant="contained">
+                        조회
+                    </Button>
+                    <Button size="small" type="submit" variant="contained">
+                        Excel
+                    </Button>
+                </div>
+            </div>
+
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                }}
+            >
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{ paddingRight: 10 }}>진도</div>
+                    <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={handleCheckboxChange}
+                    />
+                    <label htmlFor="myCheckbox" style={{ fontSize: '16px', paddingLeft: 5 }}>
+                        기투입 포함
+                    </label>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 30 }}>
+                    강종별
+                    <Button style={{ width: 20, fontSize: 15 }} size="small" type="submit" variant="contained">
+                        전체
+                    </Button>
+                    <Button style={{ width: 25, fontSize: 15 }} size="small" type="submit" variant="contained">
+                        극저
+                    </Button>
+                    <Button style={{ width: 80, fontSize: 15 }} size="small" type="submit" variant="contained">
+                        중저탄
+                    </Button>
+                    <Button style={{ width: 80, fontSize: 15 }} size="small" type="submit" variant="contained">
+                        중고탄
+                    </Button>
+                </div>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 30, paddingRight: 10 }}>품종</div>
+                    <div>
+                        <SelectColumn
+                            styles={customStyles}
+                            closeMenuOnSelect={false}
+                            components={makeAnimated}
+                            isMulti
+                            options={buttonList}
+                        />
+                    </div>
+
+                </div>
+            </div>
+            <div style={{ height: "83%", width: "100%", marginTop: 10 }}>
+                <DataGrid
+                    experimentalFeatures={{ columnGrouping: true }}
+                    // checkboxSelection
+                    disableRowSelectionOnClick
+                    rows={rowList}
+                    columns={columns}
+                    onCellClick={(e) => {
+                        console.log(e);
+                    }}
+                    columnGroupingModel={columnGroupingModel}
+                    slots={{
+                        cell: MyCell,
+                    }}
+                />
+            </div>
+        </div>
+    );
+};
+
+export default Lot;

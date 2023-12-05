@@ -117,12 +117,6 @@ const Standard = () => {
     },
   ];
 
-  const hideVerticalScrollbar = {
-    "& .MuiDataGrid-virtualScroller": {
-      overflowY: "hidden",
-    },
-  };
-
   return (
     <div style={{ height: "600px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
@@ -179,7 +173,7 @@ const Standard = () => {
         </div>
       </div>
 
-      <div style={{ height: "83%", width: "100%", ...hideVerticalScrollbar }}>
+      <div style={{ height: "83%", width: "100%" }}>
         <DataGrid
           experimentalFeatures={{ columnGrouping: true }}
           // checkboxSelection
