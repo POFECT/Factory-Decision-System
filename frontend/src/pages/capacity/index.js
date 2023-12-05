@@ -1,5 +1,4 @@
 import "react-datasheet-grid/dist/style.css";
-
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import {
@@ -12,11 +11,15 @@ import {
   FormControl,
   InputLabel,
   OutlinedInput,
-} from "@mui/material";import {GridToolbar } from "@mui/x-data-grid";
-
+} from "@mui/material";
+import {GridToolbar } from "@mui/x-data-grid";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import ModalTest from "./modal-test";
-
+import React, {
+  useEffect,
+  useState,
+} from "react";
+import CapacityStandardApi from "src/api/CapacityStandardApi";
 
 function MyCell(props) {
   let style = {
@@ -47,6 +50,25 @@ function MyCell(props) {
 }
 
 const CapacityMgt = () => {
+
+  const [capacity, setCapacity] = useState([]);
+  const [week, setWeek] = useState([]);
+
+  useEffect(() => {
+    // CapacityStandardApi.getList((data) => {
+    //   setCapacity(data.response);
+    // });
+
+        CapacityStandardApi.getWeek((data) => {
+      setWeek(data.response);
+    });
+  }, []);
+
+    const uniqueWeekCodes = [...new Set(week.map((item) => item.ordThwTapWekCd))];
+  const handleWeekSelectChange = (e) => {
+    console.log(e);
+  };
+
   const rows = [
     {
       id: 1,
@@ -177,7 +199,9 @@ const CapacityMgt = () => {
   ];
  return (
     <>
+
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
+        <Paper></Paper>
         <Typography variant="h3">투입 능력 관리</Typography>
       </Grid>
       <div
@@ -221,7 +245,7 @@ const CapacityMgt = () => {
               <MenuItem value="T">포항</MenuItem>
               <MenuItem value="K">광양</MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
           <FormControl sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="label3">출강주</InputLabel>
             <Select
@@ -234,10 +258,13 @@ const CapacityMgt = () => {
               }}
               style={{ height: 40 }}
             >
-              <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
+                {uniqueWeekCodes.map((code) => (
+                <MenuItem key={code} value={code}>
+                  {code}
+                </MenuItem>
+              ))}
             </Select>
-          </FormControl> */}
+          </FormControl>
         </div>
         <div>
 
@@ -273,12 +300,28 @@ const CapacityMgt = () => {
         <Paper
           elevation={3}
           style={{
-            flexBasis: "100%", 
+            flexBasis: "70%", 
             padding: "16px",
           }}
         >
           <Typography variant="h6">Chart</Typography>
           <Typography>차트....................</Typography>
+<Typography variant="h6">Capacity 데이터</Typography>
+{/* <ul>
+  {capacity.map((item) => (
+    <li key={item.id}>
+      ID: {item.id}, Company Code: {item.gcsCompCode}, Mill Code: {item.millCd}, ...
+    </li>
+  ))}
+</ul> */}
+
+<ul>
+  {week.map((item) => (
+    <li key={item.id}>
+      ID: {item.id}, WEek Code: {item.ordThwTapWekCd}, Mill Code: {item.millCd}, ...
+    </li>
+  ))}
+</ul>
         </Paper>
       </div>
     </>
