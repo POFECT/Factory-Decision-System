@@ -1,12 +1,10 @@
 package com.poscodx.pofect.domain.passstandard.service;
 
 import com.poscodx.pofect.domain.passstandard.dto.PossibleFactoryStandardResDto;
-import com.poscodx.pofect.domain.passstandard.entity.PossibleFactoryStandard;
 import com.poscodx.pofect.domain.passstandard.repository.PossibleFactoryStandardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
