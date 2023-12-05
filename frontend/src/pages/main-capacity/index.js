@@ -9,8 +9,10 @@ import {
   FormControl,
   InputLabel,
   OutlinedInput,
+  Paper,
 } from "@mui/material";
 import MainCapacityApi from "src/api/MainCapacityApi";
+import Card from "@mui/material/Card";
 
 import CapacityDetail from "./capacity-detail";
 
@@ -361,7 +363,7 @@ const MainCapacity = () => {
   ];
 
   return (
-    <div style={{ height: "600px", width: "100%" }}>
+    <>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Typography variant="h3">가능통과공장 설계</Typography>
       </Grid>
@@ -471,7 +473,7 @@ const MainCapacity = () => {
           </Button>
         </div>
       </div>
-      <div style={{ height: 400 }}>
+      <Card style={{ height: 400 }}>
         <DataGrid
           experimentalFeatures={{ columnGrouping: true }}
           checkboxSelection
@@ -490,10 +492,10 @@ const MainCapacity = () => {
           }}
           rowHeight={40}
         />
-      </div>
+      </Card>
 
       {orderList.order ? <CapacityDetail orderNo={orderList.order} /> : null}
-    </div>
+    </>
   );
 };
 
