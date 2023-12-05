@@ -59,14 +59,14 @@ const Lot = () => {
             a9701: 11,
 
 
-        }, 
+        },
         {
             id: 2,
             강종: "",
             구분: "기투입",
             a9701: 30,
 
-        }, 
+        },
         {
             id: 3,
             강종: "A15703",
@@ -75,14 +75,14 @@ const Lot = () => {
             a1270대기: 500,
 
 
-        }, 
+        },
         {
             id: 4,
             강종: "",
             구분: "기투입",
             a15703: 10,
 
-        }, 
+        },
     ]);
     const buttonList = [
 
@@ -186,19 +186,19 @@ const Lot = () => {
     const columnGroupingModel = [
         {
             groupId: "970",
-            children: [{ field: "9701" }, { field: "9702" }, { field: "9703" }, { field: "970대기" }],
+            children: [{ field: "a9701" }, { field: "a9702" }, { field: "a9703" }, { field: "a970대기" }],
         },
         {
             groupId: "1270",
-            children: [{ field: "12701" }, { field: "12702" }, { field: "12703" }, { field: "1270대기" }],
+            children: [{ field: "a12701" }, { field: "a12702" }, { field: "a12703" }, { field: "a1270대기" }],
         },
         {
             groupId: "1570",
-            children: [{ field: "15701" }, { field: "15702" }, { field: "15703" }, { field: "1570대기" }],
+            children: [{ field: "a15701" }, { field: "a15702" }, { field: "a15703" }, { field: "a1570대기" }],
         },
         {
             groupId: "1570~",
-            children: [{ field: "15700" }, { field: "157001" }, { field: "157002" }, { field: "15700대기" }],
+            children: [{ field: "a15700" }, { field: "a157001" }, { field: "a157002" }, { field: "a15700대기" }],
         },
         {
             groupId: "합계량",
@@ -209,7 +209,7 @@ const Lot = () => {
     const customStyles = {
         control: (provided, state) => ({
             ...provided,
-            width: 777,
+            width: 360,
         }),
     };
 
@@ -271,7 +271,7 @@ const Lot = () => {
                 style={{
                     display: "flex",
                     flexDirection: "row",
-                    justifyContent: "flex-start",
+                    justifyContent: "space-between",
                     alignItems: "center",
                 }}
             >
@@ -285,23 +285,24 @@ const Lot = () => {
                     <label htmlFor="myCheckbox" style={{ fontSize: '16px', paddingLeft: 5 }}>
                         기투입 포함
                     </label>
+                    <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 30 }}>
+                        강종별
+                        <Button style={{ width: 20, fontSize: 15 }} size="small" type="submit" variant="contained">
+                            전체
+                        </Button>
+                        <Button style={{ width: 25, fontSize: 15 }} size="small" type="submit" variant="contained">
+                            극저
+                        </Button>
+                        <Button style={{ width: 80, fontSize: 15 }} size="small" type="submit" variant="contained">
+                            중저탄
+                        </Button>
+                        <Button style={{ width: 80, fontSize: 15 }} size="small" type="submit" variant="contained">
+                            중고탄
+                        </Button>
+                    </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 30 }}>
-                    강종별
-                    <Button style={{ width: 20, fontSize: 15 }} size="small" type="submit" variant="contained">
-                        전체
-                    </Button>
-                    <Button style={{ width: 25, fontSize: 15 }} size="small" type="submit" variant="contained">
-                        극저
-                    </Button>
-                    <Button style={{ width: 80, fontSize: 15 }} size="small" type="submit" variant="contained">
-                        중저탄
-                    </Button>
-                    <Button style={{ width: 80, fontSize: 15 }} size="small" type="submit" variant="contained">
-                        중고탄
-                    </Button>
-                </div>
+
                 <div style={{
                     display: "flex",
                     flexDirection: "row",
