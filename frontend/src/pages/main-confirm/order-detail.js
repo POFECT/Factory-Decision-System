@@ -11,11 +11,19 @@ import FactoryDetail from "./factory-detail";
 
 const OrderDetail = (props) => {
   const [cfCode, setCfCode] = useState("");
+  const [factory, setFactory] = useState({ no: 10, name: "제강" });
 
   useEffect(async () => {
     console.log(props.order);
     setCfCode(props.order.cfirmPassOpCd.padEnd(8, " "));
   }, [props.order]);
+
+  const changeFactory = (e) => {
+    console.log(e);
+    setFactory((prev) => {
+      return { ...prev, no: e.target.accessKey, name: e.target.innerText };
+    });
+  };
 
   return (
     <>
@@ -96,15 +104,130 @@ const OrderDetail = (props) => {
             <Table aria-label="spanning table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">구분</TableCell>
-                  <TableCell align="center">제강</TableCell>
-                  <TableCell align="center">열연</TableCell>
-                  <TableCell align="center">열연정정</TableCell>
-                  <TableCell align="center">냉간압연</TableCell>
-                  <TableCell align="center">1차소둔</TableCell>
-                  <TableCell align="center">2차소둔</TableCell>
-                  <TableCell align="center">도금</TableCell>
-                  <TableCell align="center">정정</TableCell>
+                  <TableCell align="center" style={{ fontSize: 17 }}>
+                    구분
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    accessKey={10}
+                    onClick={(e) => {
+                      changeFactory(e);
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      fontSize: 17,
+                      padding: 0,
+                    }}
+                  >
+                    제강
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    accessKey={20}
+                    onClick={(e) => {
+                      changeFactory(e);
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      fontSize: 17,
+                      padding: 0,
+                    }}
+                  >
+                    열연
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    accessKey={30}
+                    onClick={(e) => {
+                      changeFactory(e);
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      fontSize: 17,
+                      padding: 0,
+                    }}
+                  >
+                    열연정정
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    accessKey={40}
+                    onClick={(e) => {
+                      changeFactory(e);
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      fontSize: 17,
+                      padding: 0,
+                    }}
+                  >
+                    냉간압연
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    accessKey={50}
+                    onClick={(e) => {
+                      changeFactory(e);
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      fontSize: 17,
+                      padding: 0,
+                    }}
+                  >
+                    1차소둔
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    accessKey={60}
+                    onClick={(e) => {
+                      changeFactory(e);
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      fontSize: 17,
+                      padding: 0,
+                    }}
+                  >
+                    2차소둔
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    accessKey={70}
+                    onClick={(e) => {
+                      changeFactory(e);
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      fontSize: 17,
+                      padding: 0,
+                    }}
+                  >
+                    도금
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    accessKey={80}
+                    onClick={(e) => {
+                      changeFactory(e);
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      fontSize: 17,
+
+                      padding: 0,
+                    }}
+                  >
+                    정정
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -126,7 +249,7 @@ const OrderDetail = (props) => {
           </TableContainer>
         </Card>
         <Card>
-          <FactoryDetail />
+          <FactoryDetail factory={factory} />
         </Card>
       </div>
     </>
