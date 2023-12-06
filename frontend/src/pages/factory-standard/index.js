@@ -5,11 +5,14 @@ import "react-datasheet-grid/dist/style.css";
 import { Grid, Typography, Button, Select, MenuItem, FormControl, InputLabel, OutlinedInput, accordionActionsClasses, } from "@mui/material";
 import FactoryStandardApi from "src/api/FactoryStandardApi";
 
+
 const Capacity = () => {
   /* Data */
   const [possibleList,setPossibleList]=useState([]);//가통리스트
   const [confirmList,setConfirmList]=useState([]);//확통리스트
   const [millCd,setMillCd]=useState([]);//소구분
+  const [isPossibleModal, setPossibleModalOpen] = useState(false); //가통모달오픈
+
   
   useEffect(() => {
     
@@ -30,9 +33,8 @@ const Capacity = () => {
     }, []);
 
     FactoryStandardApi.getCommonList((data) => {
-      console.log(data.response);
       const dataMap = data.response.reduce((list, { cdExpl,firmPsFacTp, id,lastUpdate, processCd }) => {
-        console.log(firmPsFacTp+", "+processCd+", "+cdExpl)
+        //console.log(firmPsFacTp+", "+processCd+", "+cdExpl)
         list[firmPsFacTp] = list[firmPsFacTp] || {};
         list[firmPsFacTp][processCd] = cdExpl;
         return list;
@@ -47,7 +49,6 @@ const Capacity = () => {
       setConfirmList(transformData);
     }, []);
   },[]);
-
   //가통 컬럼
   const possibleColumns = [
     { field: "code",headerName:"Code", width:120, type:'number',alignItems:'left'},
@@ -73,6 +74,17 @@ const Capacity = () => {
     { field: "70", headerName: "도금", width:120, type:'txt'  },
     { field: "80", headerName: "정정", width:120, type:'txt'  },
   ]
+
+  const openPossibleOne=(e)=>{
+    const processCd = e.currentTarget.dataset.field;
+    const code = e.currentTarget.parentElement.dataset.id;
+    const feasibleRoutingGroup = e.currentTarget.querySelector('.MuiDataGrid-cellContent').title;
+    const feasibleArray=String(feasibleRoutingGroup).split('').map(Number);
+    console.log('code = '+code+", processCd = "+processCd)
+    console.log('feasibleArray = '+feasibleArray)
+
+    setPossibleModalOpen(true);
+  }
 
   return (
     <div style={{ height: "500px", width: "100%" }}>
@@ -132,24 +144,33 @@ const Capacity = () => {
         //disableRowSelectionOnClick
         rows={possibleList}
         columns={possibleColumns}
-        onCellClick={(e) => {
-          
-          setPossibleList(e);
-          console.log('소구분 : '+e);
+        slotProps={{
+          cell:{
+            onClick:openPossibleOne,
+          },
         }}
+        // onCellClick={(e) => {
+          
+        //   setPossibleList(e);
+        //   console.log('소구분 : '+e);
+        // }}
         hideFooter = {true}
-      /></div>
+      />
+                {isPossibleModal && <ModalTest onClose={() => setPossibleModalOpen(false)}/>}
+
+      </div>
       <div style={{height:300}}>
       <DataGrid
         //disableRowSelectionOnClick
         rows={confirmList}
         columns={confirmColumns}
-        onCellClick={(e) => {
-          
-          setConfirmList(e);
-          console.log('소구분 : '+e);
-        }}
-        hideFooter = {true}
+        // onCellClick={(e) => {
+
+        //   //setConfirmList(e);
+        //   //console.log('소구분 : '+e.target.value.data-field);
+        // }}
+        hideFooter = {true}last
+
       />
       </div>
     </div>
