@@ -57,4 +57,9 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         return true;
     }
 
+    @Override
+    public List<String> getOrderWeeks(FactoryOrderInfoReqDto.SearchDto dto) {
+        return factoryOrderInfoRepository.getWeeks(dto);
+    }
+
 }

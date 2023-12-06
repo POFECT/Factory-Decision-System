@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @Setter
@@ -11,6 +12,15 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FactoryOrderInfoReqDto {
+
+    /* 출강주 조회 request data */
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class SearchDto {
+        private String osMainStatusCd;  // 주문진도상태구분
+        private List<String> faConfirmFlag;  // 공장결정확정구분
+    }
 
     @NotBlank
     @Size(max = 2)

@@ -178,7 +178,6 @@ const Standard = () => {
       <div style={{ height: "83%", width: "100%" }}>
         <DataGrid
           experimentalFeatures={{ columnGrouping: true }}
-          // checkboxSelection
           disableRowSelectionOnClick
           rows={sizeStandardList}
           columns={columns}

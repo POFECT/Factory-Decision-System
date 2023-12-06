@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(value = "Main API", tags = {"공장결정Main / 에러주문 "})
@@ -27,6 +28,13 @@ public class MainController {
     @ApiOperation(value = "주문 데이터 리스트 조회", notes = "전체 주문 데이터를 조회한다.")
     public ResponseEntity<ResponseDto> getOrderList() {
         List<FactoryOrderInfoResDto> result = factoryOrderInfoService.getList();
+        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+    }
+
+    @GetMapping("/week")
+    @ApiOperation(value = "출강주 조회", notes = "조건에 맞는 출강주 리스트를 조회한다.")
+    public ResponseEntity<ResponseDto> getOrderWeekList(@Valid FactoryOrderInfoReqDto.SearchDto dto) {
+        List<String> result = factoryOrderInfoService.getOrderWeeks(dto);
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 
