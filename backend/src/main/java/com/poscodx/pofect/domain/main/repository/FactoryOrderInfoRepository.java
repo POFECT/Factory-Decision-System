@@ -1,6 +1,7 @@
 package com.poscodx.pofect.domain.main.repository;
 
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
+import com.poscodx.pofect.domain.main.repository.querydsl.FactoryOrderInfoCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FactoryOrderInfoRepository extends JpaRepository<FactoryOrderInfo, Long> {
+public interface FactoryOrderInfoRepository extends JpaRepository<FactoryOrderInfo, Long>, FactoryOrderInfoCustom {
     @Query("SELECT f.ordPdtItpCdN, COUNT(f) FROM FactoryOrderInfo f GROUP BY f.ordPdtItpCdN")
     List<Object[]> getInputStatus();
 
