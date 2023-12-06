@@ -3,16 +3,22 @@ import { useCallback, useRef, useState, useMemo, StrictMode, useEffect } from "r
 
 import "react-datasheet-grid/dist/style.css";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
-import { Button, Grid, Typography, FormControl, OutlinedInput } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
+import {
+    Grid,
+    Typography,
+    Button,
+    Select,
+    MenuItem,
+    FormControl,
+    InputLabel,
+    OutlinedInput,
+    Box,
+    Card,
+  } from "@mui/material";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import Select from "@mui/material/Select";
-import SizeStandardApi from "/src/api/SizeStandardApi";
 import SelectColumn from 'react-select';
 import makeAnimated from 'react-select/animated';
-import Card from "@mui/material/Card";
 // import { Grid, Typography } from "@mui/material";
 
 function MyCell(props) {
@@ -246,50 +252,50 @@ const Lot = () => {
     ];
 
     const columns = [
-        { field: "강종", headerName: "강종", width: 150 },
-        { field: "구분", headerName: "구분", width: 150, sortable: false },
-        { field: "a9701", headerName: "1", width: 80, sortable: false },
-        { field: "a9702", headerName: "2", width: 80, sortable: false },
-        { field: "a9703", headerName: "3", width: 80, sortable: false },
-        { field: "a970대기", headerName: "대기", width: 80, sortable: false },
-        { field: "a12701", headerName: "1", width: 80, sortable: false },
-        { field: "a12702", headerName: "2", width: 80, sortable: false },
-        { field: "a12703", headerName: "3", width: 80, sortable: false },
-        { field: "a1270대기", headerName: "대기", width: 80, sortable: false },
-        { field: "a15701", headerName: "1", width: 80, sortable: false },
-        { field: "a15702", headerName: "2", width: 80, sortable: false },
-        { field: "a15703", headerName: "3", width: 80, sortable: false },
-        { field: "a1570대기", headerName: "대기", width: 80, sortable: false },
-        { field: "a15700", headerName: "1", width: 80, sortable: false },
-        { field: "a157001", headerName: "2", width: 80, sortable: false },
-        { field: "a157002", headerName: "3", width: 80, sortable: false },
-        { field: "a15700대기", headerName: "대기", width: 80, sortable: false },
-        { field: "합계", headerName: "1", width: 80, sortable: false },
-        { field: "합계2", headerName: "2", width: 80, sortable: false },
-        { field: "합계3", headerName: "3", width: 80, sortable: false },
-        { field: "합계대기", headerName: "대기", width: 80, sortable: false },
+        { field: "강종", headerName: "강종", width: 150, headerAlign: "center"},
+        { field: "구분", headerName: "구분", width: 150, sortable: false, headerAlign: "center"},
+        { field: "a9701", headerName: "1", width: 80, sortable: false, headerAlign: "center"},
+        { field: "a9702", headerName: "2", width: 80, sortable: false, headerAlign: "center"},  
+        { field: "a970대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center"},
+        { field: "a12701", headerName: "1", width: 80, sortable: false, headerAlign: "center"},
+        { field: "a12702", headerName: "2", width: 80, sortable: false, headerAlign: "center"},
+        { field: "a1270대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center"},
+        { field: "a15701", headerName: "1", width: 80, sortable: false, headerAlign: "center"},
+        { field: "a15702", headerName: "2", width: 80, sortable: false, headerAlign: "center"},
+        { field: "a1570대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center"},
+        { field: "a15700", headerName: "1", width: 80, sortable: false, headerAlign: "center"},
+        { field: "a157001", headerName: "2", width: 80, sortable: false, headerAlign: "center"},
+        { field: "a15700대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center"},
+        { field: "합계", headerName: "1", width: 80, sortable: false, headerAlign: "center"},
+        { field: "합계2", headerName: "2", width: 80, sortable: false, headerAlign: "center"},
+        { field: "합계대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center"},
     ];
 
     const columnGroupingModel = [
         {
             groupId: "970",
             children: [{ field: "a9701" }, { field: "a9702" }, { field: "a9703" }, { field: "a970대기" }],
+            headerAlign: "center"
         },
         {
             groupId: "1270",
             children: [{ field: "a12701" }, { field: "a12702" }, { field: "a12703" }, { field: "a1270대기" }],
+            headerAlign: "center"
         },
         {
             groupId: "1570",
             children: [{ field: "a15701" }, { field: "a15702" }, { field: "a15703" }, { field: "a1570대기" }],
+            headerAlign: "center"
         },
         {
             groupId: "1570~",
             children: [{ field: "a15700" }, { field: "a157001" }, { field: "a157002" }, { field: "a15700대기" }],
+            headerAlign: "center"
         },
         {
             groupId: "합계량",
             children: [{ field: "합계" }, { field: "합계2" }, { field: "합계3" }, { field: "합계대기" }],
+            headerAlign: "center"
         },
     ];
 
@@ -409,22 +415,47 @@ const Lot = () => {
                 </div>
             </div>
 
-            <Card style={{ height: 600 }}>
-                <DataGrid
-                    experimentalFeatures={{ columnGrouping: true }}
-                    disableRowSelectionOnClick
-                    rows={rowList}
-                    columns={columns}
-                    onCellClick={(e) => {
-                        console.log(e);
-                    }}
-                    columnGroupingModel={columnGroupingModel}
-                    slots={{
-                        cell: MyCell,
-                    }}
-                />
-            </Card>
+            <Card>
+                <Box
+                    sx={{
+                        height: 600,
+                        width: "100%",
+                        "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
+                        {
+                            borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                            borderRight: "1px solid rgba(225, 234, 239, 1)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        },
+                        "& .custom-data-grid .MuiDataGrid-columnHeader": {
+                            cursor: "pointer",
+                            borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                            borderRight: "1px solid rgba(225, 234, 239, 1)",
+                        },
+                        "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
+                        {
+                            borderBottomStyle: "none",
 
+                        },
+                    }}
+                >
+                    <DataGrid
+                        className="custom-data-grid"
+                        experimentalFeatures={{ columnGrouping: true }}
+                        disableRowSelectionOnClick
+                        rows={rowList}
+                        columns={columns}
+                        onCellClick={(e) => {
+                            console.log(e);
+                        }}
+                        columnGroupingModel={columnGroupingModel}
+                        slots={{
+                            cell: MyCell,
+                        }}
+                    />
+                </Box>
+            </Card>
         </div>
     );
 };
