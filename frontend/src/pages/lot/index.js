@@ -1,5 +1,12 @@
 "use strict";
-import { useCallback, useRef, useState, useMemo, StrictMode, useEffect } from "react";
+import {
+    useCallback,
+    useRef,
+    useState,
+    useMemo,
+    StrictMode,
+    useEffect,
+} from "react";
 
 import "react-datasheet-grid/dist/style.css";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
@@ -14,7 +21,7 @@ import {
     OutlinedInput,
     Box,
     Card,
-  } from "@mui/material";
+} from "@mui/material";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import SelectColumn from 'react-select';
@@ -54,15 +61,12 @@ const Lot = () => {
             rowSpan: { 강종: "2" },
             구분: "투입대기",
             a9701: 11,
-
-
         },
         {
             id: 2,
             강종: "A123123",
             구분: "기투입",
             a9701: 30,
-
         },
         {
             id: 3,
@@ -70,15 +74,12 @@ const Lot = () => {
             rowSpan: { 강종: "2" },
             구분: "투입대기",
             a1270대기: 500,
-
-
         },
         {
             id: 4,
             강종: "A15703",
             구분: "기투입",
             a15703: 10,
-
         },
         {
             id: 5,
@@ -86,9 +87,8 @@ const Lot = () => {
             rowSpan: { 강종: "2" },
             구분: "투입대기",
             a1270대기: 500,
-
-
         },
+
         {
             id: 6,
             강종: "A4567",
@@ -252,23 +252,23 @@ const Lot = () => {
     ];
 
     const columns = [
-        { field: "강종", headerName: "강종", width: 150, headerAlign: "center"},
-        { field: "구분", headerName: "구분", width: 150, sortable: false, headerAlign: "center"},
-        { field: "a9701", headerName: "1", width: 80, sortable: false, headerAlign: "center"},
-        { field: "a9702", headerName: "2", width: 80, sortable: false, headerAlign: "center"},  
-        { field: "a970대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center"},
-        { field: "a12701", headerName: "1", width: 80, sortable: false, headerAlign: "center"},
-        { field: "a12702", headerName: "2", width: 80, sortable: false, headerAlign: "center"},
-        { field: "a1270대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center"},
-        { field: "a15701", headerName: "1", width: 80, sortable: false, headerAlign: "center"},
-        { field: "a15702", headerName: "2", width: 80, sortable: false, headerAlign: "center"},
-        { field: "a1570대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center"},
-        { field: "a15700", headerName: "1", width: 80, sortable: false, headerAlign: "center"},
-        { field: "a157001", headerName: "2", width: 80, sortable: false, headerAlign: "center"},
-        { field: "a15700대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center"},
-        { field: "합계", headerName: "1", width: 80, sortable: false, headerAlign: "center"},
-        { field: "합계2", headerName: "2", width: 80, sortable: false, headerAlign: "center"},
-        { field: "합계대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center"},
+        { field: "강종", headerName: "강종", width: 150, headerAlign: "center" },
+        { field: "구분", headerName: "구분", width: 150, sortable: false, headerAlign: "center" },
+        { field: "a9701", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
+        { field: "a9702", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
+        { field: "a970대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
+        { field: "a12701", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
+        { field: "a12702", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
+        { field: "a1270대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
+        { field: "a15701", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
+        { field: "a15702", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
+        { field: "a1570대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
+        { field: "a15700", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
+        { field: "a157001", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
+        { field: "a15700대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
+        { field: "합계", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
+        { field: "합계2", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
+        { field: "합계대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
     ];
 
     const columnGroupingModel = [
@@ -333,7 +333,10 @@ const Lot = () => {
                             marginRight: 10,
                         }}
                     >
-                        <InputLabel id="label1" style={{ paddingTop: 13, marginBottom: 100 }}>
+                        <InputLabel
+                            id="label1"
+                            style={{ paddingTop: 13, marginBottom: 100 }}
+                        >
                             출강주
                         </InputLabel>
                         <Select
@@ -368,18 +371,26 @@ const Lot = () => {
                     alignItems: "center",
                 }}
             >
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                     <div style={{ paddingRight: 10 }}>진도</div>
                     <input
                         type="checkbox"
                         checked={isChecked}
                         onChange={handleCheckboxChange}
                     />
-                    <label style={{ fontSize: '16px', paddingLeft: 5 }}>
+                    <label style={{ fontSize: "16px", paddingLeft: 5 }}>
                         기투입 포함
                     </label>
-                    <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 30, paddingRight: 10 }}>
-                        강종별</div>
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            paddingLeft: 30,
+                            paddingRight: 10,
+                        }}
+                    >
+                        강종별
+                    </div>
                     <div>
                         <SelectColumn
                             styles={customStyles}
@@ -388,20 +399,28 @@ const Lot = () => {
                             isMulti
                             options={testList}
                         />
-
                     </div>
-
                 </div>
 
-
-                <div style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                    paddingBlock: "15px"
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 30, paddingRight: 10 }}>품종</div>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        alignItems: "center",
+                        paddingBlock: "15px",
+                    }}
+                >
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            paddingLeft: 30,
+                            paddingRight: 10,
+                        }}
+                    >
+                        품종
+                    </div>
                     <div>
                         <SelectColumn
                             styles={customStyles}
@@ -411,10 +430,8 @@ const Lot = () => {
                             options={buttonList}
                         />
                     </div>
-
                 </div>
             </div>
-
             <Card>
                 <Box
                     sx={{
@@ -456,6 +473,7 @@ const Lot = () => {
                     />
                 </Box>
             </Card>
+
         </div>
     );
 };
