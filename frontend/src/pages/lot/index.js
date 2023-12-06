@@ -12,6 +12,7 @@ import Select from "@mui/material/Select";
 import SizeStandardApi from "/src/api/SizeStandardApi";
 import SelectColumn from 'react-select';
 import makeAnimated from 'react-select/animated';
+import Card from "@mui/material/Card";
 // import { Grid, Typography } from "@mui/material";
 
 function MyCell(props) {
@@ -32,21 +33,11 @@ function MyCell(props) {
             maxHeight: props.height * span,
             backgroundColor: "gray",
             color: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
             zIndex: 1,
         };
-    } else if (props.column.field === "firmPsFacTp") {
-        style = {
-            ...style,
-            alignItems: "center",
-            justifyContent: "center",
-        }
     }
     return <GridCell {...props} style={style} />;
 }
-
 
 const Lot = () => {
     const [isChecked, setIsChecked] = useState(false);
@@ -59,14 +50,14 @@ const Lot = () => {
             a9701: 11,
 
 
-        }, 
+        },
         {
             id: 2,
-            강종: "",
+            강종: "A123123",
             구분: "기투입",
             a9701: 30,
 
-        }, 
+        },
         {
             id: 3,
             강종: "A15703",
@@ -75,14 +66,94 @@ const Lot = () => {
             a1270대기: 500,
 
 
-        }, 
+        },
         {
             id: 4,
-            강종: "",
+            강종: "A15703",
             구분: "기투입",
             a15703: 10,
 
-        }, 
+        },
+        {
+            id: 5,
+            강종: "A4567",
+            rowSpan: { 강종: "2" },
+            구분: "투입대기",
+            a1270대기: 500,
+
+
+        },
+        {
+            id: 6,
+            강종: "A4567",
+            구분: "기투입",
+            a15703: 10,
+
+        },
+        {
+            id: 7,
+            강종: "A6545",
+            rowSpan: { 강종: "2" },
+            구분: "투입대기",
+            a1270대기: 500,
+
+
+        },
+        {
+            id: 8,
+            강종: "A6545",
+            구분: "기투입",
+            a15703: 10,
+
+        },
+        {
+            id: 9,
+            강종: "A25456",
+            rowSpan: { 강종: "2" },
+            구분: "투입대기",
+            a1270대기: 500,
+
+
+        },
+        {
+            id: 10,
+            강종: "A25456",
+            구분: "기투입",
+            a15703: 10,
+
+        },
+        {
+            id: 11,
+            강종: "A43125",
+            rowSpan: { 강종: "2" },
+            구분: "투입대기",
+            a1270대기: 500,
+
+
+        },
+        {
+            id: 12,
+            강종: "A43125",
+            구분: "기투입",
+            a15703: 10,
+
+        },
+        {
+            id: 13,
+            강종: "A15703",
+            rowSpan: { 강종: "2" },
+            구분: "투입대기",
+            a1270대기: 500,
+
+
+        },
+        {
+            id: 14,
+            강종: "A15703",
+            구분: "기투입",
+            a15703: 10,
+
+        },
     ]);
     const buttonList = [
 
@@ -158,6 +229,22 @@ const Lot = () => {
 
     ];
 
+    const testList = [
+
+        {
+            value: "777",
+            label: "극저"
+        },
+        {
+            value: "888",
+            label: "중저탄"
+        },
+        {
+            value: "999",
+            label: "중고탄"
+        },
+    ];
+
     const columns = [
         { field: "강종", headerName: "강종", width: 150 },
         { field: "구분", headerName: "구분", width: 150, sortable: false },
@@ -186,19 +273,19 @@ const Lot = () => {
     const columnGroupingModel = [
         {
             groupId: "970",
-            children: [{ field: "9701" }, { field: "9702" }, { field: "9703" }, { field: "970대기" }],
+            children: [{ field: "a9701" }, { field: "a9702" }, { field: "a9703" }, { field: "a970대기" }],
         },
         {
             groupId: "1270",
-            children: [{ field: "12701" }, { field: "12702" }, { field: "12703" }, { field: "1270대기" }],
+            children: [{ field: "a12701" }, { field: "a12702" }, { field: "a12703" }, { field: "a1270대기" }],
         },
         {
             groupId: "1570",
-            children: [{ field: "15701" }, { field: "15702" }, { field: "15703" }, { field: "1570대기" }],
+            children: [{ field: "a15701" }, { field: "a15702" }, { field: "a15703" }, { field: "a1570대기" }],
         },
         {
             groupId: "1570~",
-            children: [{ field: "15700" }, { field: "157001" }, { field: "157002" }, { field: "15700대기" }],
+            children: [{ field: "a15700" }, { field: "a157001" }, { field: "a157002" }, { field: "a15700대기" }],
         },
         {
             groupId: "합계량",
@@ -209,7 +296,7 @@ const Lot = () => {
     const customStyles = {
         control: (provided, state) => ({
             ...provided,
-            width: 777,
+            width: 380,
         }),
     };
 
@@ -251,7 +338,7 @@ const Lot = () => {
                             onChange={(e) => {
                                 console.log(e);
                             }}
-                            style={{ height: 40, width: 130 }}
+                            style={{ height: 40, width: 150 }}
                         >
                             <MenuItem value="test">20231121</MenuItem>
                         </Select>
@@ -271,7 +358,7 @@ const Lot = () => {
                 style={{
                     display: "flex",
                     flexDirection: "row",
-                    justifyContent: "flex-start",
+                    justifyContent: "space-between",
                     alignItems: "center",
                 }}
             >
@@ -282,31 +369,31 @@ const Lot = () => {
                         checked={isChecked}
                         onChange={handleCheckboxChange}
                     />
-                    <label htmlFor="myCheckbox" style={{ fontSize: '16px', paddingLeft: 5 }}>
+                    <label style={{ fontSize: '16px', paddingLeft: 5 }}>
                         기투입 포함
                     </label>
+                    <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 30, paddingRight: 10 }}>
+                        강종별</div>
+                    <div>
+                        <SelectColumn
+                            styles={customStyles}
+                            closeMenuOnSelect={false}
+                            components={makeAnimated}
+                            isMulti
+                            options={testList}
+                        />
+
+                    </div>
+
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 30 }}>
-                    강종별
-                    <Button style={{ width: 20, fontSize: 15 }} size="small" type="submit" variant="contained">
-                        전체
-                    </Button>
-                    <Button style={{ width: 25, fontSize: 15 }} size="small" type="submit" variant="contained">
-                        극저
-                    </Button>
-                    <Button style={{ width: 80, fontSize: 15 }} size="small" type="submit" variant="contained">
-                        중저탄
-                    </Button>
-                    <Button style={{ width: 80, fontSize: 15 }} size="small" type="submit" variant="contained">
-                        중고탄
-                    </Button>
-                </div>
+
                 <div style={{
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "flex-end",
                     alignItems: "center",
+                    paddingBlock: "15px"
                 }}>
                     <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 30, paddingRight: 10 }}>품종</div>
                     <div>
@@ -321,10 +408,10 @@ const Lot = () => {
 
                 </div>
             </div>
-            <div style={{ height: "83%", width: "100%", marginTop: 10 }}>
+
+            <Card style={{ height: 600 }}>
                 <DataGrid
                     experimentalFeatures={{ columnGrouping: true }}
-                    // checkboxSelection
                     disableRowSelectionOnClick
                     rows={rowList}
                     columns={columns}
@@ -336,7 +423,8 @@ const Lot = () => {
                         cell: MyCell,
                     }}
                 />
-            </div>
+            </Card>
+
         </div>
     );
 };
