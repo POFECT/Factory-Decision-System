@@ -12,31 +12,32 @@ import Select from "@mui/material/Select";
 import SizeStandardApi from "/src/api/SizeStandardApi";
 import SelectColumn from 'react-select';
 import makeAnimated from 'react-select/animated';
+import Card from "@mui/material/Card";
 // import { Grid, Typography } from "@mui/material";
 
 function MyCell(props) {
     let style = {
-      minWidth: props.width,
-      maxWidth: props.width,
-      minHeight: props.height,
-      maxHeight: props.height === "auto" ? "none" : props.height,
-      ...props.style,
+        minWidth: props.width,
+        maxWidth: props.width,
+        minHeight: props.height,
+        maxHeight: props.height === "auto" ? "none" : props.height,
+        ...props.style,
     };
     const apiRef = useGridApiContext();
     const row = apiRef.current.getRow(props.rowId);
     if (row && row.rowSpan && row.rowSpan[props.column.field]) {
-      const span = row.rowSpan[props.column.field];
-      style = {
-        ...style,
-        minHeight: props.height * span,
-        maxHeight: props.height * span,
-        backgroundColor: "gray",
-        color: "white",
-        zIndex: 1,
-      };
+        const span = row.rowSpan[props.column.field];
+        style = {
+            ...style,
+            minHeight: props.height * span,
+            maxHeight: props.height * span,
+            backgroundColor: "gray",
+            color: "white",
+            zIndex: 1,
+        };
     }
     return <GridCell {...props} style={style} />;
-  }
+}
 
 const Lot = () => {
     const [isChecked, setIsChecked] = useState(false);
@@ -228,6 +229,22 @@ const Lot = () => {
 
     ];
 
+    const testList = [
+
+        {
+            value: "777",
+            label: "극저"
+        },
+        {
+            value: "888",
+            label: "중저탄"
+        },
+        {
+            value: "999",
+            label: "중고탄"
+        },
+    ];
+
     const columns = [
         { field: "강종", headerName: "강종", width: 150 },
         { field: "구분", headerName: "구분", width: 150, sortable: false },
@@ -355,21 +372,19 @@ const Lot = () => {
                     <label style={{ fontSize: '16px', paddingLeft: 5 }}>
                         기투입 포함
                     </label>
-                    <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 30 }}>
-                        강종별
-                        <Button style={{ width: 20, fontSize: 15 }} size="small" type="submit" variant="contained">
-                            전체
-                        </Button>
-                        <Button style={{ width: 25, fontSize: 15 }} size="small" type="submit" variant="contained">
-                            극저
-                        </Button>
-                        <Button style={{ width: 80, fontSize: 15 }} size="small" type="submit" variant="contained">
-                            중저탄
-                        </Button>
-                        <Button style={{ width: 80, fontSize: 15 }} size="small" type="submit" variant="contained">
-                            중고탄
-                        </Button>
+                    <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 30, paddingRight: 10 }}>
+                        강종별</div>
+                    <div>
+                        <SelectColumn
+                            styles={customStyles}
+                            closeMenuOnSelect={false}
+                            components={makeAnimated}
+                            isMulti
+                            options={testList}
+                        />
+
                     </div>
+
                 </div>
 
 
@@ -378,6 +393,7 @@ const Lot = () => {
                     flexDirection: "row",
                     justifyContent: "flex-end",
                     alignItems: "center",
+                    paddingBlock: "15px"
                 }}>
                     <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 30, paddingRight: 10 }}>품종</div>
                     <div>
@@ -392,21 +408,23 @@ const Lot = () => {
 
                 </div>
             </div>
-            <div style={{ height: "83%", width: "100%", marginTop: 10 }}>
+
+            <Card style={{ height: 600 }}>
                 <DataGrid
                     experimentalFeatures={{ columnGrouping: true }}
                     disableRowSelectionOnClick
                     rows={rowList}
                     columns={columns}
                     onCellClick={(e) => {
-                      console.log(e);
+                        console.log(e);
                     }}
                     columnGroupingModel={columnGroupingModel}
                     slots={{
-                      cell: MyCell,
+                        cell: MyCell,
                     }}
                 />
-            </div>
+            </Card>
+
         </div>
     );
 };
