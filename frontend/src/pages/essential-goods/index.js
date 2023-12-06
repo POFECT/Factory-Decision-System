@@ -9,8 +9,9 @@ import {
   FormControl,
   InputLabel,
   OutlinedInput,
+  Box,
+  Card,
 } from "@mui/material";
-import MainCapacityApi from "src/api/MainCapacityApi";
 import EssentialStandardApi from "src/api/EssentialStandardApi";
 function MyCell(props) {
   let style = {
@@ -47,195 +48,230 @@ const EssentialGoods = () => {
   const columns = [
     {
       field: "gcsCompCode",
-      headerName: "연결결산법인구분",
+      headerName: "법인",
       width: 150,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "millCd",
       headerName: "공정계획박판Mill구분",
       width: 180,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "pplMmatCngMgtNo",
       headerName: "공정계획필수재변경관리번호",
       width: 150,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "seq",
       headerName: "일련번호",
       width: 150,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "processCd",
       headerName: "박판공정계획공정구분",
       width: 150,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "pplMmatCancAppDt",
       headerName: "공정계획필수해지적용일자",
       width: 150,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "pplBasPsgnoTp",
       headerName: "공정계획기준가등록구분",
       width: 150,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "btiPosbPsFacTp",
       headerName: "박판가능통과공장구분",
       width: 100,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "conCalcOpxa01",
-      headerName: "계산식연산자명1",
+      headerName: "연산자",
       width: 100,
       editable: true,
+      headerAlign: "center",
+      headerAlign: "center",
     },
     {
       field: "ordPdtItpCdN",
       headerName: "주문품종코드",
       width: 180,
       editable: true,
+      headerAlign: "center",
+      headerAlign: "center",
     },
     {
       field: "conCalcOpxa02",
-      headerName: "계산식연산자명2",
+      headerName: "연산자",
       width: 100,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "ordPdtItdsCdN",
       headerName: "주문품명코드",
       width: 320,
       editable: true,
+      headerAlign: "center",
+      headerAlign: "center",
     },
     {
       field: "conCalcOpxa03",
-      headerName: "계산식연산자명3",
+      headerName: "연산자",
       width: 130,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "customerNumber",
       headerName: "고객사코드",
       width: 100,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "conCalcOpxa04",
-      headerName: "계산식연산자명4",
+      headerName: "연산자",
       width: 100,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "orderUsageCdN",
       headerName: "주문용도지정코드",
       width: 100,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "conCalcOpxa05",
-      headerName: "계산식연산자명5",
+      headerName: "연산자",
       width: 100,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "orderThickMin",
       headerName: "제품주문두께1",
       width: 100,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "orderThickMax",
       headerName: "제품주문두께2",
       width: 130,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "conCalcOpxa06",
-      headerName: "계산식연산자명6",
+      headerName: "연산자",
       width: 130,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "orderWidthMin",
       headerName: "제품주문폭1",
       width: 130,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "orderWidthMax",
       headerName: "제품주문폭2",
       width: 150,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "conCalcOpxa07",
-      headerName: "계산식연산자명7",
+      headerName: "연산자",
       width: 100,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "specificationCdN",
       headerName: "제품규격약호",
       width: 150,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "conCalcOpxa08",
-      headerName: "계산식연산자명8",
+      headerName: "연산자",
       width: 150,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "salCusLocLClsTp",
       headerName: "판매고객사지역대분류구분",
       width: 150,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "conCalcOpxa09",
-      headerName: "계산식연산자명9",
+      headerName: "연산자",
       width: 150,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "smSteelGrdN",
       headerName: "출강목표번호",
       width: 100,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "conCalcOpxa10",
-      headerName: "계산식연산자명10",
+      headerName: "연산자",
       width: 180,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "postTreatmentMethodCdN",
       headerName: "제품후처리방법지정코드",
       width: 180,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "userId",
       headerName: "박판공정계획사용자ID",
       width: 150,
       editable: true,
+      headerAlign: "center",
     },
     {
       field: "lastUpdateDate",
       headerName: "최종수정일자",
       width: 150,
       editable: true,
+      headerAlign: "center",
     },
   ];
 
@@ -243,18 +279,22 @@ const EssentialGoods = () => {
     {
       groupId: "품종",
       children: [{ field: "conCalcOpxa01" }, { field: "ordPdtItpCdN" }],
+      headerAlign: "center",
     },
     {
       groupId: "품명",
       children: [{ field: "conCalcOpxa02" }, { field: "ordPdtItdsCdN" }],
+      headerAlign: "center",
     },
     {
       groupId: "고객사코드",
       children: [{ field: "conCalcOpxa03" }, { field: "customerNumber" }],
+      headerAlign: "center",
     },
     {
       groupId: "주문용도지정코드",
       children: [{ field: "conCalcOpxa04" }, { field: "orderUsageCdN" }],
+      headerAlign: "center",
     },
     {
       groupId: "제품두께",
@@ -263,6 +303,7 @@ const EssentialGoods = () => {
         { field: "orderThickMin" },
         { field: "orderThickMax" },
       ],
+      headerAlign: "center",
     },
     {
       groupId: "제품주문폭",
@@ -271,18 +312,22 @@ const EssentialGoods = () => {
         { field: "orderWidthMin" },
         { field: "orderWidthMax" },
       ],
+      headerAlign: "center",
     },
     {
       groupId: "제품규격약호",
       children: [{ field: "conCalcOpxa07" }, { field: "specificationCdN" }],
+      headerAlign: "center",
     },
     {
       groupId: "판매고객사지역대분류구분",
       children: [{ field: "conCalcOpxa08" }, { field: "salCusLocLClsTp" }],
+      headerAlign: "center",
     },
     {
       groupId: "출강목표번호",
       children: [{ field: "conCalcOpxa09" }, { field: "smSteelGrdN" }],
+      headerAlign: "center",
     },
     {
       groupId: "주문제품후처리방법지정코드",
@@ -290,6 +335,7 @@ const EssentialGoods = () => {
         { field: "conCalcOpxa10" },
         { field: "postTreatmentMethodCdN" },
       ],
+      headerAlign: "center",
     },
   ];
 
@@ -382,23 +428,48 @@ const EssentialGoods = () => {
           </Button>
         </div>
       </div>
-      <div style={{ height: 600 }}>
-        <DataGrid
-          experimentalFeatures={{ columnGrouping: true }}
-          checkboxSelection
-          disableRowSelectionOnClick
-          rows={essentialList}
-          columns={columns}
-          columnGroupingModel={columnGroupingModel}
-          onCellClick={(e) => {
-            console.log(e);
+      <Card>
+        <Box
+          sx={{
+            height: 600,
+            width: "100%",
+            "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
+              {
+                borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                borderRight: "1px solid rgba(225, 234, 239, 1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              },
+            "& .custom-data-grid .MuiDataGrid-columnHeader": {
+              cursor: "pointer",
+              borderBottom: "1px solid rgba(225, 234, 239, 1)",
+              borderRight: "1px solid rgba(225, 234, 239, 1)",
+            },
+            "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
+              {
+                borderBottomStyle: "none",
+              },
           }}
-          slots={{
-            cell: MyCell,
-          }}
-          rowHeight={40}
-        />
-      </div>
+        >
+          <DataGrid
+            className="custom-data-grid"
+            experimentalFeatures={{ columnGrouping: true }}
+            checkboxSelection
+            disableRowSelectionOnClick
+            rows={essentialList}
+            columns={columns}
+            columnGroupingModel={columnGroupingModel}
+            onCellClick={(e) => {
+              console.log(e);
+            }}
+            slots={{
+              cell: MyCell,
+            }}
+            rowHeight={40}
+          />
+        </Box>
+      </Card>
     </div>
   );
 };
