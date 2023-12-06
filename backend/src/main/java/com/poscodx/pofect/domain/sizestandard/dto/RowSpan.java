@@ -9,5 +9,5 @@ import lombok.*;
 @NoArgsConstructor
 public class RowSpan {
 
-    private Integer count;
+    private Integer processCd;
 }
