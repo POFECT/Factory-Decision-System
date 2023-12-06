@@ -14,4 +14,6 @@ public interface FactoryOrderInfoService {
     FactoryOrderInfo insertOrder(FactoryOrderInfoReqDto factoryOrderInfoDto);
 
     Boolean deleteOrder(Long id);
+
+    List<String> getOrderWeeks(FactoryOrderInfoReqDto.SearchDto dto);
 }
