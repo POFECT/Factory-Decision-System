@@ -3,12 +3,20 @@ import { useCallback, useState, useMemo, StrictMode, useEffect } from "react";
 
 import "react-datasheet-grid/dist/style.css";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
-import { Button, Grid, Typography, FormControl, OutlinedInput } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
+import {
+  Grid,
+  Typography,
+  Button,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  Box,
+  Card,
+} from "@mui/material";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import Select from "@mui/material/Select";
 import SizeStandardApi from "/src/api/SizeStandardApi";
 // import { Grid, Typography } from "@mui/material";
 
@@ -86,16 +94,44 @@ const Standard = () => {
 
   const columns = [
 
-    { field: "processCd", headerName: "공정", width: 180, sortable: false },
-    { field: "firmPsFacTp", headerName: "공장", width: 100, sortable: false },
-    { field: "orderThickMin", headerName: "min", width: 138, sortable: false, editable: true },
-    { field: "orderThickMax", headerName: "max", width: 138, sortable: false, editable: true },
-    { field: "orderWidthMin", headerName: "min", width: 138, sortable: false, editable: true },
-    { field: "orderWidthMax", headerName: "max", width: 138, sortable: false, editable: true },
-    { field: "orderLengthMin", headerName: "min", width: 138, sortable: false, editable: true },
-    { field: "orderLengthMax", headerName: "max", width: 138, sortable: false, editable: true },
-    { field: "hrRollUnitWgtMax1", headerName: "min", width: 138, sortable: false, editable: true },
-    { field: "hrRollUnitWgtMax2", headerName: "max", width: 138, sortable: false, editable: true },
+    {
+      field: "processCd", headerName: "공정", width: 180, sortable: false, headerAlign: "center",
+    },
+    {
+      field: "firmPsFacTp", headerName: "공장", width: 100, sortable: false, headerAlign: "center",
+    },
+    {
+      field: "orderThickMin", headerName: "min", width: 138, sortable: false, headerAlign: "center",
+      editable: true
+    },
+    {
+      field: "orderThickMax", headerName: "max", width: 138, sortable: false, headerAlign: "center",
+      editable: true
+    },
+    {
+      field: "orderWidthMin", headerName: "min", width: 138, sortable: false, headerAlign: "center",
+      editable: true
+    },
+    {
+      field: "orderWidthMax", headerName: "max", width: 138, sortable: false, headerAlign: "center",
+      editable: true
+    },
+    {
+      field: "orderLengthMin", headerName: "min", width: 138, sortable: false, headerAlign: "center",
+      editable: true
+    },
+    {
+      field: "orderLengthMax", headerName: "max", width: 138, sortable: false, headerAlign: "center",
+      editable: true
+    },
+    {
+      field: "hrRollUnitWgtMax1", headerName: "min", width: 138, sortable: false, headerAlign: "center",
+      editable: true
+    },
+    {
+      field: "hrRollUnitWgtMax2", headerName: "max", width: 138, sortable: false, headerAlign: "center",
+      editable: true
+    },
   ];
 
   console.log(sizeStandardList);
@@ -104,18 +140,22 @@ const Standard = () => {
     {
       groupId: "두께",
       children: [{ field: "orderThickMin" }, { field: "orderThickMax" }],
+      headerAlign: "center",
     },
     {
       groupId: "폭",
       children: [{ field: "orderWidthMin" }, { field: "orderWidthMax" }],
+      headerAlign: "center",
     },
     {
       groupId: "길이",
       children: [{ field: "orderLengthMin" }, { field: "orderLengthMax" }],
+      headerAlign: "center",
     },
     {
       groupId: "단중",
       children: [{ field: "hrRollUnitWgtMax1" }, { field: "hrRollUnitWgtMax2" }],
+      headerAlign: "center",
     },
   ];
 
@@ -135,31 +175,6 @@ const Standard = () => {
         }}
       >
         <div>
-          <FormControl
-            sx={{ m: 1 }}
-            style={{
-              paddingTop: 10,
-              paddingBottom: 20,
-              marginRight: 10,
-            }}
-          >
-            <InputLabel id="label1" style={{ paddingTop: 10 }}>
-              구분
-            </InputLabel>
-            <Select
-              labelId="분류"
-              id="demo-multiple-name"
-              defaultValue="T"
-              input={<OutlinedInput label="구분" />}
-              onChange={(e) => {
-                console.log(e);
-              }}
-              style={{ height: 40 }}
-            >
-              <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
-            </Select>
-          </FormControl>
 
         </div>
         <div>
@@ -175,25 +190,52 @@ const Standard = () => {
         </div>
       </div>
 
-      <div style={{ height: "83%", width: "100%" }}>
-        <DataGrid
-          experimentalFeatures={{ columnGrouping: true }}
-          disableRowSelectionOnClick
-          rows={sizeStandardList}
-          columns={columns}
-          onCellClick={(e) => {
-            console.log(e);
+      <Card>
+        <Box
+          sx={{
+            height: 600,
+            width: "100%",
+            "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
+            {
+              borderBottom: "1px solid rgba(225, 234, 239, 1)",
+              borderRight: "1px solid rgba(225, 234, 239, 1)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            },
+            "& .custom-data-grid .MuiDataGrid-columnHeader": {
+              cursor: "pointer",
+              borderBottom: "1px solid rgba(225, 234, 239, 1)",
+              borderRight: "1px solid rgba(225, 234, 239, 1)",
+            },
+            "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
+            {
+              borderBottomStyle: "none",
+
+            },
           }}
-          columnGroupingModel={columnGroupingModel}
-          slots={{
-            cell: MyCell,
-          }}
-          disableColumnFilter
-          disableColumnMenu
-          hideFooterPagination={true}
-          hideFooter={true}
-        />
-      </div>
+        >
+          <DataGrid
+            className="custom-data-grid"
+            experimentalFeatures={{ columnGrouping: true }}
+            disableRowSelectionOnClick
+            rows={sizeStandardList}
+            columns={columns}
+            onCellClick={(e) => {
+              console.log(e);
+            }}
+            columnGroupingModel={columnGroupingModel}
+            slots={{
+              cell: MyCell,
+            }}
+            disableColumnFilter
+            disableColumnMenu
+            hideFooterPagination={true}
+            hideFooter={true}
+          // rowHeight={40}
+          />
+        </Box>
+      </Card>
     </div>
   );
 };
