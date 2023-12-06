@@ -98,6 +98,8 @@ const Standard = () => {
     { field: "hrRollUnitWgtMax2", headerName: "max", width: 138, sortable: false, editable: true },
   ];
 
+  console.log(sizeStandardList);
+
   const columnGroupingModel = [
     {
       groupId: "두께",
