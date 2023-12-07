@@ -179,6 +179,16 @@ public class FactoryOrderInfo extends BaseEntity {
     @Column(name = "POSB_PASS_FAC_UPDATE_DATE")
     private LocalDateTime posbPassFacUpdateDate;  // 53. 가통설계일자
 
+    @Column(name = "POSB_PASS_FAC_PROCESS", length = 50)
+    private String posbPassFacProcess;  // 54. 가통설계결과 - 경유공정
+
+    @Column(name = "POSB_PASS_FAC_ES", length = 50)
+    private String posbPassFacEs;  // 55. 가통설계결과 - 필수재
+
+    @Column(name = "POSB_PASS_FAC_SIZE", length = 50)
+    private String posbPassFacSize;  // 56. 가통설계결과 - 사이즈
+
+
     public static FactoryOrderInfo toEntity(FactoryOrderInfoReqDto factoryOrderInfoReqDto) {
         return FactoryOrderInfo.builder()
                 .gcsCompCode(factoryOrderInfoReqDto.getGcsCompCode())
