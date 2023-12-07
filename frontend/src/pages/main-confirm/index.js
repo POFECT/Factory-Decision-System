@@ -57,13 +57,8 @@ const MainConfirm = () => {
   });
 
   useEffect(() => {
-    MainCapacityApi.getOrderList((data) => {
-      const list = data.response;
-      const order = list[0];
-      setOrderList((prev) => {
-        return { ...prev, list, order };
-      });
-    });
+    getOrders(null, null);
+
     MainCapacityApi.getCodeNameList((data) => {
       const list = data.response;
       const select = list[0].cdNm;
@@ -71,6 +66,7 @@ const MainConfirm = () => {
         return { ...prev, list, select };
       });
     });
+
     MainCapacityApi.getWeekList("H", ["A", "B", "C"], (data) => {
       const list = data.response;
       const select = list[0];
@@ -79,6 +75,19 @@ const MainConfirm = () => {
       });
     });
   }, []);
+
+  const getOrders = (kind, week) => {
+    console.log(kind, week);
+    MainCapacityApi.getOrderList(kind, week, (data) => {
+      const list = data.response;
+      const order = list[0];
+      console.log(list);
+      console.log(order);
+      setOrderList((prev) => {
+        return { ...prev, list, order };
+      });
+    });
+  };
 
   /* column 필드 */
   const columns = [
@@ -501,7 +510,14 @@ const MainConfirm = () => {
           </FormControl>
         </div>
         <div>
-          <Button size="small" type="submit" variant="contained">
+          <Button
+            size="small"
+            // type="submit"
+            variant="contained"
+            // 에러
+            // onClick={getOrders(codeNameList.select, weekList.select)}
+            // onClick={getOrders("FS", "20230711")}
+          >
             대상조회
           </Button>
           <Button size="small" type="submit" variant="contained">

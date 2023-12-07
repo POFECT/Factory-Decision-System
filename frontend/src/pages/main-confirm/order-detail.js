@@ -13,9 +13,9 @@ const OrderDetail = (props) => {
   const [cfCode, setCfCode] = useState("");
   const [factory, setFactory] = useState({ no: 10, name: "제강" });
 
-  useEffect(async () => {
+  useEffect(() => {
     setCfCode(props.order.cfirmPassOpCd.padEnd(8, " "));
-  }, [props.order]);
+  }, []);
 
   const changeFactory = (e) => {
     setFactory((prev) => {

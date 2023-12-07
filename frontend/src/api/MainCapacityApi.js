@@ -1,9 +1,9 @@
 import { axiosApi } from "./api";
 
 const MainCapacityApi = {
-  getOrderList: async (callback) => {
+  getOrderList: async (kind, week, callback) => {
     await axiosApi()
-      .get("/main")
+      .get("/main", { ordPdtItpCdN: kind, ordThwTapWekCd: week })
       .then((response) => {
         callback && callback(response.data);
       })
