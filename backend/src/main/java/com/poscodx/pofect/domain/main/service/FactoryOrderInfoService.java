@@ -9,6 +9,8 @@ import java.util.List;
 public interface FactoryOrderInfoService {
     List<FactoryOrderInfoResDto> getList();
 
+    List<FactoryOrderInfoResDto> getOrderList(FactoryOrderInfoReqDto.orderDto dto);
+
     FactoryOrderInfoResDto getById(Long id);
 
     FactoryOrderInfo insertOrder(FactoryOrderInfoReqDto factoryOrderInfoDto);
@@ -16,4 +18,5 @@ public interface FactoryOrderInfoService {
     Boolean deleteOrder(Long id);
 
     List<String> getOrderWeeks(FactoryOrderInfoReqDto.SearchDto dto);
+
 }

@@ -39,12 +39,22 @@ function MyCell(props) {
 
 const MainConfirm = () => {
   /* 데이터 */
+
+  // 주문
   const [orderList, setOrderList] = useState({
     list: [],
     order: null,
-  }); // 주문 데이터 리스트
-  const [codeNameList, setCodeNameList] = useState([]);
-  const [selectCodeName, setSelectCodeName] = useState("FS");
+  });
+  // 품종
+  const [codeNameList, setCodeNameList] = useState({
+    list: [],
+    select: "",
+  });
+  // 출강주
+  const [weekList, setWeekList] = useState({
+    list: [],
+    select: "",
+  });
 
   useEffect(() => {
     MainCapacityApi.getOrderList((data) => {
@@ -55,7 +65,18 @@ const MainConfirm = () => {
       });
     });
     MainCapacityApi.getCodeNameList((data) => {
-      setCodeNameList(data.response);
+      const list = data.response;
+      const select = list[0].cdNm;
+      setCodeNameList((prev) => {
+        return { ...prev, list, select };
+      });
+    });
+    MainCapacityApi.getWeekList("H", ["A", "B", "C"], (data) => {
+      const list = data.response;
+      const select = list[0];
+      setWeekList((prev) => {
+        return { ...prev, list, select };
+      });
     });
   }, []);
 
@@ -63,32 +84,35 @@ const MainConfirm = () => {
   const columns = [
     {
       field: "gcsCompCode",
-      headerName: "연결결산법인구분",
-      width: 150,
+      headerName: "법인",
+      width: 100,
+
       editable: true,
     },
     {
       field: "millCd",
-      headerName: "공정계획박판Mill구분",
-      width: 150,
+      headerName: "소구분",
+      width: 100,
+
       editable: true,
     },
     {
       field: "orderHeadLineNo",
-      headerName: "OrderHeadLineNumber",
+      headerName: "주문번호",
       width: 180,
       editable: true,
     },
     {
       field: "creationDate",
       headerName: "생성일자",
-      width: 150,
+      width: 180,
       editable: true,
     },
     {
       field: "osMainStatusCd",
-      headerName: "주문진도상태",
-      width: 150,
+      headerName: "진도",
+      width: 100,
+
       editable: true,
     },
     {
@@ -104,6 +128,12 @@ const MainConfirm = () => {
       editable: true,
     },
     {
+      field: "posbPassFacUpdateDate",
+      headerName: "가능통과공정설계일자",
+      width: 180,
+      editable: true,
+    },
+    {
       field: "cfirmPassOpCd",
       headerName: "확정통과공정코드",
       width: 150,
@@ -111,20 +141,20 @@ const MainConfirm = () => {
     },
     {
       field: "ordPdtItpCdN",
-      headerName: "주문품종",
+      headerName: "품종",
       width: 100,
       editable: true,
     },
     {
       field: "ordPdtItdsCdN",
-      headerName: "주문품명",
+      headerName: "품명",
       width: 100,
       editable: true,
     },
     {
       field: "adjustConsBktStartDttm",
-      headerName: "주문ATP능력사용조정일",
-      width: 180,
+      headerName: "ATP조정일",
+      width: 150,
       editable: true,
     },
     {
@@ -141,7 +171,7 @@ const MainConfirm = () => {
     },
     {
       field: "ordThwTapWekCd",
-      headerName: "주문투입출강주",
+      headerName: "출강주",
       width: 130,
       editable: true,
     },
@@ -149,32 +179,32 @@ const MainConfirm = () => {
     { field: "orderLineQty", headerName: "주문량", width: 100, editable: true },
     {
       field: "orderThick",
-      headerName: "제품주문두께",
+      headerName: "두께",
       width: 100,
       editable: true,
     },
     {
       field: "orderWidth",
-      headerName: "제품주문폭",
+      headerName: "폭",
       width: 100,
       editable: true,
     },
     {
       field: "orderLength",
-      headerName: "주문길이",
+      headerName: "길이",
       width: 100,
       editable: true,
     },
     {
       field: "orderUsageCdN",
-      headerName: "주문용도지정코드",
-      width: 130,
+      headerName: "용도",
+      width: 100,
       editable: true,
     },
     {
       field: "orderEdgeCode",
-      headerName: "제품주문Edge",
-      width: 130,
+      headerName: "Edge",
+      width: 100,
       editable: true,
     },
     {
@@ -185,8 +215,8 @@ const MainConfirm = () => {
     },
     {
       field: "salesPerson",
-      headerName: "제품경매 영업담당자명",
-      width: 150,
+      headerName: "영업담당자",
+      width: 100,
       editable: true,
     },
     { field: "salesCodeN", headerName: "판매특기", width: 100, editable: true },
@@ -217,49 +247,49 @@ const MainConfirm = () => {
     {
       field: "specificationCdN",
       headerName: "제품규격약호",
-      width: 100,
+      width: 120,
       editable: true,
     },
     {
       field: "surfaceFinishCd",
-      headerName: "제품표면마무리지정코드",
-      width: 180,
+      headerName: "표면지정코드",
+      width: 120,
       editable: true,
     },
     {
       field: "postTreatmentMethodCdN",
-      headerName: "제품후처리방법지정코드",
-      width: 180,
+      headerName: "후처리코드",
+      width: 120,
       editable: true,
     },
     {
       field: "oilingMethodCd",
-      headerName: "제품도유방법지정코드",
-      width: 150,
+      headerName: "도유코드",
+      width: 120,
       editable: true,
     },
     {
       field: "planningItemCodeN",
       headerName: "PlanningItem코드",
-      width: 150,
+      width: 180,
       editable: true,
     },
     {
       field: "smSteelGrdN",
       headerName: "출강목표번호",
-      width: 100,
+      width: 160,
       editable: true,
     },
     {
       field: "moltenSteelCharCdN",
-      headerName: "품질설계 용강특성",
-      width: 150,
+      headerName: "용강특성",
+      width: 100,
       editable: true,
     },
     {
       field: "tsAim",
-      headerName: "품질설계 목표TS",
-      width: 150,
+      headerName: "목표TS",
+      width: 100,
       editable: true,
     },
     {
@@ -270,62 +300,62 @@ const MainConfirm = () => {
     },
     {
       field: "hrSpComposite",
-      headerName: "품질설계 열연SkinPass합성지정",
-      width: 200,
+      headerName: "열연SkinPass합성지정",
+      width: 180,
       editable: true,
     },
     {
       field: "surfaceGrd",
-      headerName: "품질설계표면등급",
-      width: 130,
+      headerName: "표면등급",
+      width: 100,
       editable: true,
     },
     {
       field: "shapeGrd",
-      headerName: "품질설계형상등급",
-      width: 130,
+      headerName: "형상등급",
+      width: 100,
       editable: true,
     },
     {
       field: "poscoProdGrdN",
       headerName: "제품사내보증번호",
-      width: 150,
+      width: 160,
       editable: true,
     },
     {
       field: "hrProdThkAim",
-      headerName: "품질설계열연목표두께",
-      width: 150,
+      headerName: "열연목표두께",
+      width: 130,
       editable: true,
     },
     {
       field: "hrProdWthAim",
-      headerName: "품질설계열연목표폭",
-      width: 150,
+      headerName: "열연목표폭",
+      width: 130,
       editable: true,
     },
     {
       field: "hrRollUnitWgtMax",
-      headerName: "열연공장압연가능재료상한중량",
-      width: 200,
+      headerName: "압연상한중량",
+      width: 130,
       editable: true,
     },
     {
       field: "sm2ndRfnCd",
-      headerName: "품질설계제강2차정련코드",
-      width: 180,
+      headerName: "제강2차정련코드",
+      width: 150,
       editable: true,
     },
     {
       field: "skinpassFlag",
       headerName: "제품SkinPass지정여부",
-      width: 150,
+      width: 160,
       editable: true,
     },
     {
       field: "packingType",
-      headerName: "제품포장방법코드",
-      width: 150,
+      headerName: "포장방법",
+      width: 120,
       editable: true,
     },
     {
@@ -343,7 +373,7 @@ const MainConfirm = () => {
     {
       field: "errorMessage",
       headerName: "ErrorMessage",
-      width: 100,
+      width: 130,
       editable: true,
     },
     {
@@ -355,13 +385,13 @@ const MainConfirm = () => {
     {
       field: "lastUpdateDate",
       headerName: "최종수정일자",
-      width: 150,
+      width: 180,
       editable: true,
     },
   ];
 
   return (
-    <div style={{ height: "600px", width: "100%" }}>
+    <>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Typography variant="h3">공장 결정</Typography>
       </Grid>
@@ -414,14 +444,19 @@ const MainConfirm = () => {
             <Select
               labelId="분류"
               id="demo-multiple-name"
-              defaultValue="FS"
+              value={codeNameList.select}
               input={<OutlinedInput label="품종" />}
               onChange={(e) => {
-                setSelectCodeName(e.target.value);
+                setCodeNameList(
+                  Object.assign({}, codeNameList, {
+                    select: e.target.value,
+                  })
+                );
+                // setSelectCodeName(e.target.value);
               }}
               style={{ height: 40 }}
             >
-              {codeNameList.map((code, idx) => {
+              {codeNameList.list.map((code, idx) => {
                 return (
                   <MenuItem key={idx} value={code.cdNm}>
                     {code.cdNm}
@@ -444,15 +479,24 @@ const MainConfirm = () => {
             <Select
               labelId="출강주"
               id="demo-multiple-name"
-              defaultValue="T"
+              value={weekList.select}
               input={<OutlinedInput label="출강주" />}
               onChange={(e) => {
-                console.log(e);
+                setWeekList(
+                  Object.assign({}, weekList, {
+                    select: e.target.value,
+                  })
+                );
               }}
               style={{ height: 40 }}
             >
-              <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
+              {weekList.list.map((code, idx) => {
+                return (
+                  <MenuItem key={idx} value={code}>
+                    {code}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </div>
@@ -493,7 +537,7 @@ const MainConfirm = () => {
       </Card>
 
       {orderList.order ? <OrderDetail order={orderList.order} /> : null}
-    </div>
+    </>
   );
 };
 
