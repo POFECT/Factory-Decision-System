@@ -23,6 +23,8 @@ import {
   ArcElement,
 } from "chart.js";
 import { Bar, Pie, Radar } from "react-chartjs-2";
+import RadarChart from './chart.js';
+
 
 import {GridToolbar } from "@mui/x-data-grid";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
@@ -34,6 +36,7 @@ import React, {
 import CapacityStandardApi from "src/api/CapacityApi";
 
 
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -41,7 +44,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  ArcElement
+  ArcElement,
 );
 
 function MyCell(props) {
@@ -52,7 +55,7 @@ function MyCell(props) {
     maxHeight: props.height === "auto" ? "none" : props.height,
     ...props.style,
     //중앙배열
-      display: "flex",
+    display: "flex",
     alignItems: "center", 
     justifyContent: "center", 
   };
@@ -78,6 +81,7 @@ const CapacityMgt = () => {
   const [inputStatusData, setInputStatusData] = useState([]);
 
   const [labels, setLabels] = useState([]);
+  const [selectCodeName, setSelectCodeName] = useState("20230711");
 
 
   const [week, setWeek] = useState([]);
@@ -256,6 +260,7 @@ const CapacityMgt = () => {
 return (
 
   <>
+
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Card></Card>
         <Typography variant="h3">투입 능력 관리</Typography>
@@ -277,7 +282,7 @@ return (
               marginRight: 10,
             }}>
            <InputLabel id="label1" style={{ paddingTop: 10 }}>
-              품종
+              구분
             </InputLabel>
             <Select
               labelId="분류"
@@ -301,13 +306,13 @@ return (
               marginRight: 10,
             }}>
             <InputLabel id="label1" style={{ paddingTop: 10 }}>출강주</InputLabel>
-            <Select
+ <Select
               labelId="출강주"
               id="demo-multiple-name"
-              def6aultValue="T"
+              defaultValue="select"
               input={<OutlinedInput label="출강주" />}
               onChange={(e) => {
-                console.log(e);
+                setSelectCodeName(e.target.value);
               }}
               style={{ height: 40 }}
             >
@@ -372,7 +377,10 @@ return (
               data={inputStatusChartData}
               style={{ width: "100%", height: "80%" }}
             />
+            <RadarChart/>
+
         </Grid>
+
 {/* <ul>
   {capacity.map((item) => (
     <li key={item.id}>
