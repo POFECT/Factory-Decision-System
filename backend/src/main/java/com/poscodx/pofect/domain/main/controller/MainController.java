@@ -24,10 +24,17 @@ public class MainController {
 
     private final FactoryOrderInfoService factoryOrderInfoService;
 
+//    @GetMapping("/test")
+//    @ApiOperation(value = "주문 데이터 리스트 조회", notes = "전체 주문 데이터를 조회한다.")
+//    public ResponseEntity<ResponseDto> getOrderList() {
+//        List<FactoryOrderInfoResDto> result = factoryOrderInfoService.getList();
+//        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+//    }
+
     @GetMapping("")
-    @ApiOperation(value = "주문 데이터 리스트 조회", notes = "전체 주문 데이터를 조회한다.")
-    public ResponseEntity<ResponseDto> getOrderList() {
-        List<FactoryOrderInfoResDto> result = factoryOrderInfoService.getList();
+    @ApiOperation(value = "주문 데이터 리스트 조회", notes = "조건에 맞는 주문 데이터를 조회한다.")
+    public ResponseEntity<ResponseDto> getOrderListByOption(@Valid FactoryOrderInfoReqDto.orderDto dto) {
+        List<FactoryOrderInfoResDto> result = factoryOrderInfoService.getOrderList(dto);
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 

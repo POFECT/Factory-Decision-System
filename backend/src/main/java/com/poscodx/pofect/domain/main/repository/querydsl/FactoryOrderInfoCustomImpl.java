@@ -33,6 +33,16 @@ public class FactoryOrderInfoCustomImpl extends Querydsl4RepositorySupport imple
                 .fetch();  // List로 변환
     }
 
+    @Override
+    public List<FactoryOrderInfo> findAllByOption(FactoryOrderInfoReqDto.orderDto dto) {
+        BooleanBuilder option = integration(
+                eqOrdPdtItpCdN(dto.getOrdPdtItpCdN()),
+                eqOrdThwTapWekCd(dto.getOrdThwTapWekCd())
+        );
+
+        return getFactoryOrderInfoJPAQuery(option).fetch();
+    }
+
     /* 참고용 */
     private JPAQuery<FactoryOrderInfo> getFactoryOrderInfoJPAQuery(BooleanBuilder option) {
         return selectFrom(factoryOrderInfo)

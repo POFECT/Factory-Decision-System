@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,9 +22,20 @@ public class ConfirmFactoryStandardServiceImpl implements ConfirmFactoryStandard
 //    }
 
     @Override
-    public List<ConfirmFactoryStandardResDto> getGridData() {
-        return confirmFactoryStandardRepository.getGridData().stream()
+//    public List<ConfirmFactoryStandardResDto> getGridData() {
+    public List<Map<String, Object>> getGridData() {
+        return confirmFactoryStandardRepository.getGridData();
+
+//        return confirmFactoryStandardRepository.getGridData().stream()
+//                .map(ConfirmFactoryStandardResDto::toDto)
+//                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ConfirmFactoryStandardResDto> getFactories(String process) {
+        return confirmFactoryStandardRepository.findAllByProcessCdOrderByProcessCdAsc(process).stream()
                 .map(ConfirmFactoryStandardResDto::toDto)
                 .collect(Collectors.toList());
     }
+
 }
