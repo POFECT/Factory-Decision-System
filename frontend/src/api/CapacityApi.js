@@ -23,7 +23,6 @@ const CacpacityApi = {
     })
     .finally(()=>{});
   },
-  
 }
 
 export default CacpacityApi;
