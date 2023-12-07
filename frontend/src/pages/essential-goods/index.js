@@ -41,7 +41,26 @@ const EssentialGoods = () => {
 
   useEffect(() => {
     EssentialStandardApi.getEssentialStandardList((data) => {
-      setessentialList(data.response);
+      const responseData = data.response;
+
+      const processCdMappings = {
+        10: "제강",
+        20: "열연",
+        30: "열연정정",
+        40: "냉간압연",
+        50: "1차소둔",
+        60: "2차소둔",
+        70: "도금",
+        80: "정정",
+      };
+
+      const responseDataFilter = responseData.map((item) => {
+        const mappedProcessCd =
+          processCdMappings[item.processCd] || item.processCd;
+        return { ...item, processCd: mappedProcessCd };
+      });
+
+      setessentialList(responseDataFilter);
     });
   }, []);
 
