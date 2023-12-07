@@ -22,6 +22,10 @@ const Capacity = () => {
     processCd:null,
     processFacNum:null
   })
+
+  const openFun= (check)=>{
+    setOpen(check)
+  }
   useEffect(() => {
     
     FactoryStandardApi.getPossibleList((data) => {
@@ -208,7 +212,7 @@ const Capacity = () => {
             <Paper>
               {/* 가능통과공장 팝업 */}
               <Typography sx={{p:4,backgroundColor:'#f4f5fa'}}>
-                <PossibleDetail  props={a}/>
+                <PossibleDetail  a={a} openFun={openFun}/>
               </Typography>
             </Paper>
           </Fade>
