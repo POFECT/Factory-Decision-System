@@ -19,7 +19,7 @@ const Capacity = () => {
   const [anchorEl, setAnchorEl] = useState(null);//Popper
   const [placement, setPlacement] = useState();//Popper위치
   const [a,setA] = useState({
-    processCD:null,
+    processCd:null,
     processFacNum:null
   })
   useEffect(() => {
@@ -95,7 +95,7 @@ const Capacity = () => {
 
     setA({
       ...a,
-      processCD: e.currentTarget.dataset.field,  
+      processCd: e.currentTarget.dataset.field,  
       processFacNum: String(feasibleRoutingGroup).split('').map(Number) 
     });
 
