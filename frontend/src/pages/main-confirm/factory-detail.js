@@ -6,9 +6,8 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableHead from "@mui/material/TableHead";
-import Paper from "@mui/material/Paper";
 
-const FactoryDetail = () => {
+const FactoryDetail = (props) => {
   return (
     <>
       <TableContainer>
@@ -25,7 +24,7 @@ const FactoryDetail = () => {
               >
                 공정
               </TableCell>
-              <TableCell align="center">ㅇ</TableCell>
+              <TableCell align="center">{props.factory.name}</TableCell>
             </TableRow>
           </TableHead>
         </Table>
@@ -34,10 +33,38 @@ const FactoryDetail = () => {
         <Table aria-label="spanning table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">공장</TableCell>
-              <TableCell align="center">능력 여유량</TableCell>
-              <TableCell align="center">능력 사용량</TableCell>
-              <TableCell align="center">선택</TableCell>
+              <TableCell
+                align="center"
+                style={{
+                  fontSize: 17,
+                }}
+              >
+                공장
+              </TableCell>
+              <TableCell
+                align="center"
+                style={{
+                  fontSize: 17,
+                }}
+              >
+                능력 여유량
+              </TableCell>
+              <TableCell
+                align="center"
+                style={{
+                  fontSize: 17,
+                }}
+              >
+                능력 사용량
+              </TableCell>
+              <TableCell
+                align="center"
+                style={{
+                  fontSize: 17,
+                }}
+              >
+                선택
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

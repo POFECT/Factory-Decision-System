@@ -41,23 +41,21 @@ public class ConfirmFactoryStandardResDto {
 
     private LocalDateTime lastUpdateDate;  // 최종수정일자
 
-//    public static ConfirmFactoryStandardResDto toDto(ConfirmFactoryStandard confirmFactoryStandard){
-//        return ConfirmFactoryStandardResDto.builder()
-//                .id(confirmFactoryStandard.getId())
-//                .gcsCompCode(confirmFactoryStandard.getGcsCompCode())
-//                .millCd(confirmFactoryStandard.getMillCd())
-//                .firmPsFacTp(confirmFactoryStandard.getFirmPsFacTp())
-//                .cdExpl(confirmFactoryStandard.getCdExpl())
-//                .processCd(confirmFactoryStandard.getProcessCd())
-//                .userId(confirmFactoryStandard.getUserId())
-//                .lastUpdateDate(confirmFactoryStandard.getLastUpdateDate())
-//                .build();
-//    }
-    public static ConfirmFactoryStandardResDto toDto(Object[] confirmFactoryStandard) {
-    return ConfirmFactoryStandardResDto.builder()
-            .cdExpl(confirmFactoryStandard[0].toString())
-            .processCd(confirmFactoryStandard[1].toString())
-            .firmPsFacTp(confirmFactoryStandard[2].toString())
-            .build();
+    public static ConfirmFactoryStandardResDto toDto(ConfirmFactoryStandard confirmFactoryStandard){
+        return ConfirmFactoryStandardResDto.builder()
+                .id(confirmFactoryStandard.getId())
+                .firmPsFacTp(confirmFactoryStandard.getFirmPsFacTp())
+                .cdExpl(confirmFactoryStandard.getCdExpl())
+                .processCd(confirmFactoryStandard.getProcessCd())
+                .lastUpdateDate(confirmFactoryStandard.getLastUpdateDate())
+                .build();
     }
+
+//    public static ConfirmFactoryStandardResDto toDto(Object[] confirmFactoryStandard) {
+//    return ConfirmFactoryStandardResDto.builder()
+//            .cdExpl(confirmFactoryStandard[0].toString())
+//            .processCd(confirmFactoryStandard[1].toString())
+//            .firmPsFacTp(confirmFactoryStandard[2].toString())
+//            .build();
+//    }
 }
