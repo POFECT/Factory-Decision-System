@@ -39,12 +39,22 @@ function MyCell(props) {
 
 const MainConfirm = () => {
   /* 데이터 */
+
+  // 주문
   const [orderList, setOrderList] = useState({
     list: [],
     order: null,
-  }); // 주문 데이터 리스트
-  const [codeNameList, setCodeNameList] = useState([]);
-  const [selectCodeName, setSelectCodeName] = useState("FS");
+  });
+  // 품종
+  const [codeNameList, setCodeNameList] = useState({
+    list: [],
+    select: "",
+  });
+  // 출강주
+  const [weekList, setWeekList] = useState({
+    list: [],
+    select: "",
+  });
 
   useEffect(() => {
     MainCapacityApi.getOrderList((data) => {
@@ -55,7 +65,18 @@ const MainConfirm = () => {
       });
     });
     MainCapacityApi.getCodeNameList((data) => {
-      setCodeNameList(data.response);
+      const list = data.response;
+      const select = list[0].cdNm;
+      setCodeNameList((prev) => {
+        return { ...prev, list, select };
+      });
+    });
+    MainCapacityApi.getWeekList("H", ["A", "B", "C"], (data) => {
+      const list = data.response;
+      const select = list[0];
+      setWeekList((prev) => {
+        return { ...prev, list, select };
+      });
     });
   }, []);
 
@@ -423,14 +444,19 @@ const MainConfirm = () => {
             <Select
               labelId="분류"
               id="demo-multiple-name"
-              defaultValue="FS"
+              value={codeNameList.select}
               input={<OutlinedInput label="품종" />}
               onChange={(e) => {
-                setSelectCodeName(e.target.value);
+                setCodeNameList(
+                  Object.assign({}, codeNameList, {
+                    select: e.target.value,
+                  })
+                );
+                // setSelectCodeName(e.target.value);
               }}
               style={{ height: 40 }}
             >
-              {codeNameList.map((code, idx) => {
+              {codeNameList.list.map((code, idx) => {
                 return (
                   <MenuItem key={idx} value={code.cdNm}>
                     {code.cdNm}
@@ -453,15 +479,24 @@ const MainConfirm = () => {
             <Select
               labelId="출강주"
               id="demo-multiple-name"
-              defaultValue="T"
+              value={weekList.select}
               input={<OutlinedInput label="출강주" />}
               onChange={(e) => {
-                console.log(e);
+                setWeekList(
+                  Object.assign({}, weekList, {
+                    select: e.target.value,
+                  })
+                );
               }}
               style={{ height: 40 }}
             >
-              <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
+              {weekList.list.map((code, idx) => {
+                return (
+                  <MenuItem key={idx} value={code}>
+                    {code}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </div>

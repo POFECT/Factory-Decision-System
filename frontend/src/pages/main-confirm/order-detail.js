@@ -14,12 +14,10 @@ const OrderDetail = (props) => {
   const [factory, setFactory] = useState({ no: 10, name: "제강" });
 
   useEffect(async () => {
-    console.log(props.order);
     setCfCode(props.order.cfirmPassOpCd.padEnd(8, " "));
   }, [props.order]);
 
   const changeFactory = (e) => {
-    console.log(e);
     setFactory((prev) => {
       return { ...prev, no: e.target.accessKey, name: e.target.innerText };
     });
