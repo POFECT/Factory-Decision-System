@@ -36,6 +36,13 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
     }
 
     @Override
+    public List<FactoryOrderInfoResDto> getOrderList(FactoryOrderInfoReqDto.orderDto dto) {
+        return factoryOrderInfoRepository.findAllByOption(dto).stream()
+                .map(FactoryOrderInfoResDto::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public FactoryOrderInfoResDto getById(Long id) {
         return FactoryOrderInfoResDto.toDto(factoryOrderInfoRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND)));

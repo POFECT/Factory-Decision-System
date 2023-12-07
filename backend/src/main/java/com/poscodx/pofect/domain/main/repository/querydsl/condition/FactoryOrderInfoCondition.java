@@ -15,7 +15,6 @@ public class FactoryOrderInfoCondition extends DefaultCondition {
         if(code == null) {
             return null;
         }
-
         return factoryOrderInfo.osMainStatusCd.eq(code);
     }
 
@@ -23,8 +22,21 @@ public class FactoryOrderInfoCondition extends DefaultCondition {
         if(codes == null || codes.isEmpty()) {
             return null;
         }
-
         return factoryOrderInfo.faConfirmFlag.in(codes);
+    }
+
+    public static BooleanExpression eqOrdPdtItpCdN(String code) {
+        if(code == null) {
+            return null;
+        }
+        return factoryOrderInfo.ordPdtItpCdN.eq(code);
+    }
+
+    public static BooleanExpression eqOrdThwTapWekCd(String week) {
+        if(week == null) {
+            return null;
+        }
+        return factoryOrderInfo.ordThwTapWekCd.eq(week);
     }
 
 }
