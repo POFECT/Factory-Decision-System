@@ -77,8 +77,7 @@ const MainConfirm = () => {
   }, []);
 
   const getOrders = (kind, week) => {
-    if (kind == 0) kind = null;
-    if (week == 0) week = null;
+    console.log(kind, week);
     MainCapacityApi.getOrderList(kind, week, (data) => {
       const list = data.response;
       const order = list[0];
@@ -454,7 +453,7 @@ const MainConfirm = () => {
             <Select
               labelId="분류"
               id="demo-multiple-name"
-              defaultValue={0}
+              value={codeNameList.select}
               input={<OutlinedInput label="품종" />}
               onChange={(e) => {
                 setCodeNameList(
@@ -466,7 +465,6 @@ const MainConfirm = () => {
               }}
               style={{ height: 40 }}
             >
-              <MenuItem value={0}>All</MenuItem>
               {codeNameList.list.map((code, idx) => {
                 return (
                   <MenuItem key={idx} value={code.cdNm}>
@@ -490,7 +488,7 @@ const MainConfirm = () => {
             <Select
               labelId="출강주"
               id="demo-multiple-name"
-              defaultValue={0}
+              value={weekList.select}
               input={<OutlinedInput label="출강주" />}
               onChange={(e) => {
                 setWeekList(
@@ -501,7 +499,6 @@ const MainConfirm = () => {
               }}
               style={{ height: 40 }}
             >
-              <MenuItem value={0}>All</MenuItem>
               {weekList.list.map((code, idx) => {
                 return (
                   <MenuItem key={idx} value={code}>
@@ -515,10 +512,11 @@ const MainConfirm = () => {
         <div>
           <Button
             size="small"
+            // type="submit"
             variant="contained"
-            onClick={() => {
-              getOrders(codeNameList.select, weekList.select);
-            }}
+            // 에러
+            // onClick={getOrders(codeNameList.select, weekList.select)}
+            // onClick={getOrders("FS", "20230711")}
           >
             대상조회
           </Button>
