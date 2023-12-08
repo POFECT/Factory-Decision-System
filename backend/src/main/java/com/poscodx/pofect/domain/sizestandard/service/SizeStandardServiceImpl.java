@@ -7,6 +7,7 @@ import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
 import com.poscodx.pofect.domain.processstandard.service.ProcessStandardService;
 import com.poscodx.pofect.domain.sizestandard.dto.RowSpan;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
+import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardSetDto;
 import com.poscodx.pofect.domain.sizestandard.entity.FactorySizeStandard;
 import com.poscodx.pofect.domain.sizestandard.repository.SizeStandardRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +56,7 @@ public class SizeStandardServiceImpl implements SizeStandardService {
     }
 
     @Override
-    public Map<String, List<String>> setSizeStandard(Long id, List<String> processCodeList) {
+    public List<SizeStandardSetDto> setSizeStandard(Long id, List<String> processCodeList) {
 
         FactoryOrderInfoResDto dto
                 = factoryOrderInfoService.getById(id);
@@ -67,170 +68,68 @@ public class SizeStandardServiceImpl implements SizeStandardService {
                         .map(SizeStandardResDto::toDto)
                         .collect(Collectors.groupingBy(SizeStandardResDto::getProcessCd));
 
-        // 결과 Map
-        Map<String, List<String>> resultSizeStandard = new HashMap<>();
-        Map<String, List<String>> resultProcess = new HashMap<>();
+        List<SizeStandardSetDto> sizeStandardSetDtoList = new ArrayList<>();
 
         for (String process : result.keySet()) {
+            SizeStandardSetDto setDto = SizeStandardSetDto.builder()
+                    .processCD(process)
+                    .firmPsFacTpList(new ArrayList<>())
+                    .build();
+
             for (SizeStandardResDto sizeStandardResDto : result.get(process)) {
+                List<Boolean> booleanList = new ArrayList<>();
 
-                // 두께
-                processDimensionCondition(String.valueOf(sizeStandardResDto.getOrderThickMin()), String.valueOf(sizeStandardResDto.getOrderThickMax()),
-                        dto.getHrProdThkAim(), "hrProdThkAim", sizeStandardResDto.getFirmPsFacTp(), resultProcess);
+                Double hrProdThkAim = dto.getHrProdThkAim();
+                Double hrProdWthAim = dto.getHrProdWthAim();
+                String orderLength = dto.getOrderLength();
+                Double hrRollUnitWgtMax = dto.getHrRollUnitWgtMax();
 
-                // 폭
-                processDimensionCondition(String.valueOf(sizeStandardResDto.getOrderWidthMin()), String.valueOf(sizeStandardResDto.getOrderWidthMax()),
-                        dto.getHrProdWthAim(), "hrProdWthAim", sizeStandardResDto.getFirmPsFacTp(), resultProcess);
-
-                // 길이
-                if (!dto.getOrderLength().equals("C")) {
-                    processDimensionCondition(sizeStandardResDto.getOrderLengthMin(), sizeStandardResDto.getOrderLengthMax(),
-                            Double.parseDouble(dto.getOrderLength()), "orderLength", sizeStandardResDto.getFirmPsFacTp(), resultProcess);
-                }
-
-                // 단중
-                processDimensionCondition(String.valueOf(sizeStandardResDto.getHrRollUnitWgtMax1()), String.valueOf(sizeStandardResDto.getHrRollUnitWgtMax2()),
-                        dto.getHrRollUnitWgtMax(), "hrRollUnitWgtMax", sizeStandardResDto.getFirmPsFacTp(), resultProcess);
-
-
-                for (String s : resultProcess.keySet()) {
-                    System.out.println("key : "+s);
-
-                    for (String string : resultProcess.get(s)) {
-                        System.out.println("value : " + string);
+                if(!(sizeStandardResDto.getOrderThickMax() == 0 && sizeStandardResDto.getOrderThickMin() == 0)){
+                    if (sizeStandardResDto.getOrderThickMax() >= hrProdThkAim
+                            && sizeStandardResDto.getOrderThickMin() <= hrProdThkAim) {
+                        booleanList.add(true);
+                    } else {
+                        booleanList.add(false);
                     }
                 }
 
+                if(!(sizeStandardResDto.getOrderWidthMax() == 0 && sizeStandardResDto.getOrderWidthMin() == 0)){
+                    if (sizeStandardResDto.getOrderWidthMax() >= hrProdWthAim
+                            && sizeStandardResDto.getOrderWidthMin() <= hrProdWthAim) {
+                        booleanList.add(true);
+                    } else {
+                        booleanList.add(false);
+                    }
+                }
+
+                if (!dto.getOrderLength().equals("C")) {
+                    if (!(Objects.equals(sizeStandardResDto.getOrderLengthMax(), "0") && Objects.equals(sizeStandardResDto.getOrderLengthMin(), "0"))) {
+                        if (Double.parseDouble(sizeStandardResDto.getOrderLengthMax()) >= Double.parseDouble(orderLength)
+                                && Double.parseDouble(sizeStandardResDto.getOrderLengthMin()) <= Double.parseDouble(orderLength)) {
+                            booleanList.add(true);
+                        } else {
+                            booleanList.add(false);
+                        }
+                    }
+                }
+
+                if (!(sizeStandardResDto.getHrRollUnitWgtMax2() == 0 && sizeStandardResDto.getHrRollUnitWgtMax1() == 0)) {
+                    if (sizeStandardResDto.getHrRollUnitWgtMax2() >= hrRollUnitWgtMax
+                            && sizeStandardResDto.getHrRollUnitWgtMax1() <= hrRollUnitWgtMax) {
+                        booleanList.add(true);
+                    } else {
+                        booleanList.add(false);
+                    }
+                }
+
+                if (!booleanList.contains(false)) {
+                    setDto.getFirmPsFacTpList().add(sizeStandardResDto.getFirmPsFacTp());
+                }
             }
-
-
-//            for (SizeStandardResDto sizeStandardResDto : result.get(process)) {
-//
-//                if ("10".equals(sizeStandardResDto.getProcessCd())) {
-//                    Set<String> process10 = new HashSet<>();
-//
-//                    processDimensionCondition(String.valueOf(sizeStandardResDto.getOrderThickMin()), String.valueOf(sizeStandardResDto.getOrderThickMax()),
-//                            dto.getHrProdThkAim(), "hrProdThkAim", sizeStandardResDto.getFirmPsFacTp(), resultProcess);
-//
-//                    processDimensionCondition(String.valueOf(sizeStandardResDto.getOrderWidthMin()), String.valueOf(sizeStandardResDto.getOrderWidthMax()),
-//                            dto.getHrProdWthAim(), "hrProdWthAim", sizeStandardResDto.getFirmPsFacTp(), resultProcess);
-//
-//                    if (!dto.getOrderLength().equals("C")) {
-//                        processDimensionCondition(sizeStandardResDto.getOrderLengthMin(), sizeStandardResDto.getOrderLengthMax(),
-//                                Double.parseDouble(dto.getOrderLength()), "orderLength", sizeStandardResDto.getFirmPsFacTp(), resultProcess);
-//                    }
-//
-//                    processDimensionCondition(String.valueOf(sizeStandardResDto.getHrRollUnitWgtMax1()), String.valueOf(sizeStandardResDto.getHrRollUnitWgtMax2()),
-//                            dto.getHrRollUnitWgtMax(), "hrRollUnitWgtMax", sizeStandardResDto.getFirmPsFacTp(), resultProcess);
-//
-//                    for (List<String> value : resultProcess.values()) {
-//                        process10.addAll(value);
-//                    }
-//                    resultSizeStandard.put("10", process10);
-//                }
-//
-//                if ("20".equals(sizeStandardResDto.getProcessCd())) {
-//                    Set<String> process20 = new HashSet<>();
-//
-//                    processDimensionCondition(String.valueOf(sizeStandardResDto.getOrderThickMin()), String.valueOf(sizeStandardResDto.getOrderThickMax()),
-//                            dto.getHrProdThkAim(), "hrProdThkAim", sizeStandardResDto.getFirmPsFacTp(), resultProcess);
-//
-//                    processDimensionCondition(String.valueOf(sizeStandardResDto.getOrderWidthMin()), String.valueOf(sizeStandardResDto.getOrderWidthMax()),
-//                            dto.getHrProdWthAim(), "hrProdWthAim", sizeStandardResDto.getFirmPsFacTp(), resultProcess);
-//
-//                    if (!dto.getOrderLength().equals("C")) {
-//                        processDimensionCondition(sizeStandardResDto.getOrderLengthMin(), sizeStandardResDto.getOrderLengthMax(),
-//                                Double.parseDouble(dto.getOrderLength()), "orderLength", sizeStandardResDto.getFirmPsFacTp(), resultProcess);
-//                    }
-//
-//                    processDimensionCondition(String.valueOf(sizeStandardResDto.getHrRollUnitWgtMax1()), String.valueOf(sizeStandardResDto.getHrRollUnitWgtMax2()),
-//                            dto.getHrRollUnitWgtMax(), "hrRollUnitWgtMax", sizeStandardResDto.getFirmPsFacTp(), resultProcess);
-//
-//                    for (List<String> value : resultProcess.values()) {
-//                        process20.addAll(value);
-//                    }
-//                    resultSizeStandard.put("20", process20);
-//                }
-//            }
-
-
+            sizeStandardSetDtoList.add(setDto);
         }
 
-
-        return resultProcess;
-//        Map<String, List<String>> resultSizeStandard = new HashMap<>();
-//
-//        for (String process : result.keySet()) {
-//            // 제강
-//            if(process.equals("10")) {
-//                List<SizeStandardResDto> sizeStandardResDtoList = result.get(process);
-//                for (SizeStandardResDto sizeStandardResDto : sizeStandardResDtoList) {
-//                    // 두께
-//                    Double hrProdThkAim = dto.getHrProdThkAim();
-//
-//                    // 폭
-//                    Double hrProdWthAim = dto.getHrProdWthAim();
-//
-//                    //길이
-//                    String orderLength = dto.getOrderLength();
-//
-//                    // 단중
-//                    Double hrRollUnitWgtMax = dto.getHrRollUnitWgtMax();
-//
-//                    if(sizeStandardResDto.getOrderThickMax() >= hrProdThkAim && sizeStandardResDto.getOrderThickMin() <= hrProdThkAim){
-//                        if(!resultSizeStandard.containsKey("hrProdThkAim")){
-//                            List<String> firmPsFacTpList = new ArrayList<>();
-//                            firmPsFacTpList.add(sizeStandardResDto.getFirmPsFacTp());
-//                            resultSizeStandard.put("hrProdThkAim", firmPsFacTpList);
-//                        } else {
-//                            resultSizeStandard.get("hrProdThkAim").add(sizeStandardResDto.getFirmPsFacTp());
-//                        }
-//                    }
-//
-//                    if(sizeStandardResDto.getOrderWidthMax() >= hrProdWthAim && sizeStandardResDto.getOrderWidthMin() <= hrProdWthAim){
-//                        if(!resultSizeStandard.containsKey("hrProdWthAim")){
-//                            List<String> firmPsFacTpList = new ArrayList<>();
-//                            firmPsFacTpList.add(sizeStandardResDto.getFirmPsFacTp());
-//                            resultSizeStandard.put("hrProdWthAim", firmPsFacTpList);
-//                        } else {
-//                            resultSizeStandard.get("hrProdWthAim").add(sizeStandardResDto.getFirmPsFacTp());
-//                        }
-//                    }
-//
-//                    if(!dto.getOrderLength().equals("C")){
-//                        if(Double.parseDouble(sizeStandardResDto.getOrderLengthMax()) >= Double.parseDouble(orderLength)
-//                                && Double.parseDouble(sizeStandardResDto.getOrderLengthMin()) <= Double.parseDouble(orderLength)) {
-//                            if(!resultSizeStandard.containsKey("orderLength")){
-//                                List<String> firmPsFacTpList = new ArrayList<>();
-//                                firmPsFacTpList.add(sizeStandardResDto.getFirmPsFacTp());
-//                                resultSizeStandard.put("orderLength", firmPsFacTpList);
-//                            } else {
-//                                resultSizeStandard.get("orderLength").add(sizeStandardResDto.getFirmPsFacTp());
-//                            }
-//                        }
-//                    }
-//
-//                    if(sizeStandardResDto.getHrRollUnitWgtMax1() >= hrRollUnitWgtMax && sizeStandardResDto.getHrRollUnitWgtMax2() <= hrRollUnitWgtMax){
-//                        if(!resultSizeStandard.containsKey("hrRollUnitWgtMax")){
-//                            List<String> firmPsFacTpList = new ArrayList<>();
-//                            firmPsFacTpList.add(sizeStandardResDto.getFirmPsFacTp());
-//                            resultSizeStandard.put("hrRollUnitWgtMax", firmPsFacTpList);
-//                        } else {
-//                            resultSizeStandard.get("hrRollUnitWgtMax").add(sizeStandardResDto.getFirmPsFacTp());
-//                        }
-//                    }
-//
-//                }
-//            }
-//        }
-
+        return  sizeStandardSetDtoList;
     }
 
-
-    private void processDimensionCondition(String min, String max, double value, String key, String firmPsFacTp, Map<String, List<String>> resultProcess) {
-        if (Double.parseDouble(min) <= value && value <= Double.parseDouble(max)) {
-            resultProcess.computeIfAbsent(key, k -> new ArrayList<>()).add(firmPsFacTp);
-
-        }
-    }
 }

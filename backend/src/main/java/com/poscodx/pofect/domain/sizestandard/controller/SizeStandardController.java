@@ -4,6 +4,7 @@ import com.poscodx.pofect.common.dto.ResponseDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
+import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardSetDto;
 import com.poscodx.pofect.domain.sizestandard.entity.FactorySizeStandard;
 import com.poscodx.pofect.domain.sizestandard.service.SizeStandardService;
 import io.swagger.annotations.Api;
@@ -40,7 +41,8 @@ public class SizeStandardController {
             @RequestParam List<String> processList,
             @PathVariable("id") Long id
     ) {
-        Map<String, List<String>> result = sizeStandardService.setSizeStandard(id, processList);
+
+        List<SizeStandardSetDto> result = sizeStandardService.setSizeStandard(id, processList);
 
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
