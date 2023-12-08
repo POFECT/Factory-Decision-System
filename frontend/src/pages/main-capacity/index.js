@@ -62,16 +62,16 @@ const MainCapacity = () => {
 
     MainCapacityApi.getCodeNameList((data) => {
       const list = data.response;
-      const select = list[0].cdNm;
+      // const select = list[0].cdNm;
       setCodeNameList((prev) => {
-        return { ...prev, list, select };
+        return { ...prev, list };
       });
     });
     MainCapacityApi.getWeekList("H", ["A", "B", "C"], (data) => {
       const list = data.response;
-      const select = list[0];
+      // const select = list[0];
       setWeekList((prev) => {
-        return { ...prev, list, select };
+        return { ...prev, list };
       });
     });
   }, []);
