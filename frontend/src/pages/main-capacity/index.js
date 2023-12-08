@@ -58,13 +58,8 @@ const MainCapacity = () => {
   });
 
   useEffect(() => {
-    MainCapacityApi.getOrderList((data) => {
-      const list = data.response;
-      const order = list[0].id;
-      setOrderList((prev) => {
-        return { ...prev, order, list };
-      });
-    });
+    getOrders(null, null);
+
     MainCapacityApi.getCodeNameList((data) => {
       const list = data.response;
       const select = list[0].cdNm;
@@ -80,6 +75,18 @@ const MainCapacity = () => {
       });
     });
   }, []);
+
+  const getOrders = (kind, week) => {
+    if (kind == 0) kind = null;
+    if (week == 0) week = null;
+    MainCapacityApi.getOrderList(kind, week, (data) => {
+      const list = data.response;
+      const order = list[0];
+      setOrderList((prev) => {
+        return { ...prev, list, order };
+      });
+    });
+  };
 
   /* column 필드 */
   const columns = [
@@ -445,7 +452,7 @@ const MainCapacity = () => {
             <Select
               labelId="분류"
               id="demo-multiple-name"
-              value={codeNameList.select}
+              defaultValue={0}
               input={<OutlinedInput label="품종" />}
               onChange={(e) => {
                 setCodeNameList(
@@ -457,6 +464,7 @@ const MainCapacity = () => {
               }}
               style={{ height: 40 }}
             >
+              <MenuItem value={0}>All</MenuItem>
               {codeNameList.list.map((code, idx) => {
                 return (
                   <MenuItem key={idx} value={code.cdNm}>
@@ -480,7 +488,7 @@ const MainCapacity = () => {
             <Select
               labelId="출강주"
               id="demo-multiple-name"
-              value={weekList.select}
+              defaultValue={0}
               input={<OutlinedInput label="출강주" />}
               onChange={(e) => {
                 setWeekList(
@@ -491,6 +499,7 @@ const MainCapacity = () => {
               }}
               style={{ height: 40 }}
             >
+              <MenuItem value={0}>All</MenuItem>
               {weekList.list.map((code, idx) => {
                 return (
                   <MenuItem key={idx} value={code}>
@@ -502,7 +511,13 @@ const MainCapacity = () => {
           </FormControl>
         </div>
         <div>
-          <Button size="small" type="submit" variant="contained">
+          <Button
+            size="small"
+            variant="contained"
+            onClick={() => {
+              getOrders(codeNameList.select, weekList.select);
+            }}
+          >
             대상조회
           </Button>
           <Button size="small" type="submit" variant="contained">
@@ -526,7 +541,7 @@ const MainCapacity = () => {
           onCellClick={(e) => {
             setOrderList(
               Object.assign({}, orderList, {
-                order: e.row.id,
+                order: e.row,
               })
             );
           }}
@@ -537,7 +552,7 @@ const MainCapacity = () => {
         />
       </Card>
 
-      {orderList.order ? <CapacityDetail orderNo={orderList.order} /> : null}
+      {orderList.order ? <CapacityDetail order={orderList.order} /> : null}
     </>
   );
 };
