@@ -23,6 +23,7 @@ const possibleDetail =({a,openFun})=>{
     processName='정정'
   }
   const [processFactoryList,setProcessFactoryList]=useState([]);//공정별 리스트
+  
 
   useEffect(()=>{
     FactoryStandardApi.getPossiblePopper(a.processCd,(data)=>{
