@@ -1,8 +1,9 @@
-package com.poscodx.pofect.domain.processstandard.controller;
+package com.poscodx.pofect.domain.passstandard.controller;
 
 import com.poscodx.pofect.common.dto.ResponseDto;
-import com.poscodx.pofect.domain.processstandard.dto.PossibleFactoryStandardResDto;
-import com.poscodx.pofect.domain.processstandard.service.PossibleFactoryStandardService;
+import com.poscodx.pofect.domain.passstandard.dto.PossibleFactoryStandardResDto;
+import com.poscodx.pofect.domain.passstandard.repository.PossibleFactoryStandardRepository;
+import com.poscodx.pofect.domain.passstandard.service.PossibleFactoryStandardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
