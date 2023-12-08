@@ -1,19 +1,21 @@
 package com.poscodx.pofect.domain.sizestandard.controller;
 
 import com.poscodx.pofect.common.dto.ResponseDto;
+import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
+import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
+import com.poscodx.pofect.domain.sizestandard.entity.FactorySizeStandard;
 import com.poscodx.pofect.domain.sizestandard.service.SizeStandardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Api(value = "SizeStandard API", tags = {"공정 공장 별 사이즈 기준"})
 @CrossOrigin("*")
@@ -31,4 +33,16 @@ public class SizeStandardController {
 
         return new ResponseEntity<>(new ResponseDto(sizeStandardResDtoList), HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "사이즈 기준 설정", notes = "선택된 주문의 사이즈 기준을 설정한다.")
+    public ResponseEntity<ResponseDto> setSizeStandard(
+            @RequestParam List<String> processList,
+            @PathVariable("id") Long id
+    ) {
+        Map<String, List<String>> result = sizeStandardService.setSizeStandard(id, processList);
+
+        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+    }
+
 }
