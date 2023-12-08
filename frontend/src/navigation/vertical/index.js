@@ -40,13 +40,6 @@ const navigation = () => {
       title: "가능/확통 기준",
       path: "/factory-standard",
     },
-
-    {
-      icon: CubeOutline,
-      title: "경유 공정 기준",
-      path: "/pass-standard",
-    },
-
     {
       sectionTitle: "모니터링",
     },
