@@ -1,5 +1,6 @@
 package com.poscodx.pofect.domain.capacity.repository;
 
+import com.poscodx.pofect.domain.capacity.dto.CombinedCapacityDto;
 import com.poscodx.pofect.domain.capacity.entity.CapacityInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -7,9 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
-public interface CapacityInfoRepository extends JpaRepository<CapacityInfo, Long> {
+public interface CapacityRepository extends JpaRepository<CapacityInfo, Long> {
 
     @Transactional
     @Modifying
@@ -27,4 +29,12 @@ public interface CapacityInfoRepository extends JpaRepository<CapacityInfo, Long
 
     Optional<CapacityInfo> findByOrdRcpTapWekCd(String week);
 
+
+    @Query("SELECT new com.poscodx.pofect.domain.capacity.dto.CombinedCapacityDto(" +
+            "b.id, b.gcsCompCode, b.millCd, b.ordRcpTapWekCd, b.processCd, " +
+            "b.firmPsFacTp, b.faAdjustmentWgt, b.progressQty, b.userId, a.planQty) " +
+            "FROM GrantCapacity a, CapacityInfo b " +
+            "WHERE a.firmPsFacTp = b.firmPsFacTp " +
+            "AND a.processCd = b.processCd")
+    List<CombinedCapacityDto> findCombinedCapacity();
 }
