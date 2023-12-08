@@ -1,8 +1,6 @@
-package com.poscodx.pofect.domain.passstandard.repository;
+package com.poscodx.pofect.domain.processstandard.repository;
 
-import com.poscodx.pofect.domain.passstandard.entity.ConfirmFactoryStandard;
-import lombok.Getter;
-import lombok.Setter;
+import com.poscodx.pofect.domain.processstandard.entity.ConfirmFactoryStandard;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

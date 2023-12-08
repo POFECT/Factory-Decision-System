@@ -1,6 +1,6 @@
-package com.poscodx.pofect.domain.processstandard.service;
+package com.poscodx.pofect.domain.passstandard.service;
 
-import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
+import com.poscodx.pofect.domain.passstandard.dto.ProcessStandardDto;
 
 import java.util.List;
 

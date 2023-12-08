@@ -1,7 +1,7 @@
-package com.poscodx.pofect.domain.processstandard.service;
+package com.poscodx.pofect.domain.passstandard.service;
 
-import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
-import com.poscodx.pofect.domain.processstandard.repository.ProcessStandardRepository;
+import com.poscodx.pofect.domain.passstandard.dto.ProcessStandardDto;
+import com.poscodx.pofect.domain.passstandard.repository.ProcessStandardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
