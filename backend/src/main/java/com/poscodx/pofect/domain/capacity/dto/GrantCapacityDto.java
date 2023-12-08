@@ -34,7 +34,7 @@ public class GrantCapacityDto {
     @Size(max = 1)
     private String firmPsFacTp; // 4.확정통과공장구분
 
-    private Integer planQty; // 5.계획량
+    private Long planQty; // 5.계획량
 
     @Size(max = 8)
     private String userId; // 6.박판공정계획사용자ID
