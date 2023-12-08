@@ -1,9 +1,9 @@
 import { axiosApi } from "./api";
 
 const MainCapacityApi = {
-  getOrderList: async (callback) => {
+  getOrderList: async (kind, week, callback) => {
     await axiosApi()
-      .get("/main")
+      .get("/main", { ordPdtItpCdN: kind, ordThwTapWekCd: week })
       .then((response) => {
         callback && callback(response.data);
       })
@@ -28,6 +28,21 @@ const MainCapacityApi = {
   getCodeNameList: async (callback) => {
     await axiosApi()
       .get("/etc/business")
+      .then((response) => {
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {});
+  },
+
+  getWeekList: async (statusCd, confirmFlag, callback) => {
+    await axiosApi()
+      .get(`/main/week?`, {
+        faConfirmFlag: confirmFlag,
+        osMainStatusCd: statusCd,
+      })
       .then((response) => {
         callback && callback(response.data);
       })

@@ -13,6 +13,7 @@ import Paper from "@mui/material/Paper";
 const CapacityDetail = (props) => {
   const [order, setOrder] = useState({
     id: 0,
+    orderHeadLineNo: null,
     posbPassFacUpdateDate: null,
     posbPassFacCdN: null,
   });
@@ -22,6 +23,7 @@ const CapacityDetail = (props) => {
       const order = data.response;
       setOrder({
         id: order.id,
+        orderHeadLineNo: order.orderHeadLineNo,
         posbPassFacUpdateDate: order.posbPassFacUpdateDate,
         posbPassFacCdN: order.posbPassFacCdN,
       });
@@ -57,6 +59,22 @@ const CapacityDetail = (props) => {
               style={{ border: "1px solid #8E8E8E" }}
             >
               <TableRow key="1">
+                <TableCell
+                  style={{
+                    width: 160,
+                    backgroundColor: "#8E8E8E",
+                    color: "#FFFFFF",
+                  }}
+                  align="center"
+                >
+                  주문번호
+                </TableCell>
+                <TableCell
+                  style={{ width: 200, color: "000000" }}
+                  align="center"
+                >
+                  {order.orderHeadLineNo}
+                </TableCell>
                 <TableCell
                   style={{
                     width: 160,
