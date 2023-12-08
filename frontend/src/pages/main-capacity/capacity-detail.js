@@ -19,22 +19,22 @@ const CapacityDetail = (props) => {
   });
 
   useEffect(async () => {
-    await MainCapacityApi.getOrder(props.orderNo, (data) => {
-      const order = data.response;
-      setOrder({
-        id: order.id,
-        orderHeadLineNo: order.orderHeadLineNo,
-        posbPassFacUpdateDate: order.posbPassFacUpdateDate,
-        posbPassFacCdN: order.posbPassFacCdN,
-      });
-    });
-  }, [props.orderNo]);
+    // await MainCapacityApi.getOrder(props.order.id, (data) => {
+    //   const order = data.response;
+    //   setOrder({
+    //     id: order.id,
+    //     orderHeadLineNo: order.orderHeadLineNo,
+    //     posbPassFacUpdateDate: order.posbPassFacUpdateDate,
+    //     posbPassFacCdN: order.posbPassFacCdN,
+    //   });
+    // });
+  }, [props.order]);
 
   return (
     <>
       <Grid item xs={12} sx={{ paddingBottom: 4 }} style={{ padding: 20 }}>
         <Typography variant="h5">
-          가능통과공장 설계 상세 내역 : {order.id}
+          가능통과공장 설계 상세 내역 : {props.order.id}
         </Typography>
       </Grid>
 
@@ -73,7 +73,7 @@ const CapacityDetail = (props) => {
                   style={{ width: 200, color: "000000" }}
                   align="center"
                 >
-                  {order.orderHeadLineNo}
+                  {props.order.orderHeadLineNo}
                 </TableCell>
                 <TableCell
                   style={{
@@ -89,7 +89,7 @@ const CapacityDetail = (props) => {
                   style={{ width: 200, color: "000000" }}
                   align="center"
                 >
-                  {order.posbPassFacUpdateDate}
+                  {props.order.posbPassFacUpdateDate}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -112,7 +112,7 @@ const CapacityDetail = (props) => {
                   style={{ width: 200, color: "000000" }}
                   align="center"
                 >
-                  {order.posbPassFacCdN}
+                  {props.order.posbPassFacCdN}
                 </TableCell>
               </TableRow>
             </TableBody>

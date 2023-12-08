@@ -35,7 +35,7 @@ public class GrantCapacity extends BaseEntity {
     private String firmPsFacTp;  // 4.확정통과공장구분
 
     @Column(name = "PLAN_QTY")
-    private Integer PlanQty;  // 5.계획량
+    private Long planQty;  // 5.계획량
 
     @Column(name = "USER_ID", length = 8)
     private String userId;  // 6.박판공정계획사용자ID
