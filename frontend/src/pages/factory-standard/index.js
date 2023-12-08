@@ -106,28 +106,28 @@ const Capacity = () => {
   },[]);
   //가통 컬럼
   const possibleColumns = [
-    { field: "code",headerName:"Code", width:120, headerAlign: "center"},
-    { field: "10", headerName: "제강", width:120, headerAlign: "center"},
-    { field: "20", headerName: "열연", width:120, headerAlign: "center"},
-    { field: "30", headerName: "열연정정", width:120,  headerAlign: "center"},
-    { field: "40", headerName: "냉간압연", width:120,  headerAlign: "center"},
-    { field: "50", headerName: "1차소둔", width:120,  headerAlign: "center"},
-    { field: "60", headerName: "2차소둔", width:120,  headerAlign: "center"},
-    { field: "70", headerName: "도금", width:120, headerAlign: "center"},
-    { field: "80", headerName: "정정", width:120, headerAlign: "center"},
+    { field: "code",headerName:"Code", width:150, headerAlign: "center"},
+    { field: "10", headerName: "제강", width:150, headerAlign: "center"},
+    { field: "20", headerName: "열연", width:150, headerAlign: "center"},
+    { field: "30", headerName: "열연정정", width:150,  headerAlign: "center"},
+    { field: "40", headerName: "냉간압연", width:150,  headerAlign: "center"},
+    { field: "50", headerName: "1차소둔", width:150,  headerAlign: "center"},
+    { field: "60", headerName: "2차소둔", width:150,  headerAlign: "center"},
+    { field: "70", headerName: "도금", width:150, headerAlign: "center"},
+    { field: "80", headerName: "정정", width:150, headerAlign: "center"},
   ];
 
   //확통 컬럼
   const confirmColumns=[
-    { field: "code",headerName:"Code", width:120, headerAlign: "center"   },
-    { field: "10", headerName: "제강", width:120, headerAlign: "center"    },
-    { field: "20", headerName: "열연", width:120, headerAlign: "center"     },
-    { field: "30", headerName: "열연정정", width:120,headerAlign: "center"  },
-    { field: "40", headerName: "냉간압연", width:120,headerAlign: "center"  },
-    { field: "50", headerName: "1차소둔", width:120, headerAlign: "center"  },
-    { field: "60", headerName: "2차소둔", width:120, headerAlign: "center"  },
-    { field: "70", headerName: "도금", width:120, headerAlign: "center"     },
-    { field: "80", headerName: "정정", width:120, headerAlign: "center"     },
+    { field: "code",headerName:"Code", width:150, headerAlign: "center"   },
+    { field: "10", headerName: "제강", width:150, headerAlign: "center"    },
+    { field: "20", headerName: "열연", width:150, headerAlign: "center"     },
+    { field: "30", headerName: "열연정정", width:150,headerAlign: "center"  },
+    { field: "40", headerName: "냉간압연", width:150,headerAlign: "center"  },
+    { field: "50", headerName: "1차소둔", width:150, headerAlign: "center"  },
+    { field: "60", headerName: "2차소둔", width:150, headerAlign: "center"  },
+    { field: "70", headerName: "도금", width:150, headerAlign: "center"     },
+    { field: "80", headerName: "정정", width:150, headerAlign: "center"     },
   ]
   let pPopupProcessCd=null;
   let feasibleArray = null;
