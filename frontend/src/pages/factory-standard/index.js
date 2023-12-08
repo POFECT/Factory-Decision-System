@@ -19,9 +19,13 @@ const Capacity = () => {
   const [anchorEl, setAnchorEl] = useState(null);//Popper
   const [placement, setPlacement] = useState();//Popper위치
   const [a,setA] = useState({
-    processCD:null,
+    processCd:null,
     processFacNum:null
   })
+
+  const openFun= (check)=>{
+    setOpen(check)
+  }
   useEffect(() => {
     
     FactoryStandardApi.getPossibleList((data) => {
@@ -95,7 +99,7 @@ const Capacity = () => {
 
     setA({
       ...a,
-      processCD: e.currentTarget.dataset.field,  
+      processCd: e.currentTarget.dataset.field,  
       processFacNum: String(feasibleRoutingGroup).split('').map(Number) 
     });
 
@@ -208,7 +212,7 @@ const Capacity = () => {
             <Paper>
               {/* 가능통과공장 팝업 */}
               <Typography sx={{p:4,backgroundColor:'#f4f5fa'}}>
-                <PossibleDetail  props={a}/>
+                <PossibleDetail  a={a} openFun={openFun}/>
               </Typography>
             </Paper>
           </Fade>
