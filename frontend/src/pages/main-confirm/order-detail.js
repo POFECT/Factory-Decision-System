@@ -15,7 +15,7 @@ const OrderDetail = (props) => {
 
   useEffect(() => {
     setCfCode(props.order.cfirmPassOpCd.padEnd(8, " "));
-  }, []);
+  }, [props.order]);
 
   const changeFactory = (e) => {
     setFactory((prev) => {
