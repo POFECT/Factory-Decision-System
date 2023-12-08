@@ -1,13 +1,10 @@
-package com.poscodx.pofect.domain.passstandard.dto;
+package com.poscodx.pofect.domain.processstandard.dto;
 
-import com.poscodx.pofect.domain.passstandard.entity.PossibleFactoryStandard;
 import lombok.*;
 
-import javax.persistence.Query;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter

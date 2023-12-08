@@ -1,6 +1,6 @@
-package com.poscodx.pofect.domain.passstandard.dto;
+package com.poscodx.pofect.domain.processstandard.dto;
 
-import com.poscodx.pofect.domain.passstandard.entity.ConfirmFactoryStandard;
+import com.poscodx.pofect.domain.processstandard.entity.ConfirmFactoryStandard;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
