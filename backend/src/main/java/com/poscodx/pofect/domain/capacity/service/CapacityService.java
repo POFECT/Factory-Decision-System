@@ -18,4 +18,6 @@ public interface CapacityService {
 //    GrantCapacityDto getById(Long id);
 
     void insert(String week);
+
+    List<CapacityInfoDto> getFactoryCapacityList(String processCode);
 }
