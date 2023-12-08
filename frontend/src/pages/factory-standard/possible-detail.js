@@ -4,9 +4,6 @@ import { Grid, Typography, Button, Select, MenuItem, FormControl, InputLabel, Ou
 import FactoryStandardApi from 'src/api/FactoryStandardApi';
 
 const possibleDetail =({a,openFun})=>{
-  console.log("test"+a)
-  console.log("test"+openFun)
-
   let processName=null;
   if(a.processCd==='10'){
     processName='제강'
@@ -20,6 +17,10 @@ const possibleDetail =({a,openFun})=>{
     processName='1차소둔'
   }else if(a.processCd==='60'){
     processName='2차소둔'
+  }else if(a.processCd==='70'){
+    processName='도금'
+  }else if(a.processCd==='80'){
+    processName='정정'
   }
   const [processFactoryList,setProcessFactoryList]=useState([]);//공정별 리스트
 
@@ -28,21 +29,20 @@ const possibleDetail =({a,openFun})=>{
       console.log(data.response);
       const dataMap=data.response.reduce((list,{id,cdExpl,processName,firmPsFacTp})=>{
         console.log('id = '+id+', processName = '+processName+", firmPsFacTp = "+firmPsFacTp)
-        if (!list[id]) {
-          list[id] = {};
+        if (!list[firmPsFacTp]) {
+          list[firmPsFacTp] = {};
         }
-        list[id]['공정']=cdExpl;
+        list[firmPsFacTp]['isSelected'] = Math.random() < 0.5;
+        list[firmPsFacTp]['공정']=cdExpl;
         return list;
       },{});
 
-      const transformData=Object.entries(dataMap).map(([id,processName])=>({
-        id:id,
-        id,
-        ...processName,
+      const transformData=Object.entries(dataMap).map(([firmPsFacTp,item])=>({
+        id:firmPsFacTp,
+        ...item,
       }));
       setProcessFactoryList(transformData);
       console.log(transformData)
-      // console.log("das"+openFun)
     })
   },[]);
 
