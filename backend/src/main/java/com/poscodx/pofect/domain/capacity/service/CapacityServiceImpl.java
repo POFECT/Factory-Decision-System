@@ -88,4 +88,11 @@ public class CapacityServiceImpl implements CapacityService {
     public List<CombinedCapacityRowSpanDto> getCombinedCapacityWithRowSpan(String week) {
         return null;
     }
+
+    @Override
+    public List<CapacityInfoDto> getFactoryCapacityList(String processCode) {
+        return capacityRepository.findAllByProcessCdOrderByFirmPsFacTpAsc(processCode).stream()
+                .map(CapacityInfoDto::toDto)
+                .collect(Collectors.toList());
+    }
 }

@@ -1,5 +1,3 @@
-// CapacityService.java
-
 package com.poscodx.pofect.domain.capacity.service;
 
 import com.poscodx.pofect.common.exception.CustomException;
@@ -23,4 +21,6 @@ public interface CapacityService {
     void insert(String week);
 
     List<CombinedCapacityRowSpanDto> getCombinedCapacityWithRowSpan(String week);
+
+    List<CapacityInfoDto> getFactoryCapacityList(String processCode);
 }
