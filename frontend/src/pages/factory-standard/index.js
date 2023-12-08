@@ -4,11 +4,46 @@ import Popper from '@mui/material/Popper';
 import Fade from '@mui/material/Fade';
 import Paper from '@mui/material/Paper';
 import PossibleDetail from "./possible-detail";
+import PassModal from './pass-modal';
 
 import "react-datasheet-grid/dist/style.css";
-import { Grid, Typography, Button, Select, MenuItem, FormControl, InputLabel, OutlinedInput, accordionActionsClasses, Card, Box } from "@mui/material";
+import { Grid, Typography, 
+          Button, Select, MenuItem, FormControl, 
+          InputLabel, OutlinedInput,
+          Card, Box, Dialog,
+          DialogTitle,DialogContent,
+          DialogContentText,DialogActions } from "@mui/material";
 import FactoryStandardApi from "src/api/FactoryStandardApi";
 
+
+function MyCell(props) {
+  let style = {
+    minWidth: props.width,
+    maxWidth: props.width,
+    minHeight: props.height,
+    maxHeight: props.height === "auto" ? "none" : props.height,
+    ...props.style,
+    //중앙배열
+    display: "flex",
+    alignItems: "center",
+    headerAlign: 'center',
+    justifyContent: "center",
+  };
+  const apiRef = useGridApiContext();
+  const row = apiRef.current.getRow(props.rowId);
+
+  if (row && row.rowSpan && row.rowSpan[props.column.field]) {
+    const span = row.rowSpan[props.column.field];
+    style = {
+      ...style,
+      minHeight: props.height * span,
+      maxHeight: props.height * span,
+      backgroundColor: "gray",
+      zIndex: 1,
+    };
+  }
+  return <GridCell {...props} style={style} />;
+}
 
 const Capacity = () => {
   /* Data */
@@ -18,11 +53,19 @@ const Capacity = () => {
   const [open, setOpen] = useState(false); //가통Popper오픈
   const [anchorEl, setAnchorEl] = useState(null);//Popper
   const [placement, setPlacement] = useState();//Popper위치
+  const [openPassStandard, setOpenPassStandard] = useState(false);
+
   const [a,setA] = useState({
     processCd:null,
     processFacNum:null
   })
+  const passClick = () => {
+    setOpenPassStandard(true);
+  };
 
+  const passClose = () => {
+    setOpenPassStandard(false);
+  };
   const openFun= (check)=>{
     setOpen(check)
   }
@@ -152,9 +195,10 @@ const Capacity = () => {
         </FormControl>
       </div>
         <div>
-          <Button size="small" type="submit" variant="contained">
-            경유공정
+          <Button size="small" type="submit" variant="contained" onClick={passClick}>
+          경유공정
           </Button>
+          <PassModal open={openPassStandard} handleClose={passClose} />
           <Button size="small" type="submit" variant="contained">
             조회
           </Button>
@@ -197,12 +241,11 @@ const Capacity = () => {
             onDoubleClick:openPossibleOne,
           },
         }}
-        // onCellClick={(e) => {
-          
-        //   setPossibleList(e);
-        //   console.log('소구분 : '+e);
-        // }}
+        slots={{
+          cell: MyCell,
+        }}
         hideFooter = {true}
+        
       /></Box>
       </Card>
       
@@ -250,9 +293,10 @@ const Capacity = () => {
         //disableRowSelectionOnClick
         rows={confirmList}
         columns={confirmColumns}
-
         hideFooter = {true}last
-
+        slots={{
+          cell: MyCell,
+        }}
       /></Box>
       </Card>
       </div>
