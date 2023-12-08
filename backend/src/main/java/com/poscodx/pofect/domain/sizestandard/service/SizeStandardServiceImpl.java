@@ -2,13 +2,9 @@ package com.poscodx.pofect.domain.sizestandard.service;
 
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.main.service.FactoryOrderInfoService;
-import com.poscodx.pofect.domain.main.service.FactoryOrderInfoServiceImpl;
-import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
-import com.poscodx.pofect.domain.processstandard.service.ProcessStandardService;
 import com.poscodx.pofect.domain.sizestandard.dto.RowSpan;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardSetDto;
-import com.poscodx.pofect.domain.sizestandard.entity.FactorySizeStandard;
 import com.poscodx.pofect.domain.sizestandard.repository.SizeStandardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
