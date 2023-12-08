@@ -37,4 +37,6 @@ public interface CapacityRepository extends JpaRepository<CapacityInfo, Long> {
             "WHERE a.firmPsFacTp = b.firmPsFacTp " +
             "AND a.processCd = b.processCd")
     List<CombinedCapacityDto> findCombinedCapacity();
+
+    List<CapacityInfo> findAllByProcessCdOrderByFirmPsFacTpAsc(String processCode);
 }
