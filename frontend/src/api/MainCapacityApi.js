@@ -3,7 +3,12 @@ import { axiosApi } from "./api";
 const MainCapacityApi = {
   getOrderList: async (kind, week, callback) => {
     await axiosApi()
-      .get("/main", { ordPdtItpCdN: kind, ordThwTapWekCd: week })
+      .get(`/main?`, {
+        params: {
+          ordPdtItpCdN: kind != null ? kind : undefined,
+          ordThwTapWekCd: week != null ? week : undefined,
+        },
+      })
       .then((response) => {
         callback && callback(response.data);
       })
@@ -39,10 +44,7 @@ const MainCapacityApi = {
 
   getWeekList: async (statusCd, confirmFlag, callback) => {
     await axiosApi()
-      .get(`/main/week?`, {
-        faConfirmFlag: confirmFlag,
-        osMainStatusCd: statusCd,
-      })
+      .get(`/main/week?faConfirmFlag=${confirmFlag}&osMainStatusCd=${statusCd}`)
       .then((response) => {
         callback && callback(response.data);
       })

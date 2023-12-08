@@ -13,8 +13,9 @@ const FactoryStandardApi={
   },
   getPossiblePopper:async(processCD,callback)=>{
     await axiosApi()
-    .get(`/factory-standard/getPossibleCodes/${processCD}`)
+    .get(`/factory-standard/confirmfactory/${processCD}`)
     .then((response)=>{
+      console.log(response)
       callback && callback(response.data);
     })
     .catch((error)=>{

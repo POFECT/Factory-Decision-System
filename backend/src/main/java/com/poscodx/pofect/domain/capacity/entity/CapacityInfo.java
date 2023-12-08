@@ -47,4 +47,5 @@ public class CapacityInfo extends BaseEntity {
     @Column(name = "USER_ID", length = 8)
     private String userId;  // 8.박판공정계획사용자ID
 
+
 }
