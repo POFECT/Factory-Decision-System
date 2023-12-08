@@ -1,7 +1,7 @@
-package com.poscodx.pofect.domain.processstandard.service;
+package com.poscodx.pofect.domain.passstandard.service;
 
-import com.poscodx.pofect.domain.processstandard.dto.ConfirmFactoryStandardResDto;
-import com.poscodx.pofect.domain.processstandard.repository.ConfirmFactoryStandardRepository;
+import com.poscodx.pofect.domain.passstandard.dto.ConfirmFactoryStandardResDto;
+import com.poscodx.pofect.domain.passstandard.repository.ConfirmFactoryStandardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

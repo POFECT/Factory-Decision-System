@@ -1,8 +1,11 @@
 package com.poscodx.pofect.domain.sizestandard.controller;
 
 import com.poscodx.pofect.common.dto.ResponseDto;
+import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
+import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardSetDto;
+import com.poscodx.pofect.domain.sizestandard.entity.FactorySizeStandard;
 import com.poscodx.pofect.domain.sizestandard.service.SizeStandardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Api(value = "SizeStandard API", tags = {"공정 공장 별 사이즈 기준"})
 @CrossOrigin("*")
