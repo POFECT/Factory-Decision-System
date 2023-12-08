@@ -61,4 +61,11 @@ public class CapacityServiceImpl implements CapacityService {
         capacityRepository.insertIntoCapacityInfo(week);
 
     }
+
+    @Override
+    public List<CapacityInfoDto> getFactoryCapacityList(String processCode) {
+        return capacityRepository.findAllByProcessCdOrderByFirmPsFacTpAsc(processCode).stream()
+                .map(CapacityInfoDto::toDto)
+                .collect(Collectors.toList());
+    }
 }
