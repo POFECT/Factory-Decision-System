@@ -4,11 +4,46 @@ import Popper from '@mui/material/Popper';
 import Fade from '@mui/material/Fade';
 import Paper from '@mui/material/Paper';
 import PossibleDetail from "./possible-detail";
+import PassModal from './pass-modal';
 
 import "react-datasheet-grid/dist/style.css";
-import { Grid, Typography, Button, Select, MenuItem, FormControl, InputLabel, OutlinedInput, accordionActionsClasses, Card, Box } from "@mui/material";
+import { Grid, Typography, 
+          Button, Select, MenuItem, FormControl, 
+          InputLabel, OutlinedInput,
+          Card, Box, Dialog,
+          DialogTitle,DialogContent,
+          DialogContentText,DialogActions } from "@mui/material";
 import FactoryStandardApi from "src/api/FactoryStandardApi";
 
+
+function MyCell(props) {
+  let style = {
+    minWidth: props.width,
+    maxWidth: props.width,
+    minHeight: props.height,
+    maxHeight: props.height === "auto" ? "none" : props.height,
+    ...props.style,
+    //중앙배열
+    display: "flex",
+    alignItems: "center",
+    headerAlign: 'center',
+    justifyContent: "center",
+  };
+  const apiRef = useGridApiContext();
+  const row = apiRef.current.getRow(props.rowId);
+
+  if (row && row.rowSpan && row.rowSpan[props.column.field]) {
+    const span = row.rowSpan[props.column.field];
+    style = {
+      ...style,
+      minHeight: props.height * span,
+      maxHeight: props.height * span,
+      backgroundColor: "gray",
+      zIndex: 1,
+    };
+  }
+  return <GridCell {...props} style={style} />;
+}
 
 const Capacity = () => {
   /* Data */
@@ -18,11 +53,19 @@ const Capacity = () => {
   const [open, setOpen] = useState(false); //가통Popper오픈
   const [anchorEl, setAnchorEl] = useState(null);//Popper
   const [placement, setPlacement] = useState();//Popper위치
+  const [openPassStandard, setOpenPassStandard] = useState(false);
+
   const [a,setA] = useState({
     processCd:null,
     processFacNum:null
   })
+  const passClick = () => {
+    setOpenPassStandard(true);
+  };
 
+  const passClose = () => {
+    setOpenPassStandard(false);
+  };
   const openFun= (check)=>{
     setOpen(check)
   }
@@ -63,28 +106,28 @@ const Capacity = () => {
   },[]);
   //가통 컬럼
   const possibleColumns = [
-    { field: "code",headerName:"Code", width:120, headerAlign: "center"},
-    { field: "10", headerName: "제강", width:120, headerAlign: "center"},
-    { field: "20", headerName: "열연", width:120, headerAlign: "center"},
-    { field: "30", headerName: "열연정정", width:120,  headerAlign: "center"},
-    { field: "40", headerName: "냉간압연", width:120,  headerAlign: "center"},
-    { field: "50", headerName: "1차소둔", width:120,  headerAlign: "center"},
-    { field: "60", headerName: "2차소둔", width:120,  headerAlign: "center"},
-    { field: "70", headerName: "도금", width:120, headerAlign: "center"},
-    { field: "80", headerName: "정정", width:120, headerAlign: "center"},
+    { field: "code",headerName:"Code", width:150, headerAlign: "center"},
+    { field: "10", headerName: "제강", width:150, headerAlign: "center"},
+    { field: "20", headerName: "열연", width:150, headerAlign: "center"},
+    { field: "30", headerName: "열연정정", width:150,  headerAlign: "center"},
+    { field: "40", headerName: "냉간압연", width:150,  headerAlign: "center"},
+    { field: "50", headerName: "1차소둔", width:150,  headerAlign: "center"},
+    { field: "60", headerName: "2차소둔", width:150,  headerAlign: "center"},
+    { field: "70", headerName: "도금", width:150, headerAlign: "center"},
+    { field: "80", headerName: "정정", width:150, headerAlign: "center"},
   ];
 
   //확통 컬럼
   const confirmColumns=[
-    { field: "code",headerName:"Code", width:120, headerAlign: "center"   },
-    { field: "10", headerName: "제강", width:120, headerAlign: "center"    },
-    { field: "20", headerName: "열연", width:120, headerAlign: "center"     },
-    { field: "30", headerName: "열연정정", width:120,headerAlign: "center"  },
-    { field: "40", headerName: "냉간압연", width:120,headerAlign: "center"  },
-    { field: "50", headerName: "1차소둔", width:120, headerAlign: "center"  },
-    { field: "60", headerName: "2차소둔", width:120, headerAlign: "center"  },
-    { field: "70", headerName: "도금", width:120, headerAlign: "center"     },
-    { field: "80", headerName: "정정", width:120, headerAlign: "center"     },
+    { field: "code",headerName:"Code", width:150, headerAlign: "center"   },
+    { field: "10", headerName: "제강", width:150, headerAlign: "center"    },
+    { field: "20", headerName: "열연", width:150, headerAlign: "center"     },
+    { field: "30", headerName: "열연정정", width:150,headerAlign: "center"  },
+    { field: "40", headerName: "냉간압연", width:150,headerAlign: "center"  },
+    { field: "50", headerName: "1차소둔", width:150, headerAlign: "center"  },
+    { field: "60", headerName: "2차소둔", width:150, headerAlign: "center"  },
+    { field: "70", headerName: "도금", width:150, headerAlign: "center"     },
+    { field: "80", headerName: "정정", width:150, headerAlign: "center"     },
   ]
   let pPopupProcessCd=null;
   let feasibleArray = null;
@@ -152,9 +195,10 @@ const Capacity = () => {
         </FormControl>
       </div>
         <div>
-          <Button size="small" type="submit" variant="contained">
-            경유공정
+          <Button size="small" type="submit" variant="contained" onClick={passClick}>
+          경유공정
           </Button>
+          <PassModal open={openPassStandard} handleClose={passClose} />
           <Button size="small" type="submit" variant="contained">
             조회
           </Button>
@@ -197,12 +241,11 @@ const Capacity = () => {
             onDoubleClick:openPossibleOne,
           },
         }}
-        // onCellClick={(e) => {
-          
-        //   setPossibleList(e);
-        //   console.log('소구분 : '+e);
-        // }}
+        slots={{
+          cell: MyCell,
+        }}
         hideFooter = {true}
+        
       /></Box>
       </Card>
       
@@ -250,9 +293,10 @@ const Capacity = () => {
         //disableRowSelectionOnClick
         rows={confirmList}
         columns={confirmColumns}
-
         hideFooter = {true}last
-
+        slots={{
+          cell: MyCell,
+        }}
       /></Box>
       </Card>
       </div>
