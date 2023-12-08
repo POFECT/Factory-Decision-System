@@ -23,6 +23,19 @@ const CacpacityApi = {
     })
     .finally(()=>{});
   },
+
+  getCapacityList: async (callback) => {
+    await axiosApi().
+      get("/capacity/byWeek")
+      .then((response) => {
+        console.log(response)
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => { });
+  },
 }
 
 export default CacpacityApi;
