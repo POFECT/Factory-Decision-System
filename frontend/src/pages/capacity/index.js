@@ -2,6 +2,7 @@ import "react-datasheet-grid/dist/style.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import {
+  Box,
   Card,
   Grid,
   Typography,
@@ -26,7 +27,7 @@ import { Bar, Pie, Radar } from "react-chartjs-2";
 import RadarChart from './chart.js';
 
 
-import {GridToolbar } from "@mui/x-data-grid";
+import { GridToolbar } from "@mui/x-data-grid";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import ModalTest from "./modal-test";
 import React, {
@@ -34,6 +35,7 @@ import React, {
   useState,
 } from "react";
 import CapacityStandardApi from "src/api/CapacityApi";
+import { SizeXxxl } from "mdi-material-ui";
 
 
 
@@ -56,8 +58,8 @@ function MyCell(props) {
     ...props.style,
     //중앙배열
     display: "flex",
-    alignItems: "center", 
-    justifyContent: "center", 
+    alignItems: "center",
+    justifyContent: "center",
   };
   const apiRef = useGridApiContext();
   const row = apiRef.current.getRow(props.rowId);
@@ -82,23 +84,89 @@ const CapacityMgt = () => {
 
   const [labels, setLabels] = useState([]);
   const [selectCodeName, setSelectCodeName] = useState("20230711");
+  const [remainingQtyData, setRemainingQtyData] = useState([]);
 
 
   const [week, setWeek] = useState([]);
 
   useEffect(() => {
-    CapacityStandardApi.getList((data) => {
+    CapacityStandardApi.getCapacityList((data) => {
       setCapacity(data.response);
     });
-        CapacityStandardApi.getWeek((data) => {
+    CapacityStandardApi.getWeek((data) => {
       setWeek(data.response);
     });
   }, []);
 
-    const uniqueWeekCodes = [...new Set(week.map((item) => item.ordThwTapWekCd))];
+  const uniqueWeekCodes = [...new Set(week.map((item) => item.ordThwTapWekCd))];
   const handleWeekSelectChange = (e) => {
     console.log(e);
   };
+  // console.log(capacity[0]?.faAdjustmentWgt);
+  // capacity.forEach((item, index) => {
+  //   console.log(`Capacity ${index + 1} - remainingQty: ${item.faAdjustmentWgt-item.progressQty}`);
+  // });
+  console.log(capacity[0]?.processCd);
+
+  const standards = [
+  { id: 1, 공정: "제강", rowSpan: { 공정: 2 }, 공장: "1" },
+  { id: 2, 공정: "제강", 공장: "2" },
+  { id: 3, 공정: "열연", rowSpan: { 공정: 3 }, 공장: "1" },
+  { id: 4, 공정: "열연", 공장: "2" },
+  { id: 5, 공정: "열연", 공장: "3" },
+  { id: 6, 공정: "열연정정", rowSpan: { 공정: 2 }, 공장: "1" },
+  { id: 7, 공정: "열연정정", 공장: "2" },
+  { id: 8, 공정: "냉장압연", rowSpan: { 공정: 3 }, 공장: "1" },
+  { id: 9, 공정: "냉장압연", 공장: "2" },
+  { id: 10, 공정: "냉장압연", 공장: "3"  },
+  { id: 11, 공정: "1차소둔", rowSpan: { 공정: 3 }, 공장: "1" },
+  { id: 12, 공정: "1차소둔", 공장: "2" },
+  { id: 13, 공정: "1차소둔", 공장: "3"  },
+
+];
+  console.log(capacity[0]?.processCd);
+  console.log(capacity[0]?.firmPsfac_tp);
+
+// console.log(standards);
+  const addRowSpanToData = (data) => {
+    const processedData = [];
+    let currentProcess = null;
+    let currentRowSpan = 0;
+
+    data.forEach((item, index) => {
+      if (item.processCd !== currentProcess) {
+        // Start a new group with rowspan
+        currentProcess = item.processCd;
+        currentRowSpan = item.rowSpan ? parseInt(item.rowSpan) : 1;
+      } else {
+        // Continue the existing group
+        currentRowSpan--;
+      }
+
+      processedData.push({
+        ...item,
+        rowSpan: currentRowSpan === 0 ? undefined : currentRowSpan,
+      });
+    });
+
+    return processedData;
+  };
+
+ useEffect(() => {
+  const calculatedData = capacity.map((item) => {
+    const remainingQty = `${item.faAdjustmentWgt - item.progressQty}`;
+    return { ...item, remainingQty };
+  });
+   console.log("*", calculatedData); // Move the log statement here
+  
+  const dataWithRowSpan = addRowSpanToData(calculatedData);
+   console.log("***", dataWithRowSpan); // Move the log statement here
+
+
+  setRemainingQtyData(dataWithRowSpan);
+}, [capacity]);
+
+
 
   const options = {
     plugins: {
@@ -116,7 +184,7 @@ const CapacityMgt = () => {
         data: capacity,
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
-       {
+      {
         label: "공장2",
         data: capacity,
         backgroundColor: "rgba(53, 162, 235, 0.5)",
@@ -127,139 +195,22 @@ const CapacityMgt = () => {
       },
     ],
   };
-
-
-  const rows = [
-    {
-      id: 1,
-      공정: "제강",
-      rowSpan: { 공정: "2" },
-
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 2,
-      공장: "2",
-      공정: "제강",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 3,
-      공정: "열연",
-      rowSpan: { 공정: "3" },
-
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 4,
-      공장: "2",
-      공정: "열연",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-        {
-      id: 5,
-      공장: "3",
-      공정: "열연",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 6,
-      공정: "열연정정",
-      rowSpan: { 공정: "2" },
-
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 7,
-      공장: "2",
-      공정: "열연정정",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-        {
-      id: 8,
-      공정: "열연정정",
-      rowSpan: { 공정: "2" },
-
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 9,
-      공장: "2",
-      공정: "열연정정",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-        {
-      id: 10,
-      공정: "열연정정",
-      rowSpan: { 공정: "2" },
-
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id:11,
-      공장: "2",
-      공정: "열연정정",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    
-  ];
+  // 
 
   const columns = [
-    { field: "공정", headerName: "공정", width: 90, editable: true },
-    { field: "공장", headerName: "공장", width: 70, editable: true },
-    { field: "능력량", headerName: "능력량", width: 90, editable: true },
-    { field: "조정량", headerName: "조정량", width: 90, editable: true },
-    { field: "투입량", headerName: "투입량", width: 90, editable: true },
-    { field: "잔여량", headerName: "잔여량", width: 90, editable: true },
- 
-  ];
-return (
+    { field: "processCd", headerName: "공정", width: 90, headerAlign: 'center', },
+    { field: "firmPsFacTp", headerName: "공장", width: 70, headerAlign: 'center', },
+    { field: "planQty", headerName: "능력량", width: 90, headerAlign: 'center', },
+    { field: "faAdjustmentWgt", headerName: "조정량", width: 90, editable: true, headerAlign: 'center', },
+    { field: "progressQty", headerName: "투입량", width: 90, headerAlign: 'center', },
+    { field: "remainingQty", headerName: "잔여량", width: 90, headerAlign: 'center', },
 
-  <>
+  ];
+
+
+  return (
+
+    <>
 
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Card></Card>
@@ -273,15 +224,15 @@ return (
           alignItems: "center",
         }}
       >
-    <div>
-          <FormControl 
+        <div>
+          <FormControl
             sx={{ m: 1 }}
             style={{
               paddingTop: 10,
               paddingBottom: 20,
               marginRight: 10,
             }}>
-           <InputLabel id="label1" style={{ paddingTop: 10 }}>
+            <InputLabel id="label1" style={{ paddingTop: 10 }}>
               구분
             </InputLabel>
             <Select
@@ -298,15 +249,15 @@ return (
               <MenuItem value="K">광양</MenuItem>
             </Select>
           </FormControl>
-          <FormControl 
-             sx={{ m: 1 }}
+          <FormControl
+            sx={{ m: 1 }}
             style={{
               paddingTop: 10,
               paddingBottom: 20,
               marginRight: 10,
             }}>
             <InputLabel id="label1" style={{ paddingTop: 10 }}>출강주</InputLabel>
- <Select
+            <Select
               labelId="출강주"
               id="demo-multiple-name"
               defaultValue="select"
@@ -316,7 +267,7 @@ return (
               }}
               style={{ height: 40 }}
             >
-                {uniqueWeekCodes.map((code) => (
+              {uniqueWeekCodes.map((code) => (
                 <MenuItem key={code} value={code}>
                   {code}
                 </MenuItem>
@@ -336,7 +287,7 @@ return (
           </Button>
         </div>
       </div>
-      <div style={{ display: "flex"  }}>
+      <div style={{ display: "flex" }}>
         <Card
           elevation={3}
           style={{
@@ -345,43 +296,76 @@ return (
             padding: "16px",
           }}
         >
-          <DataGrid
-           disableRowSelectionOnClick
-            rows={rows}
-            columns={columns}
-              onCellClick={(e) => {
-            console.log(e);
-          }}
-            components={{
-              Toolbar: GridToolbar,
-              Cell: MyCell,
-            }}
-          rowHeight={40}
 
-          />
+
+          <Box
+            sx={{
+              height: "100%",
+              width: "100%",
+              marginBottom: "20px",
+              "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
+              {
+                borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                borderRight: "1px solid rgba(225, 234, 239, 1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              },
+              "& .custom-data-grid .MuiDataGrid-columnHeader": {
+                cursor: "pointer",
+                borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                borderRight: "1px solid rgba(225, 234, 239, 1)",
+              },
+              "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
+              {
+                borderBottomStyle: "none",
+              },
+
+              "& .custom-data-grid .MuiDataGrid-root": {
+                paddingBottom: "0px",
+              },
+            }}
+          >
+            <DataGrid
+              className="custom-data-grid"
+              disableRowSelectionOnClick
+              rows={remainingQtyData}
+              columns={columns}
+              onCellClick={(e) => {
+                console.log(e);
+              }}
+              components={{
+                Toolbar: GridToolbar,
+                Cell: MyCell,
+              }}
+              rowHeight={31}
+
+            />
+
+          </Box>
         </Card>
         <Card
           elevation={3}
           style={{
-            flexBasis: "70%", 
+            flexBasis: "70%",
             padding: "16px",
           }}
         >
           <Typography variant="h6">Chart</Typography>
 
-        <Grid item xs={4} sx={{ paddingBottom: 4 }}>
-          <Typography variant="h5">공장 부하 현황 </Typography>
-          
+          <Grid item xs={4} sx={{ paddingBottom: 4 }}>
+            <Typography variant="h5">공장 부하 현황 </Typography>
+
             <Bar
               options={options}
               data={inputStatusChartData}
               style={{ width: "100%", height: "80%" }}
             />
-            <RadarChart/>
+            <RadarChart />
 
-        </Grid>
+          </Grid>
 
-{/* <ul>
+          {/* <ul>
   {capacity.map((item) => (
     <li key={item.id}>
       ID: {item.id}, Company Code: {item.gcsCompCode}, Mill Code: {item.millCd}, ...
@@ -389,7 +373,7 @@ return (
   ))}
 </ul> */}
 
-{/* <ul>
+          {/* <ul>
   {week.map((item) => (
     <li key={item.id}>
       ID: {item.id}, WEek Code: {item.ordThwTapWekCd}, Mill Code: {item.millCd}, ...
@@ -399,7 +383,7 @@ return (
         </Card>
       </div>
 
-</>
+    </>
   );
 };
 
