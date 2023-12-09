@@ -25,8 +25,6 @@ import {
 } from "chart.js";
 import { Bar, Pie, Radar } from "react-chartjs-2";
 import RadarChart from './chart.js';
-
-
 import { GridToolbar } from "@mui/x-data-grid";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import ModalTest from "./modal-test";
@@ -36,8 +34,6 @@ import React, {
 } from "react";
 import CapacityStandardApi from "src/api/CapacityApi";
 import { SizeXxxl } from "mdi-material-ui";
-
-
 
 ChartJS.register(
   CategoryScale,
@@ -79,93 +75,56 @@ function MyCell(props) {
 
 const CapacityMgt = () => {
 
+  // 능력
   const [capacity, setCapacity] = useState([]);
-  const [inputStatusData, setInputStatusData] = useState([]);
-
-  const [labels, setLabels] = useState([]);
-  const [selectCodeName, setSelectCodeName] = useState("20230711");
   const [remainingQtyData, setRemainingQtyData] = useState([]);
 
+  const [labels, setLabels] = useState([]);
 
-  const [week, setWeek] = useState([]);
+  const [selectCodeName, setSelectCodeName] = useState("20230711");
+
+  // 출강주
+  const [weekList, setWeekList] = useState({
+    list: [],
+    select: "",
+  });
 
   useEffect(() => {
     CapacityStandardApi.getCapacityList((data) => {
       setCapacity(data.response);
     });
-    CapacityStandardApi.getWeek((data) => {
-      setWeek(data.response);
-    });
-  }, []);
 
-  const uniqueWeekCodes = [...new Set(week.map((item) => item.ordThwTapWekCd))];
-  const handleWeekSelectChange = (e) => {
-    console.log(e);
-  };
+    CapacityStandardApi.getWeek("H", ["A", "B", "C"], (data) => {
+      const list = data.response;
+      const select = list[0];
+      setWeekList((prev) => {
+        return { ...prev, list, select };
+      });
+
+    
+    });
+  
+  }, []);
+ console.log(weekList);
+
+  
   // console.log(capacity[0]?.faAdjustmentWgt);
   // capacity.forEach((item, index) => {
   //   console.log(`Capacity ${index + 1} - remainingQty: ${item.faAdjustmentWgt-item.progressQty}`);
   // });
   console.log(capacity[0]?.processCd);
-
-  const standards = [
-  { id: 1, 공정: "제강", rowSpan: { 공정: 2 }, 공장: "1" },
-  { id: 2, 공정: "제강", 공장: "2" },
-  { id: 3, 공정: "열연", rowSpan: { 공정: 3 }, 공장: "1" },
-  { id: 4, 공정: "열연", 공장: "2" },
-  { id: 5, 공정: "열연", 공장: "3" },
-  { id: 6, 공정: "열연정정", rowSpan: { 공정: 2 }, 공장: "1" },
-  { id: 7, 공정: "열연정정", 공장: "2" },
-  { id: 8, 공정: "냉장압연", rowSpan: { 공정: 3 }, 공장: "1" },
-  { id: 9, 공정: "냉장압연", 공장: "2" },
-  { id: 10, 공정: "냉장압연", 공장: "3"  },
-  { id: 11, 공정: "1차소둔", rowSpan: { 공정: 3 }, 공장: "1" },
-  { id: 12, 공정: "1차소둔", 공장: "2" },
-  { id: 13, 공정: "1차소둔", 공장: "3"  },
-
-];
   console.log(capacity[0]?.processCd);
   console.log(capacity[0]?.firmPsfac_tp);
 
-// console.log(standards);
-  const addRowSpanToData = (data) => {
-    const processedData = [];
-    let currentProcess = null;
-    let currentRowSpan = 0;
-
-    data.forEach((item, index) => {
-      if (item.processCd !== currentProcess) {
-        // Start a new group with rowspan
-        currentProcess = item.processCd;
-        currentRowSpan = item.rowSpan ? parseInt(item.rowSpan) : 1;
-      } else {
-        // Continue the existing group
-        currentRowSpan--;
-      }
-
-      processedData.push({
-        ...item,
-        rowSpan: currentRowSpan === 0 ? undefined : currentRowSpan,
-      });
-    });
-
-    return processedData;
-  };
-
- useEffect(() => {
+  useEffect(() => {
   const calculatedData = capacity.map((item) => {
     const remainingQty = `${item.faAdjustmentWgt - item.progressQty}`;
     return { ...item, remainingQty };
   });
-   console.log("*", calculatedData); // Move the log statement here
-  
-  const dataWithRowSpan = addRowSpanToData(calculatedData);
-   console.log("***", dataWithRowSpan); // Move the log statement here
+   console.log("*", calculatedData); 
 
-
-  setRemainingQtyData(dataWithRowSpan);
+  setRemainingQtyData(calculatedData);
 }, [capacity]);
-
 
 
   const options = {
@@ -197,6 +156,7 @@ const CapacityMgt = () => {
   };
   // 
 
+  //컬럼
   const columns = [
     { field: "processCd", headerName: "공정", width: 90, headerAlign: 'center', },
     { field: "firmPsFacTp", headerName: "공장", width: 70, headerAlign: 'center', },
@@ -211,7 +171,6 @@ const CapacityMgt = () => {
   return (
 
     <>
-
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Card></Card>
         <Typography variant="h3">투입 능력 관리</Typography>
@@ -246,7 +205,6 @@ const CapacityMgt = () => {
               style={{ height: 40 }}
             >
               <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
             </Select>
           </FormControl>
           <FormControl
@@ -256,22 +214,30 @@ const CapacityMgt = () => {
               paddingBottom: 20,
               marginRight: 10,
             }}>
-            <InputLabel id="label1" style={{ paddingTop: 10 }}>출강주</InputLabel>
+           <InputLabel id="label3" style={{ paddingTop: 10 }}>
+              출강주
+            </InputLabel>
             <Select
               labelId="출강주"
               id="demo-multiple-name"
-              defaultValue="select"
+              value={weekList.select}
               input={<OutlinedInput label="출강주" />}
               onChange={(e) => {
-                setSelectCodeName(e.target.value);
+                setWeekList(
+                  Object.assign({}, weekList, {
+                    select: e.target.value,
+                  })
+                );
               }}
               style={{ height: 40 }}
             >
-              {uniqueWeekCodes.map((code) => (
-                <MenuItem key={code} value={code}>
-                  {code}
-                </MenuItem>
-              ))}
+              {weekList.list.map((code, idx) => {
+                return (
+                  <MenuItem key={idx} value={code}>
+                    {code}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </div>

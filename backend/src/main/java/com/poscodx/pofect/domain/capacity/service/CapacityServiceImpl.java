@@ -5,6 +5,7 @@ import com.poscodx.pofect.common.exception.ErrorCode;
 import com.poscodx.pofect.domain.capacity.dto.CapacityInfoDto;
 import com.poscodx.pofect.domain.capacity.dto.CombinedCapacityDto;
 import com.poscodx.pofect.domain.capacity.entity.CapacityInfo;
+import com.poscodx.pofect.domain.capacity.dto.CombinedCapacityRowSpanDto;
 import com.poscodx.pofect.domain.capacity.repository.CapacityRepository;
 import com.poscodx.pofect.domain.passstandard.service.ConfirmFactoryStandardService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,6 @@ public class CapacityServiceImpl implements CapacityService {
 
     @Override
     public List<CapacityInfoDto> getList() {
-
         return capacityRepository.findAll().stream()
                 .map(CapacityInfoDto::toDto)
                 .collect(Collectors.toList());
@@ -32,25 +32,43 @@ public class CapacityServiceImpl implements CapacityService {
 
     @Override
     public List<CombinedCapacityDto> getCapacityList() {
-
-
-        List<CombinedCapacityDto> list = capacityRepository.findCombinedCapacity();
         return capacityRepository.findCombinedCapacity();
     }
-//
+
+    @Override
+    public List<CombinedCapacityDto> findCombinedCapacityByWeek(String week) {
+        return capacityRepository.findCombinedCapacityByWeek(week);
+    }
+
+
+    // rowspan 추가
 //    @Override
-//    public List<GrantCapacityDto> getStandardList() {
+//    public List<CombinedCapacityRowSpanDto> addRowSpanValues(List<CombinedCapacityDto> combinedCapacityList) {
+//        List<CombinedCapacityRowSpanDto> resultList = new ArrayList<>();
+//        Map<String, Integer> processCdCountMap = new HashMap<>();
 //
-//        return grantCapacityRepository.findOne().stream()
-//                .map(GrantCapacityDto::toDto)
-//                .collect(Collectors.toList());
+//        for (CombinedCapacityDto dto : combinedCapacityList) {
+//            CombinedCapacityRowSpanDto rowSpanDto = new CombinedCapacityRowSpanDto();
+//            BeanUtils.copyProperties(dto, rowSpanDto);
+//            int rowCount = processCdCountMap.getOrDefault(dto.getProcessCd(), 0);
+//
+//            if (rowCount == 0) {
+//                rowSpanDto.updateRowSpan(dto.getProcessCd(), rowCount);
+//            }
+//
+//            processCdCountMap.put(dto.getProcessCd(), rowCount + 1);
+//            resultList.add(rowSpanDto);
+//        }
+//
+//        return resultList;
 //    }
 
-//    @Override
-//    public GrantCapacityDto getById(Long id) {
-//        return GrantCapacityDto.toDto(grantCapacityRepository.findById(id)
-//                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND)));
-//    }
+    @Override
+    public int getRowCount(String processCd, List<CombinedCapacityDto> combinedCapacityList) {
+        return (int) combinedCapacityList.stream()
+                .filter(dto -> dto.getProcessCd().equals(processCd))
+                .count();
+    }
 
     @Transactional
     @Override
@@ -63,7 +81,11 @@ public class CapacityServiceImpl implements CapacityService {
 
         // 중복이 없으면 insert
         capacityRepository.insertIntoCapacityInfo(week);
+    }
 
+    @Override
+    public List<CombinedCapacityRowSpanDto> getCombinedCapacityWithRowSpan(String week) {
+        return null;
     }
 
     @Override
