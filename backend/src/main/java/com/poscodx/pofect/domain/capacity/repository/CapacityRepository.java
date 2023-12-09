@@ -38,5 +38,15 @@ public interface CapacityRepository extends JpaRepository<CapacityInfo, Long> {
             "AND a.processCd = b.processCd")
     List<CombinedCapacityDto> findCombinedCapacity();
 
+
+    @Query("SELECT new com.poscodx.pofect.domain.capacity.dto.CombinedCapacityDto(" +
+            "b.id, b.gcsCompCode, b.millCd, b.ordRcpTapWekCd, b.processCd, " +
+            "b.firmPsFacTp, b.faAdjustmentWgt, b.progressQty, b.userId, a.planQty) " +
+            "FROM GrantCapacity a, CapacityInfo b " +
+            "WHERE a.firmPsFacTp = b.firmPsFacTp " +
+            "AND a.processCd = b.processCd " +
+            "AND (:week IS NULL OR b.ordRcpTapWekCd = :week)")
+    List<CombinedCapacityDto> findCombinedCapacityByWeek(@Param("week") String week);
+
     List<CapacityInfo> findAllByProcessCdOrderByFirmPsFacTpAsc(String processCode);
 }
