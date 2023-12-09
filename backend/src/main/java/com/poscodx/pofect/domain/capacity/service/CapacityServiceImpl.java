@@ -4,11 +4,14 @@ import com.poscodx.pofect.common.exception.CustomException;
 import com.poscodx.pofect.common.exception.ErrorCode;
 import com.poscodx.pofect.domain.capacity.dto.CapacityInfoDto;
 import com.poscodx.pofect.domain.capacity.dto.CombinedCapacityDto;
+import com.poscodx.pofect.domain.capacity.entity.CapacityInfo;
 import com.poscodx.pofect.domain.capacity.repository.CapacityRepository;
+import com.poscodx.pofect.domain.passstandard.service.ConfirmFactoryStandardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +20,7 @@ import java.util.stream.Collectors;
 public class CapacityServiceImpl implements CapacityService {
 
     private final CapacityRepository capacityRepository;
+    private final ConfirmFactoryStandardService confirmFactoryStandardService;
 
     @Override
     public List<CapacityInfoDto> getList() {
@@ -63,9 +67,28 @@ public class CapacityServiceImpl implements CapacityService {
     }
 
     @Override
-    public List<CapacityInfoDto> getFactoryCapacityList(String processCode) {
-        return capacityRepository.findAllByProcessCdOrderByFirmPsFacTpAsc(processCode).stream()
-                .map(CapacityInfoDto::toDto)
-                .collect(Collectors.toList());
+    public List<CapacityInfoDto.FactoryCapacityDto> getFactoryCapacityList(String processCode) {
+        List<CapacityInfoDto.FactoryCapacityDto> result = new ArrayList<>();
+
+        List<CapacityInfo> list = capacityRepository.findAllByProcessCdOrderByFirmPsFacTpAsc(processCode);
+
+        for(CapacityInfo capacityInfo : list) {
+            // 공장 이름 GET 후 매핑
+            String factoryName = confirmFactoryStandardService.getFactoryName(capacityInfo.getProcessCd(), capacityInfo.getFirmPsFacTp());
+            System.out.println(factoryName);
+
+            CapacityInfoDto.FactoryCapacityDto dto =
+                    CapacityInfoDto.FactoryCapacityDto.builder()
+                            .processCd(capacityInfo.getProcessCd())
+                            .firmPsFacTp(capacityInfo.getFirmPsFacTp())
+                            .faAdjustmentWgt(capacityInfo.getFaAdjustmentWgt())
+                            .progressQty(capacityInfo.getProgressQty())
+                            .factoryName(factoryName)
+                            .build();
+
+            result.add(dto);
+        }
+
+        return result;
     }
 }

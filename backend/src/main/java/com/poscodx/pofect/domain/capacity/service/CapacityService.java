@@ -19,5 +19,5 @@ public interface CapacityService {
 
     void insert(String week);
 
-    List<CapacityInfoDto> getFactoryCapacityList(String processCode);
+    List<CapacityInfoDto.FactoryCapacityDto> getFactoryCapacityList(String processCode);
 }
