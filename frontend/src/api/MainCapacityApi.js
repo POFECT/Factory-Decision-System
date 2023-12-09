@@ -53,6 +53,17 @@ const MainCapacityApi = {
       })
       .finally(() => {});
   },
+
+  getFaCapacityList: async (no, callback) => {
+    await axiosApi()
+      .get(`/capacity/factory/${no}`)
+      .then((response) => {
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
 };
 
 export default MainCapacityApi;

@@ -82,8 +82,8 @@ const MainConfirm = () => {
     MainCapacityApi.getOrderList(kind, week, (data) => {
       const list = data.response;
       const order = list[0];
-      console.log(list);
-      console.log(order);
+      // console.log(list);
+      // console.log(order);
       setOrderList((prev) => {
         return { ...prev, list, order };
       });
@@ -430,13 +430,13 @@ const MainConfirm = () => {
               id="demo-multiple-name"
               defaultValue="T"
               input={<OutlinedInput label="구분" />}
-              onChange={(e) => {
-                console.log(e);
-              }}
+              // onChange={(e) => {
+              //   console.log(e);
+              // }}
               style={{ height: 40 }}
             >
               <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
+              {/* <MenuItem value="K">광양</MenuItem> */}
             </Select>
           </FormControl>
           <FormControl

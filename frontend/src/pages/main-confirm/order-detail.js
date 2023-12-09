@@ -11,15 +11,24 @@ import FactoryDetail from "./factory-detail";
 
 const OrderDetail = (props) => {
   const [cfCode, setCfCode] = useState("");
-  const [factory, setFactory] = useState({ no: 10, name: "제강" });
+  const [factory, setFactory] = useState({
+    no: "10",
+    name: "제강",
+    code: props.order.cfirmPassOpCd.charAt(0),
+  });
 
   useEffect(() => {
     setCfCode(props.order.cfirmPassOpCd.padEnd(8, " "));
   }, [props.order]);
 
-  const changeFactory = (e) => {
+  const changeFactory = (e, code) => {
     setFactory((prev) => {
-      return { ...prev, no: e.target.accessKey, name: e.target.innerText };
+      return {
+        ...prev,
+        no: e.target.accessKey,
+        name: e.target.innerText,
+        code,
+      };
     });
   };
 
@@ -53,7 +62,7 @@ const OrderDetail = (props) => {
                 component={Paper}
                 style={{ border: "1px solid #8E8E8E" }}
               >
-                <TableRow key="1">
+                <TableRow>
                   <TableCell
                     style={{
                       width: 160,
@@ -76,7 +85,7 @@ const OrderDetail = (props) => {
                 component={Paper}
                 style={{ border: "1px solid #8E8E8E" }}
               >
-                <TableRow key="1">
+                <TableRow>
                   <TableCell
                     style={{
                       width: 160,
@@ -109,7 +118,7 @@ const OrderDetail = (props) => {
                     align="center"
                     accessKey={10}
                     onClick={(e) => {
-                      changeFactory(e);
+                      changeFactory(e, cfCode.charAt(0));
                     }}
                     style={{
                       cursor: "pointer",
@@ -124,7 +133,7 @@ const OrderDetail = (props) => {
                     align="center"
                     accessKey={20}
                     onClick={(e) => {
-                      changeFactory(e);
+                      changeFactory(e, cfCode.charAt(1));
                     }}
                     style={{
                       cursor: "pointer",
@@ -139,7 +148,7 @@ const OrderDetail = (props) => {
                     align="center"
                     accessKey={30}
                     onClick={(e) => {
-                      changeFactory(e);
+                      changeFactory(e, cfCode.charAt(2));
                     }}
                     style={{
                       cursor: "pointer",
@@ -154,7 +163,7 @@ const OrderDetail = (props) => {
                     align="center"
                     accessKey={40}
                     onClick={(e) => {
-                      changeFactory(e);
+                      changeFactory(e, cfCode.charAt(3));
                     }}
                     style={{
                       cursor: "pointer",
@@ -169,7 +178,7 @@ const OrderDetail = (props) => {
                     align="center"
                     accessKey={50}
                     onClick={(e) => {
-                      changeFactory(e);
+                      changeFactory(e, cfCode.charAt(4));
                     }}
                     style={{
                       cursor: "pointer",
@@ -184,7 +193,7 @@ const OrderDetail = (props) => {
                     align="center"
                     accessKey={60}
                     onClick={(e) => {
-                      changeFactory(e);
+                      changeFactory(e, cfCode.charAt(5));
                     }}
                     style={{
                       cursor: "pointer",
@@ -199,7 +208,7 @@ const OrderDetail = (props) => {
                     align="center"
                     accessKey={70}
                     onClick={(e) => {
-                      changeFactory(e);
+                      changeFactory(e, cfCode.charAt(6));
                     }}
                     style={{
                       cursor: "pointer",
@@ -214,7 +223,7 @@ const OrderDetail = (props) => {
                     align="center"
                     accessKey={80}
                     onClick={(e) => {
-                      changeFactory(e);
+                      changeFactory(e, cfCode.charAt(7));
                     }}
                     style={{
                       cursor: "pointer",
@@ -247,7 +256,7 @@ const OrderDetail = (props) => {
           </TableContainer>
         </Card>
         <Card>
-          <FactoryDetail factory={factory} />
+          <FactoryDetail factory={factory} order={props.order} />
         </Card>
       </div>
     </>

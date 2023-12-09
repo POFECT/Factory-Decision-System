@@ -1,13 +1,27 @@
 import { useState, useEffect } from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Checkbox } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableHead from "@mui/material/TableHead";
+import MainCapacityApi from "src/api/MainCapacityApi";
 
 const FactoryDetail = (props) => {
+  const [factoryList, setFactoryList] = useState({
+    list: [],
+  });
+
+  useEffect(() => {
+    MainCapacityApi.getFaCapacityList(props.factory.no, (data) => {
+      const list = data.response;
+      setFactoryList((prev) => {
+        return { ...prev, list };
+      });
+    });
+  }, [props.factory, props.order]);
+
   return (
     <>
       <TableContainer>
@@ -68,22 +82,28 @@ const FactoryDetail = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>
-                공장
-              </TableCell>
-              <TableCell align="center">ddd</TableCell>
-              <TableCell align="center">sss</TableCell>
-              <TableCell align="center">fff</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell align="center" style={{ fontWeight: "bold" }}>
-                공장
-              </TableCell>
-              <TableCell align="center">ddd</TableCell>
-              <TableCell align="center">sss</TableCell>
-              <TableCell align="center">fff</TableCell>
-            </TableRow>
+            {factoryList.list.map((f) => {
+              return (
+                <TableRow key={f.firmPsFacTp}>
+                  <TableCell align="center">{f.factoryName}</TableCell>
+                  <TableCell align="center">
+                    {f.faAdjustmentWgt - f.progressQty}
+                  </TableCell>
+                  <TableCell align="center">
+                    {props.factory.code == f.firmPsFacTp
+                      ? props.order.orderLineQty
+                      : ""}
+                  </TableCell>
+                  <TableCell>
+                    <Checkbox
+                      checked={
+                        props.factory.code == f.firmPsFacTp ? true : false
+                      }
+                    />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
