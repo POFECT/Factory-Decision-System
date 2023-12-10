@@ -56,6 +56,8 @@ const MainConfirm = () => {
     select: "",
   });
 
+  const [selectedId, setSelectedId] = useState([]);
+
   useEffect(() => {
     getOrders(null, null);
 
@@ -518,6 +520,7 @@ const MainConfirm = () => {
             variant="contained"
             onClick={() => {
               getOrders(codeNameList.select, weekList.select);
+              setSelectedId([]);
             }}
           >
             대상조회
@@ -539,6 +542,19 @@ const MainConfirm = () => {
           checkboxSelection
           disableRowSelectionOnClick
           rows={orderList.list}
+          onRowSelectionModelChange={(newRowSelectionModel) => {
+            const selectedIDs = newRowSelectionModel.map((rowId) => {
+              const selectedRow = orderList.list.find(
+                (row) => row.id === rowId
+              );
+              return selectedRow.id;
+            });
+            console.log(selectedIDs);
+
+            setSelectedId((prev) => {
+              return { ...prev, selectedIDs };
+            });
+          }}
           columns={columns}
           onCellClick={(e) => {
             setOrderList(
