@@ -64,6 +64,20 @@ const MainCapacityApi = {
         console.log(error);
       });
   },
+
+  updateFlag: async (flag, orderIds, callback) => {
+    await axiosApi()
+      .patch("/main/flag/update", {
+        flag,
+        ids: orderIds,
+      })
+      .then((response) => {
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
 };
 
 export default MainCapacityApi;
