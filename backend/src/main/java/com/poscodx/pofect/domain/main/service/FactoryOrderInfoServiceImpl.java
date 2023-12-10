@@ -69,4 +69,9 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         return factoryOrderInfoRepository.getWeeks(dto);
     }
 
+    @Override
+    public Long updateOrderFlag(FactoryOrderInfoReqDto.updateFlagDto reqDto) {
+        return factoryOrderInfoRepository.updateFlag(reqDto);
+    }
+
 }

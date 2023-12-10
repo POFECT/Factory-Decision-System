@@ -10,4 +10,6 @@ public interface FactoryOrderInfoCustom {
     List<String> getWeeks(FactoryOrderInfoReqDto.SearchDto dto);
 
     List<FactoryOrderInfo> findAllByOption(FactoryOrderInfoReqDto.orderDto dto);
+
+    Long updateFlag(FactoryOrderInfoReqDto.updateFlagDto reqDto);
 }

@@ -31,6 +31,16 @@ public class FactoryOrderInfoReqDto {
         private String ordThwTapWekCd;  // 주문투입출강주코드
     }
 
+    /* FA_CONFIRM_FLAG 수정 request data */
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class updateFlagDto {
+        private String flag;  // 변경할 FLAG
+        private List<Long> ids;  // FLAG를 변경할 주문 ID 리스트
+    }
+
     @NotBlank
     @Size(max = 2)
     private String gcsCompCode;  // 1.연결결산법인구분
