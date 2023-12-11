@@ -29,6 +29,8 @@ public class FactoryOrderInfoReqDto {
     public static class orderDto {
         private String ordPdtItpCdN;  // 주문품종코드
         private String ordThwTapWekCd;  // 주문투입출강주코드
+        private String osMainStatusCd;  // 주문진도상태구분
+        private List<String> faConfirmFlag;  // 공장결정확정구분
     }
 
     /* FA_CONFIRM_FLAG 수정 request data */

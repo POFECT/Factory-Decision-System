@@ -40,7 +40,9 @@ public class FactoryOrderInfoCustomImpl extends Querydsl4RepositorySupport imple
     public List<FactoryOrderInfo> findAllByOption(FactoryOrderInfoReqDto.orderDto dto) {
         BooleanBuilder option = integration(
                 eqOrdPdtItpCdN(dto.getOrdPdtItpCdN()),
-                eqOrdThwTapWekCd(dto.getOrdThwTapWekCd())
+                eqOrdThwTapWekCd(dto.getOrdThwTapWekCd()),
+                eqOsMainStatusCd(dto.getOsMainStatusCd()),
+                inFaConfirmFlag(dto.getFaConfirmFlag())
         );
 
         return getFactoryOrderInfoJPAQuery(option).fetch();
