@@ -71,7 +71,21 @@ const MainCapacityApi = {
   updateFlag: async (flag, orderIds, callback) => {
     await axiosApi()
       .patch("/main/flag/update", {
-        flag,
+        value: flag,
+        ids: orderIds,
+      })
+      .then((response) => {
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+  updateStatus: async (status, orderIds, callback) => {
+    await axiosApi()
+      .patch("/main/status/update", {
+        value: status,
         ids: orderIds,
       })
       .then((response) => {

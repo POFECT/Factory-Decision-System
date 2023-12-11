@@ -123,7 +123,11 @@ const MainConfirm = () => {
     });
     // console.log(selectedIdList);
 
-    MainCapacityApi.updateFlag("F", selectedIdList, (data) => {
+    await MainCapacityApi.updateFlag("F", selectedIdList, (data) => {
+      const cnt = data.response;
+      console.log(cnt);
+    });
+    await MainCapacityApi.updateStatus("C", selectedIdList, (data) => {
       const cnt = data.response;
       alert(cnt + "건 제조투입 완료되었습니다.");
       setRowSelectionModel([]);
