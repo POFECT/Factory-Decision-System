@@ -16,5 +16,4 @@ public class SizeStandardSetDto {
 
     private String processCD;
     private List<String> firmPsFacTpList = new ArrayList<>();
-//    private Set<String> firmPsFacTpList = new HashSet<>();
 }
