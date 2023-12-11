@@ -40,6 +40,9 @@ function MyCell(props) {
 const MainConfirm = () => {
   /* 데이터 */
 
+  const osMainStatusCd = "H";
+  const faConfirmFlag = ["D", "E"];
+
   // 주문
   const [orderList, setOrderList] = useState({
     list: [],
@@ -81,15 +84,21 @@ const MainConfirm = () => {
   const getOrders = (kind, week) => {
     if (kind == 0) kind = null;
     if (week == 0) week = null;
-    MainCapacityApi.getOrderList(kind, week, (data) => {
-      const list = data.response;
-      const order = list[0];
-      // console.log(list);
-      // console.log(order);
-      setOrderList((prev) => {
-        return { ...prev, list, order };
-      });
-    });
+    MainCapacityApi.getOrderList(
+      kind,
+      week,
+      osMainStatusCd,
+      faConfirmFlag,
+      (data) => {
+        const list = data.response;
+        const order = list[0];
+        // console.log(list);
+        // console.log(order);
+        setOrderList((prev) => {
+          return { ...prev, list, order };
+        });
+      }
+    );
   };
 
   const inputFactory = async () => {
@@ -114,7 +123,11 @@ const MainConfirm = () => {
     });
     // console.log(selectedIdList);
 
-    MainCapacityApi.updateFlag("F", selectedIdList, (data) => {
+    await MainCapacityApi.updateFlag("F", selectedIdList, (data) => {
+      const cnt = data.response;
+      console.log(cnt);
+    });
+    await MainCapacityApi.updateStatus("C", selectedIdList, (data) => {
       const cnt = data.response;
       alert(cnt + "건 제조투입 완료되었습니다.");
       setRowSelectionModel([]);
