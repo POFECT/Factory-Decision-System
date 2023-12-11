@@ -38,4 +38,9 @@ public class ConfirmFactoryStandardServiceImpl implements ConfirmFactoryStandard
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public String getFactoryName(String processCd, String firmPsFacTp) {
+        return confirmFactoryStandardRepository.findAllByProcessCdAndFirmPsFacTp(processCd, firmPsFacTp).getCdExpl();
+    }
+
 }

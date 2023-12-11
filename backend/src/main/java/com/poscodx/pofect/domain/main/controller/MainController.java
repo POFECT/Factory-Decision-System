@@ -52,6 +52,13 @@ public class MainController {
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 
+    @PatchMapping("/flag/update")
+    @ApiOperation(value = "FA_CONFIRM_FLAG 수정", notes = "여러 주문의 FA_CONFIRM_FLAG를 원하는 값으로 수정한다.")
+    public ResponseEntity<ResponseDto> updateConfirmFlag(@RequestBody FactoryOrderInfoReqDto.updateFlagDto reqDto) {
+        Long cnt = factoryOrderInfoService.updateOrderFlag(reqDto);
+        return new ResponseEntity<>(new ResponseDto(cnt), HttpStatus.OK);
+    }
+
     @PostMapping
     @ApiOperation(value = "주문 데이터 생성", notes = "주문 데이터를 생성한다.")
     public ResponseEntity<ResponseDto> createOrder(@RequestBody FactoryOrderInfoReqDto factoryOrderInfoReqDto) {

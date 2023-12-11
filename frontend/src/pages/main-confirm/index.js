@@ -56,6 +56,8 @@ const MainConfirm = () => {
     select: "",
   });
 
+  const [rowSelectionModel, setRowSelectionModel] = useState([]);
+
   useEffect(() => {
     getOrders(null, null);
 
@@ -77,15 +79,45 @@ const MainConfirm = () => {
   }, []);
 
   const getOrders = (kind, week) => {
-    console.log(kind, week);
+    if (kind == 0) kind = null;
+    if (week == 0) week = null;
     MainCapacityApi.getOrderList(kind, week, (data) => {
       const list = data.response;
       const order = list[0];
-      console.log(list);
-      console.log(order);
+      // console.log(list);
+      // console.log(order);
       setOrderList((prev) => {
         return { ...prev, list, order };
       });
+    });
+  };
+
+  const inputFactory = async () => {
+    const selectedIdx = new Set(rowSelectionModel);
+    const rows = orderList.list.filter((row) => selectedIdx.has(row.id));
+    // console.log(rows);
+
+    /** 공장결정 되지 않은 주문이 있다면 실패 */
+    for (const row of rows) {
+      if (row.faConfirmFlag != "E") {
+        alert("공장 결정이 되지 않은 주문이 존재합니다.");
+        return;
+      }
+    }
+
+    /** FLAG 변경할 주문들의 ID 추출 */
+    const selectedIdList = rows.map((selectedRow) => {
+      const selectedId = orderList.list.find(
+        (row) => row.id === selectedRow.id
+      );
+      return selectedId.id;
+    });
+    // console.log(selectedIdList);
+
+    MainCapacityApi.updateFlag("F", selectedIdList, (data) => {
+      const cnt = data.response;
+      alert(cnt + "건 제조투입 완료되었습니다.");
+      setRowSelectionModel([]);
     });
   };
 
@@ -429,13 +461,9 @@ const MainConfirm = () => {
               id="demo-multiple-name"
               defaultValue="T"
               input={<OutlinedInput label="구분" />}
-              onChange={(e) => {
-                console.log(e);
-              }}
               style={{ height: 40 }}
             >
               <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
             </Select>
           </FormControl>
           <FormControl
@@ -453,7 +481,7 @@ const MainConfirm = () => {
             <Select
               labelId="분류"
               id="demo-multiple-name"
-              value={codeNameList.select}
+              defaultValue={0}
               input={<OutlinedInput label="품종" />}
               onChange={(e) => {
                 setCodeNameList(
@@ -461,10 +489,10 @@ const MainConfirm = () => {
                     select: e.target.value,
                   })
                 );
-                // setSelectCodeName(e.target.value);
               }}
               style={{ height: 40 }}
             >
+              <MenuItem value={0}>All</MenuItem>
               {codeNameList.list.map((code, idx) => {
                 return (
                   <MenuItem key={idx} value={code.cdNm}>
@@ -488,7 +516,7 @@ const MainConfirm = () => {
             <Select
               labelId="출강주"
               id="demo-multiple-name"
-              value={weekList.select}
+              defaultValue={0}
               input={<OutlinedInput label="출강주" />}
               onChange={(e) => {
                 setWeekList(
@@ -499,6 +527,7 @@ const MainConfirm = () => {
               }}
               style={{ height: 40 }}
             >
+              <MenuItem value={0}>All</MenuItem>
               {weekList.list.map((code, idx) => {
                 return (
                   <MenuItem key={idx} value={code}>
@@ -512,18 +541,18 @@ const MainConfirm = () => {
         <div>
           <Button
             size="small"
-            // type="submit"
             variant="contained"
-            // 에러
-            // onClick={getOrders(codeNameList.select, weekList.select)}
-            // onClick={getOrders("FS", "20230711")}
+            onClick={() => {
+              getOrders(codeNameList.select, weekList.select);
+              setRowSelectionModel([]);
+            }}
           >
             대상조회
           </Button>
           <Button size="small" type="submit" variant="contained">
             공장부여
           </Button>
-          <Button size="small" type="submit" variant="contained">
+          <Button size="small" variant="contained" onClick={inputFactory}>
             제조투입
           </Button>
           <Button size="small" type="submit" variant="contained">
@@ -537,6 +566,10 @@ const MainConfirm = () => {
           checkboxSelection
           disableRowSelectionOnClick
           rows={orderList.list}
+          rowSelectionModel={rowSelectionModel}
+          onRowSelectionModelChange={(newRowSelectionModel) => {
+            setRowSelectionModel(newRowSelectionModel);
+          }}
           columns={columns}
           onCellClick={(e) => {
             setOrderList(

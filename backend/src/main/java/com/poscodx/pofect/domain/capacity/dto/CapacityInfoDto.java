@@ -12,7 +12,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class CapacityInfoDto {
 //Insert TBL
 
@@ -20,6 +19,20 @@ public class CapacityInfoDto {
         private String processCd;
         List<CombinedCapacityDto> list;
     }
+
+    @Builder
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class FactoryCapacityDto {
+        private String processCd;
+        private String firmPsFacTp;
+        private String factoryName;
+        private Long faAdjustmentWgt;
+        private Long progressQty;
+    }
+
 
     @NotBlank
     private Long id;
