@@ -1,5 +1,7 @@
 package com.poscodx.pofect.domain.main.repository.querydsl;
 
+
+import com.poscodx.pofect.domain.main.dto.lot.LotResDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 
@@ -10,6 +12,8 @@ public interface FactoryOrderInfoCustom {
     List<String> getWeeks(FactoryOrderInfoReqDto.SearchDto dto);
 
     List<FactoryOrderInfo> findAllByOption(FactoryOrderInfoReqDto.orderDto dto);
+
+    List<LotResDto>  findLotAll();
 
     Long updateFlag(FactoryOrderInfoReqDto.updateCodeDto reqDto);
 
