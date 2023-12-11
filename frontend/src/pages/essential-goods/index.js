@@ -42,7 +42,7 @@ const EssentialGoods = () => {
   useEffect(() => {
     EssentialStandardApi.getEssentialStandardList((data) => {
       const responseData = data.response;
-
+      console.log(data.response);
       const processCdMappings = {
         10: "제강",
         20: "열연",
