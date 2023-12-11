@@ -13,7 +13,9 @@ public interface FactoryOrderInfoCustom {
 
     List<FactoryOrderInfo> findAllByOption(FactoryOrderInfoReqDto.orderDto dto);
 
-    Long updateFlag(FactoryOrderInfoReqDto.updateFlagDto reqDto);
-
     List<LotResDto>  findLotAll();
+
+    Long updateFlag(FactoryOrderInfoReqDto.updateCodeDto reqDto);
+
+    Long updateStatus(FactoryOrderInfoReqDto.updateCodeDto reqDto);
 }

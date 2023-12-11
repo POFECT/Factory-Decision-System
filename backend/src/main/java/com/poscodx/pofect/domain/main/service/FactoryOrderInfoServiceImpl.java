@@ -74,7 +74,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
     @Transactional
     @Override
-    public Long updateOrderFlag(FactoryOrderInfoReqDto.updateFlagDto reqDto) {
+    public Long updateOrderFlag(FactoryOrderInfoReqDto.updateCodeDto reqDto) {
         return factoryOrderInfoRepository.updateFlag(reqDto);
     }
 
@@ -83,5 +83,10 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
     public List<com.poscodx.pofect.domain.lot.dto.LotResDto> findLotAll() {
         return factoryOrderInfoRepository.findLotAll().stream().map(com.poscodx.pofect.domain.lot.dto.LotResDto::fromDtoToDto)
                 .toList();
+    }
+    @Transactional
+    @Override
+    public Long updateOrderStatus(FactoryOrderInfoReqDto.updateCodeDto reqDto) {
+        return factoryOrderInfoRepository.updateStatus(reqDto);
     }
 }

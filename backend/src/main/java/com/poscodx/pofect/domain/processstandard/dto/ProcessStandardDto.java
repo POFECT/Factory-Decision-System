@@ -53,7 +53,18 @@ public class ProcessStandardDto {
 
     private LocalDateTime lastUpdateDate;  // 최종수정일자
 
-    public static ProcessStandardDto toDto(ProcessStandard processStandard){
+    @Getter
+    @Setter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ItemDetailDto {
+        private String processCdList;
+
+    }
+
+
+        public static ProcessStandardDto toDto(ProcessStandard processStandard){
         return ProcessStandardDto.builder()
                 .id(processStandard.getId())
                 .gcsCompCode(processStandard.getGcsCompCode())
