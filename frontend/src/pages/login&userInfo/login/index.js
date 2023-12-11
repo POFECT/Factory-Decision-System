@@ -157,7 +157,7 @@ const LoginPage = () => {
               POFECT
             </Typography>
           </Box>
-          <Box sx={{ mb: 6 }}>
+          <Box sx={{ mb: 6 ,textAlign:"center",alignItems:"center",justifyContent:"center"}}>
             <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
               Factory Decision System 🏭
             </Typography>
@@ -193,10 +193,9 @@ const LoginPage = () => {
               <FormControlLabel control={<Checkbox />} label='Remember Me' />
             </Box> }
             <Button
-              fullWidth
               size='large'
               variant='contained'
-              sx={{ marginBottom: 7 }}
+              sx={{ marginBottom: 7 ,width:'100%'}}
               onClick={() => router.push('/')}
             >
               Login
