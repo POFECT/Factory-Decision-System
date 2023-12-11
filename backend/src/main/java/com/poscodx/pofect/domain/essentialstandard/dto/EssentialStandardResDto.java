@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EssentialStandardResDto extends BaseEntity {
+public class EssentialStandardResDto  {
     @Size(max = 2)
     @NotBlank
     private String gcsCompCode;  // 1.연결결산법인구분
