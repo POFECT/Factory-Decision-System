@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(value = "Main API", tags = {"공장결정Main / 에러주문 "})
@@ -23,10 +24,24 @@ public class MainController {
 
     private final FactoryOrderInfoService factoryOrderInfoService;
 
+//    @GetMapping("/test")
+//    @ApiOperation(value = "주문 데이터 리스트 조회", notes = "전체 주문 데이터를 조회한다.")
+//    public ResponseEntity<ResponseDto> getOrderList() {
+//        List<FactoryOrderInfoResDto> result = factoryOrderInfoService.getList();
+//        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+//    }
+
     @GetMapping("")
-    @ApiOperation(value = "주문 데이터 리스트 조회", notes = "전체 주문 데이터를 조회한다.")
-    public ResponseEntity<ResponseDto> getOrderList() {
-        List<FactoryOrderInfoResDto> result = factoryOrderInfoService.getList();
+    @ApiOperation(value = "주문 데이터 리스트 조회", notes = "조건에 맞는 주문 데이터를 조회한다.")
+    public ResponseEntity<ResponseDto> getOrderListByOption(@Valid FactoryOrderInfoReqDto.orderDto dto) {
+        List<FactoryOrderInfoResDto> result = factoryOrderInfoService.getOrderList(dto);
+        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+    }
+
+    @GetMapping("/week")
+    @ApiOperation(value = "출강주 조회", notes = "조건에 맞는 출강주 리스트를 조회한다.")
+    public ResponseEntity<ResponseDto> getOrderWeekList(@Valid FactoryOrderInfoReqDto.SearchDto dto) {
+        List<String> result = factoryOrderInfoService.getOrderWeeks(dto);
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 
@@ -35,6 +50,20 @@ public class MainController {
     public ResponseEntity<ResponseDto> getOrderById(@PathVariable Long id) {
         FactoryOrderInfoResDto result = factoryOrderInfoService.getById(id);
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+    }
+
+    @PatchMapping("/flag/update")
+    @ApiOperation(value = "FA_CONFIRM_FLAG 수정", notes = "여러 주문의 FA_CONFIRM_FLAG를 원하는 값으로 수정한다.")
+    public ResponseEntity<ResponseDto> updateConfirmFlag(@RequestBody FactoryOrderInfoReqDto.updateCodeDto reqDto) {
+        Long cnt = factoryOrderInfoService.updateOrderFlag(reqDto);
+        return new ResponseEntity<>(new ResponseDto(cnt), HttpStatus.OK);
+    }
+
+    @PatchMapping("/status/update")
+    @ApiOperation(value = "OS_MAIN_STATUS_CD_N 수정", notes = "여러 주문의 OS_MAIN_STATUS_CD_N를 원하는 값으로 수정한다.")
+    public ResponseEntity<ResponseDto> updateStatus(@RequestBody FactoryOrderInfoReqDto.updateCodeDto reqDto) {
+        Long cnt = factoryOrderInfoService.updateOrderStatus(reqDto);
+        return new ResponseEntity<>(new ResponseDto(cnt), HttpStatus.OK);
     }
 
     @PostMapping

@@ -9,9 +9,17 @@ import java.util.List;
 public interface FactoryOrderInfoService {
     List<FactoryOrderInfoResDto> getList();
 
+    List<FactoryOrderInfoResDto> getOrderList(FactoryOrderInfoReqDto.orderDto dto);
+
     FactoryOrderInfoResDto getById(Long id);
 
     FactoryOrderInfo insertOrder(FactoryOrderInfoReqDto factoryOrderInfoDto);
 
     Boolean deleteOrder(Long id);
+
+    List<String> getOrderWeeks(FactoryOrderInfoReqDto.SearchDto dto);
+
+    Long updateOrderFlag(FactoryOrderInfoReqDto.updateCodeDto reqDto);
+
+    Long updateOrderStatus(FactoryOrderInfoReqDto.updateCodeDto reqDto);
 }

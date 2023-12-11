@@ -11,6 +11,7 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import MainCapacityApi from "src/api/MainCapacityApi";
+import Card from "@mui/material/Card";
 
 import CapacityDetail from "./capacity-detail";
 
@@ -39,56 +40,130 @@ function MyCell(props) {
 
 const MainCapacity = () => {
   /* 데이터 */
+
+  const osMainStatusCd = "H";
+  const faConfirmFlag = ["A", "B", "C"];
+
+  // 주문
   const [orderList, setOrderList] = useState({
     list: [],
     order: null,
-  }); // 주문 데이터 리스트
-  const [codeNameList, setCodeNameList] = useState([]);
-  const [selectCodeName, setSelectCodeName] = useState("FS");
+  });
+  // 품종
+  const [codeNameList, setCodeNameList] = useState({
+    list: [],
+    select: "",
+  });
+  // 출강주
+  const [weekList, setWeekList] = useState({
+    list: [],
+    select: "",
+  });
+
+  const [rowSelectionModel, setRowSelectionModel] = useState([]);
 
   useEffect(() => {
-    MainCapacityApi.getOrderList((data) => {
+    getOrders(null, null);
+
+    MainCapacityApi.getCodeNameList((data) => {
       const list = data.response;
-      const order = list[0].id;
-      setOrderList((prev) => {
-        return { ...prev, order, list };
+      // const select = list[0].cdNm;
+      setCodeNameList((prev) => {
+        return { ...prev, list };
       });
     });
-    MainCapacityApi.getCodeNameList((data) => {
-      setCodeNameList(data.response);
+    MainCapacityApi.getWeekList("H", ["A", "B", "C"], (data) => {
+      const list = data.response;
+      // const select = list[0];
+      setWeekList((prev) => {
+        return { ...prev, list };
+      });
     });
   }, []);
+
+  const getOrders = (kind, week) => {
+    if (kind == 0) kind = null;
+    if (week == 0) week = null;
+    MainCapacityApi.getOrderList(
+      kind,
+      week,
+      osMainStatusCd,
+      faConfirmFlag,
+      (data) => {
+        const list = data.response;
+        const order = list[0];
+        setOrderList((prev) => {
+          return { ...prev, list, order };
+        });
+      }
+    );
+  };
+
+  const updateConfirmFlag = async () => {
+    const selectedIdx = new Set(rowSelectionModel);
+    const rows = orderList.list.filter((row) => selectedIdx.has(row.id));
+    // console.log(rows);
+
+    /** 정상설계 되지 않은 주문이 있다면 실패 */
+    for (const row of rows) {
+      if (row.faConfirmFlag != "B") {
+        alert("정상 설계되지 않은 주문이 존재합니다.");
+        return;
+      }
+    }
+
+    /** FLAG 변경할 주문들의 ID 추출 */
+    const selectedIdList = rows.map((selectedRow) => {
+      const selectedId = orderList.list.find(
+        (row) => row.id === selectedRow.id
+      );
+      return selectedId.id;
+    });
+    // console.log(selectedIdList);
+
+    MainCapacityApi.updateFlag("D", selectedIdList, (data) => {
+      const cnt = data.response;
+      alert(cnt + "건 설계 확정되었습니다.");
+      setRowSelectionModel([]);
+
+      /** 리스트 update */
+      getOrders(null, null);
+    });
+  };
 
   /* column 필드 */
   const columns = [
     {
       field: "gcsCompCode",
-      headerName: "연결결산법인구분",
-      width: 150,
+      headerName: "법인",
+      width: 100,
+
       editable: true,
     },
     {
       field: "millCd",
-      headerName: "공정계획박판Mill구분",
-      width: 150,
+      headerName: "소구분",
+      width: 100,
+
       editable: true,
     },
     {
       field: "orderHeadLineNo",
-      headerName: "OrderHeadLineNumber",
+      headerName: "주문번호",
       width: 180,
       editable: true,
     },
     {
       field: "creationDate",
       headerName: "생성일자",
-      width: 150,
+      width: 180,
       editable: true,
     },
     {
       field: "osMainStatusCd",
-      headerName: "주문진도상태",
-      width: 150,
+      headerName: "진도",
+      width: 100,
+
       editable: true,
     },
     {
@@ -105,8 +180,8 @@ const MainCapacity = () => {
     },
     {
       field: "posbPassFacUpdateDate",
-      headerName: "가통설계일자",
-      width: 150,
+      headerName: "가능통과공정설계일자",
+      width: 180,
       editable: true,
     },
     {
@@ -117,20 +192,20 @@ const MainCapacity = () => {
     },
     {
       field: "ordPdtItpCdN",
-      headerName: "주문품종",
+      headerName: "품종",
       width: 100,
       editable: true,
     },
     {
       field: "ordPdtItdsCdN",
-      headerName: "주문품명",
+      headerName: "품명",
       width: 100,
       editable: true,
     },
     {
       field: "adjustConsBktStartDttm",
-      headerName: "주문ATP능력사용조정일",
-      width: 180,
+      headerName: "ATP조정일",
+      width: 150,
       editable: true,
     },
     {
@@ -147,7 +222,7 @@ const MainCapacity = () => {
     },
     {
       field: "ordThwTapWekCd",
-      headerName: "주문투입출강주",
+      headerName: "출강주",
       width: 130,
       editable: true,
     },
@@ -155,32 +230,32 @@ const MainCapacity = () => {
     { field: "orderLineQty", headerName: "주문량", width: 100, editable: true },
     {
       field: "orderThick",
-      headerName: "제품주문두께",
+      headerName: "두께",
       width: 100,
       editable: true,
     },
     {
       field: "orderWidth",
-      headerName: "제품주문폭",
+      headerName: "폭",
       width: 100,
       editable: true,
     },
     {
       field: "orderLength",
-      headerName: "주문길이",
+      headerName: "길이",
       width: 100,
       editable: true,
     },
     {
       field: "orderUsageCdN",
-      headerName: "주문용도지정코드",
-      width: 130,
+      headerName: "용도",
+      width: 100,
       editable: true,
     },
     {
       field: "orderEdgeCode",
-      headerName: "제품주문Edge",
-      width: 130,
+      headerName: "Edge",
+      width: 100,
       editable: true,
     },
     {
@@ -191,8 +266,8 @@ const MainCapacity = () => {
     },
     {
       field: "salesPerson",
-      headerName: "제품경매 영업담당자명",
-      width: 150,
+      headerName: "영업담당자",
+      width: 100,
       editable: true,
     },
     { field: "salesCodeN", headerName: "판매특기", width: 100, editable: true },
@@ -223,49 +298,49 @@ const MainCapacity = () => {
     {
       field: "specificationCdN",
       headerName: "제품규격약호",
-      width: 100,
+      width: 120,
       editable: true,
     },
     {
       field: "surfaceFinishCd",
-      headerName: "제품표면마무리지정코드",
-      width: 180,
+      headerName: "표면지정코드",
+      width: 120,
       editable: true,
     },
     {
       field: "postTreatmentMethodCdN",
-      headerName: "제품후처리방법지정코드",
-      width: 180,
+      headerName: "후처리코드",
+      width: 120,
       editable: true,
     },
     {
       field: "oilingMethodCd",
-      headerName: "제품도유방법지정코드",
-      width: 150,
+      headerName: "도유코드",
+      width: 120,
       editable: true,
     },
     {
       field: "planningItemCodeN",
       headerName: "PlanningItem코드",
-      width: 150,
+      width: 180,
       editable: true,
     },
     {
       field: "smSteelGrdN",
       headerName: "출강목표번호",
-      width: 100,
+      width: 160,
       editable: true,
     },
     {
       field: "moltenSteelCharCdN",
-      headerName: "품질설계 용강특성",
-      width: 150,
+      headerName: "용강특성",
+      width: 100,
       editable: true,
     },
     {
       field: "tsAim",
-      headerName: "품질설계 목표TS",
-      width: 150,
+      headerName: "목표TS",
+      width: 100,
       editable: true,
     },
     {
@@ -276,62 +351,62 @@ const MainCapacity = () => {
     },
     {
       field: "hrSpComposite",
-      headerName: "품질설계 열연SkinPass합성지정",
-      width: 200,
+      headerName: "열연SkinPass합성지정",
+      width: 180,
       editable: true,
     },
     {
       field: "surfaceGrd",
-      headerName: "품질설계표면등급",
-      width: 130,
+      headerName: "표면등급",
+      width: 100,
       editable: true,
     },
     {
       field: "shapeGrd",
-      headerName: "품질설계형상등급",
-      width: 130,
+      headerName: "형상등급",
+      width: 100,
       editable: true,
     },
     {
       field: "poscoProdGrdN",
       headerName: "제품사내보증번호",
-      width: 150,
+      width: 160,
       editable: true,
     },
     {
       field: "hrProdThkAim",
-      headerName: "품질설계열연목표두께",
-      width: 150,
+      headerName: "열연목표두께",
+      width: 130,
       editable: true,
     },
     {
       field: "hrProdWthAim",
-      headerName: "품질설계열연목표폭",
-      width: 150,
+      headerName: "열연목표폭",
+      width: 130,
       editable: true,
     },
     {
       field: "hrRollUnitWgtMax",
-      headerName: "열연공장압연가능재료상한중량",
-      width: 200,
+      headerName: "압연상한중량",
+      width: 130,
       editable: true,
     },
     {
       field: "sm2ndRfnCd",
-      headerName: "품질설계제강2차정련코드",
-      width: 180,
+      headerName: "제강2차정련코드",
+      width: 150,
       editable: true,
     },
     {
       field: "skinpassFlag",
       headerName: "제품SkinPass지정여부",
-      width: 150,
+      width: 160,
       editable: true,
     },
     {
       field: "packingType",
-      headerName: "제품포장방법코드",
-      width: 150,
+      headerName: "포장방법",
+      width: 120,
       editable: true,
     },
     {
@@ -349,7 +424,7 @@ const MainCapacity = () => {
     {
       field: "errorMessage",
       headerName: "ErrorMessage",
-      width: 100,
+      width: 130,
       editable: true,
     },
     {
@@ -361,13 +436,13 @@ const MainCapacity = () => {
     {
       field: "lastUpdateDate",
       headerName: "최종수정일자",
-      width: 150,
+      width: 180,
       editable: true,
     },
   ];
 
   return (
-    <div style={{ height: "600px", width: "100%" }}>
+    <>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Typography variant="h3">가능통과공장 설계</Typography>
       </Grid>
@@ -396,13 +471,9 @@ const MainCapacity = () => {
               id="demo-multiple-name"
               defaultValue="T"
               input={<OutlinedInput label="구분" />}
-              onChange={(e) => {
-                console.log(e);
-              }}
               style={{ height: 40 }}
             >
               <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
             </Select>
           </FormControl>
           <FormControl
@@ -420,14 +491,20 @@ const MainCapacity = () => {
             <Select
               labelId="분류"
               id="demo-multiple-name"
-              defaultValue="FS"
+              defaultValue={0}
               input={<OutlinedInput label="품종" />}
               onChange={(e) => {
-                setSelectCodeName(e.target.value);
+                setCodeNameList(
+                  Object.assign({}, codeNameList, {
+                    select: e.target.value,
+                  })
+                );
+                // setSelectCodeName(e.target.value);
               }}
               style={{ height: 40 }}
             >
-              {codeNameList.map((code, idx) => {
+              <MenuItem value={0}>All</MenuItem>
+              {codeNameList.list.map((code, idx) => {
                 return (
                   <MenuItem key={idx} value={code.cdNm}>
                     {code.cdNm}
@@ -444,50 +521,71 @@ const MainCapacity = () => {
               marginRight: 10,
             }}
           >
-            <InputLabel id="label3" style={{ paddingTop: 10 }}>
+            <InputLabel id="label3" style={{ paddingTop: 10, height: 40 }}>
               출강주
             </InputLabel>
             <Select
               labelId="출강주"
               id="demo-multiple-name"
-              defaultValue="T"
+              defaultValue={0}
               input={<OutlinedInput label="출강주" />}
               onChange={(e) => {
-                console.log(e);
+                setWeekList(
+                  Object.assign({}, weekList, {
+                    select: e.target.value,
+                  })
+                );
               }}
               style={{ height: 40 }}
             >
-              <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
+              <MenuItem value={0}>All</MenuItem>
+              {weekList.list.map((code, idx) => {
+                return (
+                  <MenuItem key={idx} value={code}>
+                    {code}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </div>
         <div>
-          <Button size="small" type="submit" variant="contained">
-            대상 조회
+          <Button
+            size="small"
+            variant="contained"
+            onClick={() => {
+              getOrders(codeNameList.select, weekList.select);
+              setRowSelectionModel([]);
+            }}
+          >
+            대상조회
           </Button>
-          <Button size="small" type="submit" variant="contained">
+          <Button size="small" variant="contained">
             설계
           </Button>
-          <Button size="small" type="submit" variant="contained">
-            확정 처리
+          <Button size="small" variant="contained" onClick={updateConfirmFlag}>
+            확정처리
           </Button>
           <Button size="small" type="submit" variant="contained">
             Excel
           </Button>
         </div>
       </div>
-      <div style={{ height: 400 }}>
+      <Card style={{ height: 400 }}>
         <DataGrid
           experimentalFeatures={{ columnGrouping: true }}
           checkboxSelection
           disableRowSelectionOnClick
           rows={orderList.list}
           columns={columns}
+          rowSelectionModel={rowSelectionModel}
+          onRowSelectionModelChange={(newRowSelectionModel) => {
+            setRowSelectionModel(newRowSelectionModel);
+          }}
           onCellClick={(e) => {
             setOrderList(
               Object.assign({}, orderList, {
-                order: e.row.id,
+                order: e.row,
               })
             );
           }}
@@ -496,10 +594,10 @@ const MainCapacity = () => {
           }}
           rowHeight={40}
         />
-      </div>
+      </Card>
 
-      {orderList.order ? <CapacityDetail orderNo={orderList.order} /> : null}
-    </div>
+      {orderList.order ? <CapacityDetail order={orderList.order} /> : null}
+    </>
   );
 };
 

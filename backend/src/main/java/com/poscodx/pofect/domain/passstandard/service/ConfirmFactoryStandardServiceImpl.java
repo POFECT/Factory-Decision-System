@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -13,15 +14,33 @@ import java.util.stream.Collectors;
 public class ConfirmFactoryStandardServiceImpl implements ConfirmFactoryStandardService {
 
     private final ConfirmFactoryStandardRepository confirmFactoryStandardRepository;
+//    @Override
+//    public List<ConfirmFactoryStandardResDto> getList() {
+//        return confirmFactoryStandardRepository.findAll().stream()
+//                .map(ConfirmFactoryStandardResDto::toDto)
+//                .collect(Collectors.toList());
+//    }
+
     @Override
-    public List<ConfirmFactoryStandardResDto> getList() {
-        return confirmFactoryStandardRepository.findAll().stream()
+//    public List<ConfirmFactoryStandardResDto> getGridData() {
+    public List<Map<String, Object>> getGridData() {
+        return confirmFactoryStandardRepository.getGridData();
+
+//        return confirmFactoryStandardRepository.getGridData().stream()
+//                .map(ConfirmFactoryStandardResDto::toDto)
+//                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ConfirmFactoryStandardResDto> getFactories(String process) {
+        return confirmFactoryStandardRepository.findAllByProcessCdOrderByProcessCdAsc(process).stream()
                 .map(ConfirmFactoryStandardResDto::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Object[]> getGridData() {
-        return null;
+    public String getFactoryName(String processCd, String firmPsFacTp) {
+        return confirmFactoryStandardRepository.findAllByProcessCdAndFirmPsFacTp(processCd, firmPsFacTp).getCdExpl();
     }
+
 }

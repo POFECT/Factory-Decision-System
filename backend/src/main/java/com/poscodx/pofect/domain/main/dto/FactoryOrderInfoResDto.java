@@ -3,6 +3,7 @@ package com.poscodx.pofect.domain.main.dto;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -164,6 +165,15 @@ public class FactoryOrderInfoResDto {
 
     private LocalDateTime posbPassFacUpdateDate;  // 53. 가통설계일자
 
+    @Size(max = 50)
+    private String posbPassFacProcess;  // 54. 가통설계결과 - 경유공정
+
+    @Size(max = 50)
+    private String posbPassFacEs;  // 55. 가통설계결과 - 필수재
+
+    @Size(max = 50)
+    private String posbPassFacSize;  // 56. 가통설계결과 - 사이즈
+
     public static FactoryOrderInfoResDto toDto(FactoryOrderInfo factoryOrderInfo) {
         return FactoryOrderInfoResDto.builder()
                 .id(factoryOrderInfo.getId())
@@ -220,6 +230,9 @@ public class FactoryOrderInfoResDto {
                 .msgcode(factoryOrderInfo.getMsgcode())
                 .lastUpdateDate(factoryOrderInfo.getLastUpdateDate())
                 .posbPassFacUpdateDate(factoryOrderInfo.getPosbPassFacUpdateDate())
+                .posbPassFacProcess(factoryOrderInfo.getPosbPassFacProcess())
+                .posbPassFacEs(factoryOrderInfo.getPosbPassFacEs())
+                .posbPassFacSize(factoryOrderInfo.getPosbPassFacSize())
                 .build();
     }
 }

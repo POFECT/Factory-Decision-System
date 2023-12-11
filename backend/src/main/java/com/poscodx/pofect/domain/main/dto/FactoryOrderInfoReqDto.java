@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @Setter
@@ -11,6 +12,36 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FactoryOrderInfoReqDto {
+
+    /* 출강주 조회 request data */
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class SearchDto {
+        private String osMainStatusCd;  // 주문진도상태구분
+        private List<String> faConfirmFlag;  // 공장결정확정구분
+    }
+
+    /* 주문데이터 조회 request data */
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class orderDto {
+        private String ordPdtItpCdN;  // 주문품종코드
+        private String ordThwTapWekCd;  // 주문투입출강주코드
+        private String osMainStatusCd;  // 주문진도상태구분
+        private List<String> faConfirmFlag;  // 공장결정확정구분
+    }
+
+    /* FA_CONFIRM_FLAG, OS_MAIN_STATUS_CD_N 수정 request data */
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class updateCodeDto {
+        private String value;  // 변경할 값
+        private List<Long> ids;  // FLAG를 변경할 주문 ID 리스트
+    }
 
     @NotBlank
     @Size(max = 2)

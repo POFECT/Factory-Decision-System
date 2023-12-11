@@ -36,6 +36,13 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
     }
 
     @Override
+    public List<FactoryOrderInfoResDto> getOrderList(FactoryOrderInfoReqDto.orderDto dto) {
+        return factoryOrderInfoRepository.findAllByOption(dto).stream()
+                .map(FactoryOrderInfoResDto::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public FactoryOrderInfoResDto getById(Long id) {
         return FactoryOrderInfoResDto.toDto(factoryOrderInfoRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND)));
@@ -55,6 +62,23 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
         factoryOrderInfoRepository.delete(factoryOrderInfo);
         return true;
+    }
+
+    @Override
+    public List<String> getOrderWeeks(FactoryOrderInfoReqDto.SearchDto dto) {
+        return factoryOrderInfoRepository.getWeeks(dto);
+    }
+
+    @Transactional
+    @Override
+    public Long updateOrderFlag(FactoryOrderInfoReqDto.updateCodeDto reqDto) {
+        return factoryOrderInfoRepository.updateFlag(reqDto);
+    }
+
+    @Transactional
+    @Override
+    public Long updateOrderStatus(FactoryOrderInfoReqDto.updateCodeDto reqDto) {
+        return factoryOrderInfoRepository.updateStatus(reqDto);
     }
 
 }

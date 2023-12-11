@@ -1,19 +1,38 @@
 package com.poscodx.pofect.domain.capacity.dto;
 
 import com.poscodx.pofect.domain.capacity.entity.CapacityInfo;
-import com.poscodx.pofect.domain.capacity.entity.GrantCapacity;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class CapacityInfoDto {
+//Insert TBL
+
+    public static class CombinedResDto {
+        private String processCd;
+        List<CombinedCapacityDto> list;
+    }
+
+    @Builder
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class FactoryCapacityDto {
+        private String processCd;
+        private String firmPsFacTp;
+        private String factoryName;
+        private Long faAdjustmentWgt;
+        private Long progressQty;
+    }
+
 
     @NotBlank
     private Long id;
@@ -45,15 +64,17 @@ public class CapacityInfoDto {
     @Size(max = 8)
     private String userId; // 8.박판공정계획사용자ID
 
-    public static CapacityInfoDto toDto(CapacityInfo CapacityInfo){
+    public static CapacityInfoDto toDto(CapacityInfo capacityInfo){
         return CapacityInfoDto.builder()
-                .id(CapacityInfo.getId())
-                .gcsCompCode(CapacityInfo.getGcsCompCode())
-                .millCd(CapacityInfo.getMillCd())
-                .processCd(CapacityInfo.getProcessCd())
-                .firmPsFacTp(CapacityInfo.getFirmPsFacTp())
-                .progressQty(CapacityInfo.getProgressQty())
-                .userId(CapacityInfo.getUserId())
+                .id(capacityInfo.getId())
+                .gcsCompCode(capacityInfo.getGcsCompCode())
+                .millCd(capacityInfo.getMillCd())
+                .ordRcpTapWekCd(capacityInfo.getOrdRcpTapWekCd())
+                .processCd(capacityInfo.getProcessCd())
+                .firmPsFacTp(capacityInfo.getFirmPsFacTp())
+                .faAdjustmentWgt(capacityInfo.getFaAdjustmentWgt())
+                .progressQty(capacityInfo.getProgressQty())
+                .userId(capacityInfo.getUserId())
                 .build();
     }
 }

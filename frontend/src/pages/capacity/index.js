@@ -1,9 +1,9 @@
 import "react-datasheet-grid/dist/style.css";
-
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import {
-  Paper,
+  Box,
+  Card,
   Grid,
   Typography,
   Button,
@@ -12,11 +12,37 @@ import {
   FormControl,
   InputLabel,
   OutlinedInput,
-} from "@mui/material";import {GridToolbar } from "@mui/x-data-grid";
-
+} from "@mui/material";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+} from "chart.js";
+import { Bar, Pie, Radar } from "react-chartjs-2";
+import RadarChart from './chart.js';
+import { GridToolbar } from "@mui/x-data-grid";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import ModalTest from "./modal-test";
+import React, {
+  useEffect,
+  useState,
+} from "react";
+import CapacityStandardApi from "src/api/CapacityApi";
 
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+);
 
 function MyCell(props) {
   let style = {
@@ -26,9 +52,9 @@ function MyCell(props) {
     maxHeight: props.height === "auto" ? "none" : props.height,
     ...props.style,
     //중앙배열
-      display: "flex",
-    alignItems: "center", 
-    justifyContent: "center", 
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   };
   const apiRef = useGridApiContext();
   const row = apiRef.current.getRow(props.rowId);
@@ -47,137 +73,108 @@ function MyCell(props) {
 }
 
 const CapacityMgt = () => {
-  const rows = [
-    {
-      id: 1,
-      공정: "제강",
-      rowSpan: { 공정: "2" },
 
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 2,
-      공장: "1",
-      공정: "제강",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 3,
-      공정: "열연",
-      rowSpan: { 공정: "3" },
+  // 능력
+  const [capacity, setCapacity] = useState([]);
+  
+  const [labels, setLabels] = useState([]);
 
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 4,
-      공장: "2",
-      공정: "열연",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-        {
-      id: 5,
-      공장: "3",
-      공정: "열연",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 6,
-      공정: "열연정정",
-      rowSpan: { 공정: "2" },
+  // 출강주
+  const [weekList, setWeekList] = useState({
+    list: [],
+    select: "",
+  });
 
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 7,
-      공장: "2",
-      공정: "열연정정",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-        {
-      id: 8,
-      공정: "열연정정",
-      rowSpan: { 공정: "2" },
+  useEffect(() => {
+    CapacityStandardApi.getCapacityListByWeek((data) => {
+      setCapacity(data.response);
+    });
 
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id: 9,
-      공장: "2",
-      공정: "열연정정",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-        {
-      id: 10,
-      공정: "열연정정",
-      rowSpan: { 공정: "2" },
+    CapacityStandardApi.getWeek("H", ["D", "E"], (data) => {
+      const list = data.response;
+      const select = list[0];
+      setWeekList((prev) => {
+        return { ...prev, list, select };
+      });
 
-      공장: "1",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
-    {
-      id:11,
-      공장: "2",
-      공정: "열연정정",
-      구분: "2",
-      능력량: "100",
-      조정량: "20",
-      투입량: "2",
-      잔여량: "3",
-    },
     
+    });
+  
+  }, []);
+
+  const handleSearch = () => {
+  console.log("Selected week:", weekList.select);
+
+  CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
+    setCapacity(data.response);
+  });
+};
+
+ console.log(weekList);
+
+  
+  console.log(capacity[0])
+  console.log(capacity[0]?.processCd);
+  console.log(capacity[0]?.processCd);
+  console.log(capacity[0]?.firmPsfac_tp);
+
+//   useEffect(() => {
+//   const calculatedData = capacity.map((item) => {
+//     const remainingQty = `${item.faAdjustmentWgt - item.progressQty}`;
+//     return { ...item, remainingQty };
+//   });
+//    console.log("*", calculatedData); 
+
+//   setRemainingQtyData(calculatedData);
+// }, [capacity]);
+
+
+  const options = {
+    plugins: {
+      title: {
+        display: true,
+        text: "부하",
+      },
+    },
+  };
+  const inputStatusChartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: "공장1",
+        data: capacity,
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+      {
+        label: "공장2",
+        data: capacity,
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      }, {
+        label: "공장3",
+        data: capacity,
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+    ],
+  };
+  // 
+
+  //컬럼
+  const columns = [
+    { field: "processName", rowspan: "rowspan", headerName: "공정", width: 90, headerAlign: 'center', },
+    { field: "firmPsFacTp", headerName: "공장", width: 70, headerAlign: 'center', },
+    { field: "planQty", headerName: "능력량", width: 90, headerAlign: 'center', },
+    { field: "faAdjustmentWgt", headerName: "조정량", width: 90, editable: true, headerAlign: 'center', },
+    { field: "progressQty", headerName: "투입량", width: 90, headerAlign: 'center', },
+    { field: "remainQty", headerName: "잔여량", width: 90, headerAlign: 'center', },
+
   ];
 
-  const columns = [
-    { field: "공정", headerName: "공정", width: 95, editable: true },
-    { field: "공장", headerName: "공장", width: 70, editable: true },
-    { field: "능력량", headerName: "능력량", width: 95, editable: true },
-    { field: "조정량", headerName: "조정량", width: 95, editable: true },
-    { field: "투입량", headerName: "투입량", width: 95, editable: true },
-    { field: "잔여량", headerName: "잔여량", width: 95, editable: true },
- 
-  ];
- return (
+  
+  return (
+
     <>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
+        <Card></Card>
         <Typography variant="h3">투입 능력 관리</Typography>
       </Grid>
       <div
@@ -186,12 +183,19 @@ const CapacityMgt = () => {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: "20px", // Added margin for better spacing
         }}
       >
-        <div style={{ display: "flex" }}>
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="label1">구분</InputLabel>
+        <div>
+          <FormControl
+            sx={{ m: 1 }}
+            style={{
+              paddingTop: 10,
+              paddingBottom: 20,
+              marginRight: 10,
+            }}>
+            <InputLabel id="label1" style={{ paddingTop: 10 }}>
+              구분
+            </InputLabel>
             <Select
               labelId="분류"
               id="demo-multiple-name"
@@ -203,45 +207,45 @@ const CapacityMgt = () => {
               style={{ height: 40 }}
             >
               <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
             </Select>
           </FormControl>
-          {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="label2">품종</InputLabel>
-            <Select
-              labelId="분류"
-              id="demo-multiple-name"
-              defaultValue="T"
-              input={<OutlinedInput label="품종" />}
-              onChange={(e) => {
-                console.log(e);
-              }}
-              style={{ height: 40 }}
-            >
-              <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="label3">출강주</InputLabel>
+          <FormControl
+            sx={{ m: 1 }}
+            style={{
+              paddingTop: 10,
+              paddingBottom: 20,
+              marginRight: 10,
+            }}>
+           <InputLabel id="label3" style={{ paddingTop: 10 }}>
+              출강주
+            </InputLabel>
             <Select
               labelId="출강주"
               id="demo-multiple-name"
-              defaultValue="T"
+              value={weekList.select}
               input={<OutlinedInput label="출강주" />}
               onChange={(e) => {
-                console.log(e);
+                setWeekList(
+                  Object.assign({}, weekList, {
+                    select: e.target.value,
+                  })
+                );
               }}
               style={{ height: 40 }}
             >
-              <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
+              {weekList.list.map((code, idx) => {
+                return (
+                  <MenuItem key={idx} value={code}>
+                    {code}
+                    
+                  </MenuItem>
+                );
+              })}
             </Select>
-          </FormControl> */}
+          </FormControl>
         </div>
         <div>
-
-          <Button size="small" type="submit" variant="contained">
+          <Button size="small" type="submit" variant="contained" onClick={handleSearch}>
             조회
           </Button>
           <Button size="small" type="submit" variant="contained">
@@ -253,7 +257,7 @@ const CapacityMgt = () => {
         </div>
       </div>
       <div style={{ display: "flex" }}>
-        <Paper
+        <Card
           elevation={3}
           style={{
             flexBasis: "calc(70% - 16px)",
@@ -261,26 +265,93 @@ const CapacityMgt = () => {
             padding: "16px",
           }}
         >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            components={{
-              Toolbar: GridToolbar,
-              Cell: MyCell,
+         
+
+          <Box
+            sx={{
+              height: "100%",
+              width: "100%",
+              marginBottom: "20px",
+              "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
+              {
+                borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                borderRight: "1px solid rgba(225, 234, 239, 1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              },
+              "& .custom-data-grid .MuiDataGrid-columnHeader": {
+                cursor: "pointer",
+                borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                borderRight: "1px solid rgba(225, 234, 239, 1)",
+              },
+              "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
+              {
+                borderBottomStyle: "none",
+              },
+
+              "& .custom-data-grid .MuiDataGrid-root": {
+                paddingBottom: "0px",
+              },
             }}
-          />
-        </Paper>
-        <Paper
+          >
+            <DataGrid
+              className="custom-data-grid"
+              disableRowSelectionOnClick
+              rows={capacity}
+              columns={columns}
+              onCellClick={(e) => {
+                console.log(e);
+              }}
+              components={{
+                Toolbar: GridToolbar,
+                Cell: MyCell,
+              }}
+              rowHeight={31}
+
+            />
+
+          </Box>
+        </Card>
+        <Card
           elevation={3}
           style={{
-            flexBasis: "100%", 
+            flexBasis: "70%",
             padding: "16px",
           }}
         >
           <Typography variant="h6">Chart</Typography>
-          <Typography>차트....................</Typography>
-        </Paper>
+         
+          <Grid item xs={4} sx={{ paddingBottom: 4 }}>
+            <Typography variant="h5">공장 부하 현황 </Typography>
+
+            <Bar
+              options={options}
+              data={inputStatusChartData}
+              style={{ width: "100%", height: "80%" }}
+            />
+            <RadarChart />
+
+          </Grid>
+
+          {/* <ul>
+  {capacity.map((item) => (
+    <li key={item.id}>
+      ID: {item.id}, Company Code: {item.gcsCompCode}, Mill Code: {item.millCd}, ...
+    </li>
+  ))}
+</ul> */}
+
+          {/* <ul>
+  {week.map((item) => (
+    <li key={item.id}>
+      ID: {item.id}, WEek Code: {item.ordThwTapWekCd}, Mill Code: {item.millCd}, ...
+    </li>
+  ))}
+</ul> */}
+        </Card>
       </div>
+
     </>
   );
 };

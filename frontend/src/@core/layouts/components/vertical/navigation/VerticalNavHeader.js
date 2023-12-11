@@ -42,17 +42,22 @@ const VerticalNavHeader = (props) => {
   const theme = useTheme();
 
   return (
-    <MenuHeaderWrapper className="nav-header" sx={{ pl: 6 }}>
+    <MenuHeaderWrapper
+      style={{ display: "flex", padding: "0px", justifyContent: "center" }}
+    >
       {userVerticalNavMenuBranding ? (
         userVerticalNavMenuBranding(props)
       ) : (
         <Link href="/" passHref>
-          <img
-            src="/images/logo-white.png"
-            alt="My Image"
-            width={200}
-            height={80}
-          />
+          <span
+            style={{
+              fontSize: "50px",
+              cursor: "pointer",
+              fontFamily: "JalnanGothic",
+            }}
+          >
+            POFECT
+          </span>
         </Link>
       )}
     </MenuHeaderWrapper>
