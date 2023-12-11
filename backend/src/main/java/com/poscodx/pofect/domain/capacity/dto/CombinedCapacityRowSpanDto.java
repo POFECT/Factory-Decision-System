@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CombinedCapacityDto {
+public class CombinedCapacityRowSpanDto {
 
     @NotBlank
     private Long id;
@@ -44,5 +44,19 @@ public class CombinedCapacityDto {
 
     private Long planQty; // 5.계획량
 
+    private RowSpanInfo rowSpan; // rowspan 정보
 
+    public CombinedCapacityRowSpanDto updateRowSpan(int rowSpan) {
+        this.rowSpan = new RowSpanInfo(rowSpan);
+        return this;
+    }
+
+    @Getter
+    @Setter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RowSpanInfo {
+        private Integer processCd;
+    }
 }
