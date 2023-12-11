@@ -41,6 +41,9 @@ function MyCell(props) {
 const MainCapacity = () => {
   /* 데이터 */
 
+  const osMainStatusCd = "H";
+  const faConfirmFlag = ["A", "B", "C"];
+
   // 주문
   const [orderList, setOrderList] = useState({
     list: [],
@@ -81,13 +84,19 @@ const MainCapacity = () => {
   const getOrders = (kind, week) => {
     if (kind == 0) kind = null;
     if (week == 0) week = null;
-    MainCapacityApi.getOrderList(kind, week, (data) => {
-      const list = data.response;
-      const order = list[0];
-      setOrderList((prev) => {
-        return { ...prev, list, order };
-      });
-    });
+    MainCapacityApi.getOrderList(
+      kind,
+      week,
+      osMainStatusCd,
+      faConfirmFlag,
+      (data) => {
+        const list = data.response;
+        const order = list[0];
+        setOrderList((prev) => {
+          return { ...prev, list, order };
+        });
+      }
+    );
   };
 
   const updateConfirmFlag = async () => {
@@ -551,10 +560,10 @@ const MainCapacity = () => {
           >
             대상조회
           </Button>
-          <Button size="small" variant="contained" onClick={updateConfirmFlag}>
+          <Button size="small" variant="contained">
             설계
           </Button>
-          <Button size="small" type="submit" variant="contained">
+          <Button size="small" variant="contained" onClick={updateConfirmFlag}>
             확정처리
           </Button>
           <Button size="small" type="submit" variant="contained">

@@ -1,14 +1,17 @@
 import { axiosApi } from "./api";
 
 const MainCapacityApi = {
-  getOrderList: async (kind, week, callback) => {
+  getOrderList: async (kind, week, osMainStatusCd, faConfirmFlag, callback) => {
     await axiosApi()
-      .get(`/main?`, {
-        params: {
-          ordPdtItpCdN: kind != null ? kind : undefined,
-          ordThwTapWekCd: week != null ? week : undefined,
-        },
-      })
+      .get(
+        `/main?faConfirmFlag=${faConfirmFlag}&osMainStatusCd=${osMainStatusCd}`,
+        {
+          params: {
+            ordPdtItpCdN: kind != null ? kind : undefined,
+            ordThwTapWekCd: week != null ? week : undefined,
+          },
+        }
+      )
       .then((response) => {
         callback && callback(response.data);
       })
