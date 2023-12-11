@@ -48,7 +48,7 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 const TabAccount = () => {
   // ** State
   const [openAlert, setOpenAlert] = useState(true)
-  const [imgSrc, setImgSrc] = useState('/images/avatars/1.png')
+  const [imgSrc, setImgSrc] = useState('/images/login/upload-image-transparent.png')
 
   const onChange = file => {
     const reader = new FileReader()
@@ -63,12 +63,12 @@ const TabAccount = () => {
     <CardContent>
       <form>
         <Grid container spacing={7}>
-          <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Grid item xs={16} sx={{ marginTop: 4.8, marginBottom: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center'}}>
               <ImgStyled src={imgSrc} alt='Profile Pic' />
               <Box>
-                <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
-                  Upload New Photo
+                <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image' sx={{width:'50%'}}>
+                  사진업로드
                   <input
                     hidden
                     type='file'
@@ -77,55 +77,57 @@ const TabAccount = () => {
                     id='account-settings-upload-image'
                   />
                 </ButtonStyled>
-                <ResetButtonStyled color='error' variant='outlined' onClick={() => setImgSrc('/images/avatars/1.png')}>
+                <ResetButtonStyled color='error' variant='outlined' onClick={() => setImgSrc('/images/login/upload-image-transparent.png')}>
                   Reset
                 </ResetButtonStyled>
                 <Typography variant='body2' sx={{ marginTop: 5 }}>
-                  Allowed PNG or JPEG. Max size of 800K.
+                  PNG or JPEG 파일을 올려주세요. (800kb 미만)
                 </Typography>
               </Box>
             </Box>
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Username' placeholder='johnDoe' defaultValue='johnDoe' />
+            <TextField fullWidth label='Name' placeholder='신유경' defaultValue='신유경' />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Name' placeholder='John Doe' defaultValue='John Doe' />
+            <TextField fullWidth label='USER ID' placeholder='PDXX001' defaultValue='PDXX001' disabled />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               type='email'
               label='Email'
-              placeholder='johnDoe@example.com'
-              defaultValue='johnDoe@example.com'
+              placeholder='pofect@poscodx.com'
+              defaultValue='pofect@poscodx.com'
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel>Role</InputLabel>
-              <Select label='Role' defaultValue='admin'>
-                <MenuItem value='admin'>Admin</MenuItem>
-                <MenuItem value='author'>Author</MenuItem>
-                <MenuItem value='editor'>Editor</MenuItem>
-                <MenuItem value='maintainer'>Maintainer</MenuItem>
-                <MenuItem value='subscriber'>Subscriber</MenuItem>
+              <Select label='Role' defaultValue='A'>
+                <MenuItem value='A'>Admin</MenuItem>
+                <MenuItem value='B'>Business Administrator</MenuItem>
+                <MenuItem value='C'>Contributors</MenuItem>
               </Select>
             </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField fullWidth label='입사일' placeholder='2023-12-01' defaultValue='2023-12-01' disabled />
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
-              <InputLabel>Status</InputLabel>
-              <Select label='Status' defaultValue='active'>
-                <MenuItem value='active'>Active</MenuItem>
-                <MenuItem value='inactive'>Inactive</MenuItem>
-                <MenuItem value='pending'>Pending</MenuItem>
+              <InputLabel>Department</InputLabel>
+              <Select label='Department' defaultValue='IT'>
+                <MenuItem value='IT'>IT</MenuItem>
+                <MenuItem value='SCM'>SCM</MenuItem>
+                <MenuItem value='MES'>MES</MenuItem>
+                <MenuItem value='Logistics'>Logistics</MenuItem>
+                <MenuItem value='Robotics'>Robotics</MenuItem>
+                <MenuItem value='EIC'>EIC Engineering</MenuItem>
+                <MenuItem value='HR'>HR</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Company' placeholder='ABC Pvt. Ltd.' defaultValue='ABC Pvt. Ltd.' />
           </Grid>
 
           {openAlert ? (
@@ -149,10 +151,10 @@ const TabAccount = () => {
 
           <Grid item xs={12}>
             <Button variant='contained' sx={{ marginRight: 3.5 }}>
-              Save Changes
+              저장
             </Button>
             <Button type='reset' variant='outlined' color='secondary'>
-              Reset
+              재시도
             </Button>
           </Grid>
         </Grid>
