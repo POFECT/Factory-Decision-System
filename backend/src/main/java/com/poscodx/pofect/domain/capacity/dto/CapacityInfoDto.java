@@ -14,12 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 
 public class CapacityInfoDto {
+//Insert TBL
 
     public static class CombinedResDto {
         private String processCd;
         List<CombinedCapacityDto> list;
     }
-
 
     @NotBlank
     private Long id;

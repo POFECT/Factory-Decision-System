@@ -42,34 +42,30 @@ public class CapacityController {
         return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
     }
 
-//    // JOIN
-//    // 주문 별 능력 정보 (FW030)
-//    // 주문별 능력 부여 관리 (FC100)
-//    @GetMapping("/byWeek")
-//    @ApiOperation(value = "출강주 별 능력 리스트 조회", notes = "전체 능력 데이터 조회")
-//    public ResponseEntity<ResponseDto> getCapacityList() {
-//        List<CombinedCapacityDto> rs = capacityService.getCapacityList();
-//        return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
-//    }
-// 출강주 별 능력 리스트 조회 (rowSpan 포함)
-@GetMapping("/combined-capacity-rowspan")
-@ApiOperation(value = "출강주 별 능력 리스트 조회 (rowSpan 포함)", notes = "출강주에 따른 능력 데이터 조회 (rowSpan 포함)")
-public ResponseEntity<ResponseDto> getCombinedCapacityWithRowSpan(@RequestParam(required = false) String week) {
-    try {
-        List<CombinedCapacityRowSpanDto> rs = capacityService.getCombinedCapacityWithRowSpan(week);
-        return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
-    } catch (CustomException e) {
-        return new ResponseEntity<>(new ResponseDto("Failed to get combined capacity data with rowSpan: " + e.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-}
-    @GetMapping("/combined-capacity")
-    @ApiOperation(value = "출강주 별 능력 리스트 조회", notes = "출강주에 따른 능력 데이터 조회")
-    public ResponseEntity<ResponseDto> getCombinedCapacity(@RequestParam(required = false) String week) {
-        List<CombinedCapacityDto> rs = capacityService.findCombinedCapacityByWeek(week);
+    // JOIN
+    // 주문 별 능력 정보 (FW030)
+    // 주문별 능력 부여 관리 (FC100)
+    @GetMapping("/byWeek")
+    @ApiOperation(value = "출강주 별 능력 리스트 조회", notes = "전체 능력 데이터 조회")
+    public ResponseEntity<ResponseDto> getCapacityList() {
+        List<CombinedCapacityDto> rs = capacityService.getCapacityList();
+        rs = capacityService.calculateRowSpan(rs);
         return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
     }
 
 
+    // 출강주 별 능력 리스트 조회 (rowSpan 포함)
+    @GetMapping("/combined-capacity-rowspan/{week}")
+    @ApiOperation(value = "출강주 별 능력 리스트 조회 (rowSpan 포함)", notes = "출강주에 따른 능력 데이터 조회 (rowSpan 포함)")
+    public ResponseEntity<ResponseDto> findCombinedCapacityByWeek(@PathVariable String week) {
+        try {
+            List<CombinedCapacityDto> rs = capacityService.findCombinedCapacityByWeek(week);
+            rs = capacityService.calculateRowSpan(rs);
+            return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
+        } catch (CustomException e) {
+            return new ResponseEntity<>(new ResponseDto("Failed to get combined capacity data with rowSpan: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
 
     //출강주별 능력 insert
     @PostMapping("{week}")

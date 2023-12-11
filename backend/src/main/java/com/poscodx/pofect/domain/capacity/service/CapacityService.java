@@ -16,7 +16,9 @@ public interface CapacityService {
 
     List<CombinedCapacityDto> findCombinedCapacityByWeek(String week);
 
-    int getRowCount(String processCd, List<CombinedCapacityDto> combinedCapacityList);
+
+    // rowspan 추가
+    List<CombinedCapacityDto> calculateRowSpan(List<CombinedCapacityDto> capacityData);
 
     void insert(String week);
 

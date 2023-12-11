@@ -33,7 +33,6 @@ import React, {
   useState,
 } from "react";
 import CapacityStandardApi from "src/api/CapacityApi";
-import { SizeXxxl } from "mdi-material-ui";
 
 ChartJS.register(
   CategoryScale,
@@ -77,11 +76,8 @@ const CapacityMgt = () => {
 
   // 능력
   const [capacity, setCapacity] = useState([]);
-  const [remainingQtyData, setRemainingQtyData] = useState([]);
-
+  
   const [labels, setLabels] = useState([]);
-
-  const [selectCodeName, setSelectCodeName] = useState("20230711");
 
   // 출강주
   const [weekList, setWeekList] = useState({
@@ -90,11 +86,11 @@ const CapacityMgt = () => {
   });
 
   useEffect(() => {
-    CapacityStandardApi.getCapacityList((data) => {
+    CapacityStandardApi.getCapacityListByWeek((data) => {
       setCapacity(data.response);
     });
 
-    CapacityStandardApi.getWeek("H", ["A", "B", "C"], (data) => {
+    CapacityStandardApi.getWeek("H", ["D", "E"], (data) => {
       const list = data.response;
       const select = list[0];
       setWeekList((prev) => {
@@ -105,26 +101,32 @@ const CapacityMgt = () => {
     });
   
   }, []);
+
+  const handleSearch = () => {
+  console.log("Selected week:", weekList.select);
+
+  CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
+    setCapacity(data.response);
+  });
+};
+
  console.log(weekList);
 
   
-  // console.log(capacity[0]?.faAdjustmentWgt);
-  // capacity.forEach((item, index) => {
-  //   console.log(`Capacity ${index + 1} - remainingQty: ${item.faAdjustmentWgt-item.progressQty}`);
-  // });
+  console.log(capacity[0])
   console.log(capacity[0]?.processCd);
   console.log(capacity[0]?.processCd);
   console.log(capacity[0]?.firmPsfac_tp);
 
-  useEffect(() => {
-  const calculatedData = capacity.map((item) => {
-    const remainingQty = `${item.faAdjustmentWgt - item.progressQty}`;
-    return { ...item, remainingQty };
-  });
-   console.log("*", calculatedData); 
+//   useEffect(() => {
+//   const calculatedData = capacity.map((item) => {
+//     const remainingQty = `${item.faAdjustmentWgt - item.progressQty}`;
+//     return { ...item, remainingQty };
+//   });
+//    console.log("*", calculatedData); 
 
-  setRemainingQtyData(calculatedData);
-}, [capacity]);
+//   setRemainingQtyData(calculatedData);
+// }, [capacity]);
 
 
   const options = {
@@ -158,16 +160,16 @@ const CapacityMgt = () => {
 
   //컬럼
   const columns = [
-    { field: "processCd", headerName: "공정", width: 90, headerAlign: 'center', },
+    { field: "processName", rowspan: "rowspan", headerName: "공정", width: 90, headerAlign: 'center', },
     { field: "firmPsFacTp", headerName: "공장", width: 70, headerAlign: 'center', },
     { field: "planQty", headerName: "능력량", width: 90, headerAlign: 'center', },
     { field: "faAdjustmentWgt", headerName: "조정량", width: 90, editable: true, headerAlign: 'center', },
     { field: "progressQty", headerName: "투입량", width: 90, headerAlign: 'center', },
-    { field: "remainingQty", headerName: "잔여량", width: 90, headerAlign: 'center', },
+    { field: "remainQty", headerName: "잔여량", width: 90, headerAlign: 'center', },
 
   ];
 
-
+  
   return (
 
     <>
@@ -235,6 +237,7 @@ const CapacityMgt = () => {
                 return (
                   <MenuItem key={idx} value={code}>
                     {code}
+                    
                   </MenuItem>
                 );
               })}
@@ -242,7 +245,7 @@ const CapacityMgt = () => {
           </FormControl>
         </div>
         <div>
-          <Button size="small" type="submit" variant="contained">
+          <Button size="small" type="submit" variant="contained" onClick={handleSearch}>
             조회
           </Button>
           <Button size="small" type="submit" variant="contained">
@@ -262,7 +265,7 @@ const CapacityMgt = () => {
             padding: "16px",
           }}
         >
-
+         
 
           <Box
             sx={{
@@ -295,7 +298,7 @@ const CapacityMgt = () => {
             <DataGrid
               className="custom-data-grid"
               disableRowSelectionOnClick
-              rows={remainingQtyData}
+              rows={capacity}
               columns={columns}
               onCellClick={(e) => {
                 console.log(e);
@@ -318,7 +321,7 @@ const CapacityMgt = () => {
           }}
         >
           <Typography variant="h6">Chart</Typography>
-
+         
           <Grid item xs={4} sx={{ paddingBottom: 4 }}>
             <Typography variant="h5">공장 부하 현황 </Typography>
 
