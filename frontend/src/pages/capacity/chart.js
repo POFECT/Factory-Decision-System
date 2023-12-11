@@ -4,7 +4,7 @@ import { Radar } from 'react-chartjs-2';
 
 ChartJS.register(...registerables);
 
-const RadarChart = () => {
+const RadarChart = ({ week, capacity }) => {
   const data = {
     labels: ['Label 1', 'Label 2', 'Label 3', 'Label 4', 'Label 5'],
     datasets: [
@@ -29,7 +29,10 @@ const RadarChart = () => {
       },
     ],
   };
+  console.log('ChWeek:', week);
+  console.log('ChCapacity:', capacity);
 
+  
   const config = {
     type: 'radar',
     data: {
