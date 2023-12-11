@@ -1,5 +1,7 @@
 package com.poscodx.pofect.domain.main.service;
 
+//import com.poscodx.pofect.domain.lot.dto.LotResDto;
+import com.poscodx.pofect.domain.main.dto.lot.LotResDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,4 +78,10 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         return factoryOrderInfoRepository.updateFlag(reqDto);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public List<com.poscodx.pofect.domain.lot.dto.LotResDto> findLotAll() {
+        return factoryOrderInfoRepository.findLotAll().stream().map(com.poscodx.pofect.domain.lot.dto.LotResDto::fromDtoToDto)
+                .toList();
+    }
 }

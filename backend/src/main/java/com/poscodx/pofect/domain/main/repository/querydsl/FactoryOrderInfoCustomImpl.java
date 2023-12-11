@@ -2,6 +2,7 @@ package com.poscodx.pofect.domain.main.repository.querydsl;
 
 import com.poscodx.pofect.common.querydsl.Querydsl4RepositorySupport;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
+import com.poscodx.pofect.domain.main.dto.lot.LotResDto;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.poscodx.pofect.domain.main.entity.QFactoryOrderInfo.factoryOrderInfo;
 import static com.poscodx.pofect.domain.main.repository.querydsl.condition.FactoryOrderInfoCondition.*;
@@ -65,6 +67,25 @@ public class FactoryOrderInfoCustomImpl extends Querydsl4RepositorySupport imple
         em.clear();
 
         return cnt;
+    }
+
+    @Override
+    public List<LotResDto> findLotAll() {
+        BooleanBuilder option = integration(
+                inFaConfirmFlag(List.of("E", "F"))
+        );
+
+        return select(LotResDto.class,
+                factoryOrderInfo.smSteelGrdN,
+                factoryOrderInfo.faConfirmFlag,
+                factoryOrderInfo.cfirmPassOpCd.charAt(0),
+                factoryOrderInfo.orderWidth,
+                factoryOrderInfo.orderLineQty)
+                .from(factoryOrderInfo)
+                .where(option)
+//                .groupBy(factoryOrderInfo.smSteelGrdN,
+//                        factoryOrderInfo.faConfirmFlag, factoryOrderInfo.cfirmPassOpCd.charAt(0), factoryOrderInfo.orderWidth)
+                .fetch();
     }
 
     /* 참고용 */
