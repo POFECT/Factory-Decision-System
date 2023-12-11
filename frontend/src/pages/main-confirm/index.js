@@ -544,7 +544,6 @@ const MainConfirm = () => {
             variant="contained"
             onClick={() => {
               getOrders(codeNameList.select, weekList.select);
-              setSelectedRow([]);
               setRowSelectionModel([]);
             }}
           >
