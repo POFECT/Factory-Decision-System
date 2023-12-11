@@ -2,14 +2,11 @@ import { axiosApi } from "./api";
 
 const CacpacityApi = {
 
-  getCapacityListByWeek: async (kind, week, callback) => {
+  getCapacityListByWeek: async (week, callback) => {
     await axiosApi()
-      .get("/capacity", {
-        params: {
-          ordThwTapWekCd: week != null ? week : undefined,
-        },
-      })
+      .get(`/capacity/combined-capacity-rowspan/${week != null ? week : ''}`)
       .then((response) => {
+        console.log("Selected week:", week);
         callback && callback(response.data);
       })
       .catch((error) => {
@@ -17,6 +14,8 @@ const CacpacityApi = {
       })
       .finally(() => { });
   },
+
+
 
 
     getWeek: async (statusCd, confirmFlag, callback) => {
@@ -34,17 +33,6 @@ const CacpacityApi = {
       .finally(() => {});
   },
 
-  getCapacityList: async (callback) => {
-    await axiosApi().get("/capacity/byWeek")
-      .then((response) => {
-        console.log(response)
-        callback && callback(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => { });
-  },
 }
 
 export default CacpacityApi;

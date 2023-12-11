@@ -1,9 +1,11 @@
 package com.poscodx.pofect.domain.capacity.dto;
 
+import com.poscodx.pofect.domain.sizestandard.dto.RowSpan;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @Setter
@@ -42,7 +44,39 @@ public class CombinedCapacityDto {
     @Size(max = 8)
     private String userId; // 8.박판공정계획사용자ID
 
-    private Long planQty; // 5.계획량
+    private Long planQty; // 9.계획량
+
+    private String processName; // 10. 공정 이름
+
+    private Long remainQty; // 11. 잔여량
+
+    private RowSpanInfo rowSpan;
+    // rowspan 정보 리스트
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RowSpanInfo {
+
+        private int processName;
 
 
+    }
+
+    public CombinedCapacityDto(Long id, String gcsCompCode, String millCd, String ordRcpTapWekCd, String processCd, String firmPsFacTp, Long faAdjustmentWgt, Long progressQty, String userId, Long planQty, String processName) {
+        this.id = id;
+        this.gcsCompCode = gcsCompCode;
+        this.millCd = millCd;
+        this.ordRcpTapWekCd = ordRcpTapWekCd;
+        this.processCd = processCd;
+        this.firmPsFacTp = firmPsFacTp;
+        this.faAdjustmentWgt = faAdjustmentWgt;
+        this.progressQty = progressQty;
+        this.userId = userId;
+        this.planQty = planQty;
+        this.processName = processName;
+        this.remainQty = faAdjustmentWgt - progressQty;
+    }
 }
+

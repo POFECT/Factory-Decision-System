@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CapacityInfoDto {
+//Insert TBL
 
     public static class CombinedResDto {
         private String processCd;
