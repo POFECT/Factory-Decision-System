@@ -19,5 +19,7 @@ public interface FactoryOrderInfoService {
 
     List<String> getOrderWeeks(FactoryOrderInfoReqDto.SearchDto dto);
 
-    Long updateOrderFlag(FactoryOrderInfoReqDto.updateFlagDto reqDto);
+    Long updateOrderFlag(FactoryOrderInfoReqDto.updateCodeDto reqDto);
+
+    Long updateOrderStatus(FactoryOrderInfoReqDto.updateCodeDto reqDto);
 }

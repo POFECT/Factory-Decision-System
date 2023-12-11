@@ -40,7 +40,9 @@ public class FactoryOrderInfoCustomImpl extends Querydsl4RepositorySupport imple
     public List<FactoryOrderInfo> findAllByOption(FactoryOrderInfoReqDto.orderDto dto) {
         BooleanBuilder option = integration(
                 eqOrdPdtItpCdN(dto.getOrdPdtItpCdN()),
-                eqOrdThwTapWekCd(dto.getOrdThwTapWekCd())
+                eqOrdThwTapWekCd(dto.getOrdThwTapWekCd()),
+                eqOsMainStatusCd(dto.getOsMainStatusCd()),
+                inFaConfirmFlag(dto.getFaConfirmFlag())
         );
 
         return getFactoryOrderInfoJPAQuery(option).fetch();
@@ -48,7 +50,7 @@ public class FactoryOrderInfoCustomImpl extends Querydsl4RepositorySupport imple
 
     @Modifying
     @Override
-    public Long updateFlag(FactoryOrderInfoReqDto.updateFlagDto reqDto) {
+    public Long updateFlag(FactoryOrderInfoReqDto.updateCodeDto reqDto) {
         EntityManager em = getEntityManager();
 //        JPAUpdateClause updateClause = new JPAUpdateClause(em, factoryOrderInfo);
 //        updateClause.set(factoryOrderInfo.faConfirmFlag, reqDto.getFlag())
@@ -58,7 +60,23 @@ public class FactoryOrderInfoCustomImpl extends Querydsl4RepositorySupport imple
 
         long cnt = queryFactory
                 .update(factoryOrderInfo)
-                .set(factoryOrderInfo.faConfirmFlag, reqDto.getFlag())
+                .set(factoryOrderInfo.faConfirmFlag, reqDto.getValue())
+                .where(factoryOrderInfo.id.in(reqDto.getIds()))
+                .execute();
+        em.flush();
+        em.clear();
+
+        return cnt;
+    }
+
+    @Modifying
+    @Override
+    public Long updateStatus(FactoryOrderInfoReqDto.updateCodeDto reqDto) {
+        EntityManager em = getEntityManager();
+
+        long cnt = queryFactory
+                .update(factoryOrderInfo)
+                .set(factoryOrderInfo.osMainStatusCd, reqDto.getValue())
                 .where(factoryOrderInfo.id.in(reqDto.getIds()))
                 .execute();
         em.flush();

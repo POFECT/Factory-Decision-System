@@ -118,6 +118,9 @@ const MainConfirm = () => {
       const cnt = data.response;
       alert(cnt + "건 제조투입 완료되었습니다.");
       setRowSelectionModel([]);
+
+      /** 리스트 update */
+      getOrders(null, null);
     });
   };
 
@@ -566,11 +569,11 @@ const MainConfirm = () => {
           checkboxSelection
           disableRowSelectionOnClick
           rows={orderList.list}
+          columns={columns}
           rowSelectionModel={rowSelectionModel}
           onRowSelectionModelChange={(newRowSelectionModel) => {
             setRowSelectionModel(newRowSelectionModel);
           }}
-          columns={columns}
           onCellClick={(e) => {
             setOrderList(
               Object.assign({}, orderList, {
