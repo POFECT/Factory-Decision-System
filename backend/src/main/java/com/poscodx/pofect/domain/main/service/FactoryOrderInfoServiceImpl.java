@@ -71,8 +71,14 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
     @Transactional
     @Override
-    public Long updateOrderFlag(FactoryOrderInfoReqDto.updateFlagDto reqDto) {
+    public Long updateOrderFlag(FactoryOrderInfoReqDto.updateCodeDto reqDto) {
         return factoryOrderInfoRepository.updateFlag(reqDto);
+    }
+
+    @Transactional
+    @Override
+    public Long updateOrderStatus(FactoryOrderInfoReqDto.updateCodeDto reqDto) {
+        return factoryOrderInfoRepository.updateStatus(reqDto);
     }
 
 }
