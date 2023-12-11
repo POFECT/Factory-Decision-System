@@ -23,8 +23,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-import { Bar, Pie, Radar } from "react-chartjs-2";
-import RadarChart from './chart.js';
+
 import { GridToolbar } from "@mui/x-data-grid";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import ModalTest from "./modal-test";
@@ -33,6 +32,8 @@ import React, {
   useState,
 } from "react";
 import CapacityStandardApi from "src/api/CapacityApi";
+import RadarChart from "./chart";
+import MyHeatmap from "./heat";
 
 ChartJS.register(
   CategoryScale,
@@ -96,7 +97,10 @@ const CapacityMgt = () => {
       setWeekList((prev) => {
         return { ...prev, list, select };
       });
-
+      
+ CapacityStandardApi.getCapacityListByWeek(select, (data) => {
+    setCapacity(data.response);
+  });
     
     });
   
@@ -110,12 +114,11 @@ const CapacityMgt = () => {
   });
 };
 
- console.log(weekList);
+  console.log(" weeklist:", weekList);
 
   
-  console.log(capacity[0])
-  console.log(capacity[0]?.processCd);
-  console.log(capacity[0]?.processCd);
+  console.log(" capacity:",capacity[0])
+  console.log(" capacity[0].processCd:",capacity[0]?.processCd);
   console.log(capacity[0]?.firmPsfac_tp);
 
 //   useEffect(() => {
@@ -129,34 +132,35 @@ const CapacityMgt = () => {
 // }, [capacity]);
 
 
-  const options = {
-    plugins: {
-      title: {
-        display: true,
-        text: "부하",
-      },
-    },
-  };
-  const inputStatusChartData = {
-    labels: labels,
-    datasets: [
-      {
-        label: "공장1",
-        data: capacity,
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-      {
-        label: "공장2",
-        data: capacity,
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      }, {
-        label: "공장3",
-        data: capacity,
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-    ],
-  };
-  // 
+//공장부하 차트
+  // const options = {
+  //   plugins: {
+  //     title: {
+  //       display: true,
+  //       text: "부하",
+  //     },
+  //   },
+  // };
+  // const inputStatusChartData = {
+  //   labels: labels,
+  //   datasets: [
+  //     {
+  //       label: "공장1",
+  //       data: capacity,
+  //       backgroundColor: "rgba(53, 162, 235, 0.5)",
+  //     },
+  //     {
+  //       label: "공장2",
+  //       data: capacity,
+  //       backgroundColor: "rgba(53, 162, 235, 0.5)",
+  //     }, {
+  //       label: "공장3",
+  //       data: capacity,
+  //       backgroundColor: "rgba(53, 162, 235, 0.5)",
+  //     },
+  //   ],
+  // };
+  // // 
 
   //컬럼
   const columns = [
@@ -185,6 +189,7 @@ const CapacityMgt = () => {
           alignItems: "center",
         }}
       >
+        
         <div>
           <FormControl
             sx={{ m: 1 }}
@@ -295,6 +300,8 @@ const CapacityMgt = () => {
               },
             }}
           >
+                      <Grid item xs={4} sx={{ paddingBottom: 2 }}>
+</Grid>
             <DataGrid
               className="custom-data-grid"
               disableRowSelectionOnClick
@@ -307,7 +314,9 @@ const CapacityMgt = () => {
                 Toolbar: GridToolbar,
                 Cell: MyCell,
               }}
-              rowHeight={31}
+              rowHeight={36}
+              hideFooterPagination={true}
+              hideFooter={true}
 
             />
 
@@ -320,20 +329,19 @@ const CapacityMgt = () => {
             padding: "16px",
           }}
         >
-          <Typography variant="h6">Chart</Typography>
          
-          <Grid item xs={4} sx={{ paddingBottom: 4 }}>
-            <Typography variant="h5">공장 부하 현황 </Typography>
+          <Grid item xs={4} sx={{ paddingBottom: 10 , paddingTop:3 }}>
+            <Typography variant="h4" > 공장 부하 현황 </Typography>
 
-            <Bar
+            {/* <Bar
               options={options}
               data={inputStatusChartData}
               style={{ width: "100%", height: "80%" }}
-            />
-            <RadarChart />
-
+            /> */}
+            {/* <RadarChart week={weekList} capacity={capacity} /> */}
           </Grid>
-
+      <MyHeatmap capacity={capacity} />
+                      
           {/* <ul>
   {capacity.map((item) => (
     <li key={item.id}>
@@ -350,6 +358,7 @@ const CapacityMgt = () => {
   ))}
 </ul> */}
         </Card>
+
       </div>
 
     </>
