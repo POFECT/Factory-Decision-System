@@ -23,27 +23,17 @@ public class ProcessStandardController {
 
     @GetMapping("")
     @ApiOperation(value = "경유 공정 리스트 조회", notes = "전체 경유 공정 데이터 조회")
-    public ResponseEntity<ResponseDto> getCapacityList() {
+    public ResponseEntity<ResponseDto> getProcessList() {
         List<ProcessStandardDto> rs = processStandardService.getList();
         return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
     }
 
-//    @GetMapping("{id}")
-//    @ApiOperation(value = "능력 조회", notes = "ID로 능력 데이터 조회")
-//    public ResponseEntity<ResponseDto> getCapacityById(
-//            @PathVariable Long id) {
-//        GrantCapacityDto rs = capacityService.getById(id);
-//        return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/week")
-//    @ApiOperation(value = "출강주 조회", notes = "전체 주문 건 출강주 조회")
-//    public ResponseEntity<ResponseDto> getOrdWeekList() {
-//        List<FactoryOrderInfoResDto> rs = factoryOrderInfoService.getList();
-//        System.out.println("ResponseDto(rs) = " + new ResponseDto(rs));
-//        return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
-//
-//
-//    }
+    @GetMapping("{ordPdtItdsCdN}")
+    @ApiOperation(value = "경유 공정 by itemDetail", notes = "경유 공정 by itemDetail")
+    public ResponseEntity<ResponseDto> getProcessByItemDetail(@PathVariable String ordPdtItdsCdN) {
+        ProcessStandardDto.ItemDetailDto rs = processStandardService.getByOrdPdtItdsCdN(ordPdtItdsCdN);
+        return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
+    }
+
 
 }
