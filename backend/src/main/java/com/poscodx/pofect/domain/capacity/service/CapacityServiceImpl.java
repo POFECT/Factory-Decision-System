@@ -97,7 +97,6 @@ public class CapacityServiceImpl implements CapacityService {
         for(CapacityInfo capacityInfo : list) {
             // 공장 이름 GET 후 매핑
             String factoryName = confirmFactoryStandardService.getFactoryName(capacityInfo.getProcessCd(), capacityInfo.getFirmPsFacTp());
-            System.out.println(factoryName);
 
             CapacityInfoDto.FactoryCapacityDto dto =
                     CapacityInfoDto.FactoryCapacityDto.builder()

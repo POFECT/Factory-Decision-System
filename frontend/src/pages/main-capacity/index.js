@@ -41,6 +41,9 @@ function MyCell(props) {
 const MainCapacity = () => {
   /* 데이터 */
 
+  const osMainStatusCd = "H";
+  const faConfirmFlag = ["A", "B", "C"];
+
   // 주문
   const [orderList, setOrderList] = useState({
     list: [],
@@ -56,6 +59,8 @@ const MainCapacity = () => {
     list: [],
     select: "",
   });
+
+  const [rowSelectionModel, setRowSelectionModel] = useState([]);
 
   useEffect(() => {
     getOrders(null, null);
@@ -79,12 +84,50 @@ const MainCapacity = () => {
   const getOrders = (kind, week) => {
     if (kind == 0) kind = null;
     if (week == 0) week = null;
-    MainCapacityApi.getOrderList(kind, week, (data) => {
-      const list = data.response;
-      const order = list[0];
-      setOrderList((prev) => {
-        return { ...prev, list, order };
-      });
+    MainCapacityApi.getOrderList(
+      kind,
+      week,
+      osMainStatusCd,
+      faConfirmFlag,
+      (data) => {
+        const list = data.response;
+        const order = list[0];
+        setOrderList((prev) => {
+          return { ...prev, list, order };
+        });
+      }
+    );
+  };
+
+  const updateConfirmFlag = async () => {
+    const selectedIdx = new Set(rowSelectionModel);
+    const rows = orderList.list.filter((row) => selectedIdx.has(row.id));
+    // console.log(rows);
+
+    /** 정상설계 되지 않은 주문이 있다면 실패 */
+    for (const row of rows) {
+      if (row.faConfirmFlag != "B") {
+        alert("정상 설계되지 않은 주문이 존재합니다.");
+        return;
+      }
+    }
+
+    /** FLAG 변경할 주문들의 ID 추출 */
+    const selectedIdList = rows.map((selectedRow) => {
+      const selectedId = orderList.list.find(
+        (row) => row.id === selectedRow.id
+      );
+      return selectedId.id;
+    });
+    // console.log(selectedIdList);
+
+    MainCapacityApi.updateFlag("D", selectedIdList, (data) => {
+      const cnt = data.response;
+      alert(cnt + "건 설계 확정되었습니다.");
+      setRowSelectionModel([]);
+
+      /** 리스트 update */
+      getOrders(null, null);
     });
   };
 
@@ -428,13 +471,9 @@ const MainCapacity = () => {
               id="demo-multiple-name"
               defaultValue="T"
               input={<OutlinedInput label="구분" />}
-              onChange={(e) => {
-                console.log(e.target.value);
-              }}
               style={{ height: 40 }}
             >
               <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
             </Select>
           </FormControl>
           <FormControl
@@ -516,14 +555,15 @@ const MainCapacity = () => {
             variant="contained"
             onClick={() => {
               getOrders(codeNameList.select, weekList.select);
+              setRowSelectionModel([]);
             }}
           >
             대상조회
           </Button>
-          <Button size="small" type="submit" variant="contained">
+          <Button size="small" variant="contained">
             설계
           </Button>
-          <Button size="small" type="submit" variant="contained">
+          <Button size="small" variant="contained" onClick={updateConfirmFlag}>
             확정처리
           </Button>
           <Button size="small" type="submit" variant="contained">
@@ -538,6 +578,10 @@ const MainCapacity = () => {
           disableRowSelectionOnClick
           rows={orderList.list}
           columns={columns}
+          rowSelectionModel={rowSelectionModel}
+          onRowSelectionModelChange={(newRowSelectionModel) => {
+            setRowSelectionModel(newRowSelectionModel);
+          }}
           onCellClick={(e) => {
             setOrderList(
               Object.assign({}, orderList, {
