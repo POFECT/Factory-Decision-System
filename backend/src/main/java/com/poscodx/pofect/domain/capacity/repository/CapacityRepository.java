@@ -28,8 +28,6 @@ public interface CapacityRepository extends JpaRepository<CapacityInfo, Long> {
 
     boolean existsByOrdRcpTapWekCd(String week);
 
-    Optional<CapacityInfo> findByOrdRcpTapWekCd(String week);
-
     @Query("SELECT new com.poscodx.pofect.domain.capacity.dto.CombinedCapacityDto(" +
             "b.id, b.gcsCompCode, b.millCd, b.ordRcpTapWekCd, b.processCd, " +
             "b.firmPsFacTp, b.faAdjustmentWgt, b.progressQty, b.userId, a.planQty, " +
