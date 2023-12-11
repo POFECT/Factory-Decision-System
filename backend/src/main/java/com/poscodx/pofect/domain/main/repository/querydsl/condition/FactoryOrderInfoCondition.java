@@ -39,4 +39,5 @@ public class FactoryOrderInfoCondition extends DefaultCondition {
         return factoryOrderInfo.ordThwTapWekCd.eq(week);
     }
 
+
 }

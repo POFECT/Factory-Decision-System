@@ -5,8 +5,11 @@ import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAUpdateClause;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.poscodx.pofect.domain.main.entity.QFactoryOrderInfo.factoryOrderInfo;
@@ -41,6 +44,27 @@ public class FactoryOrderInfoCustomImpl extends Querydsl4RepositorySupport imple
         );
 
         return getFactoryOrderInfoJPAQuery(option).fetch();
+    }
+
+    @Modifying
+    @Override
+    public Long updateFlag(FactoryOrderInfoReqDto.updateFlagDto reqDto) {
+        EntityManager em = getEntityManager();
+//        JPAUpdateClause updateClause = new JPAUpdateClause(em, factoryOrderInfo);
+//        updateClause.set(factoryOrderInfo.faConfirmFlag, reqDto.getFlag())
+//                .where(factoryOrderInfo.id.in(reqDto.getIds()))
+//                .execute();
+//        long cnt = updateClause.execute();
+
+        long cnt = queryFactory
+                .update(factoryOrderInfo)
+                .set(factoryOrderInfo.faConfirmFlag, reqDto.getFlag())
+                .where(factoryOrderInfo.id.in(reqDto.getIds()))
+                .execute();
+        em.flush();
+        em.clear();
+
+        return cnt;
     }
 
     /* 참고용 */

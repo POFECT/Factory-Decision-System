@@ -25,4 +25,10 @@ public interface ConfirmFactoryStandardRepository extends JpaRepository<ConfirmF
 
     List<ConfirmFactoryStandard> findAllByProcessCdOrderByProcessCdAsc(String process);
 
+    FactoryName findAllByProcessCdAndFirmPsFacTp(String processCd, String firmPsFacTp);
+
+    public interface FactoryName {
+        String getCdExpl();
+    }
+
 }
