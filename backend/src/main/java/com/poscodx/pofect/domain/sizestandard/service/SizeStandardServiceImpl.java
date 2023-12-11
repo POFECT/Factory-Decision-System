@@ -12,6 +12,7 @@ import com.poscodx.pofect.domain.sizestandard.entity.FactorySizeStandard;
 import com.poscodx.pofect.domain.sizestandard.repository.SizeStandardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,7 +23,9 @@ public class SizeStandardServiceImpl implements SizeStandardService {
     private final SizeStandardRepository repository;
     private final FactoryOrderInfoService factoryOrderInfoService;
 
+
     @Override
+    @Transactional(readOnly = true)
     public List<SizeStandardResDto> getList() {
 
         List<SizeStandardResDto> dtoList = repository.findAll().stream().map(SizeStandardResDto::toDto)
@@ -56,6 +59,7 @@ public class SizeStandardServiceImpl implements SizeStandardService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<SizeStandardSetDto> setSizeStandard(Long id, List<String> processCodeList) {
 
         FactoryOrderInfoResDto dto
