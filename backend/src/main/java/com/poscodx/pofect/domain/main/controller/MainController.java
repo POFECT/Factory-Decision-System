@@ -54,8 +54,15 @@ public class MainController {
 
     @PatchMapping("/flag/update")
     @ApiOperation(value = "FA_CONFIRM_FLAG 수정", notes = "여러 주문의 FA_CONFIRM_FLAG를 원하는 값으로 수정한다.")
-    public ResponseEntity<ResponseDto> updateConfirmFlag(@RequestBody FactoryOrderInfoReqDto.updateFlagDto reqDto) {
+    public ResponseEntity<ResponseDto> updateConfirmFlag(@RequestBody FactoryOrderInfoReqDto.updateCodeDto reqDto) {
         Long cnt = factoryOrderInfoService.updateOrderFlag(reqDto);
+        return new ResponseEntity<>(new ResponseDto(cnt), HttpStatus.OK);
+    }
+
+    @PatchMapping("/status/update")
+    @ApiOperation(value = "OS_MAIN_STATUS_CD_N 수정", notes = "여러 주문의 OS_MAIN_STATUS_CD_N를 원하는 값으로 수정한다.")
+    public ResponseEntity<ResponseDto> updateStatus(@RequestBody FactoryOrderInfoReqDto.updateCodeDto reqDto) {
+        Long cnt = factoryOrderInfoService.updateOrderStatus(reqDto);
         return new ResponseEntity<>(new ResponseDto(cnt), HttpStatus.OK);
     }
 

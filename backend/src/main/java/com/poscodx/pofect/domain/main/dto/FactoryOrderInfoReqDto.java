@@ -33,13 +33,13 @@ public class FactoryOrderInfoReqDto {
         private List<String> faConfirmFlag;  // 공장결정확정구분
     }
 
-    /* FA_CONFIRM_FLAG 수정 request data */
+    /* FA_CONFIRM_FLAG, OS_MAIN_STATUS_CD_N 수정 request data */
     @Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class updateFlagDto {
-        private String flag;  // 변경할 FLAG
+    public static class updateCodeDto {
+        private String value;  // 변경할 값
         private List<Long> ids;  // FLAG를 변경할 주문 ID 리스트
     }
 
