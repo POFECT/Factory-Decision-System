@@ -30,10 +30,12 @@ public class CapacityServiceImpl implements CapacityService {
                 .collect(Collectors.toList());
     }
 
+    // join data
     @Override
     public List<CombinedCapacityDto> getCapacityList() {
         return capacityRepository.findCombinedCapacity();
     }
+
 
     @Override
     public List<CombinedCapacityDto> findCombinedCapacityByWeek(String week) {
@@ -64,11 +66,46 @@ public class CapacityServiceImpl implements CapacityService {
 //    }
 
     @Override
-    public int getRowCount(String processCd, List<CombinedCapacityDto> combinedCapacityList) {
-        return (int) combinedCapacityList.stream()
-                .filter(dto -> dto.getProcessCd().equals(processCd))
-                .count();
+    // rowspan 추가
+    public List<CombinedCapacityDto> calculateRowSpan(List<CombinedCapacityDto> capacityData) {
+        // 각 processCd 별로 firmPsFacTp가 가장 작은 값을 저장하는 맵
+        Map<String, Integer> processCdCountMap = new HashMap<>();
+        Map<String, Integer> processCdMinFacMap = new HashMap<>();
+
+        for (CombinedCapacityDto dto : capacityData) {
+            String processCd = dto.getProcessCd();
+            // processCd가 맨 처음 나온 case
+            if (!processCdCountMap.containsKey(processCd)) {
+                processCdCountMap.put(processCd, 1);
+            } else {
+                int count = processCdCountMap.get(processCd);
+                processCdCountMap.put(processCd, count + 1);
+            }
+            int count = processCdCountMap.get(processCd);
+
+            // firmPsFacTp가 가장 작은 값
+            if (dto.getFirmPsFacTp() != null) {
+                int currentFirmPsFacTp = Integer.parseInt(dto.getFirmPsFacTp());
+                Integer minFirmPsFacTp = processCdMinFacMap.get(processCd);
+                if (minFirmPsFacTp == null || currentFirmPsFacTp < minFirmPsFacTp) {
+                    processCdMinFacMap.put(processCd, currentFirmPsFacTp);
+                }
+            }
+
+        }
+        for (CombinedCapacityDto rowSpanDto : capacityData) {
+            String processCd = rowSpanDto.getProcessCd();
+            if (processCdMinFacMap.get(processCd) == Integer.parseInt(rowSpanDto.getFirmPsFacTp())) {
+                // RowSpanInfo 객체 생성
+                CombinedCapacityDto.RowSpanInfo rowSpanInfo = new CombinedCapacityDto.RowSpanInfo(processCdCountMap.get(processCd));
+                if (rowSpanDto.getRowSpan() == null) {
+                    rowSpanDto.setRowSpan(rowSpanInfo);
+                }
+            }
+        }
+        return capacityData;
     }
+
 
     @Transactional
     @Override
