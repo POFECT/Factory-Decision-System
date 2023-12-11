@@ -71,9 +71,11 @@
     "react-datasheet-grid": "^4.11.2",
     "react-datepicker": "^4.5.0",
     "react-dom": "17.0.2",
+    "react-heatmap-grid": "^0.9.0",
     "react-perfect-scrollbar": "^1.5.8",
     "react-popper": "^2.2.5",
     "react-select": "^5.8.0",
+    "react-spring": "^9.7.3",
     "styled-components": "^6.1.1"
   },
   "devDependencies": {
