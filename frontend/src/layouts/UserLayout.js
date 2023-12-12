@@ -14,6 +14,9 @@ import VerticalAppBarContent from "./components/vertical/AppBarContent";
 
 // ** Hook Import
 import { useSettings } from "src/@core/hooks/useSettings";
+import Spinner from "src/views/spinners/Spinner";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const UserLayout = ({ children }) => {
   // ** Hooks
@@ -28,26 +31,39 @@ const UserLayout = ({ children }) => {
    *  ! Do not change this value unless you know what you are doing. It can break the template.
    */
   const hidden = useMediaQuery((theme) => theme.breakpoints.down("lg"));
-
+  const router = useRouter();
+  const [isPageLoading, setIsPageLoading] = useState(false);
+  useEffect(() => {
+    router.events.on("routeChangeStart", () => {
+      setIsPageLoading(true);
+    });
+    //
+    router.events.on("routeChangeComplete", () => {
+      setIsPageLoading(false);
+    });
+  }, [router]);
   return (
-    <VerticalLayout
-      hidden={hidden}
-      settings={settings}
-      saveSettings={saveSettings}
-      verticalNavItems={VerticalNavItems()} // Navigation Items
-      verticalAppBarContent={(
-        props // AppBar Content
-      ) => (
-        <VerticalAppBarContent
-          hidden={hidden}
-          settings={settings}
-          saveSettings={saveSettings}
-          toggleNavVisibility={props.toggleNavVisibility}
-        />
-      )}
-    >
-      {children}
-    </VerticalLayout>
+    <>
+      {isPageLoading && <Spinner />}
+      <VerticalLayout
+        hidden={hidden}
+        settings={settings}
+        saveSettings={saveSettings}
+        verticalNavItems={VerticalNavItems()} // Navigation Items
+        verticalAppBarContent={(
+          props // AppBar Content
+        ) => (
+          <VerticalAppBarContent
+            hidden={hidden}
+            settings={settings}
+            saveSettings={saveSettings}
+            toggleNavVisibility={props.toggleNavVisibility}
+          />
+        )}
+      >
+        {children}
+      </VerticalLayout>
+    </>
   );
 };
 
