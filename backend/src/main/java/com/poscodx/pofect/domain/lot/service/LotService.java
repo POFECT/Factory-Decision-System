@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface LotService {
-    Map<String, Map<String, Map<Character, Map<String, Integer>>>> findLotAll();
+    List<LotGroupDto> findLotAll();
 
 
 }
