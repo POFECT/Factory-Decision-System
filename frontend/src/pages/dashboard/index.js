@@ -11,9 +11,18 @@ import {
 } from "chart.js";
 import { Bar, Pie } from "react-chartjs-2";
 import DashBoardApi from "src/api/DashBoardApi";
-import { Paper, Typography, Grid } from "@mui/material";
+import { Paper, Typography, Grid, Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import EssentialStandardApi from "src/api/EssentialStandardApi";
+import ApexChartWrapper from "src/@core/styles/libs/react-apexcharts";
+import StatisticsCard from "src/views/dashboard/StatisticsCard";
+import Trophy from "src/views/dashboard/Trophy";
+import CardStatisticsVerticalComponent from "src/@core/components/card-statistics/card-stats-vertical";
+import Poll from "mdi-material-ui/Poll";
+import CurrencyUsd from "mdi-material-ui/CurrencyUsd";
+import HelpCircleOutline from "mdi-material-ui/HelpCircleOutline";
+import BriefcaseVariantOutline from "mdi-material-ui/BriefcaseVariantOutline";
+import SalesByCountries from "src/views/dashboard/SalesByCountries";
+import DepositWithdraw from "src/views/dashboard/DepositWithdraw";
 
 ChartJS.register(
   CategoryScale,
@@ -65,37 +74,44 @@ export default function BarChart() {
     {
       field: "ordPdtItpCdN",
       headerName: "품종",
-      width: 50,
+      width: 150,
+      headerAlign: "center",
     },
     {
       field: "countA",
       headerName: "주문 처리 상태",
-      width: 100,
+      width: 200,
+      headerAlign: "center",
     },
     {
       field: "countB",
       headerName: "가능통과공장 확정",
-      width: 150,
+      width: 200,
+      headerAlign: "center",
     },
     {
       field: "countC",
       headerName: "가능통과공장 조치 필요",
-      width: 150,
+      width: 200,
+      headerAlign: "center",
     },
     {
       field: "countD",
       headerName: "가능통과공장 확정",
-      width: 150,
+      width: 200,
+      headerAlign: "center",
     },
     {
       field: "countE",
       headerName: "확정통과공장 확정",
-      width: 150,
+      width: 200,
+      headerAlign: "center",
     },
     {
       field: "countF",
       headerName: "제조 투입",
-      width: 150,
+      width: 200,
+      headerAlign: "center",
     },
   ];
 
@@ -104,33 +120,165 @@ export default function BarChart() {
     ...item,
   }));
   return (
-    <>
-      <Grid container spacing={2}>
-        <Grid item xs={4} sx={{ paddingBottom: 4 }}>
-          <Typography variant="h5">품종 별 투입 현황</Typography>
+    <ApexChartWrapper>
+      <Grid container spacing={6}>
+        <Grid item xs={12} md={4}>
+          <Trophy />
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <StatisticsCard />
+        </Grid>
+        <Grid item xs={12} md={6} lg={4} sx={{ paddingBottom: 4 }}>
           <Paper>
+            <Typography variant="h5" style={{ padding: "10px 10px 0px 15px" }}>
+              품종 별 투입 현황
+            </Typography>
             <Bar
               options={options}
               data={inputStatusChartData}
-              style={{ width: "100%", height: "80%" }}
+              style={{
+                padding: "0px 15px 0px 15px",
+              }}
             />
           </Paper>
         </Grid>
-        <Grid item xs={8} sx={{ paddingBottom: 4 }}>
-          <Typography variant="h5">주문 조회</Typography>
+        <Grid item xs={12} md={6} lg={4} sx={{ paddingBottom: 4 }}>
           <Paper>
-            <div style={{ height: 400, padding: "30px" }}>
+            <Typography variant="h5" style={{ padding: "10px 20px 10px 20px" }}>
+              주문 조회
+            </Typography>
+            <Box
+              sx={{
+                "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
+                  {
+                    borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                    borderRight: "1px solid rgba(225, 234, 239, 1)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  },
+                "& .custom-data-grid .MuiDataGrid-columnHeader": {
+                  cursor: "pointer",
+                  borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                  borderRight: "1px solid rgba(225, 234, 239, 1)",
+                },
+                "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
+                  {
+                    borderBottomStyle: "none",
+                  },
+              }}
+              style={{
+                height: 285,
+                padding: "30px",
+                padding: "0px 20px 30px 20px",
+              }}
+            >
               <DataGrid
+                className="custom-data-grid"
                 rows={changeRowData}
                 columns={columns}
                 rowHeight={40}
                 hideFooterPagination={true}
                 hideFooter={true}
               />
-            </div>
+            </Box>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6} lg={4}>
+          <Grid container spacing={6}>
+            <Grid item xs={6}>
+              <CardStatisticsVerticalComponent
+                stats="$25.6k"
+                icon={<Poll />}
+                color="success"
+                trendNumber="+42%"
+                title="Total Profit"
+                subtitle="Weekly Profit"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CardStatisticsVerticalComponent
+                stats="$78"
+                title="Refunds"
+                trend="negative"
+                color="secondary"
+                trendNumber="-15%"
+                subtitle="Past Month"
+                icon={<CurrencyUsd />}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CardStatisticsVerticalComponent
+                stats="862"
+                trend="negative"
+                trendNumber="-18%"
+                title="New Project"
+                subtitle="Yearly Project"
+                icon={<BriefcaseVariantOutline />}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CardStatisticsVerticalComponent
+                stats="15"
+                color="warning"
+                trend="negative"
+                trendNumber="-18%"
+                subtitle="Last Week"
+                title="Sales Queries"
+                icon={<HelpCircleOutline />}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} md={6} lg={4}>
+          <SalesByCountries />
+        </Grid>
+        <Grid item xs={12} md={12} lg={8}>
+          <DepositWithdraw />
+        </Grid>
+        <Grid item xs={12}>
+          <Paper>
+            <Typography variant="h5" style={{ padding: "10px 20px 10px 20px" }}>
+              주문 조회
+            </Typography>
+            <Box
+              sx={{
+                "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
+                  {
+                    borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                    borderRight: "1px solid rgba(225, 234, 239, 1)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  },
+                "& .custom-data-grid .MuiDataGrid-columnHeader": {
+                  cursor: "pointer",
+                  borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                  borderRight: "1px solid rgba(225, 234, 239, 1)",
+                },
+                "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
+                  {
+                    borderBottomStyle: "none",
+                  },
+              }}
+              style={{
+                height: 285,
+                padding: "30px",
+                padding: "0px 20px 30px 20px",
+              }}
+            >
+              <DataGrid
+                className="custom-data-grid"
+                rows={changeRowData}
+                columns={columns}
+                rowHeight={40}
+                hideFooterPagination={true}
+                hideFooter={true}
+              />
+            </Box>
           </Paper>
         </Grid>
       </Grid>
-    </>
+    </ApexChartWrapper>
   );
 }

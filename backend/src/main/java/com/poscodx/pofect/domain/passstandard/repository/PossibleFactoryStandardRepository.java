@@ -1,6 +1,6 @@
 package com.poscodx.pofect.domain.passstandard.repository;
 
-import com.poscodx.pofect.domain.passstandard.dto.PossibleFactoryStandardResDto;
+import com.poscodx.pofect.domain.passstandard.dto.PossibleToConfirmResDto;
 import com.poscodx.pofect.domain.passstandard.entity.PossibleFactoryStandard;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,6 +22,16 @@ public interface PossibleFactoryStandardRepository extends JpaRepository<Possibl
             "ORDER BY " +
             "bti_posb_ps_fac_tp",nativeQuery = true)
     List<Object[]> getGridData();
+
+    @Query(value=
+            "SELECT " +
+            " pfs.feasible_routing_group AS firmPsFacTp " +
+            "FROM " +
+            "    possible_factory_standard pfs " +
+            "WHERE " +
+            "    pfs.process_cd = :processCD AND pfs.bti_posb_ps_fac_tp = :btiPosbPsFacTp"
+            ,nativeQuery = true)
+    String getPossibleToConfirm(String processCD, String btiPosbPsFacTp);
 
     Optional<PossibleFactoryStandard> findByProcessCdAndFeasibleRoutingGroup(String processCd, String group);
 }

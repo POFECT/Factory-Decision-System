@@ -35,5 +35,12 @@ public class ProcessStandardController {
         return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
     }
 
+    @GetMapping("/item/{ordPdtItpCdN}")
+    @ApiOperation(value = "경유 공정 품종 필터링 ", notes = "품종으로 품명 여러개 select")
+    public ResponseEntity<ResponseDto> getProcessByItem(@PathVariable String ordPdtItpCdN) {
+        List<ProcessStandardDto> rs = processStandardService.getProcessByItemList(ordPdtItpCdN);
+        return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
+    }
+
 
 }

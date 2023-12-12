@@ -10,6 +10,8 @@ public interface ProcessStandardService {
 
     String getByOrdPdtItdsCdN(String ordPdtItdsCdN);
 
+    List<ProcessStandardDto> getProcessByItemList(String ordPdtItpCdN);
+
 
 //    GrantCapacityDto getById(Long id);
 }

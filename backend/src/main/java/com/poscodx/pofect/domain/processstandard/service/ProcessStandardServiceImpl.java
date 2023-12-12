@@ -1,6 +1,7 @@
 package com.poscodx.pofect.domain.processstandard.service;
 
 import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
+import com.poscodx.pofect.domain.processstandard.entity.ProcessStandard;
 import com.poscodx.pofect.domain.processstandard.repository.ProcessStandardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,5 +39,18 @@ public class ProcessStandardServiceImpl implements ProcessStandardService {
 
         return processCdList;
     }
+
+    @Override
+    public List<ProcessStandardDto> getProcessByItemList(String ordPdtItpCdN) {
+        // "%"를 끝에 추가
+        String modifiedOrdPdtItpCdN = ordPdtItpCdN + "%";
+
+        List<ProcessStandard> processStandards = processStandardRepository.findByOrdPdtItdsCdNLike(modifiedOrdPdtItpCdN);
+
+        return processStandards.stream()
+                .map(ProcessStandardDto::toDto)
+                .collect(Collectors.toList());
+    }
+
 
 }

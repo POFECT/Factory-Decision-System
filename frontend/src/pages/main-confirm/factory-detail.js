@@ -85,7 +85,9 @@ const FactoryDetail = (props) => {
             {factoryList.list.map((f) => {
               return (
                 <TableRow key={f.firmPsFacTp}>
-                  <TableCell align="center">{f.factoryName}</TableCell>
+                  <TableCell align="center" style={{ width: "80px" }}>
+                    {f.factoryName}
+                  </TableCell>
                   <TableCell align="center">
                     {f.faAdjustmentWgt - f.progressQty}
                   </TableCell>
