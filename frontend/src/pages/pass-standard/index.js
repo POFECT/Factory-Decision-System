@@ -53,18 +53,40 @@ function MyCell(props) {
 const passStandard = () => {
 
   const [passStandard, setPassStandard] = useState([]);
-  const [selectCodeName, setSelectCodeName] = useState("FS");
-  const [codeNameList, setCodeNameList] = useState([]);
+
+  // 품종
+  const [codeNameList, setCodeNameList] = useState({
+    list: [],
+    select: "",
+  });
 
   useEffect(() => {
     PassStandardApi.getList((data) => {
       setPassStandard(data.response);
     });
+
     PassStandardApi.getCodeNameList((data) => {
-      setCodeNameList(data.response);
+      const list = data.response;
+      const select = list[0];
+      setCodeNameList((prev) => {
+        return { ...prev, list, select };
+      });   
+
+    PassStandardApi.getListByItem(select, (data) => {
+      setPassStandard(data.response);
     });
+
+    });
+
   }, []);
 
+  const handleSearch = () => {
+
+    console.log("Selected item:", codeNameList.select);
+    PassStandardApi.getListByItem(codeNameList.select, (data) => {
+      setPassStandard(data.response);
+    });
+  };
   //   const uniqueWeekCodes = [...new Set(week.map((item) => item.ordThwTapWekCd))];
   // const handleWeekSelectChange = (e) => {
   //   console.log(e);
@@ -107,7 +129,7 @@ const passStandard = () => {
                 marginRight: 10,
               }}>
               <InputLabel id="label1" style={{ paddingTop: 10 }}>
-                품종
+                구분
               </InputLabel>
               <Select
                 labelId="분류"
@@ -141,7 +163,11 @@ const passStandard = () => {
                 defaultValue="FS"
                 input={<OutlinedInput label="품종" />}
                 onChange={(e) => {
-                  setSelectCodeName(e.target.value);
+                  setCodeNameList(
+                    Object.assign({}, codeNameList, {
+                      select: e.target.value,
+                    })
+                  );
                 }}
                 style={{ height: 40 }}
               >
@@ -157,7 +183,7 @@ const passStandard = () => {
           </div>
           <div>
 
-            <Button size="small" type="submit" variant="contained">
+            <Button size="small" type="submit" variant="contained" onClick={handleSearch}>
               조회
             </Button>
             <Button size="small" type="submit" variant="contained">
