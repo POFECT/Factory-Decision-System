@@ -197,4 +197,9 @@ public class FactoryOrderInfo extends BaseEntity {
                 .build();
     }
 
+    public void changeFlag(String flag) { this.faConfirmFlag = flag; }
+
+    public void changePosbDate() { this.posbPassFacUpdateDate = LocalDateTime.now(); }
+
+    public void changePosbPassFacCdN(String posbCode) { this.posbPassFacCdN = posbCode; }
 }

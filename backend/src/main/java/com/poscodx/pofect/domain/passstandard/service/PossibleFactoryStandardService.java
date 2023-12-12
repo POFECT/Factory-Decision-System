@@ -9,4 +9,6 @@ public interface PossibleFactoryStandardService {
 //    List<PossibleFactoryStandardResDto> getList();
 
     List<PossibleFactoryStandardResDto> getGridData();
+
+    String getPosbCode(String processCd, String group);
 }

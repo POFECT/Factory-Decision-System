@@ -8,7 +8,7 @@ public interface ProcessStandardService {
 
     List<ProcessStandardDto> getList();
 
-    ProcessStandardDto.ItemDetailDto getByOrdPdtItdsCdN(String ordPdtItdsCdN);
+    String getByOrdPdtItdsCdN(String ordPdtItdsCdN);
 
 
 //    GrantCapacityDto getById(Long id);

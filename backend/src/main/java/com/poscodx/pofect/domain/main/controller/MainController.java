@@ -66,6 +66,24 @@ public class MainController {
         return new ResponseEntity<>(new ResponseDto(cnt), HttpStatus.OK);
     }
 
+    @PatchMapping("/possible")
+    @ApiOperation(value = "가능 통과 공장 설계", notes = "여러 주문의 가능 통과 공장을 설계한다.")
+    public ResponseEntity<ResponseDto> possibleDecision(@RequestBody List<Long> idList) {
+
+        // 반환값 : 성공한 주문 개수, 실패한 주문 개수
+        int successCnt = 0;
+        int failCnt = 0;
+
+        for(Long id : idList) {
+            boolean success = factoryOrderInfoService.possibleFactory(id);
+            if(success) successCnt++;
+            else failCnt++;
+        }
+
+        FactoryOrderInfoResDto.possibleFactoryDto result = new FactoryOrderInfoResDto.possibleFactoryDto(successCnt, failCnt);
+        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+    }
+
     @PostMapping
     @ApiOperation(value = "주문 데이터 생성", notes = "주문 데이터를 생성한다.")
     public ResponseEntity<ResponseDto> createOrder(@RequestBody FactoryOrderInfoReqDto factoryOrderInfoReqDto) {

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PossibleFactoryStandardRepository extends JpaRepository<PossibleFactoryStandard, Long> {
@@ -21,4 +22,6 @@ public interface PossibleFactoryStandardRepository extends JpaRepository<Possibl
             "ORDER BY " +
             "bti_posb_ps_fac_tp",nativeQuery = true)
     List<Object[]> getGridData();
+
+    Optional<PossibleFactoryStandard> findByProcessCdAndFeasibleRoutingGroup(String processCd, String group);
 }
