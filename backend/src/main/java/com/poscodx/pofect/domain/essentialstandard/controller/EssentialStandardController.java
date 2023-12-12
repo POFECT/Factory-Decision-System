@@ -7,6 +7,7 @@ import com.poscodx.pofect.domain.essentialstandard.service.EssentialStandardServ
 import com.poscodx.pofect.domain.main.controller.MainController;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.passstandard.controller.PossibleFactoryStandardController;
+import com.poscodx.pofect.domain.passstandard.dto.PossibleToConfirmResDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.List;
 public class EssentialStandardController {
     private final EssentialStandardService essentialStandardService;
     private final MainController mainController;
+    private final PossibleFactoryStandardController possibleFactoryStandardController;
     @GetMapping("/essential-standard")
     @ApiOperation(value = "필수재 기준 조회", notes = "필수재 기준을 조회한다.")
     public ResponseEntity<ResponseDto> getEssentialStandardList() {
@@ -33,14 +35,12 @@ public class EssentialStandardController {
 
     @GetMapping("/apply-essential-standard")
     @ApiOperation(value = "필수재 기준 측정", notes = "필수재 기준을 측정한다.")
-    public List<EssentialStandardBtiPosReqDto> applyEssentialStandard(@RequestParam List<String> processList,
+    public ResponseEntity<ResponseDto> applyEssentialStandard(@RequestParam List<String> processList,
                                                                       @RequestParam("id") Long id) {
-
         ResponseEntity<ResponseDto> responseEntity = mainController.getOrderById(id);
         FactoryOrderInfoResDto factoryInfo = (FactoryOrderInfoResDto) responseEntity.getBody().getResponse();
-        List<EssentialStandardBtiPosReqDto> essentialStandardBtiPosReqDtoList = essentialStandardService.applyEssentialStandard(factoryInfo,processList);
-        return essentialStandardBtiPosReqDtoList;
+        ResponseEntity<ResponseDto> responseEntityResult = possibleFactoryStandardController.getPossibleToConfirm(essentialStandardService.applyEssentialStandard(factoryInfo,processList));
+        List<PossibleToConfirmResDto> result = (List<PossibleToConfirmResDto>) responseEntityResult.getBody().getResponse();
+        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
-
-
 }
