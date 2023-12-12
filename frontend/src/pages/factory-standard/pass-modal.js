@@ -65,7 +65,7 @@ const PassModal = ({ open, handleClose }) => {
   // 품종
   const [codeNameList, setCodeNameList] = useState({
     list: [],
-    select: "All", 
+    select: "ALL", 
   });
 
 
@@ -89,7 +89,7 @@ const PassModal = ({ open, handleClose }) => {
 
     console.log("Selected item:", codeNameList.select);
 
-    if (codeNameList.select === "All") {
+    if (codeNameList.select === "ALL") {
       PassStandardApi.getList((data) => {
         setPassStandard(data.response);
       });
