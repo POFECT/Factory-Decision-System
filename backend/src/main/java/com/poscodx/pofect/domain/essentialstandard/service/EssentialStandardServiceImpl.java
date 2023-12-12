@@ -267,6 +267,11 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
             essentialStandardBtiPosReqDto.setBtiPosbPsFacTpList(btiPosbPsFacTpList);
             btiPosbPsFacTpList = new ArrayList<>();
             essentialStandardBtiPosReqDtoList.add(essentialStandardBtiPosReqDto);
+            for(EssentialStandardBtiPosReqDto e : essentialStandardBtiPosReqDtoList){
+                if(e.getProcessCD().equals("10")){
+                    e.setBtiPosbPsFacTpList(List.of("06"));
+                }
+            }
             }
             return essentialStandardBtiPosReqDtoList;
         }
