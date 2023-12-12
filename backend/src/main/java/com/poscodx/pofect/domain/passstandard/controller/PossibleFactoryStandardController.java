@@ -1,7 +1,10 @@
 package com.poscodx.pofect.domain.passstandard.controller;
 
 import com.poscodx.pofect.common.dto.ResponseDto;
+import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardBtiPosReqDto;
+import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleFactoryStandardResDto;
+import com.poscodx.pofect.domain.passstandard.dto.PossibleToConfirmResDto;
 import com.poscodx.pofect.domain.passstandard.repository.PossibleFactoryStandardRepository;
 import com.poscodx.pofect.domain.passstandard.service.PossibleFactoryStandardService;
 import io.swagger.annotations.Api;
@@ -9,10 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,4 +30,13 @@ public class PossibleFactoryStandardController {
         List<PossibleFactoryStandardResDto> result = possibleFactoryStandardService.getGridData();
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
+
+    @PostMapping("/possibleToConfirm")
+    @ApiOperation(value="필수재에서 받은 가통코드를 확통 공장 번호 변환", notes="가통 코드 > 확통 공장 번호")
+    public ResponseEntity<ResponseDto> getPossibleToConfirm(@RequestBody List<EssentialStandardBtiPosReqDto> essentialStandardBtiPosReqDtoList){
+        List<PossibleToConfirmResDto> result = possibleFactoryStandardService.possibleToConfirm(essentialStandardBtiPosReqDtoList);
+
+        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+    }
+
 }
