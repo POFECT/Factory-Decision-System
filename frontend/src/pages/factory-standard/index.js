@@ -73,17 +73,27 @@ const Capacity = () => {
     
     FactoryStandardApi.getPossibleList((data) => {
       const dataMap = data.response.reduce((list, { btiPosbPsFacTp, processCd, feasibleRoutingGroup }) => {
-        list[btiPosbPsFacTp] = list[btiPosbPsFacTp] || {};
+        list[btiPosbPsFacTp] = list[btiPosbPsFacTp]||{};
         list[btiPosbPsFacTp][processCd] = feasibleRoutingGroup;
         return list;
       }, {});
+ 
+      const possibleBtiPosbPsFacTpValues = Array.from(
+        { length: Math.max(...Object.keys(dataMap).map(Number)) },
+        (_, index) => String(index + 1).padStart(2, '0')
+      );
 
-      const transformData = Object.entries(dataMap).map(([code, processCd]) => ({
+      // const transformData = Object.entries(dataMap).map(([code, processCd]) => ({
+      //   id: code,
+      //   code,
+      //   ...processCd,
+      // }));
+      const transformData = possibleBtiPosbPsFacTpValues.map((code) => ({
         id: code,
         code,
-        ...processCd,
+        ...(dataMap[code] || {}), // Use an empty object if the key is missing
       }));
-
+      
       setPossibleList(transformData);
     }, []);
 
