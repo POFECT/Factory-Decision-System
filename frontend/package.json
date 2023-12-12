@@ -61,7 +61,10 @@
     "babel-eslint": "^10.1.0",
     "chart.js": "^4.4.0",
     "clsx": "^1.1.1",
+    "excel": "^1.0.1",
+    "exceljs": "^4.4.0",
     "faker": "^6.6.6",
+    "file-saver": "^2.0.5",
     "mdi-material-ui": "^7.1.0",
     "next": "12.0.4",
     "nprogress": "^0.2.0",
@@ -71,9 +74,12 @@
     "react-datasheet-grid": "^4.11.2",
     "react-datepicker": "^4.5.0",
     "react-dom": "17.0.2",
+    "react-heatmap-grid": "^0.9.0",
     "react-perfect-scrollbar": "^1.5.8",
     "react-popper": "^2.2.5",
     "react-select": "^5.8.0",
+    "react-spring": "^9.7.3",
+    "sheetjs-style": "^0.15.8",
     "styled-components": "^6.1.1"
   },
   "devDependencies": {

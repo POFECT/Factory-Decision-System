@@ -54,5 +54,4 @@ public class PossibleFactoryStandardResDto {
                 .feasibleRoutingGroup(possibleFactoryStandard[2].toString())
                 .build();
     }
-
 }

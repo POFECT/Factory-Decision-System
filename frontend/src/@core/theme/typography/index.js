@@ -22,6 +22,7 @@ const Typography = (theme) => {
       color: theme.palette.text.primary,
     },
     h5: {
+      fontFamily: "LINESeedKR-Bd",
       fontWeight: 500,
       letterSpacing: 0,
       color: theme.palette.text.primary,
