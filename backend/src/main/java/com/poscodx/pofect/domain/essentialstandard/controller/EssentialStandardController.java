@@ -24,7 +24,6 @@ import java.util.List;
 public class EssentialStandardController {
     private final EssentialStandardService essentialStandardService;
     private final MainController mainController;
-   // private final PossibleFactoryStandardController possibleFactoryStandardController;
     @GetMapping("/essential-standard")
     @ApiOperation(value = "필수재 기준 조회", notes = "필수재 기준을 조회한다.")
     public ResponseEntity<ResponseDto> getEssentialStandardList() {
@@ -40,7 +39,6 @@ public class EssentialStandardController {
         ResponseEntity<ResponseDto> responseEntity = mainController.getOrderById(id);
         FactoryOrderInfoResDto factoryInfo = (FactoryOrderInfoResDto) responseEntity.getBody().getResponse();
         List<EssentialStandardBtiPosReqDto> essentialStandardBtiPosReqDtoList = essentialStandardService.applyEssentialStandard(factoryInfo,processList);
-//        possibleFactoryStandardController.getPossibleToConfirm(essentialStandardBtiPosReqDtoList);
         return essentialStandardBtiPosReqDtoList;
     }
 
