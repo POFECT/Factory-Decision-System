@@ -12,7 +12,11 @@ import {
   Box,
   Card,
 } from "@mui/material";
+
 import EssentialStandardApi from "src/api/EssentialStandardApi";
+import * as FileSaver from "file-saver";
+import XLSX from "sheetjs-style";
+
 function MyCell(props) {
   let style = {
     minWidth: props.width,
@@ -358,6 +362,17 @@ const EssentialGoods = () => {
     },
   ];
 
+  const fileType =
+    "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
+  const fileExtension = ".xlsx";
+
+  const exportToExcel = async () => {
+    const ws = XLSX.utils.json_to_sheet(essentialList);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, "필수재기준" + fileExtension);
+  };
   return (
     <div style={{ height: "800px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
@@ -442,7 +457,12 @@ const EssentialGoods = () => {
           <Button size="small" type="submit" variant="contained">
             저장
           </Button>
-          <Button size="small" type="submit" variant="contained">
+          <Button
+            size="small"
+            type="submit"
+            variant="contained"
+            onClick={exportToExcel}
+          >
             Excel
           </Button>
         </div>

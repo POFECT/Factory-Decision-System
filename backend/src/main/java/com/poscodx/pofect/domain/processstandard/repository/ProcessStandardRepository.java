@@ -28,4 +28,6 @@ public interface ProcessStandardRepository extends JpaRepository<ProcessStandard
             "WHERE p.ordPdtItdsCdN = :ordPdtItdsCdN")
     String findByOrdPdtItdsCdN(@Param("ordPdtItdsCdN") String ordPdtItdsCdN);
 
+    List<ProcessStandard> findByOrdPdtItdsCdNLike(String ordPdtItpCdN);
+
 }

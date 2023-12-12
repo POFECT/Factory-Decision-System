@@ -26,6 +26,9 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { GridToolbar } from "@mui/x-data-grid";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import PassStandardApi from "src/api/PassStandardApi";
+//excel
+import * as FileSaver from "file-saver";
+import XLSX from "sheetjs-style";
 
 function MyCell(props) {
   let style = {
@@ -58,22 +61,44 @@ function MyCell(props) {
 
 const PassModal = ({ open, handleClose }) => {
   const [passStandard, setPassStandard] = useState([]);
-  const [selectCodeName, setSelectCodeName] = useState("FS");
-  const [codeNameList, setCodeNameList] = useState([]);
+  
+  // 품종
+  const [codeNameList, setCodeNameList] = useState({
+    list: [],
+    select: "All", 
+  });
+
 
   useEffect(() => {
+
     PassStandardApi.getList((data) => {
       setPassStandard(data.response);
     });
+    
     PassStandardApi.getCodeNameList((data) => {
-      setCodeNameList(data.response);
+      const list = data.response;
+      setCodeNameList((prev) => {
+        return { ...prev, list};
+      })
     });
+
+   
   }, []);
 
-  //   const uniqueWeekCodes = [...new Set(week.map((item) => item.ordThwTapWekCd))];
-  // const handleWeekSelectChange = (e) => {
-  //   console.log(e);
-  // };
+  const handleSearch = () => {
+
+    console.log("Selected item:", codeNameList.select);
+
+    if (codeNameList.select === "All") {
+      PassStandardApi.getList((data) => {
+        setPassStandard(data.response);
+      });
+    } else {
+      PassStandardApi.getListByItem(codeNameList.select, (data) => {
+        setPassStandard(data.response);
+      });
+    }
+  };
   const columns = [
     { field: "ordPdtItdsCdN", headerName: "품명", width: 130, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
     { field: "availablePassFacCdN1", headerName: "제강", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
@@ -86,6 +111,18 @@ const PassModal = ({ open, handleClose }) => {
     { field: "availablePassFacCdN8", headerName: "정정", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
   ];
 
+ //excel
+   const fileType =
+    "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
+  const fileExtension = ".xlsx";
+
+  const exportToExcel = async () => {
+    const ws = XLSX.utils.json_to_sheet(passStandard);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, "경유 공정 기준" + fileExtension);
+  };
 
   return (
     <Dialog open={open} onClose={handleClose} sx={{ width: '100%'}} maxWidth="xl">
@@ -117,7 +154,7 @@ const PassModal = ({ open, handleClose }) => {
                 marginRight: 10,
               }}>
               <InputLabel id="label1" style={{ paddingTop: 10 }}>
-                품종
+                구분
               </InputLabel>
               <Select
                 labelId="분류"
@@ -148,33 +185,40 @@ const PassModal = ({ open, handleClose }) => {
               <Select
                 labelId="분류"
                 id="demo-multiple-name"
-                defaultValue="FS"
+                defaultValue="ALL"
                 input={<OutlinedInput label="품종" />}
                 onChange={(e) => {
-                  setSelectCodeName(e.target.value);
-                }}
+                      setCodeNameList(
+                        Object.assign({}, codeNameList, {
+                          select: e.target.value,
+                        })
+                      );
+                    }}
                 style={{ height: 40 }}
               >
-                {codeNameList.map((code, idx) => {
-                  return (
-                    <MenuItem key={idx} value={code.cdNm}>
-                      {code.cdNm}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
+               <MenuItem value="ALL">ALL</MenuItem>
+        {codeNameList.list.map((code, idx) => (
+    <MenuItem key={idx} value={code.cdNm}>
+      {code.cdNm}
+    </MenuItem>
+  ))}
+</Select>
             </FormControl>
           </div>
           <div>
 
-            <Button size="small" type="submit" variant="contained">
-              조회
+                <Button size="small" type="submit" variant="contained" onClick={handleSearch}>
+                  조회
             </Button>
             <Button size="small" type="submit" variant="contained">
               저장
             </Button>
-            <Button size="small" type="submit" variant="contained">
-              Excel
+            <Button
+            size="small"
+            type="submit"
+            variant="contained"
+            onClick={exportToExcel}>
+            Excel
             </Button>
           </div>
         </divdafdsfads>
@@ -227,7 +271,7 @@ const PassModal = ({ open, handleClose }) => {
                   console.log(e);
                 }}
                 components={{
-                  Toolbar: GridToolbar,
+                  // Toolbar: GridToolbar,
                   Cell: MyCell,
                 }}
                 rowHeight={31}
