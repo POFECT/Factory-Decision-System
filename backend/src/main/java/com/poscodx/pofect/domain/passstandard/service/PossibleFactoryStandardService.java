@@ -13,4 +13,6 @@ public interface PossibleFactoryStandardService {
     List<PossibleFactoryStandardResDto> getGridData();
 
     List<PossibleToConfirmResDto> possibleToConfirm(List<EssentialStandardBtiPosReqDto> essentialStandardBtiPosReqDtoList);
+
+    String getPosbCode(String processCd, String group);
 }

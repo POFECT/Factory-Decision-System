@@ -128,10 +128,13 @@ public class CapacityServiceImpl implements CapacityService {
     }
 
     @Override
-    public List<CapacityInfoDto.FactoryCapacityDto> getFactoryCapacityList(String processCode) {
+    public List<CapacityInfoDto.FactoryCapacityDto> getFactoryCapacityList(String processCode, String week) {
         List<CapacityInfoDto.FactoryCapacityDto> result = new ArrayList<>();
 
-        List<CapacityInfo> list = capacityRepository.findAllByProcessCdOrderByFirmPsFacTpAsc(processCode);
+        List<CapacityInfo> list = null;
+
+        if("0".equals(week)) list = capacityRepository.findAllByProcessCdOrderByFirmPsFacTpAsc(processCode);
+        else list =  capacityRepository.findAllByProcessCdAndOrdRcpTapWekCdOrderByFirmPsFacTpAsc(processCode, week);
 
         for(CapacityInfo capacityInfo : list) {
             // 공장 이름 GET 후 매핑
@@ -139,6 +142,7 @@ public class CapacityServiceImpl implements CapacityService {
 
             CapacityInfoDto.FactoryCapacityDto dto =
                     CapacityInfoDto.FactoryCapacityDto.builder()
+                            .id(capacityInfo.getId())
                             .processCd(capacityInfo.getProcessCd())
                             .firmPsFacTp(capacityInfo.getFirmPsFacTp())
                             .faAdjustmentWgt(capacityInfo.getFaAdjustmentWgt())
@@ -150,5 +154,14 @@ public class CapacityServiceImpl implements CapacityService {
         }
 
         return result;
+    }
+
+    @Transactional
+    @Override
+    public void updateQty(Long id, Long qty) {
+        CapacityInfo capacityInfo = capacityRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+
+        capacityInfo.updateProgressQty(qty);
     }
 }

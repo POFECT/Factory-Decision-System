@@ -23,7 +23,7 @@ public class ProcessStandardServiceImpl implements ProcessStandardService {
     }
 
     @Override
-    public ProcessStandardDto.ItemDetailDto getByOrdPdtItdsCdN(String ordPdtItdsCdN) {
+    public String getByOrdPdtItdsCdN(String ordPdtItdsCdN) {
         String processCdList = processStandardRepository.findByOrdPdtItdsCdN(ordPdtItdsCdN);
 
         // null일 경우 예외처리
@@ -37,7 +37,7 @@ public class ProcessStandardServiceImpl implements ProcessStandardService {
                         .processCdList(processCdList)
                         .build();
 
-        return dto;
+        return processCdList;
     }
 
     @Override

@@ -26,6 +26,7 @@ public class CapacityInfoDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class FactoryCapacityDto {
+        private Long id;
         private String processCd;
         private String firmPsFacTp;
         private String factoryName;

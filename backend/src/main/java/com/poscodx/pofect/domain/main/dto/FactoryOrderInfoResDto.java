@@ -15,6 +15,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class FactoryOrderInfoResDto {
 
+    /* 가통 설계 response dto */
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class possibleFactoryDto {
+        private Integer success;  // 가통설계 성공한 주문 개수
+        private Integer fail;  // 가통설계 실패한 주문 개수
+    }
+
     @NotBlank
     private Long id;
 
