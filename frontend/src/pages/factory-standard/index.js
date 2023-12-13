@@ -46,6 +46,9 @@ function MyCell(props) {
   }
   return <GridCell {...props} style={style} />;
 }
+let possibleListforExcel=null;
+let confirmListforExcel=null;
+let possibleBtiPosbPsFacTpValues=null;
 
 const Capacity = () => {
   /* Data */
@@ -72,31 +75,22 @@ const Capacity = () => {
     setOpen(check)
   }
   useEffect(() => {
-    
     FactoryStandardApi.getPossibleList((data) => {
       const dataMap = data.response.reduce((list, { btiPosbPsFacTp, processCd, feasibleRoutingGroup }) => {
         list[btiPosbPsFacTp] = list[btiPosbPsFacTp]||{};
         list[btiPosbPsFacTp][processCd] = feasibleRoutingGroup;
-//        console.log(btiPosbPsFacTp+", "+processCd+" = "+feasibleRoutingGroup)
         return list;
       }, {});
 
-      const possibleBtiPosbPsFacTpValues = Array.from(
+      possibleBtiPosbPsFacTpValues = Array.from(
         { length: Math.max(...Object.keys(dataMap).map(Number)) },
         (_, index) => String(index + 1).padStart(2, '0')
       );
 
-      // const transformData = Object.entries(dataMap).map(([code, processCd]) => ({
-      //   id: code,
-      //   code,
-      //   ...processCd,
-      // }));
       const transformData = possibleBtiPosbPsFacTpValues.map((code) => ({
+        ...(dataMap[code] || ''), //code값이 빈 경우에도 나오게하기
         id: code,
-        code,
-        ...(dataMap[code] || {}), // Use an empty object if the key is missing
       }));
-      
       setPossibleList(transformData);
     }, []);
 
@@ -104,22 +98,20 @@ const Capacity = () => {
       const dataMap = data.response.reduce((list, { cdExpl,firmPsFacTp, id,lastUpdate, processCd }) => {
         list[firmPsFacTp] = list[firmPsFacTp] || {};
         list[firmPsFacTp][processCd] = cdExpl;
-//        console.log(firmPsFacTp+", "+processCd+" = "+cdExpl)
         return list;
       }, {});
 
       const transformData = Object.entries(dataMap).map(([code, processCd]) => ({
         id: code,
-        code,
         ...processCd,
       }));
-
+      confirmListforExcel=transformData;
       setConfirmList(transformData);
     }, []);
   },[]);
   //가통 컬럼
   const possibleColumns = [
-    { field: "code",headerName:"Code", width:158, headerAlign: "center"},
+    { field: "id",headerName:"Code", width:158, headerAlign: "center"},
     { field: "10", headerName: "제강", width:154, headerAlign: "center"},
     { field: "20", headerName: "열연", width:154, headerAlign: "center"},
     { field: "30", headerName: "열연정정", width:154,  headerAlign: "center"},
@@ -132,7 +124,7 @@ const Capacity = () => {
 
   //확통 컬럼
   const confirmColumns=[
-    { field: "code",headerName:"Code", width:158, headerAlign: "center"   },
+    { field: "id",headerName:"Code", width:158, headerAlign: "center"   },
     { field: "10", headerName: "제강", width:154, headerAlign: "center"    },
     { field: "20", headerName: "열연", width:154, headerAlign: "center"     },
     { field: "30", headerName: "열연정정", width:154,headerAlign: "center"  },
@@ -144,6 +136,7 @@ const Capacity = () => {
   ]
   let pPopupProcessCd=null;
   let feasibleArray = null;
+
 
   const openPossibleOne=(e)=>{
     pPopupProcessCd = e.currentTarget.dataset.field;
@@ -172,14 +165,27 @@ const Capacity = () => {
   const fileExtension = ".xlsx";
 
   const exportToExcelPossible = async () => {
-    const ws = XLSX.utils.json_to_sheet(possibleList);
+      // 헤더 순서
+    const header = ["id", "10", "20", "30", "40", "50", "60", "70", "80"];
+
+    // possibleList의 id를 기준으로 정렬
+    const sortedPossibleList = [...possibleList].sort((a, b) => a.id - b.id);
+
+    // 데이터를 헤더와 일치하는 형식으로 변환
+    const excelData = sortedPossibleList.map(item => header.map(key => item[key]));
+
+    // 헤더와 데이터를 함께 전달하여 엑셀 생성
+    const ws = XLSX.utils.aoa_to_sheet([header, ...excelData]);
     const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const data = new Blob([excelBuffer], { type: fileType });
     FileSaver.saveAs(data, "가능통과공장기준" + fileExtension);
   };
   const exportToExcelConfirm = async () => {
-    const ws = XLSX.utils.json_to_sheet(confirmList);
+    const header = ["id", "10", "20", "30", "40", "50", "60", "70", "80"];
+    const sortedConfirmList = [...confirmList].sort((a, b) => a.id - b.id);
+    const excelData = sortedConfirmList.map(item => header.map(key => item[key]));
+    const ws = XLSX.utils.aoa_to_sheet([header, ...excelData]);
     const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const data = new Blob([excelBuffer], { type: fileType });
