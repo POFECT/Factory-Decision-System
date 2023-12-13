@@ -35,7 +35,7 @@ public class PossibleFactoryStandardResDto {
     @Size(max = 30)
     private String feasibleRoutingGroup; // 5.공정계획작업가능통과공정코드
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime lastUpdateDate;  // 최종수정일자
 
 //    public static PossibleFactoryStandardResDto toDto(PossibleFactoryStandard possibleFactoryStandard) {
