@@ -37,7 +37,7 @@ public class EssentialStandardResDto  {
     @Size(max = 2)
     private String processCd;  // 5.박판공정계획공정구분
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime pplMmatCancAppDt;  // 6.공정계획필수재해지적용일자
 
     @Size(max = 1)
@@ -113,7 +113,7 @@ public class EssentialStandardResDto  {
 
     private Long id;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime lastUpdateDate;  // 최종수정일자
 
     public static EssentialStandardResDto toDto(EssentialStandard essentialStandard){

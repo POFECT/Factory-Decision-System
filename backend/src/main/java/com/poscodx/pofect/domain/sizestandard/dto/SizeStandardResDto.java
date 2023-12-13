@@ -49,7 +49,7 @@ public class SizeStandardResDto {
 
     private RowSpan rowSpan;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime lastUpdateDate;  // 최종수정일자
 
 
