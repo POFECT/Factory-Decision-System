@@ -1,19 +1,31 @@
 package com.poscodx.pofect.domain.main.service;
 
 //import com.poscodx.pofect.domain.lot.dto.LotResDto;
-import com.poscodx.pofect.domain.main.dto.lot.LotResDto;
+import com.poscodx.pofect.common.dto.ResponseDto;
+import com.poscodx.pofect.domain.capacity.dto.CapacityInfoDto;
+import com.poscodx.pofect.domain.capacity.service.CapacityService;
+import com.poscodx.pofect.domain.essentialstandard.controller.EssentialStandardController;
+import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardBtiPosReqDto;
+import com.poscodx.pofect.domain.essentialstandard.service.EssentialStandardService;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 import com.poscodx.pofect.domain.main.repository.FactoryOrderInfoRepository;
 import com.poscodx.pofect.common.exception.CustomException;
 import com.poscodx.pofect.common.exception.ErrorCode;
+import com.poscodx.pofect.domain.passstandard.dto.PossibleToConfirmResDto;
+import com.poscodx.pofect.domain.passstandard.service.PossibleFactoryStandardService;
+import com.poscodx.pofect.domain.processstandard.service.ProcessStandardService;
+import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
+import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardSetDto;
+import com.poscodx.pofect.domain.sizestandard.repository.SizeStandardRepository;
+import com.poscodx.pofect.domain.sizestandard.service.SizeStandardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,6 +33,15 @@ import java.util.stream.Collectors;
 public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
     private final FactoryOrderInfoRepository factoryOrderInfoRepository;
+    private final ProcessStandardService processStandardService;
+    private final PossibleFactoryStandardService possibleFactoryStandardService;
+    private final EssentialStandardService essentialStandardService;
+    private final CapacityService capacityService;
+//    private final SizeStandardService sizeStandardService;
+
+    // 없어질 예정
+    private final SizeStandardRepository sizeStandardRepository;
+
 
     @Override
     public List<FactoryOrderInfoResDto> getList() {
@@ -84,9 +105,279 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         return factoryOrderInfoRepository.findLotAll().stream().map(com.poscodx.pofect.domain.lot.dto.LotResDto::fromDtoToDto)
                 .toList();
     }
+
     @Transactional
     @Override
     public Long updateOrderStatus(FactoryOrderInfoReqDto.updateCodeDto reqDto) {
         return factoryOrderInfoRepository.updateStatus(reqDto);
+    }
+
+    @Transactional
+    @Override
+    public Boolean possibleFactory(Long id) {
+        FactoryOrderInfo order = factoryOrderInfoRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+
+        /** 경유공정 설계 */
+        String passResult = processStandardService.getByOrdPdtItdsCdN(order.getOrdPdtItdsCdN());
+
+        // 설계 에러 - FLAG update, 설계일시 update
+        if("00000000".equals(passResult)) {
+            order.changeFlag("C");  // FA_CONFIRM_FLAG update
+            order.changePosbDate();  // POSB_PASS_FAC_UPDATE_DATE update
+        }
+        else {
+            StringBuilder possibleCode = new StringBuilder();  // 가통 코드
+            List<String> processList = new ArrayList<>();  // 가능한 경유 공정 ID 리스트
+
+            for (int i = 0, j = 10 ; i < 8; i++, j += 10) {
+                if(passResult.charAt(i) == '1') processList.add(Integer.toString(j));
+            }
+
+            /** 필수재 설계 */
+            List<EssentialStandardBtiPosReqDto> e = essentialStandardService.applyEssentialStandard(getById(order.getId()), processList);
+            List<PossibleToConfirmResDto> essentialResult = possibleFactoryStandardService.possibleToConfirm(e);
+
+            /** 사이즈 기준 설계 */
+            List<SizeStandardSetDto> sizeResult = setSizeStandard(order.getId(), processList);
+
+            System.out.println("size");
+            for(SizeStandardSetDto s: sizeResult) {
+                System.out.print(s.getProcessCD()+" : ");
+                for(String g : s.getFirmPsFacTpList()) {
+                    System.out.print(g+",");
+                }
+                System.out.println();
+            }
+
+            for (int i = 0, j = 10; i < 8; i++, j += 10) {
+                // 해당 공정 필요 없을 때
+                if(passResult.charAt(i) == '0') possibleCode.append("  ");
+                    // 공정에 해당하면 필수재, 사이즈 기준 교집합 추출
+                else {
+                    // 공정에 해당하는 공장 리스트 불러오기
+                    PossibleToConfirmResDto essential = null;
+                    SizeStandardSetDto size = null;
+
+                    for (PossibleToConfirmResDto d : essentialResult) {
+                        if(d.getProcessCD().equals(Integer.toString(j))) {
+                            essential = d;
+                            break;
+                        }
+                    }
+                    for (SizeStandardSetDto d : sizeResult) {
+                        if(d.getProcessCD().equals(Integer.toString(j))) {
+                            size = d;
+                            break;
+                        }
+                    }
+
+                    // PP 에러코드 실험
+                    if(j == 20) {
+                        size.getFirmPsFacTpList().add("3");
+                    }
+
+                    // 필수재 X, 사이즈 X -> FF
+                    if(essential.getFirmPsFacTpList() == null && size.getFirmPsFacTpList().isEmpty()) {
+                        possibleCode.append("FF");
+                        continue;
+                    }
+                    // 필수재 X, 사이즈 O -> FP
+                    if(essential.getFirmPsFacTpList() == null) {
+                        possibleCode.append("FP");
+                        continue;
+                    }
+                    // 필수재 O, 사이즈 X -> PF
+                    if(size.getFirmPsFacTpList().isEmpty()) {
+                        possibleCode.append("PF");
+                        continue;
+                    }
+
+                    // Set에 필수재, 사이즈 기준의 전체 공장 리스트 put
+                    Set<String> allFactory = new HashSet<>();
+                    for(String f : essential.getFirmPsFacTpList()) allFactory.add(f);
+                    for(String f : size.getFirmPsFacTpList()) allFactory.add(f);
+
+                    // 교집합 List
+                    List<String> same = new ArrayList<>();
+
+                    for(String f : allFactory) {
+                        if(essential.getFirmPsFacTpList().contains(f) && size.getFirmPsFacTpList().contains(f))
+                            same.add(f);
+                    }
+
+                    // 교집합 없을 때 -> CC
+                    if(same.isEmpty()) {
+                        possibleCode.append("CC");
+                        continue;
+                    }
+
+                    Collections.sort(same);
+                    StringBuilder group = new StringBuilder();
+                    for(String s : same) group.append(s);
+
+                    // 교집합 리스트 -> 가통코드 조회
+                    String code = possibleFactoryStandardService.getPosbCode(Integer.toString(j), group.toString());
+                    // 교집합 O, Error -> PP
+                    if("0".equals(code)) {
+                        possibleCode.append("PP");
+                    }
+                    else possibleCode.append(code);
+
+                }
+            }
+
+            System.out.println("가통결과!!!!!" + possibleCode);
+
+            // 가통코드, 설계일시 업데이트
+            order.changePosbPassFacCdN(possibleCode.toString());
+            order.changePosbDate();  // POSB_PASS_FAC_UPDATE_DATE update
+
+            // 에러코드 포함 - FLAG : C
+            if(possibleCode.toString().contains("F") || possibleCode.toString().contains("P")) {
+                order.changeFlag("C");
+            }
+            // 설계 성공 - FLAG : B
+            else order.changeFlag("B");
+        }
+
+        return (!"C".equals(order.getFaConfirmFlag()));
+    }
+
+
+    @Transactional
+    @Override
+    public Boolean confirmFactory(Long id) {
+        FactoryOrderInfo order = factoryOrderInfoRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+
+        String possibleCode = order.getPosbPassFacCdN();
+        StringBuilder confirmCode = new StringBuilder();
+
+        /** 가통코드 16자리 - 2자리씩 끊어서 공정 구분 */
+        for(int i = 0, j = 10; i < 16; i+=2, j+=10) {
+            String process = possibleCode.substring(i,i+2);
+
+            // 해당 공정 타지 않을 경우
+            if("  ".equals(process)) {
+                confirmCode.append(" ");
+            }
+            else {
+                // 공정번호, 출강주로 공장들의 능력 데이터 받아옴
+                List<CapacityInfoDto.FactoryCapacityDto> factoryCapacity =
+                        capacityService.getFactoryCapacityList(Integer.toString(j), order.getOrdThwTapWekCd());
+
+                System.out.println("능력데이터");
+
+                // 리스트 돌면서 잔여량 가장 큰 공장의 index 구하기
+                int maxIdx = 0;
+                long max = Integer.MIN_VALUE;
+
+                for (int k = 0; k < factoryCapacity.size(); k++) {
+                    CapacityInfoDto.FactoryCapacityDto fac = factoryCapacity.get(k);
+                    long remain = fac.getFaAdjustmentWgt()-fac.getProgressQty();
+
+                    if(remain > max) {
+                        max = remain;
+                        maxIdx = k;
+                    }
+                }
+
+                // 잔여량 max인 공장의 투입량 갱신
+                Long factoryId = factoryCapacity.get(maxIdx).getId();
+                capacityService.updateQty(factoryId, order.getOrderLineQty().longValue());
+
+                // 잔여량 max인 공장의 공장번호 확통코드에 등록
+                confirmCode.append(factoryCapacity.get(maxIdx).getFirmPsFacTp());
+            }
+        }
+
+        // 설계 성공 - FLAG : E
+        order.changeFlag("E");
+
+        // 확통코드 업데이트
+        order.changeCfirmPassOpCd(confirmCode.toString());
+
+        return ("E".equals(order.getFaConfirmFlag()));
+    }
+
+
+
+    // 없어질 예정 - 사이즈 기준 설계
+    @Transactional(readOnly = true)
+    public List<SizeStandardSetDto> setSizeStandard(Long id, List<String> processCodeList) {
+
+        FactoryOrderInfoResDto dto
+                = getById(id);
+
+        // 공정 리스트 가져옴
+        Map<String, List<SizeStandardResDto>> result =
+                sizeStandardRepository.findByProcessCdIn(processCodeList)
+                        .stream()
+                        .map(SizeStandardResDto::toDto)
+                        .collect(Collectors.groupingBy(SizeStandardResDto::getProcessCd));
+
+        List<SizeStandardSetDto> sizeStandardSetDtoList = new ArrayList<>();
+
+        for (String process : result.keySet()) {
+            SizeStandardSetDto setDto = SizeStandardSetDto.builder()
+                    .processCD(process)
+                    .firmPsFacTpList(new ArrayList<>())
+                    .build();
+
+            for (SizeStandardResDto sizeStandardResDto : result.get(process)) {
+                List<Boolean> booleanList = new ArrayList<>();
+
+                Double hrProdThkAim = dto.getHrProdThkAim();
+                Double hrProdWthAim = dto.getHrProdWthAim();
+                String orderLength = dto.getOrderLength();
+                Double hrRollUnitWgtMax = dto.getHrRollUnitWgtMax();
+
+                if(!(sizeStandardResDto.getOrderThickMax() == 0 && sizeStandardResDto.getOrderThickMin() == 0)){
+                    if (sizeStandardResDto.getOrderThickMax() >= hrProdThkAim
+                            && sizeStandardResDto.getOrderThickMin() <= hrProdThkAim) {
+                        booleanList.add(true);
+                    } else {
+                        booleanList.add(false);
+                    }
+                }
+
+                if(!(sizeStandardResDto.getOrderWidthMax() == 0 && sizeStandardResDto.getOrderWidthMin() == 0)){
+                    if (sizeStandardResDto.getOrderWidthMax() >= hrProdWthAim
+                            && sizeStandardResDto.getOrderWidthMin() <= hrProdWthAim) {
+                        booleanList.add(true);
+                    } else {
+                        booleanList.add(false);
+                    }
+                }
+
+                if (!dto.getOrderLength().equals("C")) {
+                    if (!(Objects.equals(sizeStandardResDto.getOrderLengthMax(), "0") && Objects.equals(sizeStandardResDto.getOrderLengthMin(), "0"))) {
+                        if (Double.parseDouble(sizeStandardResDto.getOrderLengthMax()) >= Double.parseDouble(orderLength)
+                                && Double.parseDouble(sizeStandardResDto.getOrderLengthMin()) <= Double.parseDouble(orderLength)) {
+                            booleanList.add(true);
+                        } else {
+                            booleanList.add(false);
+                        }
+                    }
+                }
+
+                if (!(sizeStandardResDto.getHrRollUnitWgtMax2() == 0 && sizeStandardResDto.getHrRollUnitWgtMax1() == 0)) {
+                    if (sizeStandardResDto.getHrRollUnitWgtMax2() >= hrRollUnitWgtMax
+                            && sizeStandardResDto.getHrRollUnitWgtMax1() <= hrRollUnitWgtMax) {
+                        booleanList.add(true);
+                    } else {
+                        booleanList.add(false);
+                    }
+                }
+
+                if (!booleanList.contains(false)) {
+                    setDto.getFirmPsFacTpList().add(sizeStandardResDto.getFirmPsFacTp());
+                }
+            }
+            sizeStandardSetDtoList.add(setDto);
+        }
+
+        return  sizeStandardSetDtoList;
     }
 }

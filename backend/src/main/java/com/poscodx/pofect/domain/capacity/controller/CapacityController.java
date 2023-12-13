@@ -80,10 +80,10 @@ public class CapacityController {
         }
     }
 
-    @GetMapping("/factory/{id}")
+    @GetMapping("/factory/{id}/{week}")
     @ApiOperation(value = "해당 공정의 공장리스트, 능력 조회", notes = "해당 공정의 공장 리스트와 각각의 능력 정보를 조회한다.")
-    public ResponseEntity<ResponseDto> getFactoryCapacity(@PathVariable(name = "id") String processCode) {
-        List<CapacityInfoDto.FactoryCapacityDto> result = capacityService.getFactoryCapacityList(processCode);
+    public ResponseEntity<ResponseDto> getFactoryCapacity(@PathVariable(name = "id") String processCode, @PathVariable String week) {
+        List<CapacityInfoDto.FactoryCapacityDto> result = capacityService.getFactoryCapacityList(processCode, week);
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 

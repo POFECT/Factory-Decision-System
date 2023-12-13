@@ -38,6 +38,10 @@ public class SizeStandardServiceImpl implements SizeStandardService {
                         (existing, replacement) -> existing
                 ));
 
+        for (Map.Entry<String, Long> stringLongEntry : processCdToFirstIdMap.entrySet()) {
+            System.out.println("id : " + stringLongEntry.getKey()+ ", value : " + stringLongEntry.getValue());
+        }
+
         List<Long> collect = processCdToFirstIdMap.values().stream()
                 .toList();
 
@@ -49,7 +53,7 @@ public class SizeStandardServiceImpl implements SizeStandardService {
                         if (sizeStandardResDto.getProcessCd().equals(standardResDto.getProcessCd())) {
                             count++;
                         }
-                        sizeStandardResDto.setRowSpan(new RowSpan(count));
+                        sizeStandardResDto.setRowSpan(RowSpan.builder().processCd(count).build());
                     }
                 }
             }
