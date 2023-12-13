@@ -5,6 +5,8 @@ import Fade from '@mui/material/Fade';
 import Paper from '@mui/material/Paper';
 import PossibleDetail from "./possible-detail";
 import PassModal from './pass-modal';
+import * as FileSaver from "file-saver";
+import XLSX from "sheetjs-style";
 
 import "react-datasheet-grid/dist/style.css";
 import { Grid, Typography, 
@@ -44,6 +46,9 @@ function MyCell(props) {
   }
   return <GridCell {...props} style={style} />;
 }
+let possibleListforExcel=null;
+let confirmListforExcel=null;
+let possibleBtiPosbPsFacTpValues=null;
 
 const Capacity = () => {
   /* Data */
@@ -70,26 +75,27 @@ const Capacity = () => {
     setOpen(check)
   }
   useEffect(() => {
-    
     FactoryStandardApi.getPossibleList((data) => {
       const dataMap = data.response.reduce((list, { btiPosbPsFacTp, processCd, feasibleRoutingGroup }) => {
-        list[btiPosbPsFacTp] = list[btiPosbPsFacTp] || {};
+        list[btiPosbPsFacTp] = list[btiPosbPsFacTp]||{};
         list[btiPosbPsFacTp][processCd] = feasibleRoutingGroup;
         return list;
       }, {});
 
-      const transformData = Object.entries(dataMap).map(([code, processCd]) => ({
-        id: code,
-        code,
-        ...processCd,
-      }));
+      possibleBtiPosbPsFacTpValues = Array.from(
+        { length: Math.max(...Object.keys(dataMap).map(Number)) },
+        (_, index) => String(index + 1).padStart(2, '0')
+      );
 
+      const transformData = possibleBtiPosbPsFacTpValues.map((code) => ({
+        ...(dataMap[code] || ''), //code값이 빈 경우에도 나오게하기
+        id: code,
+      }));
       setPossibleList(transformData);
     }, []);
 
     FactoryStandardApi.getCommonList((data) => {
       const dataMap = data.response.reduce((list, { cdExpl,firmPsFacTp, id,lastUpdate, processCd }) => {
-        //console.log(firmPsFacTp+", "+processCd+", "+cdExpl)
         list[firmPsFacTp] = list[firmPsFacTp] || {};
         list[firmPsFacTp][processCd] = cdExpl;
         return list;
@@ -97,40 +103,40 @@ const Capacity = () => {
 
       const transformData = Object.entries(dataMap).map(([code, processCd]) => ({
         id: code,
-        code,
         ...processCd,
       }));
-
+      confirmListforExcel=transformData;
       setConfirmList(transformData);
     }, []);
   },[]);
   //가통 컬럼
   const possibleColumns = [
-    { field: "code",headerName:"Code", width:150, headerAlign: "center"},
-    { field: "10", headerName: "제강", width:150, headerAlign: "center"},
-    { field: "20", headerName: "열연", width:150, headerAlign: "center"},
-    { field: "30", headerName: "열연정정", width:150,  headerAlign: "center"},
-    { field: "40", headerName: "냉간압연", width:150,  headerAlign: "center"},
-    { field: "50", headerName: "1차소둔", width:150,  headerAlign: "center"},
-    { field: "60", headerName: "2차소둔", width:150,  headerAlign: "center"},
-    { field: "70", headerName: "도금", width:150, headerAlign: "center"},
-    { field: "80", headerName: "정정", width:150, headerAlign: "center"},
+    { field: "id",headerName:"Code", width:158, headerAlign: "center"},
+    { field: "10", headerName: "제강", width:154, headerAlign: "center"},
+    { field: "20", headerName: "열연", width:154, headerAlign: "center"},
+    { field: "30", headerName: "열연정정", width:154,  headerAlign: "center"},
+    { field: "40", headerName: "냉간압연", width:154,  headerAlign: "center"},
+    { field: "50", headerName: "1차소둔", width:154,  headerAlign: "center"},
+    { field: "60", headerName: "2차소둔", width:154,  headerAlign: "center"},
+    { field: "70", headerName: "도금", width:154, headerAlign: "center"},
+    { field: "80", headerName: "정정", width:154, headerAlign: "center"},
   ];
 
   //확통 컬럼
   const confirmColumns=[
-    { field: "code",headerName:"Code", width:150, headerAlign: "center"   },
-    { field: "10", headerName: "제강", width:150, headerAlign: "center"    },
-    { field: "20", headerName: "열연", width:150, headerAlign: "center"     },
-    { field: "30", headerName: "열연정정", width:150,headerAlign: "center"  },
-    { field: "40", headerName: "냉간압연", width:150,headerAlign: "center"  },
-    { field: "50", headerName: "1차소둔", width:150, headerAlign: "center"  },
-    { field: "60", headerName: "2차소둔", width:150, headerAlign: "center"  },
-    { field: "70", headerName: "도금", width:150, headerAlign: "center"     },
-    { field: "80", headerName: "정정", width:150, headerAlign: "center"     },
+    { field: "id",headerName:"Code", width:158, headerAlign: "center"   },
+    { field: "10", headerName: "제강", width:154, headerAlign: "center"    },
+    { field: "20", headerName: "열연", width:154, headerAlign: "center"     },
+    { field: "30", headerName: "열연정정", width:154,headerAlign: "center"  },
+    { field: "40", headerName: "냉간압연", width:154,headerAlign: "center"  },
+    { field: "50", headerName: "1차소둔", width:154, headerAlign: "center"  },
+    { field: "60", headerName: "2차소둔", width:154, headerAlign: "center"  },
+    { field: "70", headerName: "도금", width:154, headerAlign: "center"     },
+    { field: "80", headerName: "정정", width:154, headerAlign: "center"     },
   ]
   let pPopupProcessCd=null;
   let feasibleArray = null;
+
 
   const openPossibleOne=(e)=>{
     pPopupProcessCd = e.currentTarget.dataset.field;
@@ -153,6 +159,71 @@ const Capacity = () => {
       setOpen(false);
     }
   }
+  // 한글 헤더 매핑 (엑셀용)
+  const koreanHeaderMap = {
+    "id": "Code",
+    "10": "제강",
+    "20": "열연",
+    "30": "열연정정",
+    "40": "냉간압연",
+    "50": "1차소둔",
+    "60": "2차소둔",
+    "70": "도금",
+    "80": "정정",
+  };
+
+  const fileType =
+    "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
+  const fileExtension = ".xlsx";
+
+  const exportToExcelPossible = async () => {
+    //   // 헤더 순서
+    // const header = ["id", "10", "20", "30", "40", "50", "60", "70", "80"];
+
+    // // possibleList의 id를 기준으로 정렬
+    // const sortedPossibleList = [...possibleList].sort((a, b) => a.id - b.id);
+
+    // // 데이터를 헤더와 일치하는 형식으로 변환
+    // const excelData = sortedPossibleList.map(item => header.map(key => item[key]));
+
+    // // 헤더와 데이터를 함께 전달하여 엑셀 생성
+    // const ws = XLSX.utils.aoa_to_sheet([header, ...excelData]);
+    // const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    // const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    // const data = new Blob([excelBuffer], { type: fileType });
+    // FileSaver.saveAs(data, "가능통과공장기준" + fileExtension);
+    // 헤더 순서
+    const originalHeader = ["id", "10", "20", "30", "40", "50", "60", "70", "80"];
+
+    // possibleList의 id를 기준으로 정렬
+    const sortedPossibleList = [...possibleList].sort((a, b) => a.id - b.id);
+
+    // 데이터를 헤더와 일치하는 형식으로 변환
+    const excelData = sortedPossibleList.map(item => originalHeader.map(key => item[key]));
+
+    // 헤더를 한글로 변경
+    const koreanHeader = originalHeader.map(englishKey => koreanHeaderMap[englishKey] || englishKey);
+
+    // 헤더와 데이터를 함께 전달하여 엑셀 생성
+    const ws = XLSX.utils.aoa_to_sheet([koreanHeader, ...excelData]);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, "가능통과공장기준" + fileExtension);
+  };
+  const exportToExcelConfirm = async () => {
+    const originalHeader = ["id", "10", "20", "30", "40", "50", "60", "70", "80"];
+    const sortedConfirmList = [...confirmList].sort((a, b) => a.id - b.id);
+    const excelData = sortedConfirmList.map(item => originalHeader.map(key => item[key]));
+    // 헤더를 한글로 변경
+    const koreanHeader = originalHeader.map(englishKey => koreanHeaderMap[englishKey] || englishKey);
+
+    const ws = XLSX.utils.aoa_to_sheet([koreanHeader, ...excelData]);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, "확정통과공장기준" + fileExtension);
+  };
 
   return (
     <div style={{ height: "100%", width: "100%" }}>
@@ -194,7 +265,7 @@ const Capacity = () => {
           </Select>
         </FormControl>
       </div>
-        <div>
+        <div style={{width:"40%", textAlign:"right"}}>
           <Button size="small" type="submit" variant="contained" onClick={passClick}>
           경유공정
           </Button>
@@ -202,8 +273,11 @@ const Capacity = () => {
           <Button size="small" type="submit" variant="contained">
             조회
           </Button>
-          <Button size="small" type="submit" variant="contained">
-            Excel
+          <Button sx={{width:'25%'}} size="small" type="submit" variant="contained" onClick={exportToExcelPossible}>
+            가통 Excel
+          </Button>
+          <Button sx={{width:'25%'}} size="small" type="submit" variant="contained" onClick={exportToExcelConfirm}>
+            확통 Excel
           </Button>
         </div>
       </div>
@@ -230,10 +304,17 @@ const Capacity = () => {
               {
                 borderBottomStyle: "none",
               },
+              "& .custom-data-grid .MuiDataGrid-root": {
+                paddingBottom: "0px",
+              },"& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
+                backgroundColor:"#F5F9FF",
+              },
           }}
         >
+          
       <DataGrid
         //disableRowSelectionOnClick
+        className="custom-data-grid"
         rows={possibleList}
         columns={possibleColumns}
         slotProps={{
@@ -245,7 +326,7 @@ const Capacity = () => {
           cell: MyCell,
         }}
         hideFooter = {true}
-        
+        hideFooterPagination={true}
       /></Box>
       </Card>
       
@@ -261,36 +342,40 @@ const Capacity = () => {
           </Fade>
         )}
       </Popper>
-                {/*isPossibleModal && <ModalTest onClose={() => setPossibleModalOpen(false)}/>*/}
+      {/*isPossibleModal && <ModalTest onClose={() => setPossibleModalOpen(false)}/>*/}
 
       </div>
-      <div style={{height:250}}>
+      {/* <div style={{height:250}}> */}
       <Card>
         <Box
           sx={{
             height: "inherit",
             width: "100%",
             "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
-              {
-                borderBottom: "1px solid rgba(225, 234, 239, 1)",
-                borderRight: "1px solid rgba(225, 234, 239, 1)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              },
+            {
+              borderBottom: "1px solid rgba(225, 234, 239, 1)",
+              borderRight: "1px solid rgba(225, 234, 239, 1)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            },
             "& .custom-data-grid .MuiDataGrid-columnHeader": {
               cursor: "pointer",
               borderBottom: "1px solid rgba(225, 234, 239, 1)",
               borderRight: "1px solid rgba(225, 234, 239, 1)",
             },
             "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
-              {
-                borderBottomStyle: "none",
-              },
+            {
+              borderBottomStyle: "none",
+            },
+            "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
+              backgroundColor:"#F5F9FF",
+            },
           }}
         >
       <DataGrid
         //disableRowSelectionOnClick
+        className="custom-data-grid"
         rows={confirmList}
         columns={confirmColumns}
         hideFooter = {true}last
@@ -300,7 +385,7 @@ const Capacity = () => {
       /></Box>
       </Card>
       </div>
-    </div>
+    // </div>
   );
 };
 

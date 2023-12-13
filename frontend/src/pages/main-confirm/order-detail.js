@@ -39,6 +39,7 @@ const OrderDetail = (props) => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          marginTop: 30,
         }}
       >
         <Grid item xs={12} sx={{ paddingBottom: 4 }} style={{ padding: 20 }}>
@@ -83,7 +84,7 @@ const OrderDetail = (props) => {
                       style={{ width: 200, color: "000000" }}
                       align="center"
                     >
-                      {props.order.id}
+                      {props.order.orderHeadLineNo}
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -245,7 +246,10 @@ const OrderDetail = (props) => {
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell align="center" style={{ fontWeight: "bold" }}>
+                    <TableCell
+                      align="center"
+                      style={{ fontWeight: "bold", fontSize: 17 }}
+                    >
                       공장
                     </TableCell>
                     <TableCell align="center">{cfCode.charAt(0)}</TableCell>

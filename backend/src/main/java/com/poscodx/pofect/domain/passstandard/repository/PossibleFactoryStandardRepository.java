@@ -4,9 +4,11 @@ import com.poscodx.pofect.domain.passstandard.dto.PossibleToConfirmResDto;
 import com.poscodx.pofect.domain.passstandard.entity.PossibleFactoryStandard;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PossibleFactoryStandardRepository extends JpaRepository<PossibleFactoryStandard, Long> {
@@ -30,5 +32,7 @@ public interface PossibleFactoryStandardRepository extends JpaRepository<Possibl
             "WHERE " +
             "    pfs.process_cd = :processCD AND pfs.bti_posb_ps_fac_tp = :btiPosbPsFacTp"
             ,nativeQuery = true)
-    String getPossibleToConfirm(String processCD, String btiPosbPsFacTp);
+    String getPossibleToConfirm(@Param("processCD") String processCD, @Param("btiPosbPsFacTp") String btiPosbPsFacTp);
+
+    Optional<PossibleFactoryStandard> findByProcessCdAndFeasibleRoutingGroup(String processCd, String group);
 }

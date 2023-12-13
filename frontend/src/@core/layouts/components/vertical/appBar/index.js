@@ -43,6 +43,11 @@ const LayoutAppBar = (props) => {
       color="default"
       className="layout-navbar"
       position="static"
+      style={{
+        marginBottom: "40px",
+        padding: "10px",
+        background: "#0A5380",
+      }}
     >
       <Toolbar
         className="navbar-content-container"

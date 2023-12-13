@@ -9,11 +9,15 @@ import {
   FormControl,
   InputLabel,
   OutlinedInput,
+  Box,
 } from "@mui/material";
-import MainCapacityApi from "src/api/MainCapacityApi";
+import MainApi from "src/api/MainApi";
 import Card from "@mui/material/Card";
 
 import CapacityDetail from "./capacity-detail";
+
+import * as FileSaver from "file-saver";
+import XLSX from "sheetjs-style";
 
 function MyCell(props) {
   let style = {
@@ -65,14 +69,14 @@ const MainCapacity = () => {
   useEffect(() => {
     getOrders(null, null);
 
-    MainCapacityApi.getCodeNameList((data) => {
+    MainApi.getCodeNameList((data) => {
       const list = data.response;
       // const select = list[0].cdNm;
       setCodeNameList((prev) => {
         return { ...prev, list };
       });
     });
-    MainCapacityApi.getWeekList("H", ["A", "B", "C"], (data) => {
+    MainApi.getWeekList("H", ["A", "B", "C"], (data) => {
       const list = data.response;
       // const select = list[0];
       setWeekList((prev) => {
@@ -84,25 +88,25 @@ const MainCapacity = () => {
   const getOrders = (kind, week) => {
     if (kind == 0) kind = null;
     if (week == 0) week = null;
-    MainCapacityApi.getOrderList(
-      kind,
-      week,
-      osMainStatusCd,
-      faConfirmFlag,
-      (data) => {
-        const list = data.response;
-        const order = list[0];
-        setOrderList((prev) => {
-          return { ...prev, list, order };
-        });
-      }
-    );
+    MainApi.getOrderList(kind, week, osMainStatusCd, faConfirmFlag, (data) => {
+      const list = data.response;
+      const order = list[0];
+      setOrderList((prev) => {
+        return { ...prev, list, order };
+      });
+    });
   };
 
   const updateConfirmFlag = async () => {
     const selectedIdx = new Set(rowSelectionModel);
     const rows = orderList.list.filter((row) => selectedIdx.has(row.id));
     // console.log(rows);
+
+    // 선택한 행이 없을 경우
+    if (rows.length == 0) {
+      alert("주문을 선택해주세요.");
+      return;
+    }
 
     /** 정상설계 되지 않은 주문이 있다면 실패 */
     for (const row of rows) {
@@ -119,16 +123,68 @@ const MainCapacity = () => {
       );
       return selectedId.id;
     });
-    // console.log(selectedIdList);
 
-    MainCapacityApi.updateFlag("D", selectedIdList, (data) => {
+    MainApi.updateFlag("D", selectedIdList, (data) => {
       const cnt = data.response;
       alert(cnt + "건 설계 확정되었습니다.");
       setRowSelectionModel([]);
 
       /** 리스트 update */
-      getOrders(null, null);
+      getOrders(codeNameList.select, weekList.select);
     });
+  };
+
+  const possibleDecision = async () => {
+    const selectedIdx = new Set(rowSelectionModel);
+    const rows = orderList.list.filter((row) => selectedIdx.has(row.id));
+
+    // 선택한 행이 없을 경우
+    if (rows.length == 0) {
+      alert("주문을 선택해주세요.");
+      return;
+    }
+
+    /** 가통 설계할 주문들의 ID 추출 */
+    const selectedIdList = rows.map((selectedRow) => {
+      const selectedId = orderList.list.find(
+        (row) => row.id === selectedRow.id
+      );
+      return selectedId.id;
+    });
+
+    const allCnt = selectedIdList.length;
+
+    MainApi.possibleDecision(selectedIdList, (data) => {
+      const res = data.response;
+      alert(
+        allCnt + "건 중 " + res.success + "건 성공, " + res.fail + "건 실패"
+      );
+      // alert(
+      //   res.success +
+      //     "/" +
+      //     allCnt +
+      //     "건 성공, " +
+      //     res.fail +
+      //     "/" +
+      //     allCnt +
+      //     "건 실패하였습니다."
+      // );
+      setRowSelectionModel([]);
+
+      /** 리스트 update */
+      getOrders(codeNameList.select, weekList.select);
+    });
+  };
+
+  const exportToExcel = async () => {
+    const fileType =
+      "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
+    const fileExtension = ".xlsx";
+    const ws = XLSX.utils.json_to_sheet(orderList.list);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, "주문 목록_가능통과공장" + fileExtension);
   };
 
   /* column 필드 */
@@ -138,313 +194,381 @@ const MainCapacity = () => {
       headerName: "법인",
       width: 100,
 
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "millCd",
       headerName: "소구분",
       width: 100,
 
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "orderHeadLineNo",
       headerName: "주문번호",
       width: 180,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "creationDate",
       headerName: "생성일자",
       width: 180,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "osMainStatusCd",
       headerName: "진도",
       width: 100,
 
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "faConfirmFlag",
       headerName: "공장결정확정구분",
       width: 150,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "posbPassFacCdN",
       headerName: "가능통과공정코드",
       width: 150,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "posbPassFacUpdateDate",
       headerName: "가능통과공정설계일자",
       width: 180,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "cfirmPassOpCd",
       headerName: "확정통과공정코드",
       width: 150,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "ordPdtItpCdN",
       headerName: "품종",
       width: 100,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "ordPdtItdsCdN",
       headerName: "품명",
       width: 100,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "adjustConsBktStartDttm",
       headerName: "ATP조정일",
       width: 150,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "customerNumber",
       headerName: "고객사코드",
       width: 100,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "customerName",
       headerName: "고객사명",
       width: 320,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "ordThwTapWekCd",
       headerName: "출강주",
       width: 130,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
-    { field: "orderType", headerName: "수주구분", width: 100, editable: true },
-    { field: "orderLineQty", headerName: "주문량", width: 100, editable: true },
+    {
+      field: "orderType",
+      headerName: "수주구분",
+      width: 100,
+      editable: false,
+      headerAlign: "center",
+    },
+    {
+      field: "orderLineQty",
+      headerName: "주문량",
+      width: 100,
+      editable: false,
+      headerAlign: "center",
+    },
     {
       field: "orderThick",
       headerName: "두께",
       width: 100,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "orderWidth",
       headerName: "폭",
       width: 100,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "orderLength",
       headerName: "길이",
       width: 100,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "orderUsageCdN",
       headerName: "용도",
       width: 100,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "orderEdgeCode",
       headerName: "Edge",
       width: 100,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "stockCode",
       headerName: "제품재고판매",
       width: 130,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "salesPerson",
       headerName: "영업담당자",
       width: 100,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
-    { field: "salesCodeN", headerName: "판매특기", width: 100, editable: true },
+    {
+      field: "salesCodeN",
+      headerName: "판매특기",
+      width: 100,
+      editable: false,
+      headerAlign: "center",
+    },
     {
       field: "salCusManDblTp",
       headerName: "판매고객사 대표산업",
       width: 150,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "salCusLocLClsTp",
       headerName: "판매고객사 지역대분류",
       width: 150,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "prodStdPackTolMin",
       headerName: "제품정포장하한중량",
       width: 150,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "prodStdPackTolMax",
       headerName: "제품정포장상한중량",
       width: 150,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "specificationCdN",
       headerName: "제품규격약호",
       width: 120,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "surfaceFinishCd",
       headerName: "표면지정코드",
       width: 120,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "postTreatmentMethodCdN",
       headerName: "후처리코드",
       width: 120,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "oilingMethodCd",
       headerName: "도유코드",
       width: 120,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "planningItemCodeN",
       headerName: "PlanningItem코드",
       width: 180,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "smSteelGrdN",
       headerName: "출강목표번호",
       width: 160,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "moltenSteelCharCdN",
       headerName: "용강특성",
       width: 100,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "tsAim",
       headerName: "목표TS",
       width: 100,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "unitWeight",
       headerName: "제품칫수계산단중",
       width: 130,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "hrSpComposite",
       headerName: "열연SkinPass합성지정",
       width: 180,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "surfaceGrd",
       headerName: "표면등급",
       width: 100,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "shapeGrd",
       headerName: "형상등급",
       width: 100,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "poscoProdGrdN",
       headerName: "제품사내보증번호",
       width: 160,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "hrProdThkAim",
       headerName: "열연목표두께",
       width: 130,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "hrProdWthAim",
       headerName: "열연목표폭",
       width: 130,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "hrRollUnitWgtMax",
       headerName: "압연상한중량",
       width: 130,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "sm2ndRfnCd",
       headerName: "제강2차정련코드",
       width: 150,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "skinpassFlag",
       headerName: "제품SkinPass지정여부",
       width: 160,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "packingType",
       headerName: "포장방법",
       width: 120,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "facAllocWgt",
       headerName: "소내공장결정중량",
       width: 130,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "faAllocDate",
       headerName: "생산가능공장결정일자",
       width: 150,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "errorMessage",
       headerName: "ErrorMessage",
       width: 130,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "msgcode",
       headerName: "박판공정계획Message코드",
       width: 180,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
     {
       field: "lastUpdateDate",
       headerName: "최종수정일자",
       width: 180,
-      editable: true,
+      editable: false,
+      headerAlign: "center",
     },
   ];
 
   return (
     <>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
-        <Typography variant="h3">가능통과공장 설계</Typography>
+        <Typography variant="h4">가능통과공장 설계</Typography>
       </Grid>
       <div
         style={{
@@ -560,40 +684,68 @@ const MainCapacity = () => {
           >
             대상조회
           </Button>
-          <Button size="small" variant="contained">
+          <Button size="small" variant="contained" onClick={possibleDecision}>
             설계
           </Button>
           <Button size="small" variant="contained" onClick={updateConfirmFlag}>
             확정처리
           </Button>
-          <Button size="small" type="submit" variant="contained">
+          <Button size="small" variant="contained" onClick={exportToExcel}>
             Excel
           </Button>
         </div>
       </div>
-      <Card style={{ height: 400 }}>
-        <DataGrid
-          experimentalFeatures={{ columnGrouping: true }}
-          checkboxSelection
-          disableRowSelectionOnClick
-          rows={orderList.list}
-          columns={columns}
-          rowSelectionModel={rowSelectionModel}
-          onRowSelectionModelChange={(newRowSelectionModel) => {
-            setRowSelectionModel(newRowSelectionModel);
+      <Card>
+        <Box
+          sx={{
+            height: 500,
+            width: "100%",
+            "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
+              {
+                borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                borderRight: "1px solid rgba(225, 234, 239, 1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              },
+            "& .custom-data-grid .MuiDataGrid-columnHeader": {
+              cursor: "pointer",
+              borderBottom: "1px solid rgba(225, 234, 239, 1)",
+              borderRight: "1px solid rgba(225, 234, 239, 1)",
+            },
+            "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
+              {
+                borderBottomStyle: "none",
+              },
+            "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
+              backgroundColor: "#F5F9FF",
+            },
           }}
-          onCellClick={(e) => {
-            setOrderList(
-              Object.assign({}, orderList, {
-                order: e.row,
-              })
-            );
-          }}
-          slots={{
-            cell: MyCell,
-          }}
-          rowHeight={40}
-        />
+        >
+          <DataGrid
+            className="custom-data-grid"
+            experimentalFeatures={{ columnGrouping: true }}
+            checkboxSelection
+            disableRowSelectionOnClick
+            rows={orderList.list}
+            columns={columns}
+            rowSelectionModel={rowSelectionModel}
+            onRowSelectionModelChange={(newRowSelectionModel) => {
+              setRowSelectionModel(newRowSelectionModel);
+            }}
+            onCellClick={(e) => {
+              setOrderList(
+                Object.assign({}, orderList, {
+                  order: e.row,
+                })
+              );
+            }}
+            slots={{
+              cell: MyCell,
+            }}
+            rowHeight={40}
+          />
+        </Box>
       </Card>
 
       {orderList.order ? <CapacityDetail order={orderList.order} /> : null}

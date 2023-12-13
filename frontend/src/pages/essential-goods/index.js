@@ -16,6 +16,7 @@ import {
 import EssentialStandardApi from "src/api/EssentialStandardApi";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
+const util = require("util");
 
 function MyCell(props) {
   let style = {
@@ -42,11 +43,20 @@ function MyCell(props) {
 
 const EssentialGoods = () => {
   const [essentialList, setessentialList] = useState([]);
+  const [codeNameList, setCodeNameList] = useState({
+    list: [],
+    select: "All",
+  });
+
+  const removeDuplicatesAndNull = (array) => {
+    return array.filter((value, index, self) => {
+      return value !== null && self.indexOf(value) === index;
+    });
+  };
 
   useEffect(() => {
     EssentialStandardApi.getEssentialStandardList((data) => {
       const responseData = data.response;
-      console.log(data.response);
       const processCdMappings = {
         10: "제강",
         20: "열연",
@@ -63,8 +73,18 @@ const EssentialGoods = () => {
           processCdMappings[item.processCd] || item.processCd;
         return { ...item, processCd: mappedProcessCd };
       });
-
       setessentialList(responseDataFilter);
+
+      setCodeNameList((prev) => {
+        return {
+          ...prev,
+          list: removeDuplicatesAndNull(
+            data.response.map((item) => {
+              return item.ordPdtItpCdN;
+            })
+          ),
+        };
+      });
     });
   }, []);
 
@@ -373,10 +393,66 @@ const EssentialGoods = () => {
     const data = new Blob([excelBuffer], { type: fileType });
     FileSaver.saveAs(data, "필수재기준" + fileExtension);
   };
+
+  //const f = util.promisify(EssentialStandardApi.getEssentialStandardList);
+
+  const filteredCondeNameList = async () => {
+    console.log("체크");
+
+    // await EssentialStandardApi.getEssentialStandardList((data) => {
+    //   const responseData = data.response;
+    //   const processCdMappings = {
+    //     10: "제강",
+    //     20: "열연",
+    //     30: "열연정정",
+    //     40: "냉간압연",
+    //     50: "1차소둔",
+    //     60: "2차소둔",
+    //     70: "도금",
+    //     80: "정정",
+    //   };
+
+    // const responseDataFilter = responseData.map((item) => {
+    //   const mappedProcessCd =
+    //     processCdMappings[item.processCd] || item.processCd;
+    //   return { ...item, processCd: mappedProcessCd };
+    // });
+    // });
+
+    const responseData = await EssentialStandardApi.getEssentialStandardList();
+
+    const processCdMappings = {
+      10: "제강",
+      20: "열연",
+      30: "열연정정",
+      40: "냉간압연",
+      50: "1차소둔",
+      60: "2차소둔",
+      70: "도금",
+      80: "정정",
+    };
+
+    let responseDataFilter = responseData.map((item) => {
+      const mappedProcessCd =
+        processCdMappings[item.processCd] || item.processCd;
+      return { ...item, processCd: mappedProcessCd };
+    });
+
+    if (codeNameList.select !== "All") {
+      responseDataFilter = responseDataFilter.filter((item) => {
+        if (item.ordPdtItpCdN === codeNameList.select) {
+          return item;
+        }
+      });
+    }
+
+    setessentialList(responseDataFilter);
+  };
+
   return (
     <div style={{ height: "800px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
-        <Typography variant="h3">필수재 기준</Typography>
+        <Typography variant="h4">필수재 기준</Typography>
       </Grid>
       <div
         style={{
@@ -429,29 +505,36 @@ const EssentialGoods = () => {
               id="demo-multiple-name"
               defaultValue="T"
               input={<OutlinedInput label="품종" />}
+              value={codeNameList.select}
               onChange={(e) => {
-                console.log(e);
+                setCodeNameList(
+                  Object.assign({}, codeNameList, {
+                    select: e.target.value,
+                  })
+                );
               }}
               style={{ height: 40 }}
             >
-              <MenuItem value="T">제강</MenuItem>
-              <MenuItem value="K">열연</MenuItem>
-              <MenuItem value="K">열연정정</MenuItem>
-              <MenuItem value="K">PCM(APL,CRM,ZRM)</MenuItem>
-              <MenuItem value="K">HCGL</MenuItem>
-              <MenuItem value="K">CAL(BAF)</MenuItem>
-              <MenuItem value="K">DNL</MenuItem>
-              <MenuItem value="K">CGL(포스코강판)</MenuItem>
-              <MenuItem value="K">DRM(ACL,COF)</MenuItem>
-              <MenuItem value="K">EGL</MenuItem>
-              <MenuItem value="K">HCL</MenuItem>
-              <MenuItem value="K">CGL(CR포스맥)</MenuItem>
-              <MenuItem value="K">RCL</MenuItem>
+              <MenuItem key={0} value="All">
+                All
+              </MenuItem>
+              {codeNameList.list.map((code, idx) => {
+                return (
+                  <MenuItem key={idx + 1} value={code}>
+                    {code}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </div>
         <div>
-          <Button size="small" type="submit" variant="contained">
+          <Button
+            size="small"
+            type="submit"
+            variant="contained"
+            onClick={filteredCondeNameList}
+          >
             조회
           </Button>
           <Button size="small" type="submit" variant="contained">

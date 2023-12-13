@@ -32,9 +32,10 @@ import React, {
   useState,
 } from "react";
 import CapacityStandardApi from "src/api/CapacityApi";
-import RadarChart from "./chart";
-import MyHeatmap from "./heat";
 import MyD3Heatmap from "./d3-heat";
+
+import * as FileSaver from "file-saver";
+import XLSX from "sheetjs-style";   
 
 ChartJS.register(
   CategoryScale,
@@ -67,7 +68,7 @@ function MyCell(props) {
       ...style,
       minHeight: props.height * span,
       maxHeight: props.height * span,
-      backgroundColor: "gray",
+      backgroundColor: "#F5F9FF",
       zIndex: 1,
     };
   }
@@ -165,15 +166,40 @@ const CapacityMgt = () => {
 
   //컬럼
   const columns = [
-    { field: "processName", rowspan: "rowspan", headerName: "공정", width: 115, headerAlign: 'center', },
-    { field: "firmPsFacTp", headerName: "공장", width: 65, headerAlign: 'center', },
-    { field: "planQty", headerName: "능력량", width: 105, headerAlign: 'center', },
-    { field: "faAdjustmentWgt", headerName: "조정량", width: 105, editable: true, headerAlign: 'center', },
-    { field: "progressQty", headerName: "투입량", width: 105, headerAlign: 'center', },
-    { field: "remainQty", headerName: "잔여량", width: 105, headerAlign: 'center', },
+    { field: "processName", rowspan: "rowspan", headerName: "공정", width: 115, headerAlign: 'center', sortable:false,},
+    { field: "firmPsFacTp", headerName: "공장", width: 65, headerAlign: 'center', sortable:false, },
+    { field: "planQty", headerName: "능력량", width: 105, headerAlign: 'center', sortable:false, },
+    { field: "faAdjustmentWgt", headerName: "조정량", width: 105, editable: true, headerAlign: 'center', sortable:false, },
+    { field: "progressQty", headerName: "투입량", width: 105, headerAlign: 'center', sortable:false, },
+    { field: "remainQty", headerName: "잔여량", width: 105, headerAlign: 'center', sortable:false, },
 
   ];
 
+//update
+const handleCellEdit = (params) => {
+  const { id, field, value } = params;
+  const updatedCapacity = capacity.map((item) =>
+    item.id === id ? { ...item, [field]: value } : item
+  );
+    console.log("Updated capacity:", updatedCapacity);
+
+
+  setCapacity(updatedCapacity);
+};
+
+  //excel
+   const fileType =
+    "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
+  const fileExtension = ".xlsx";
+
+  const exportToExcel = async () => {
+    const ws = XLSX.utils.json_to_sheet(capacity);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, "투입 능력 산정" + fileExtension);
+  };
+  
   
   return (
 
@@ -257,7 +283,11 @@ const CapacityMgt = () => {
           <Button size="small" type="submit" variant="contained">
             저장
           </Button>
-          <Button size="small" type="submit" variant="contained">
+          <Button
+            size="small"
+            type="submit"
+            variant="contained"
+            onClick={exportToExcel}>
             Excel
           </Button>
         </div>
@@ -301,6 +331,14 @@ const CapacityMgt = () => {
               "& .custom-data-grid .MuiDataGrid-root": {
                 paddingBottom: "0px",
               },
+
+              "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
+                backgroundColor:"#F5F9FF",
+              },
+              "& .custom-data-grid .MuiDataGrid-sortIcon": {
+                 display: "none" ,
+              },
+
             }}
           >
       <Grid item xs={4} sx={{ paddingBottom: 2 , }}>
@@ -320,6 +358,8 @@ const CapacityMgt = () => {
               rowHeight={36}
               hideFooterPagination={true}
               hideFooter={true}
+              disableColumnReorder
+                onEditCellChange={handleCellEdit}
 
             />
 
@@ -334,7 +374,7 @@ const CapacityMgt = () => {
           }}
         >
          
-          <Grid item xs={4} sx={{ paddingBottom: 10 , paddingTop:3 }}>
+          <Grid item xs={4} sx={{ paddingBottom: 10 , paddingTop:3, paddingLeft:3 }}>
             <Typography variant="h4" > 공장 부하 현황 </Typography>
 
             {/* <Bar
@@ -343,9 +383,8 @@ const CapacityMgt = () => {
               style={{ width: "100%", height: "80%" }}
             /> */}
             {/* <RadarChart week={weekList} capacity={capacity} /> */}
-            <div >
-  <MyD3Heatmap capacity={capacity} marginLeft={70} />
-</div>
+            <MyD3Heatmap capacity={capacity} />
+              
           </Grid>
       {/* <MyHeatmap capacity={capacity} /> */}
                       

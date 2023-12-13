@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
-import { Grid, Typography, Button, Select, MenuItem, FormControl, 
-  InputLabel, OutlinedInput, accordionActionsClasses, Card,Box,
-  Table, TableBody, TableCell, TableContainer, TableRow, TableHead } 
-from "@mui/material";
+import { Grid, Typography, Button, Select, MenuItem, FormControl, InputLabel, OutlinedInput, accordionActionsClasses, Card,Box } from "@mui/material";
 import FactoryStandardApi from 'src/api/FactoryStandardApi';
 
-const possibleDetail =({a,openFun})=>{
+const confirmDetail =({a,openFun})=>{
   let processName=null;
   if(a.processCd==='10'){
     processName='제강'
@@ -27,6 +24,7 @@ const possibleDetail =({a,openFun})=>{
   }
   const [processFactoryList,setProcessFactoryList]=useState([]);//공정별 리스트
   
+
   useEffect(()=>{
     FactoryStandardApi.getPossiblePopper(a.processCd,(data)=>{
       console.log(data.response);
@@ -54,7 +52,7 @@ const possibleDetail =({a,openFun})=>{
   ]
   return (
     <>
-      {/*<div style={{backgroundColor:"#05507d",color:"white",padding:"0px",fontSize:"20px"}}>코드상세</div>
+      <div style={{backgroundColor:"#05507d",color:"white",padding:"0px",fontSize:"20px"}}>공장추가</div>
       <div>
           <Button size="small" type="submit" variant="contained">
             저장
@@ -97,28 +95,9 @@ const possibleDetail =({a,openFun})=>{
         />
         </Box>
       </Card>
-      </div>*/}
-      <TableContainer>
-        <Table aria-label="spanning table">
-          <TableHead>
-            <TableRow>
-              <TableCell
-                align="center"
-                style={{
-                  width: "100%",
-                  backgroundColor: "#05507d",
-                  color: "white",
-                  fontSize:"20px"
-                }}
-              >
-                코드상세
-              </TableCell>
-            </TableRow>
-          </TableHead>
-        </Table>
-      </TableContainer>
+      </div>
     </>
   );
 }
 
-export default possibleDetail;
+export default confirmDetail;
