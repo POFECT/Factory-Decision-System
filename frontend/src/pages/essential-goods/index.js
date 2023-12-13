@@ -376,7 +376,7 @@ const EssentialGoods = () => {
   return (
     <div style={{ height: "800px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
-        <Typography variant="h3">필수재 기준</Typography>
+        <Typography variant="h4">필수재 기준</Typography>
       </Grid>
       <div
         style={{
