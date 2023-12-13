@@ -2,6 +2,8 @@ package com.poscodx.pofect.domain.main.service;
 
 //import com.poscodx.pofect.domain.lot.dto.LotResDto;
 import com.poscodx.pofect.common.dto.ResponseDto;
+import com.poscodx.pofect.domain.capacity.dto.CapacityInfoDto;
+import com.poscodx.pofect.domain.capacity.service.CapacityService;
 import com.poscodx.pofect.domain.essentialstandard.controller.EssentialStandardController;
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardBtiPosReqDto;
 import com.poscodx.pofect.domain.essentialstandard.service.EssentialStandardService;
@@ -34,6 +36,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
     private final ProcessStandardService processStandardService;
     private final PossibleFactoryStandardService possibleFactoryStandardService;
     private final EssentialStandardService essentialStandardService;
+    private final CapacityService capacityService;
 //    private final SizeStandardService sizeStandardService;
 
     // 없어질 예정
@@ -102,6 +105,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         return factoryOrderInfoRepository.findLotAll().stream().map(com.poscodx.pofect.domain.lot.dto.LotResDto::fromDtoToDto)
                 .toList();
     }
+
     @Transactional
     @Override
     public Long updateOrderStatus(FactoryOrderInfoReqDto.updateCodeDto reqDto) {
@@ -116,7 +120,6 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
         /** 경유공정 설계 */
         String passResult = processStandardService.getByOrdPdtItdsCdN(order.getOrdPdtItdsCdN());
-//        String passResult = "11011101";
 
         // 설계 에러 - FLAG update, 설계일시 update
         if("00000000".equals(passResult)) {
@@ -134,63 +137,6 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
             /** 필수재 설계 */
             List<EssentialStandardBtiPosReqDto> e = essentialStandardService.applyEssentialStandard(getById(order.getId()), processList);
             List<PossibleToConfirmResDto> essentialResult = possibleFactoryStandardService.possibleToConfirm(e);
-//            List<SizeStandardSetDto> essentialResult = new ArrayList<>();
-//
-//            // 10 - 80 필수재 더미 데이터
-//            SizeStandardSetDto dto = new SizeStandardSetDto();
-//            List<String> fac = new ArrayList<>();
-//
-//            dto.setProcessCD("10");
-//            fac.add("1");
-//            fac.add("2");
-//            dto.setFirmPsFacTpList(fac);
-//            essentialResult.add(dto);
-//            fac = new ArrayList<>();
-//            dto = new SizeStandardSetDto();
-//
-//            dto.setProcessCD("20");
-//            fac.add("1");
-//            fac.add("2");
-//            fac.add("3");
-//            dto.setFirmPsFacTpList(fac);
-//            essentialResult.add(dto);
-//            fac = new ArrayList<>();
-//            dto = new SizeStandardSetDto();
-//
-//            dto.setProcessCD("40");
-//            dto.setFirmPsFacTpList(fac);
-//            essentialResult.add(dto);
-//            fac = new ArrayList<>();
-//            dto = new SizeStandardSetDto();
-//
-//            dto.setProcessCD("50");
-//            fac.add("1");
-//            fac.add("2");
-//            dto.setFirmPsFacTpList(fac);
-//            essentialResult.add(dto);
-//            fac = new ArrayList<>();
-//            dto = new SizeStandardSetDto();
-//
-//            dto.setProcessCD("60");
-//            dto.setFirmPsFacTpList(fac);
-//            essentialResult.add(dto);
-//            fac = new ArrayList<>();
-//            dto = new SizeStandardSetDto();
-//
-//            dto.setProcessCD("80");
-//            fac.add("1");
-//            dto.setFirmPsFacTpList(fac);
-//            essentialResult.add(dto);
-
-//            System.out.println("essential");
-//            for(PossibleToConfirmResDto s: essentialResult) {
-//                System.out.print(s.getProcessCD()+" : ");
-//                if()
-//                for(String g : s.getFirmPsFacTpList()) {
-//                    System.out.print(g+",");
-//                }
-//                System.out.println();
-//            }
 
             /** 사이즈 기준 설계 */
             List<SizeStandardSetDto> sizeResult = setSizeStandard(order.getId(), processList);
@@ -295,7 +241,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
             else order.changeFlag("B");
         }
 
-        return ("C".equals(order.getFaConfirmFlag()) ? false : true);
+        return (!"C".equals(order.getFaConfirmFlag()));
     }
 
 
@@ -306,14 +252,53 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
 
         String possibleCode = order.getPosbPassFacCdN();
+        StringBuilder confirmCode = new StringBuilder();
 
-        for(int i = 0; i < 16; i+=2) {
-            String process = possibleCode.substring(i,2);
+        /** 가통코드 16자리 - 2자리씩 끊어서 공정 구분 */
+        for(int i = 0, j = 10; i < 16; i+=2, j+=10) {
+            String process = possibleCode.substring(i,i+2);
 
+            // 해당 공정 타지 않을 경우
+            if("  ".equals(process)) {
+                confirmCode.append(" ");
+            }
+            else {
+                // 공정번호, 출강주로 공장들의 능력 데이터 받아옴
+                List<CapacityInfoDto.FactoryCapacityDto> factoryCapacity =
+                        capacityService.getFactoryCapacityList(Integer.toString(j), order.getOrdThwTapWekCd());
+
+                System.out.println("능력데이터");
+
+                // 리스트 돌면서 잔여량 가장 큰 공장의 index 구하기
+                int maxIdx = 0;
+                long max = Integer.MIN_VALUE;
+
+                for (int k = 0; k < factoryCapacity.size(); k++) {
+                    CapacityInfoDto.FactoryCapacityDto fac = factoryCapacity.get(k);
+                    long remain = fac.getFaAdjustmentWgt()-fac.getProgressQty();
+
+                    if(remain > max) {
+                        max = remain;
+                        maxIdx = k;
+                    }
+                }
+
+                // 잔여량 max인 공장의 투입량 갱신
+                Long factoryId = factoryCapacity.get(maxIdx).getId();
+                capacityService.updateQty(factoryId, order.getOrderLineQty().longValue());
+
+                // 잔여량 max인 공장의 공장번호 확통코드에 등록
+                confirmCode.append(factoryCapacity.get(maxIdx).getFirmPsFacTp());
+            }
         }
 
-//        return ("C".equals(order.getFaConfirmFlag()) ? false : true);
-        return false;
+        // 설계 성공 - FLAG : E
+        order.changeFlag("E");
+
+        // 확통코드 업데이트
+        order.changeCfirmPassOpCd(confirmCode.toString());
+
+        return ("E".equals(order.getFaConfirmFlag()));
     }
 
 
