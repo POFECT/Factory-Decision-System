@@ -59,7 +59,7 @@ const MainCapacityApi = {
 
   getFaCapacityList: async (no, callback) => {
     await axiosApi()
-      .get(`/capacity/factory/${no}`)
+      .get(`/capacity/factory/${no}/0`)
       .then((response) => {
         callback && callback(response.data);
       })
