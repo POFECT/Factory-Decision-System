@@ -6,6 +6,7 @@ import com.poscodx.pofect.domain.main.service.FactoryOrderInfoServiceImpl;
 import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
 import com.poscodx.pofect.domain.processstandard.service.ProcessStandardService;
 import com.poscodx.pofect.domain.sizestandard.dto.RowSpan;
+import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardReqDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardSetDto;
 import com.poscodx.pofect.domain.sizestandard.entity.FactorySizeStandard;
@@ -37,10 +38,6 @@ public class SizeStandardServiceImpl implements SizeStandardService {
                         SizeStandardResDto::getId,
                         (existing, replacement) -> existing
                 ));
-
-        for (Map.Entry<String, Long> stringLongEntry : processCdToFirstIdMap.entrySet()) {
-            System.out.println("id : " + stringLongEntry.getKey()+ ", value : " + stringLongEntry.getValue());
-        }
 
         List<Long> collect = processCdToFirstIdMap.values().stream()
                 .toList();
@@ -138,6 +135,49 @@ public class SizeStandardServiceImpl implements SizeStandardService {
         }
 
         return  sizeStandardSetDtoList;
+    }
+
+    @Override
+    @Transactional
+    public void updateSizeStandard(List<SizeStandardReqDto> dtoList) {
+        List<FactorySizeStandard> sizeStandardList = repository.findAll();
+
+        for (FactorySizeStandard factorySizeStandard : sizeStandardList) {
+            for (SizeStandardReqDto dto : dtoList) {
+                if(dto.getId().equals(factorySizeStandard.getId())){
+                    if(dto.getOrderThickMin() != null && !factorySizeStandard.getOrderThickMin().equals(dto.getOrderThickMin())){
+                        System.out.println(dto.getOrderThickMin());
+                        factorySizeStandard.updateOrderThickMin(dto.getOrderThickMin());
+                    }
+                    if(dto.getOrderThickMax() != null && !factorySizeStandard.getOrderThickMax().equals(dto.getOrderThickMax())){
+                        factorySizeStandard.updateOrderThickMax(dto.getOrderThickMax());
+                    }
+
+                    if(dto.getOrderWidthMin() != null && !factorySizeStandard.getOrderWidthMin().equals(dto.getOrderWidthMin())){
+                        factorySizeStandard.updateOrderWidthMin(dto.getOrderWidthMin());
+                    }
+                    if(dto.getOrderWidthMax() != null && !factorySizeStandard.getOrderWidthMax().equals(dto.getOrderWidthMax())){
+                        factorySizeStandard.updateOrderWidthMax(dto.getOrderWidthMax());
+                    }
+
+                    if(dto.getOrderLengthMin() != null && !factorySizeStandard.getOrderLengthMin().equals(dto.getOrderLengthMin())){
+                        factorySizeStandard.updateOrderLengthMin(dto.getOrderLengthMin());
+                    }
+                    if(dto.getOrderLengthMax() != null && !factorySizeStandard.getOrderLengthMax().equals(dto.getOrderLengthMax())){
+                        factorySizeStandard.updateOrderLengthMax(dto.getOrderLengthMax());
+                    }
+
+                    if(dto.getHrRollUnitWgtMax1() != null && !factorySizeStandard.getHrRollUnitWgtMax1().equals(dto.getHrRollUnitWgtMax1())){
+                        factorySizeStandard.updateHrRollUnitWgtMax1(dto.getHrRollUnitWgtMax1());
+                    }
+                    if(dto.getHrRollUnitWgtMax2() != null && !factorySizeStandard.getHrRollUnitWgtMax2().equals(dto.getHrRollUnitWgtMax2())){
+                        factorySizeStandard.updateHrRollUnitWgtMax2(dto.getHrRollUnitWgtMax2());
+                    }
+                    break;
+                }
+            }
+        }
+
     }
 
 }

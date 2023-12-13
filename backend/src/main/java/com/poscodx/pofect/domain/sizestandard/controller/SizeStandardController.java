@@ -1,8 +1,10 @@
 package com.poscodx.pofect.domain.sizestandard.controller;
 
 import com.poscodx.pofect.common.dto.ResponseDto;
+import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
+import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardReqDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardSetDto;
 import com.poscodx.pofect.domain.sizestandard.entity.FactorySizeStandard;
@@ -46,5 +48,13 @@ public class SizeStandardController {
 
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
+
+    @PatchMapping("")
+//    @ApiOperation(value = "OS_MAIN_STATUS_CD_N 수정", notes = "여러 주문의 OS_MAIN_STATUS_CD_N를 원하는 값으로 수정한다.")
+    public ResponseEntity<ResponseDto> updateSizeStandard(@RequestBody List<SizeStandardReqDto> dtoList) {
+        sizeStandardService.updateSizeStandard(dtoList);
+        return new ResponseEntity<>(new ResponseDto(dtoList), HttpStatus.OK);
+    }
+
 
 }
