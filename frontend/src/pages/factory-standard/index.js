@@ -5,6 +5,8 @@ import Fade from '@mui/material/Fade';
 import Paper from '@mui/material/Paper';
 import PossibleDetail from "./possible-detail";
 import PassModal from './pass-modal';
+import * as FileSaver from "file-saver";
+import XLSX from "sheetjs-style";
 
 import "react-datasheet-grid/dist/style.css";
 import { Grid, Typography, 
@@ -75,9 +77,10 @@ const Capacity = () => {
       const dataMap = data.response.reduce((list, { btiPosbPsFacTp, processCd, feasibleRoutingGroup }) => {
         list[btiPosbPsFacTp] = list[btiPosbPsFacTp]||{};
         list[btiPosbPsFacTp][processCd] = feasibleRoutingGroup;
+//        console.log(btiPosbPsFacTp+", "+processCd+" = "+feasibleRoutingGroup)
         return list;
       }, {});
- 
+
       const possibleBtiPosbPsFacTpValues = Array.from(
         { length: Math.max(...Object.keys(dataMap).map(Number)) },
         (_, index) => String(index + 1).padStart(2, '0')
@@ -99,9 +102,9 @@ const Capacity = () => {
 
     FactoryStandardApi.getCommonList((data) => {
       const dataMap = data.response.reduce((list, { cdExpl,firmPsFacTp, id,lastUpdate, processCd }) => {
-        //console.log(firmPsFacTp+", "+processCd+", "+cdExpl)
         list[firmPsFacTp] = list[firmPsFacTp] || {};
         list[firmPsFacTp][processCd] = cdExpl;
+//        console.log(firmPsFacTp+", "+processCd+" = "+cdExpl)
         return list;
       }, {});
 
@@ -116,28 +119,28 @@ const Capacity = () => {
   },[]);
   //가통 컬럼
   const possibleColumns = [
-    { field: "code",headerName:"Code", width:150, headerAlign: "center"},
-    { field: "10", headerName: "제강", width:150, headerAlign: "center"},
-    { field: "20", headerName: "열연", width:150, headerAlign: "center"},
-    { field: "30", headerName: "열연정정", width:150,  headerAlign: "center"},
-    { field: "40", headerName: "냉간압연", width:150,  headerAlign: "center"},
-    { field: "50", headerName: "1차소둔", width:150,  headerAlign: "center"},
-    { field: "60", headerName: "2차소둔", width:150,  headerAlign: "center"},
-    { field: "70", headerName: "도금", width:150, headerAlign: "center"},
-    { field: "80", headerName: "정정", width:150, headerAlign: "center"},
+    { field: "code",headerName:"Code", width:158, headerAlign: "center"},
+    { field: "10", headerName: "제강", width:154, headerAlign: "center"},
+    { field: "20", headerName: "열연", width:154, headerAlign: "center"},
+    { field: "30", headerName: "열연정정", width:154,  headerAlign: "center"},
+    { field: "40", headerName: "냉간압연", width:154,  headerAlign: "center"},
+    { field: "50", headerName: "1차소둔", width:154,  headerAlign: "center"},
+    { field: "60", headerName: "2차소둔", width:154,  headerAlign: "center"},
+    { field: "70", headerName: "도금", width:154, headerAlign: "center"},
+    { field: "80", headerName: "정정", width:154, headerAlign: "center"},
   ];
 
   //확통 컬럼
   const confirmColumns=[
-    { field: "code",headerName:"Code", width:150, headerAlign: "center"   },
-    { field: "10", headerName: "제강", width:150, headerAlign: "center"    },
-    { field: "20", headerName: "열연", width:150, headerAlign: "center"     },
-    { field: "30", headerName: "열연정정", width:150,headerAlign: "center"  },
-    { field: "40", headerName: "냉간압연", width:150,headerAlign: "center"  },
-    { field: "50", headerName: "1차소둔", width:150, headerAlign: "center"  },
-    { field: "60", headerName: "2차소둔", width:150, headerAlign: "center"  },
-    { field: "70", headerName: "도금", width:150, headerAlign: "center"     },
-    { field: "80", headerName: "정정", width:150, headerAlign: "center"     },
+    { field: "code",headerName:"Code", width:158, headerAlign: "center"   },
+    { field: "10", headerName: "제강", width:154, headerAlign: "center"    },
+    { field: "20", headerName: "열연", width:154, headerAlign: "center"     },
+    { field: "30", headerName: "열연정정", width:154,headerAlign: "center"  },
+    { field: "40", headerName: "냉간압연", width:154,headerAlign: "center"  },
+    { field: "50", headerName: "1차소둔", width:154, headerAlign: "center"  },
+    { field: "60", headerName: "2차소둔", width:154, headerAlign: "center"  },
+    { field: "70", headerName: "도금", width:154, headerAlign: "center"     },
+    { field: "80", headerName: "정정", width:154, headerAlign: "center"     },
   ]
   let pPopupProcessCd=null;
   let feasibleArray = null;
@@ -163,6 +166,25 @@ const Capacity = () => {
       setOpen(false);
     }
   }
+
+  const fileType =
+    "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
+  const fileExtension = ".xlsx";
+
+  const exportToExcelPossible = async () => {
+    const ws = XLSX.utils.json_to_sheet(possibleList);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, "가능통과공장기준" + fileExtension);
+  };
+  const exportToExcelConfirm = async () => {
+    const ws = XLSX.utils.json_to_sheet(confirmList);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, "확정통과공장기준" + fileExtension);
+  };
 
   return (
     <div style={{ height: "100%", width: "100%" }}>
@@ -204,7 +226,7 @@ const Capacity = () => {
           </Select>
         </FormControl>
       </div>
-        <div>
+        <div style={{width:"40%", textAlign:"right"}}>
           <Button size="small" type="submit" variant="contained" onClick={passClick}>
           경유공정
           </Button>
@@ -212,8 +234,11 @@ const Capacity = () => {
           <Button size="small" type="submit" variant="contained">
             조회
           </Button>
-          <Button size="small" type="submit" variant="contained">
-            Excel
+          <Button sx={{width:'25%'}} size="small" type="submit" variant="contained" onClick={exportToExcelPossible}>
+            가통 Excel
+          </Button>
+          <Button sx={{width:'25%'}} size="small" type="submit" variant="contained" onClick={exportToExcelConfirm}>
+            확통 Excel
           </Button>
         </div>
       </div>
@@ -240,10 +265,15 @@ const Capacity = () => {
               {
                 borderBottomStyle: "none",
               },
+              "& .custom-data-grid .MuiDataGrid-root": {
+                paddingBottom: "0px",
+              },
           }}
         >
+          
       <DataGrid
         //disableRowSelectionOnClick
+        className="custom-data-grid"
         rows={possibleList}
         columns={possibleColumns}
         slotProps={{
@@ -255,7 +285,7 @@ const Capacity = () => {
           cell: MyCell,
         }}
         hideFooter = {true}
-        
+        hideFooterPagination={true}
       /></Box>
       </Card>
       
@@ -271,36 +301,38 @@ const Capacity = () => {
           </Fade>
         )}
       </Popper>
-                {/*isPossibleModal && <ModalTest onClose={() => setPossibleModalOpen(false)}/>*/}
+      {/*isPossibleModal && <ModalTest onClose={() => setPossibleModalOpen(false)}/>*/}
 
       </div>
-      <div style={{height:250}}>
+      {/* <div style={{height:250}}> */}
       <Card>
         <Box
           sx={{
             height: "inherit",
             width: "100%",
             "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
-              {
-                borderBottom: "1px solid rgba(225, 234, 239, 1)",
-                borderRight: "1px solid rgba(225, 234, 239, 1)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              },
+            {
+              borderBottom: "1px solid rgba(225, 234, 239, 1)",
+              borderRight: "1px solid rgba(225, 234, 239, 1)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            },
             "& .custom-data-grid .MuiDataGrid-columnHeader": {
               cursor: "pointer",
               borderBottom: "1px solid rgba(225, 234, 239, 1)",
               borderRight: "1px solid rgba(225, 234, 239, 1)",
             },
             "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
-              {
-                borderBottomStyle: "none",
-              },
+            {
+              borderBottomStyle: "none",
+
+            },
           }}
         >
       <DataGrid
         //disableRowSelectionOnClick
+        className="custom-data-grid"
         rows={confirmList}
         columns={confirmColumns}
         hideFooter = {true}last
@@ -310,7 +342,7 @@ const Capacity = () => {
       /></Box>
       </Card>
       </div>
-    </div>
+    // </div>
   );
 };
 
