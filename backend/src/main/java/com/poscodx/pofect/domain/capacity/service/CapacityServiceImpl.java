@@ -127,6 +127,13 @@ public class CapacityServiceImpl implements CapacityService {
         return null;
     }
 
+    //update
+    @Override
+    public void updateFaAdjustmentWgt(Long id, Long faAdjustmentWgt, String week) {
+        capacityRepository.updateFaAdjustmentWgt(id, faAdjustmentWgt, week);
+    }
+
+
     @Override
     public List<CapacityInfoDto.FactoryCapacityDto> getFactoryCapacityList(String processCode, String week) {
         List<CapacityInfoDto.FactoryCapacityDto> result = new ArrayList<>();

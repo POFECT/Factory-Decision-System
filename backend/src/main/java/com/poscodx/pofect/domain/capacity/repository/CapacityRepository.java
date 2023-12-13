@@ -56,6 +56,12 @@ public interface CapacityRepository extends JpaRepository<CapacityInfo, Long> {
             "AND (:week IS NULL OR b.ordRcpTapWekCd = :week)")
     List<CombinedCapacityDto> findCombinedCapacityByWeek(@Param("week") String week);
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE CapacityInfo c SET c.faAdjustmentWgt = :faAdjustmentWgt WHERE c.id = :id AND c.ordRcpTapWekCd = :week")
+    void updateFaAdjustmentWgt(@Param("id") Long id,  @Param("faAdjustmentWgt") Long faAdjustmentWgt, @Param("week") String week);
+
+
     List<CapacityInfo> findAllByProcessCdOrderByFirmPsFacTpAsc(String processCode);
 
     List<CapacityInfo> findAllByProcessCdAndOrdRcpTapWekCdOrderByFirmPsFacTpAsc(String processCode, String week);
