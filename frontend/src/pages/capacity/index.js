@@ -175,6 +175,18 @@ const CapacityMgt = () => {
 
   ];
 
+//update
+const handleCellEdit = (params) => {
+  const { id, field, value } = params;
+  const updatedCapacity = capacity.map((item) =>
+    item.id === id ? { ...item, [field]: value } : item
+  );
+    console.log("Updated capacity:", updatedCapacity);
+
+
+  setCapacity(updatedCapacity);
+};
+
   //excel
    const fileType =
     "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
@@ -347,6 +359,8 @@ const CapacityMgt = () => {
               hideFooterPagination={true}
               hideFooter={true}
               disableColumnReorder
+                onEditCellChange={handleCellEdit}
+
             />
 
           </Box>
