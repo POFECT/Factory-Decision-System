@@ -43,21 +43,26 @@ const VerticalNavHeader = (props) => {
 
   return (
     <MenuHeaderWrapper
-      style={{ display: "flex", padding: "0px", justifyContent: "center" }}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        background: "#0A5380",
+      }}
     >
       {userVerticalNavMenuBranding ? (
         userVerticalNavMenuBranding(props)
       ) : (
         <Link href="/" passHref>
-          <span
+          <div
             style={{
               fontSize: "50px",
               cursor: "pointer",
               fontFamily: "JalnanGothic",
+              color: "white",
             }}
           >
             POFECT
-          </span>
+          </div>
         </Link>
       )}
     </MenuHeaderWrapper>
