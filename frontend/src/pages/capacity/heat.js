@@ -28,7 +28,6 @@ const MyHeatmap = ({ capacity }) => {
   const options = {
     xLabels: xLabels,
     yLabels: yLabels,
-    // Other configuration options...
   };
 
   const [hoveredCell, setHoveredCell] = useState(null);
