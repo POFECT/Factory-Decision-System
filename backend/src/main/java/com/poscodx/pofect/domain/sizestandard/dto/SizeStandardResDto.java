@@ -1,5 +1,6 @@
 package com.poscodx.pofect.domain.sizestandard.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.poscodx.pofect.domain.sizestandard.entity.FactorySizeStandard;
 import lombok.*;
 
@@ -48,6 +49,7 @@ public class SizeStandardResDto {
 
     private RowSpan rowSpan;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime lastUpdateDate;  // 최종수정일자
 
 
