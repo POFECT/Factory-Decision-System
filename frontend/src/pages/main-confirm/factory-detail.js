@@ -6,7 +6,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableHead from "@mui/material/TableHead";
-import MainCapacityApi from "src/api/MainCapacityApi";
+import MainCapacityApi from "src/api/MainApi";
 
 const FactoryDetail = (props) => {
   const [factoryList, setFactoryList] = useState({
@@ -34,11 +34,14 @@ const FactoryDetail = (props) => {
                   width: "40%",
                   backgroundColor: "#8E8E8E",
                   color: "white",
+                  fontSize: 17,
                 }}
               >
                 공정
               </TableCell>
-              <TableCell align="center">{props.factory.name}</TableCell>
+              <TableCell align="center" style={{ fontSize: 17 }}>
+                {props.factory.name}
+              </TableCell>
             </TableRow>
           </TableHead>
         </Table>
@@ -51,6 +54,7 @@ const FactoryDetail = (props) => {
                 align="center"
                 style={{
                   fontSize: 17,
+                  whiteSpace: "nowrap",
                 }}
               >
                 공장
@@ -59,6 +63,7 @@ const FactoryDetail = (props) => {
                 align="center"
                 style={{
                   fontSize: 17,
+                  whiteSpace: "nowrap",
                 }}
               >
                 능력 여유량
@@ -67,6 +72,7 @@ const FactoryDetail = (props) => {
                 align="center"
                 style={{
                   fontSize: 17,
+                  whiteSpace: "nowrap",
                 }}
               >
                 능력 사용량
@@ -85,7 +91,10 @@ const FactoryDetail = (props) => {
             {factoryList.list.map((f) => {
               return (
                 <TableRow key={f.firmPsFacTp}>
-                  <TableCell align="center" style={{ width: "80px" }}>
+                  <TableCell
+                    align="center"
+                    style={{ width: "80px", whiteSpace: "nowrap" }}
+                  >
                     {f.factoryName}
                   </TableCell>
                   <TableCell align="center">
