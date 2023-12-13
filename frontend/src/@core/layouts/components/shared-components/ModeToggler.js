@@ -1,30 +1,35 @@
-import IconButton from '@mui/material/IconButton'
+import IconButton from "@mui/material/IconButton";
 
 // ** Icons Imports
-import WeatherNight from 'mdi-material-ui/WeatherNight'
-import WeatherSunny from 'mdi-material-ui/WeatherSunny'
+import WeatherNight from "mdi-material-ui/WeatherNight";
+import WeatherSunny from "mdi-material-ui/WeatherSunny";
 
-const ModeToggler = props => {
+const ModeToggler = (props) => {
   // ** Props
-  const { settings, saveSettings } = props
+  const { settings, saveSettings } = props;
 
-  const handleModeChange = mode => {
-    saveSettings({ ...settings, mode })
-  }
+  const handleModeChange = (mode) => {
+    saveSettings({ ...settings, mode });
+  };
 
   const handleModeToggle = () => {
-    if (settings.mode === 'light') {
-      handleModeChange('dark')
+    if (settings.mode === "light") {
+      handleModeChange("dark");
     } else {
-      handleModeChange('light')
+      handleModeChange("light");
     }
-  }
+  };
 
   return (
-    <IconButton color='inherit' aria-haspopup='true' onClick={handleModeToggle}>
-      {settings.mode === 'dark' ? <WeatherSunny /> : <WeatherNight />}
+    <IconButton
+      color="inherit"
+      aria-haspopup="true"
+      onClick={handleModeToggle}
+      style={{ color: "white" }}
+    >
+      {settings.mode === "dark" ? <WeatherSunny /> : <WeatherNight />}
     </IconButton>
-  )
-}
+  );
+};
 
-export default ModeToggler
+export default ModeToggler;
