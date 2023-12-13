@@ -1,5 +1,6 @@
 package com.poscodx.pofect.domain.lot.dto;
 
+import com.poscodx.pofect.domain.sizestandard.dto.RowSpan;
 import lombok.*;
 
 @Getter
@@ -14,6 +15,7 @@ public class LotResDto {
     private char cfirmPassOpCd;  // 8.확정통과공정코드
     private Double orderWidth;  // 18.제품주문폭
     private Integer orderLineQty;  // 16.OrderLine 주문량
+    private RowSpan rowSpan;
 
 
     public static LotResDto fromDtoToDto(com.poscodx.pofect.domain.main.dto.lot.LotResDto dto) {
