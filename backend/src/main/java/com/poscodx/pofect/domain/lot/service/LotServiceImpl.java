@@ -70,31 +70,31 @@ public class LotServiceImpl implements LotService{
 
                 if (entry.getValue().entrySet().size() == 1){
                     if(!Objects.equals(faConfirmFlag, "E")) {
-                        LotGroupDto addDto = LotGroupDto.builder()
+                        LotGroupDto addFlagEDto = LotGroupDto.builder()
                                 .smSteelGrdN(smSteelGrdN)
                                 .faConfirmFlag("E")
                                 .build();
 
-                        resultList.add(addDto);
+                        resultList.add(addFlagEDto);
 
-                        LotGroupDto testDto = getLotGroupDto(innerEntry, smSteelGrdN, faConfirmFlag);
-                        resultList.add(testDto);
+                        LotGroupDto addDto = getLotGroupDto(innerEntry, smSteelGrdN, faConfirmFlag);
+                        resultList.add(addDto);
                     }
 
                     if(!Objects.equals(faConfirmFlag, "F")) {
                         LotGroupDto testDto = getLotGroupDto(innerEntry, smSteelGrdN, faConfirmFlag);
                         resultList.add(testDto);
 
-                        LotGroupDto addDto = LotGroupDto.builder()
+                        LotGroupDto addFlagFDto = LotGroupDto.builder()
                                 .smSteelGrdN(smSteelGrdN)
                                 .faConfirmFlag("F")
                                 .build();
 
-                        resultList.add(addDto);
+                        resultList.add(addFlagFDto);
                     }
                 } else {
-                    LotGroupDto testDto = getLotGroupDto(innerEntry, smSteelGrdN, faConfirmFlag);
-                    resultList.add(testDto);
+                    LotGroupDto addDto = getLotGroupDto(innerEntry, smSteelGrdN, faConfirmFlag);
+                    resultList.add(addDto);
                 }
 
             }
