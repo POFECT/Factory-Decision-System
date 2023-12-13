@@ -1,5 +1,6 @@
 package com.poscodx.pofect.domain.passstandard.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.poscodx.pofect.domain.passstandard.entity.ConfirmFactoryStandard;
 import lombok.*;
 
@@ -39,6 +40,7 @@ public class ConfirmFactoryStandardResDto {
 //    @Size(max = 8)
 //    private String userId;  // 6.박판공정계획사용자ID
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime lastUpdateDate;  // 최종수정일자
 
     public static ConfirmFactoryStandardResDto toDto(ConfirmFactoryStandard confirmFactoryStandard){
