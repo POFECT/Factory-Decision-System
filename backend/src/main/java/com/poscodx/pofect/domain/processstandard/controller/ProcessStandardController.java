@@ -31,7 +31,7 @@ public class ProcessStandardController {
     @GetMapping("{ordPdtItdsCdN}")
     @ApiOperation(value = "경유 공정 by itemDetail", notes = "경유 공정 by itemDetail")
     public ResponseEntity<ResponseDto> getProcessByItemDetail(@PathVariable String ordPdtItdsCdN) {
-        ProcessStandardDto.ItemDetailDto rs = processStandardService.getByOrdPdtItdsCdN(ordPdtItdsCdN);
+        String rs = processStandardService.getByOrdPdtItdsCdN(ordPdtItdsCdN);
         return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
     }
 

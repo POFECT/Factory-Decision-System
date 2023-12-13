@@ -4,6 +4,7 @@ import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardBtiPosRe
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardResDto;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleFactoryStandardResDto;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleToConfirmResDto;
+import com.poscodx.pofect.domain.passstandard.entity.PossibleFactoryStandard;
 import com.poscodx.pofect.domain.passstandard.repository.PossibleFactoryStandardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,4 +62,14 @@ public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStanda
         return  result;
     }
 
+    @Override
+    public String getPosbCode(String processCd, String group) {
+        Optional<PossibleFactoryStandard> result =
+                possibleFactoryStandardRepository.findByProcessCdAndFeasibleRoutingGroup(processCd, group);
+
+        if(result.isPresent()) {
+            return result.get().getBtiPosbPsFacTp();
+        }
+        else return "0";
+    }
 }
