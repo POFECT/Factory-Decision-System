@@ -1,6 +1,6 @@
 import { axiosApi } from "./api";
 
-const MainCapacityApi = {
+const MainApi = {
   getOrderList: async (kind, week, osMainStatusCd, faConfirmFlag, callback) => {
     await axiosApi()
       .get(
@@ -95,6 +95,28 @@ const MainCapacityApi = {
         console.log(error);
       });
   },
+
+  possibleDecision: async (orderIds, callback) => {
+    await axiosApi()
+      .patch("/main/possible", orderIds)
+      .then((response) => {
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+  confirmDecision: async (orderIds, callback) => {
+    await axiosApi()
+      .patch("/main/confirm", orderIds)
+      .then((response) => {
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
 };
 
-export default MainCapacityApi;
+export default MainApi;
