@@ -267,6 +267,8 @@ const Capacity = () => {
               },
               "& .custom-data-grid .MuiDataGrid-root": {
                 paddingBottom: "0px",
+              },"& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
+                backgroundColor:"#F5F9FF",
               },
           }}
         >
@@ -326,7 +328,9 @@ const Capacity = () => {
             "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
             {
               borderBottomStyle: "none",
-
+            },
+            "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
+              backgroundColor:"#F5F9FF",
             },
           }}
         >
