@@ -228,7 +228,7 @@ const Capacity = () => {
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
-        <Typography variant="h3">가능통과공장/확정통과공장 코드</Typography>
+        <Typography variant="h4">가능통과공장/확정통과공장 코드</Typography>
       </Grid>
       <div
         style={{
