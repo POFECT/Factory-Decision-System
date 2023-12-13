@@ -1,5 +1,5 @@
 "use strict";
-import { useCallback, useState, useMemo, StrictMode, useEffect } from "react";
+import { useCallback, useState, useMemo, StrictMode, useEffect, useRef } from "react";
 
 import "react-datasheet-grid/dist/style.css";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
@@ -18,6 +18,7 @@ import {
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import SizeStandardApi from "/src/api/SizeStandardApi";
+import { UpdateRounded } from "@mui/icons-material";
 // import { Grid, Typography } from "@mui/material";
 
 function MyCell(props) {
@@ -56,6 +57,19 @@ function MyCell(props) {
 const Standard = () => {
   const [sizeStandardList, setSizeStandardList] = useState([]);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
+  const [editedCellValue, setEditedCellValue] = useState('');
+
+  
+  const handleCellEditCommit = (params) => {
+    console.log("외않되");
+    console.log(params);
+
+    const updatedList = sizeStandardList.map((item) =>
+      item.id === params.id ? params : item
+    );
+
+    setSizeStandardList(updatedList);
+  };
 
   useEffect(() => {
     SizeStandardApi.getList((data) => {
@@ -85,12 +99,18 @@ const Standard = () => {
 
       setSizeStandardList(resultData);
 
-
       if (sizeStandardList.length != 0) {
         setSizeStandardList(sizeStandardList[0].id);
       }
     });
   }, []);
+
+  const updateSizeStandard = async () => {
+    console.log("update")
+    SizeStandardApi.updateSize(sizeStandardList, (data) => {
+      console.log(data);
+    });
+  };
 
   const columns = [
 
@@ -134,8 +154,6 @@ const Standard = () => {
     },
   ];
 
-  console.log(sizeStandardList);
-
   const columnGroupingModel = [
     {
       groupId: "두께",
@@ -159,6 +177,8 @@ const Standard = () => {
     },
   ];
 
+
+
   return (
     <div style={{ height: "600px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
@@ -168,6 +188,7 @@ const Standard = () => {
 
       <div
         style={{
+          height: "78px",
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
@@ -181,7 +202,7 @@ const Standard = () => {
           <Button size="small" type="submit" variant="contained">
             조회
           </Button>
-          <Button size="small" type="submit" variant="contained">
+          <Button size="small" type="submit" variant="contained" onClick={updateSizeStandard}>
             저장
           </Button>
           <Button size="small" type="submit" variant="contained">
@@ -221,9 +242,22 @@ const Standard = () => {
             disableRowSelectionOnClick
             rows={sizeStandardList}
             columns={columns}
-            onCellClick={(e) => {
-              console.log(e);
+            // onCellEditStart={handleCellEditStart}
+            // onCellEditStop={handleCellEditCommit}
+
+
+            processRowUpdate={(newVal) => {
+              handleCellEditCommit(newVal)
+              return newVal;
             }}
+
+
+            //  onCellEditStop={handleCellEditCommit}
+            // onCellClick={(e) => {
+            //   console.log(e.field);
+            //   console.log(e.id);
+            //   console.log(e.formattedValue);
+            // }}
             columnGroupingModel={columnGroupingModel}
             slots={{
               cell: MyCell,
