@@ -34,6 +34,7 @@ import React, {
 import CapacityStandardApi from "src/api/CapacityApi";
 import RadarChart from "./chart";
 import MyHeatmap from "./heat";
+import MyD3Heatmap from "./d3-heat";
 
 ChartJS.register(
   CategoryScale,
@@ -164,12 +165,12 @@ const CapacityMgt = () => {
 
   //컬럼
   const columns = [
-    { field: "processName", rowspan: "rowspan", headerName: "공정", width: 90, headerAlign: 'center', },
-    { field: "firmPsFacTp", headerName: "공장", width: 70, headerAlign: 'center', },
-    { field: "planQty", headerName: "능력량", width: 90, headerAlign: 'center', },
-    { field: "faAdjustmentWgt", headerName: "조정량", width: 90, editable: true, headerAlign: 'center', },
-    { field: "progressQty", headerName: "투입량", width: 90, headerAlign: 'center', },
-    { field: "remainQty", headerName: "잔여량", width: 90, headerAlign: 'center', },
+    { field: "processName", rowspan: "rowspan", headerName: "공정", width: 115, headerAlign: 'center', },
+    { field: "firmPsFacTp", headerName: "공장", width: 65, headerAlign: 'center', },
+    { field: "planQty", headerName: "능력량", width: 105, headerAlign: 'center', },
+    { field: "faAdjustmentWgt", headerName: "조정량", width: 105, editable: true, headerAlign: 'center', },
+    { field: "progressQty", headerName: "투입량", width: 105, headerAlign: 'center', },
+    { field: "remainQty", headerName: "잔여량", width: 105, headerAlign: 'center', },
 
   ];
 
@@ -265,9 +266,10 @@ const CapacityMgt = () => {
         <Card
           elevation={3}
           style={{
-            flexBasis: "calc(70% - 16px)",
+            flexBasis: "",
             marginRight: "16px",
             padding: "16px",
+            
           }}
         >
          
@@ -277,6 +279,7 @@ const CapacityMgt = () => {
               height: "100%",
               width: "100%",
               marginBottom: "20px",
+              
               "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
               {
                 borderBottom: "1px solid rgba(225, 234, 239, 1)",
@@ -300,8 +303,8 @@ const CapacityMgt = () => {
               },
             }}
           >
-                      <Grid item xs={4} sx={{ paddingBottom: 2 }}>
-</Grid>
+      <Grid item xs={4} sx={{ paddingBottom: 2 , }}>
+        </Grid>
             <DataGrid
               className="custom-data-grid"
               disableRowSelectionOnClick
@@ -311,7 +314,7 @@ const CapacityMgt = () => {
                 console.log(e);
               }}
               components={{
-                Toolbar: GridToolbar,
+                // Toolbar: GridToolbar,
                 Cell: MyCell,
               }}
               rowHeight={36}
@@ -325,8 +328,9 @@ const CapacityMgt = () => {
         <Card
           elevation={3}
           style={{
-            flexBasis: "70%",
+            flexBasis: "42%",
             padding: "16px",
+            
           }}
         >
          
@@ -339,8 +343,11 @@ const CapacityMgt = () => {
               style={{ width: "100%", height: "80%" }}
             /> */}
             {/* <RadarChart week={weekList} capacity={capacity} /> */}
+            <div >
+  <MyD3Heatmap capacity={capacity} marginLeft={70} />
+</div>
           </Grid>
-      <MyHeatmap capacity={capacity} />
+      {/* <MyHeatmap capacity={capacity} /> */}
                       
           {/* <ul>
   {capacity.map((item) => (
@@ -350,13 +357,6 @@ const CapacityMgt = () => {
   ))}
 </ul> */}
 
-          {/* <ul>
-  {week.map((item) => (
-    <li key={item.id}>
-      ID: {item.id}, WEek Code: {item.ordThwTapWekCd}, Mill Code: {item.millCd}, ...
-    </li>
-  ))}
-</ul> */}
         </Card>
 
       </div>

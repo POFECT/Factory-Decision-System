@@ -26,6 +26,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import SelectColumn from 'react-select';
 import makeAnimated from 'react-select/animated';
+import LotApi from "src/api/LotApi";
 // import { Grid, Typography } from "@mui/material";
 
 function MyCell(props) {
@@ -53,114 +54,68 @@ function MyCell(props) {
 }
 
 const Lot = () => {
+    const [lotData, setLotData] = useState([]);
+
+    useEffect(() => {
+        LotApi.getList((data) => {
+            const resData = data.response;
+            const testNum = 2;
+
+            const resultData = resData.map((item, index) => {
+                const newItem = { ...item, id: index + 1 };
+                if (item && item.faConfirmFlag === "E") {
+                    newItem = { ...newItem, faConfirmFlag: "투입대기", rowSpan: { smSteelGrdN: testNum } }
+                    if (item && item.widthGroups && item.widthGroups.width_970_stand) {
+                        newItem = { ...newItem, width_970_stand: item.widthGroups.width_970_stand }
+                    }
+                    if (item && item.widthGroups && item.widthGroups.width_1270_stand) {
+                        newItem = { ...newItem, width_1270_stand: item.widthGroups.width_1270_stand }
+                    }
+                    if (item && item.widthGroups && item.widthGroups.width_1570_stand) {
+                        newItem = { ...newItem, width_1570_stand: item.widthGroups.width_1570_stand }
+                    }
+                    if (item && item.widthGroups && item.widthGroups.width_over_15702_stand) {
+                        newItem = { ...newItem, width_over_15702_stand: item.widthGroups.width_over_15702_stand }
+                    }
+                    return newItem;
+                } else if (item && item.faConfirmFlag === "F") {
+                    newItem = { ...newItem, faConfirmFlag: "기투입" }
+                    if (item && item.widthGroups && item.widthGroups.width_9701) {
+                        newItem = { ...newItem, width_9701: item.widthGroups.width_9701 }
+                    }
+                    if (item && item.widthGroups && item.widthGroups.width_9702) {
+                        newItem = { ...newItem, width_9702: item.widthGroups.width_9702 }
+                    }
+                    if (item && item.widthGroups && item.widthGroups.width_12701) {
+                        newItem = { ...newItem, width_12701: item.widthGroups.width_12701 }
+                    }
+                    if (item && item.widthGroups && item.widthGroups.width_12702) {
+                        newItem = { ...newItem, width_12702: item.widthGroups.width_12702 }
+                    }
+                    if (item && item.widthGroups && item.widthGroups.width_15701) {
+                        newItem = { ...newItem, width_15701: item.widthGroups.width_15701 }
+                    }
+                    if (item && item.widthGroups && item.widthGroups.width_15702) {
+                        newItem = { ...newItem, width_15702: item.widthGroups.width_15702 }
+                    }
+                    if (item && item.widthGroups && item.widthGroups.width_over_15701) {
+                        newItem = { ...newItem, width_over_15701: item.widthGroups.width_over_15701 }
+                    }
+                    if (item && item.widthGroups && item.widthGroups.width_over_15702) {
+                        newItem = { ...newItem, width_over_15702: item.widthGroups.width_over_15702 }
+                    }
+                }
+                return { ...newItem }
+            });
+
+            setLotData(resultData);
+        });
+    }, []);
+
+
+
     const [isChecked, setIsChecked] = useState(false);
-    const [rowList, setRowList] = useState([
-        {
-            id: 1,
-            강종: "A123123",
-            rowSpan: { 강종: "2" },
-            구분: "투입대기",
-            a9701: 11,
-        },
-        {
-            id: 2,
-            강종: "A123123",
-            구분: "기투입",
-            a9701: 30,
-        },
-        {
-            id: 3,
-            강종: "A15703",
-            rowSpan: { 강종: "2" },
-            구분: "투입대기",
-            a1270대기: 500,
-        },
-        {
-            id: 4,
-            강종: "A15703",
-            구분: "기투입",
-            a15703: 10,
-        },
-        {
-            id: 5,
-            강종: "A4567",
-            rowSpan: { 강종: "2" },
-            구분: "투입대기",
-            a1270대기: 500,
-        },
 
-        {
-            id: 6,
-            강종: "A4567",
-            구분: "기투입",
-            a15703: 10,
-
-        },
-        {
-            id: 7,
-            강종: "A6545",
-            rowSpan: { 강종: "2" },
-            구분: "투입대기",
-            a1270대기: 500,
-
-
-        },
-        {
-            id: 8,
-            강종: "A6545",
-            구분: "기투입",
-            a15703: 10,
-
-        },
-        {
-            id: 9,
-            강종: "A25456",
-            rowSpan: { 강종: "2" },
-            구분: "투입대기",
-            a1270대기: 500,
-
-
-        },
-        {
-            id: 10,
-            강종: "A25456",
-            구분: "기투입",
-            a15703: 10,
-
-        },
-        {
-            id: 11,
-            강종: "A43125",
-            rowSpan: { 강종: "2" },
-            구분: "투입대기",
-            a1270대기: 500,
-
-
-        },
-        {
-            id: 12,
-            강종: "A43125",
-            구분: "기투입",
-            a15703: 10,
-
-        },
-        {
-            id: 13,
-            강종: "A15703",
-            rowSpan: { 강종: "2" },
-            구분: "투입대기",
-            a1270대기: 500,
-
-
-        },
-        {
-            id: 14,
-            강종: "A15703",
-            구분: "기투입",
-            a15703: 10,
-
-        },
-    ]);
     const buttonList = [
 
         {
@@ -252,44 +207,87 @@ const Lot = () => {
     ];
 
     const columns = [
-        { field: "강종", headerName: "강종", width: 150, headerAlign: "center" },
-        { field: "구분", headerName: "구분", width: 150, sortable: false, headerAlign: "center" },
-        { field: "a9701", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
-        { field: "a9702", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
-        { field: "a970대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
-        { field: "a12701", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
-        { field: "a12702", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
-        { field: "a1270대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
-        { field: "a15701", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
-        { field: "a15702", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
-        { field: "a1570대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
-        { field: "a15700", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
-        { field: "a157001", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
-        { field: "a15700대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
-        { field: "합계", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
-        { field: "합계2", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
-        { field: "합계대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
+        { field: "smSteelGrdN", headerName: "강종", width: 150, headerAlign: "center" },
+        { field: "faConfirmFlag", headerName: "구분", width: 150, sortable: false, headerAlign: "center" },
+        { field: "width_9701", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
+        { field: "width_9702", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
+        { field: "width_970_stand", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
+        { field: "width_12701", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
+        { field: "width_12702", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
+        { field: "width_1270_stand", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
+        { field: "width_15701", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
+        { field: "width_15702", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
+        { field: "width_1570_stand", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
+        { field: "width_over_15701", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
+        { field: "width_over_15702", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
+        { field: "width_over_15702_stand", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
+
+        // { field: "합계", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
+        {
+            field: "합계",
+            headerName: "1",
+            width: 80,
+            valueGetter: (params) => {
+                const width_9701 = params.row.width_9701 || 0;
+                const width_12701 = params.row.width_12701 || 0;
+                const width_15701 = params.row.width_15701 || 0;
+                const width_over_15701 = params.row.width_over_15701 || 0;
+
+                return width_9701 + width_12701 + width_15701 + width_over_15701 || "";
+            },
+            headerAlign: "center"
+        },
+        {
+            field: "합계2",
+            headerName: "2",
+            width: 80,
+            valueGetter: (params) => {
+                const width_9702 = params.row.width_9702 || 0;
+                const width_12702 = params.row.width_12702 || 0;
+                const width_15702 = params.row.width_15702 || 0;
+                const width_over_15702 = params.row.width_over_15702 || 0;
+
+                return width_9702 + width_12702 + width_15702 + width_over_15702 || "";
+            },
+            headerAlign: "center"
+        },
+        // { field: "합계2", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
+        {
+            field: "합계대기",
+            headerName: "대기",
+            width: 80,
+            valueGetter: (params) => {
+                const width_970_stand = params.row.width_970_stand || 0;
+                const width_1270_stand = params.row.width_1270_stand || 0;
+                const width_1570_stand = params.row.width_1570_stand || 0;
+                const width_over_15702_stand = params.row.width_over_15702_stand || 0;
+
+                return width_970_stand + width_1270_stand + width_1570_stand + width_over_15702_stand || "";
+            },
+            headerAlign: "center"
+        },
+        // { field: "합계대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
     ];
 
     const columnGroupingModel = [
         {
             groupId: "970",
-            children: [{ field: "a9701" }, { field: "a9702" }, { field: "a9703" }, { field: "a970대기" }],
+            children: [{ field: "width_9701" }, { field: "width_9702" }, { field: "width_970_stand" }],
             headerAlign: "center"
         },
         {
             groupId: "1270",
-            children: [{ field: "a12701" }, { field: "a12702" }, { field: "a12703" }, { field: "a1270대기" }],
+            children: [{ field: "width_12701" }, { field: "width_12702" }, { field: "width_1270_stand" }],
             headerAlign: "center"
         },
         {
             groupId: "1570",
-            children: [{ field: "a15701" }, { field: "a15702" }, { field: "a15703" }, { field: "a1570대기" }],
+            children: [{ field: "width_15701" }, { field: "width_15702" }, { field: "width_1570_stand" }],
             headerAlign: "center"
         },
         {
             groupId: "1570~",
-            children: [{ field: "a15700" }, { field: "a157001" }, { field: "a157002" }, { field: "a15700대기" }],
+            children: [{ field: "width_over_15701" }, { field: "width_over_15702" }, { field: "width_over_15702_stand" }],
             headerAlign: "center"
         },
         {
@@ -298,6 +296,7 @@ const Lot = () => {
             headerAlign: "center"
         },
     ];
+
 
     const customStyles = {
         control: (provided, state) => ({
@@ -308,6 +307,24 @@ const Lot = () => {
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
+    };
+
+    const [totalSum, setTotalSum] = useState(0);
+
+    useEffect(() => {
+        calculateSum();
+    }, []); // Runs once on initial render
+
+    const calculateSum = () => {
+        const sum = lotData.reduce((accumulator, row) => {
+            const width_9702 = row.width_9702 || 0;
+            const width_12702 = row.width_12702 || 0;
+            const width_15702 = row.width_15702 || 0;
+            const width_over_15702 = row.width_over_15702 || 0;
+            return accumulator + (width_9702 + width_12702 + width_15702 + width_over_15702);
+        }, "");
+
+        setTotalSum(sum);
     };
 
     return (
@@ -376,6 +393,7 @@ const Lot = () => {
                     <input
                         type="checkbox"
                         checked={isChecked}
+                        defaultChecked={true}
                         onChange={handleCheckboxChange}
                     />
                     <label style={{ fontSize: "16px", paddingLeft: 5 }}>
@@ -461,7 +479,7 @@ const Lot = () => {
                         className="custom-data-grid"
                         experimentalFeatures={{ columnGrouping: true }}
                         disableRowSelectionOnClick
-                        rows={rowList}
+                        rows={lotData}
                         columns={columns}
                         onCellClick={(e) => {
                             console.log(e);

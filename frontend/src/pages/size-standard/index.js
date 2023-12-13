@@ -59,9 +59,9 @@ const Standard = () => {
 
   useEffect(() => {
     SizeStandardApi.getList((data) => {
-      const test = data.response;
+      const resData = data.response;
 
-      const test2 = test.map(item => {
+      const resultData = resData.map(item => {
         if (item.processCd === "10") {
           return { ...item, processCd: "제강" }
         } else if (item.processCd === "20") {
@@ -83,7 +83,7 @@ const Standard = () => {
         return item;
       })
 
-      setSizeStandardList(test2);
+      setSizeStandardList(resultData);
 
 
       if (sizeStandardList.length != 0) {
@@ -95,7 +95,7 @@ const Standard = () => {
   const columns = [
 
     {
-      field: "processCd", headerName: "공정", width: 180, sortable: false, headerAlign: "center",
+      field: "processCd", headerName: "공정", width: 185, sortable: false, headerAlign: "center",
     },
     {
       field: "firmPsFacTp", headerName: "공장", width: 100, sortable: false, headerAlign: "center",
