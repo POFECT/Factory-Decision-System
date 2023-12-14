@@ -50,7 +50,7 @@ const possibleDetail =({a,openFun})=>{
                   backgroundColor: "#05507d",
                   color: "white",
                   fontSize:"20px",
-                  padding:"5px"
+                  padding:"10px"
                 }}
               >
                 코드상세
@@ -62,43 +62,78 @@ const possibleDetail =({a,openFun})=>{
       <TableContainer>
         <Table aria-label="spanning table">
           <TableHead>
-            <TableRow align="right">
-              <TableCell style={{padding:0, margin:0}}> 
-                <Button size="small" type="submit" variant="contained">
-                저장
-              </Button>
+            <TableRow>
+              <TableCell
+                align="center"
+                style={{
+                  width: "40%",
+                  color: "#05507d",
+                  background:"#F5F9FF",
+                  fontSize:"15px",
+                  padding:"10px"
+                }}
+              >
+                Code
               </TableCell>
-              <TableCell style={{padding:0,margin:0}}>
-              <Button size="small" type="submit" variant="contained" onClick={()=>{openFun(false)}}>
-                닫기
-              </Button>
+              <TableCell
+                align="center"
+                style={{
+                  width: "70%",
+                  color: "#05507d",
+                  background:"#F5F9FF",
+                  fontSize:"15px",
+                  padding:"10px"
+                }}
+              >
+                {processName}
               </TableCell>
             </TableRow>
           </TableHead>
         </Table>
       </TableContainer>
       <TableBody>
-
         {
           processFactoryList.map((e)=>{
             return(
               <TableRow key={e.id}>
-                <TableCell>
+                <TableCell style={{width:"30%"}}>
+                  {e.processCd}
+                </TableCell>
+                <TableCell padding="checkbox" style={{width:"20%"}}>
                   <Checkbox
                     checked={
                       a.processFacNum.includes(Number(e.firmPsFacTp))?true:false
-                    }
+                    }                                                                                    
+                    style={{margin:0,padding:0}}
                   />
                 </TableCell>
                 <TableCell
                   align="center" 
-                  style={{width:"20%"}}>{e.cdExpl}
+                  style={{width:"35%"}}>{e.cdExpl}
                 </TableCell>
               </TableRow>
             )
           })
         }
       </TableBody>
+      <TableContainer>
+        <Table aria-label="spanning table">
+          <TableHead>
+            <TableRow align="right" style={{width:"400px"}}>
+              <TableCell style={{padding:0, margin:0}}> 
+                <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "#0A5380",color:"white" }}>
+                저장
+              </Button>
+              </TableCell>
+              <TableCell style={{padding:0,margin:0}}>
+              <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "#BE2E22",color:"white" }} onClick={()=>{openFun(false)}}>
+                X
+              </Button>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+        </Table>
+      </TableContainer>
     </>
   );
 }
