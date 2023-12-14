@@ -27,6 +27,13 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "TheJamsil5Bold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
 html,
 body {
   min-height: 100%;
@@ -40,7 +47,7 @@ code {
   /* font-family: "Inter", sans-serif, -apple-system, BlinkMacSystemFont,
     "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue"; */
-  font-family: "EASTARJET-Medium", sans-serif;
+  font-family: "TheJamsil5Bold", sans-serif;
   padding: 0.1rem 0.4rem;
   font-size: 90%;
   border-radius: 0.1335rem;

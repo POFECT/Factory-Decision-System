@@ -14,7 +14,7 @@ const themeOptions = (settings) => {
   const themeConfig = {
     palette: palette(mode, themeColor),
     typography: {
-      fontFamily: ["EASTARJET-Medium"].join(","),
+      fontFamily: ["TheJamsil5Bold"].join(","),
     },
     shadows: shadows(mode),
     ...spacing,

@@ -11,19 +11,19 @@ const Typography = (theme) => {
       color: theme.palette.text.primary,
     },
     h3: {
-      fontFamily: "LINESeedKR-Bd",
+      fontFamily: "JalnanGothic",
       fontWeight: 500,
       letterSpacing: 0,
       color: theme.palette.text.primary,
     },
     h4: {
-      fontFamily: "LINESeedKR-Bd",
+      fontFamily: "JalnanGothic",
       fontWeight: 400,
       letterSpacing: "0.25px",
       color: theme.palette.text.primary,
     },
     h5: {
-      fontFamily: "LINESeedKR-Bd",
+      fontFamily: "JalnanGothic",
       fontWeight: 500,
       letterSpacing: 0,
       color: theme.palette.text.primary,
