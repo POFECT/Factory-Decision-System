@@ -691,7 +691,7 @@ const MainCapacity = () => {
               onChange={(e) => {}}
               style={{ height: 40 }}
             >
-              <MenuItem value={0}>A,B,C</MenuItem>
+              <MenuItem value={0}>ALL</MenuItem>
               <MenuItem value={1}>A</MenuItem>
               <MenuItem value={2}>B</MenuItem>
               <MenuItem value={3}>C</MenuItem>

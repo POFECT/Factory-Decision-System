@@ -696,7 +696,7 @@ const MainConfirm = () => {
               onChange={(e) => {}}
               style={{ height: 40 }}
             >
-              <MenuItem value={0}>D,E</MenuItem>
+              <MenuItem value={0}>ALL</MenuItem>
               <MenuItem value={1}>D</MenuItem>
               <MenuItem value={2}>E</MenuItem>
             </Select>
