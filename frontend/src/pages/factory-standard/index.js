@@ -266,17 +266,17 @@ const Capacity = () => {
         </FormControl>
       </div>
         <div style={{width:"40%", textAlign:"right"}}>
-          <Button size="small" type="submit" variant="contained" onClick={passClick}>
+          <Button size="small" type="submit" variant="contained" onClick={passClick} style={{ backgroundColor: "#0A5380", whiteSpace:"nowrap"}}>
           경유공정
           </Button>
           <PassModal open={openPassStandard} handleClose={passClose} />
-          <Button size="small" type="submit" variant="contained">
+          <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "#E29E21" }}>
             조회
           </Button>
-          <Button sx={{width:'25%'}} size="small" type="submit" variant="contained" onClick={exportToExcelPossible}>
+          <Button sx={{width:'25%'}} size="small" type="submit" variant="contained" onClick={exportToExcelPossible} style={{ backgroundColor: "darkgreen" }}>
             가통 Excel
           </Button>
-          <Button sx={{width:'25%'}} size="small" type="submit" variant="contained" onClick={exportToExcelConfirm}>
+          <Button sx={{width:'25%'}} size="small" type="submit" variant="contained" onClick={exportToExcelConfirm} style={{ backgroundColor: "darkgreen" }}>
             확통 Excel
           </Button>
         </div>

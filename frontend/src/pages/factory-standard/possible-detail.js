@@ -29,39 +29,7 @@ const possibleDetail =({a,openFun})=>{
   const isSelected=2;
   useEffect(() => {
     FactoryStandardApi.getPossiblePopper(a.processCd, (data) => {
-      // console.log(data.response);
-      // console.log(a)
-      // console.log(a.processFacNum);
-  
-      // const processFacNumSet = (a.processFacNum);
-      // const dataMap = data.response.reduce((list, { id, cdExpl, processName, firmPsFacTp }) => {
-      //   // firmPsFacTp가 정의되지 않았거나 undefined일 경우 초기화
-      //   list[firmPsFacTp] = list[firmPsFacTp] || {};
-        
-      //   // processFacNumSet이 정의되어 있다고 가정
-      //   list[firmPsFacTp]['isSelected'] = processFacNumSet.includes(firmPsFacTp) ? 1 : 0;
-      //   list[firmPsFacTp]['공정'] = cdExpl;
-        
-      //   console.log('id = ' + id + ', processName = ' + processName + ", firmPsFacTp = " + firmPsFacTp + ", isSelected = " + list[firmPsFacTp]['isSelected']);
-      
-      //   return list;
-      // }, {});
-      
-  
-      // const transformData = Object.entries(dataMap).map(([firmPsFacTp, item]) => ({
-      //   id: firmPsFacTp,
-      //   ...item,
-      // }));
-      // setProcessFactoryList(transformData);
-      // console.log(transformData);
-      setProcessFactoryList(data.response)
-      data.response.map((e)=>{
-          if (a.processFacNum.includes(Number(e.firmPsFacTp))) {
-            console.log("배열에 포함되어 있습니다.");
-          } else {
-            console.log("배열에 포함되어 있지 않습니다.");
-          }
-      })     
+      setProcessFactoryList(data.response);
     }, []);
   }, []);
 
