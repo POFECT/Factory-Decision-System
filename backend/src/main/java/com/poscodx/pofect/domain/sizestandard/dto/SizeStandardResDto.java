@@ -37,9 +37,9 @@ public class SizeStandardResDto {
 
     private Double orderWidthMax;  // 8.제품주문폭2
 
-    private String orderLengthMin;  // 9.주문길이1
+    private Double orderLengthMin;  // 9.주문길이1
 
-    private String orderLengthMax;  // 10.주문길이2
+    private Double orderLengthMax;  // 10.주문길이2
 
     private Double hrRollUnitWgtMax1;  // 11.열연공장압연가능재료상한중량1
 
@@ -66,8 +66,8 @@ public class SizeStandardResDto {
                 .orderThickMax(entity.getOrderThickMax())
                 .orderWidthMin(entity.getOrderWidthMin())
                 .orderWidthMax(entity.getOrderWidthMax())
-                .orderLengthMin(entity.getOrderLengthMin())
-                .orderLengthMax(entity.getOrderLengthMax())
+                .orderLengthMin(Double.valueOf(entity.getOrderLengthMin()))
+                .orderLengthMax(Double.valueOf(entity.getOrderLengthMax()))
                 .hrRollUnitWgtMax1(entity.getHrRollUnitWgtMax1())
                 .hrRollUnitWgtMax2(entity.getHrRollUnitWgtMax2())
                 .userId(entity.getUserId())
