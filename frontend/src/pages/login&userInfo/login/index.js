@@ -235,7 +235,7 @@ const LoginPage = () => {
               size="large"
               variant="contained"
               sx={{ marginBottom: 7, width: "100%" }}
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/main-capacity/")}
             >
               Login
             </Button>
