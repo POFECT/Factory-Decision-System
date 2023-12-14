@@ -221,7 +221,7 @@ const MainConfirm = () => {
     {
       field: "creationDate",
       headerName: "생성일자",
-      width: 180,
+      width: 150,
       editable: false,
       headerAlign: "center",
     },
@@ -236,7 +236,7 @@ const MainConfirm = () => {
     {
       field: "faConfirmFlag",
       headerName: "공장결정확정구분",
-      width: 150,
+      width: 140,
       editable: false,
       headerAlign: "center",
     },
@@ -250,7 +250,7 @@ const MainConfirm = () => {
     {
       field: "posbPassFacUpdateDate",
       headerName: "가능통과공정설계일자",
-      width: 180,
+      width: 170,
       editable: false,
       headerAlign: "center",
     },
@@ -278,7 +278,7 @@ const MainConfirm = () => {
     {
       field: "adjustConsBktStartDttm",
       headerName: "ATP조정일",
-      width: 150,
+      width: 180,
       editable: false,
       headerAlign: "center",
     },
@@ -677,11 +677,36 @@ const MainConfirm = () => {
               })}
             </Select>
           </FormControl>
+          <FormControl
+            sx={{ m: 1 }}
+            style={{
+              paddingTop: 10,
+              paddingBottom: 20,
+              marginRight: 10,
+            }}
+          >
+            <InputLabel id="label3" style={{ paddingTop: 10, height: 40 }}>
+              진행 단계
+            </InputLabel>
+            <Select
+              labelId="진행 단계"
+              id="demo-multiple-name"
+              defaultValue={0}
+              input={<OutlinedInput label="진행 단계" />}
+              onChange={(e) => {}}
+              style={{ height: 40 }}
+            >
+              <MenuItem value={0}>D,E</MenuItem>
+              <MenuItem value={1}>D</MenuItem>
+              <MenuItem value={2}>E</MenuItem>
+            </Select>
+          </FormControl>
         </div>
         <div>
           <Button
             size="small"
             variant="contained"
+            style={{ backgroundColor: "#E29E21" }}
             onClick={() => {
               getOrders(codeNameList.select, weekList.select);
               setRowSelectionModel([]);
@@ -689,13 +714,28 @@ const MainConfirm = () => {
           >
             대상조회
           </Button>
-          <Button size="small" variant="contained" onClick={confirmDecision}>
+          <Button
+            size="small"
+            variant="contained"
+            style={{ backgroundColor: "#0A5380" }}
+            onClick={confirmDecision}
+          >
             공장부여
           </Button>
-          <Button size="small" variant="contained" onClick={inputFactory}>
+          <Button
+            size="small"
+            variant="contained"
+            style={{ backgroundColor: "#0A5380" }}
+            onClick={inputFactory}
+          >
             제조투입
           </Button>
-          <Button size="small" variant="contained" onClick={exportToExcel}>
+          <Button
+            size="small"
+            variant="contained"
+            style={{ backgroundColor: "darkgreen" }}
+            onClick={exportToExcel}
+          >
             Excel
           </Button>
         </div>
@@ -712,6 +752,7 @@ const MainConfirm = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                color: "gray",
               },
             "& .custom-data-grid .MuiDataGrid-columnHeader": {
               cursor: "pointer",

@@ -1,5 +1,6 @@
 package com.poscodx.pofect.domain.sizestandard.dto.factoryOrderInfo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 import lombok.*;
 
@@ -29,6 +30,7 @@ public class FactoryOrderInfoResDto {
     @Size(max = 13)
     private String orderHeadLineNo;  // 3.OrderHeadLineNumber
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime creationDate;  // 4.생성일자
 
     @Size(max = 1)
@@ -49,6 +51,7 @@ public class FactoryOrderInfoResDto {
     @Size(max = 4)
     private String ordPdtItdsCdN;  // 10.주문품명코드
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime adjustConsBktStartDttm;  // 11.주문ATP능력사용조정일
 
     @Size(max = 5)
@@ -152,6 +155,7 @@ public class FactoryOrderInfoResDto {
 
     private Integer facAllocWgt;  // 48.소내공장결정중량
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime faAllocDate;  // 49.생산가능공장결정일자
 
     @Size(max = 200)
@@ -160,8 +164,10 @@ public class FactoryOrderInfoResDto {
     @Size(max = 5)
     private String msgcode;  // 51.박판공정계획Message코드
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime lastUpdateDate;  // 52. 최종수정일자
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime posbPassFacUpdateDate;  // 53. 가통설계일자
 
     public static FactoryOrderInfoResDto toDto(FactoryOrderInfo factoryOrderInfo) {

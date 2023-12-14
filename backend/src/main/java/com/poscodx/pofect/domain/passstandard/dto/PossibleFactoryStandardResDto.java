@@ -1,5 +1,6 @@
 package com.poscodx.pofect.domain.passstandard.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.poscodx.pofect.domain.passstandard.entity.PossibleFactoryStandard;
 import lombok.*;
 
@@ -34,6 +35,7 @@ public class PossibleFactoryStandardResDto {
     @Size(max = 30)
     private String feasibleRoutingGroup; // 5.공정계획작업가능통과공정코드
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime lastUpdateDate;  // 최종수정일자
 
 //    public static PossibleFactoryStandardResDto toDto(PossibleFactoryStandard possibleFactoryStandard) {

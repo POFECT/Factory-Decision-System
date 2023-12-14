@@ -81,7 +81,7 @@ const VerticalLayout = (props) => {
                 "@media (min-width:1200px)": { maxWidth: "100%" },
               }),
             }}
-            style={{ paddingTop: "0px" }}
+            style={{ marginTop: "100px" }}
           >
             {children}
           </ContentWrapper>

@@ -45,8 +45,8 @@ function MyCell(props) {
             ...style,
             minHeight: props.height * span,
             maxHeight: props.height * span,
-            backgroundColor: "gray",
-            color: "white",
+            backgroundColor: "#F5F9FF",
+            color: "#05507DAD",
             zIndex: 1,
         };
     }
@@ -207,20 +207,20 @@ const Lot = () => {
     ];
 
     const columns = [
-        { field: "smSteelGrdN", headerName: "강종", width: 150, headerAlign: "center" },
-        { field: "faConfirmFlag", headerName: "구분", width: 150, sortable: false, headerAlign: "center" },
-        { field: "width_9701", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
-        { field: "width_9702", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
-        { field: "width_970_stand", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
-        { field: "width_12701", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
-        { field: "width_12702", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
-        { field: "width_1270_stand", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
-        { field: "width_15701", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
-        { field: "width_15702", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
-        { field: "width_1570_stand", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
-        { field: "width_over_15701", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
-        { field: "width_over_15702", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
-        { field: "width_over_15702_stand", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
+        { field: "smSteelGrdN", headerName: "강종", width: 175, headerAlign: "center" },
+        { field: "faConfirmFlag", headerName: "구분", width: 115, sortable: false, headerAlign: "center" },
+        { field: "width_9701", headerName: "1", width: 100, sortable: false, headerAlign: "center" },
+        { field: "width_9702", headerName: "2", width: 100, sortable: false, headerAlign: "center" },
+        { field: "width_970_stand", headerName: "대기", width: 100, sortable: false, headerAlign: "center" },
+        { field: "width_12701", headerName: "1", width: 100, sortable: false, headerAlign: "center" },
+        { field: "width_12702", headerName: "2", width: 100, sortable: false, headerAlign: "center" },
+        { field: "width_1270_stand", headerName: "대기", width: 100, sortable: false, headerAlign: "center" },
+        { field: "width_15701", headerName: "1", width: 100, sortable: false, headerAlign: "center" },
+        { field: "width_15702", headerName: "2", width: 100, sortable: false, headerAlign: "center" },
+        { field: "width_1570_stand", headerName: "대기", width: 100, sortable: false, headerAlign: "center" },
+        { field: "width_over_15701", headerName: "1", width: 100, sortable: false, headerAlign: "center" },
+        { field: "width_over_15702", headerName: "2", width: 100, sortable: false, headerAlign: "center" },
+        { field: "width_over_15702_stand", headerName: "대기", width: 100, sortable: false, headerAlign: "center" },
 
         // { field: "합계", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
         {
@@ -301,7 +301,14 @@ const Lot = () => {
     const customStyles = {
         control: (provided, state) => ({
             ...provided,
-            width: 380,
+            width: 305,
+        }),
+    };
+
+    const customStylesItem = {
+        control: (provided, state) => ({
+            ...provided,
+            width: 400,
         }),
     };
 
@@ -328,16 +335,16 @@ const Lot = () => {
     };
 
     return (
-        <div style={{ height: "600px", width: "100%" }}>
+        <div style={{ height: "100%", width: "100%" }}>
             <Grid item xs={12} sx={{ paddingBottom: 4 }}>
-                <Typography variant="h3">출강Lot</Typography>
+                <Typography variant="h4">출강Lot</Typography>
             </Grid>
 
             <div
                 style={{
                     display: "flex",
                     flexDirection: "row",
-                    justifyContent: "flex-end",
+                    justifyContent: "flex-start",
                     alignItems: "center",
                 }}
             >
@@ -346,7 +353,34 @@ const Lot = () => {
                         sx={{ m: 1 }}
                         style={{
                             paddingTop: 10,
-                            paddingBottom: 10,
+                            // paddingBottom: 10,
+                            marginRight: 10,
+                        }}
+                    >
+                        <InputLabel id="label1" style={{ paddingTop: 10 }}>
+                            구분
+                        </InputLabel>
+                        <Select
+                            labelId="분류"
+                            id="demo-multiple-name"
+                            defaultValue="T"
+                            input={<OutlinedInput label="구분" />}
+                            onChange={(e) => {
+                                console.log(e);
+                            }}
+                            style={{ height: 40 }}
+                        >
+                            <MenuItem value="T">포항</MenuItem>
+                            {/* <MenuItem value="K">광양</MenuItem> */}
+                        </Select>
+                    </FormControl>
+                </div>
+                <div>
+                    <FormControl
+                        sx={{ m: 1 }}
+                        style={{
+                            paddingTop: 10,
+                            // paddingBottom: 10,
                             marginRight: 10,
                         }}
                     >
@@ -370,14 +404,6 @@ const Lot = () => {
                         </Select>
                     </FormControl>
                 </div>
-                <div>
-                    <Button size="small" type="submit" variant="contained">
-                        조회
-                    </Button>
-                    <Button size="small" type="submit" variant="contained">
-                        Excel
-                    </Button>
-                </div>
             </div>
 
             <div
@@ -389,7 +415,7 @@ const Lot = () => {
                 }}
             >
                 <div style={{ display: "flex", alignItems: "center" }}>
-                    <div style={{ paddingRight: 10 }}>진도</div>
+                    <div style={{ paddingRight: 10, paddingLeft: 10 }}>진도</div>
                     <input
                         type="checkbox"
                         checked={isChecked}
@@ -418,17 +444,6 @@ const Lot = () => {
                             options={testList}
                         />
                     </div>
-                </div>
-
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                        paddingBlock: "15px",
-                    }}
-                >
                     <div
                         style={{
                             display: "flex",
@@ -441,7 +456,7 @@ const Lot = () => {
                     </div>
                     <div>
                         <SelectColumn
-                            styles={customStyles}
+                            styles={customStylesItem}
                             closeMenuOnSelect={false}
                             components={makeAnimated}
                             isMulti
@@ -449,11 +464,31 @@ const Lot = () => {
                         />
                     </div>
                 </div>
+
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        alignItems: "center",
+                        paddingBlock: "15px",
+                    }}
+                >
+
+                    <div>
+                        <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "#E29E21" }} >
+                            조회
+                        </Button>
+                        <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "darkgreen" }}>
+                            Excel
+                        </Button>
+                    </div>
+                </div>
             </div>
             <Card>
                 <Box
                     sx={{
-                        height: 600,
+                        height: "800px",
                         width: "100%",
                         "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
                         {
@@ -462,6 +497,7 @@ const Lot = () => {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
+                            color: "gray",
                         },
                         "& .custom-data-grid .MuiDataGrid-columnHeader": {
                             cursor: "pointer",
@@ -473,6 +509,9 @@ const Lot = () => {
                             borderBottomStyle: "none",
 
                         },
+                        "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
+                            backgroundColor: "#F5F9FF",
+                        },
                     }}
                 >
                     <DataGrid
@@ -481,9 +520,6 @@ const Lot = () => {
                         disableRowSelectionOnClick
                         rows={lotData}
                         columns={columns}
-                        onCellClick={(e) => {
-                            console.log(e);
-                        }}
                         columnGroupingModel={columnGroupingModel}
                         slots={{
                             cell: MyCell,

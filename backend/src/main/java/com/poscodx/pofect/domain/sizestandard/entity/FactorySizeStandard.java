@@ -1,6 +1,7 @@
 package com.poscodx.pofect.domain.sizestandard.entity;
 
 import com.poscodx.pofect.domain.etc.entity.BaseEntity;
+import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardReqDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -61,4 +62,35 @@ public class FactorySizeStandard extends BaseEntity {
     @Column(name = "USER_ID", length = 8)
     private String userId;  // 13.박판공정계획사용자ID
 
+    public void updateOrderThickMin(Double orderThickMin) {
+        this.orderThickMin = orderThickMin;
+    }
+
+    public void updateOrderThickMax(Double orderThickMax) {
+        this.orderThickMax = orderThickMax;
+    }
+
+    public void updateOrderWidthMin(Double orderWidthMin) {
+        this.orderWidthMin = orderWidthMin;
+    }
+
+    public void updateOrderWidthMax(Double orderWidthMax) {
+        this.orderWidthMax = orderWidthMax;
+    }
+
+    public void updateOrderLengthMin(String orderLengthMin) {
+        this.orderLengthMin = orderLengthMin;
+    }
+
+    public void updateOrderLengthMax(String orderLengthMax) {
+        this.orderLengthMax = orderLengthMax;
+    }
+
+    public void updateHrRollUnitWgtMax1(Double hrRollUnitWgtMax1) {
+        this.hrRollUnitWgtMax1 = hrRollUnitWgtMax1;
+    }
+
+    public void updateHrRollUnitWgtMax2(Double hrRollUnitWgtMax2) {
+        this.hrRollUnitWgtMax2 = hrRollUnitWgtMax2;
+    }
 }

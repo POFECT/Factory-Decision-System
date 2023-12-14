@@ -12,6 +12,19 @@ const SizeStandardApi = {
       })
       .finally(() => {});
   },
+
+  updateSize: async (sizeStandardList, callback) => {
+    await axiosApi()
+      .patch("/size-standard",sizeStandardList)
+      .then((response) => {
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+    });
+  }
 };
+
+
 
 export default SizeStandardApi;
