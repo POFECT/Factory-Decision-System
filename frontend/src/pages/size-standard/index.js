@@ -129,7 +129,8 @@ const Standard = () => {
       alert(result);
     } else if (!updateFlag) {
       await SizeStandardApi.updateSize(sizeStandardList, (data) => {
-        console.log(data);
+        alert("저장되었습니다.");
+
       });
     }
 
@@ -138,7 +139,7 @@ const Standard = () => {
   const columns = [
 
     {
-      field: "processCd", headerName: "공정", width: 185, sortable: false, headerAlign: "center"
+      field: "processCd", headerName: "공정", width: 170, sortable: false, headerAlign: "center"
     },
     {
       field: "firmPsFacTp", headerName: "공장", width: 100, sortable: false, headerAlign: "center",
@@ -205,7 +206,7 @@ const Standard = () => {
   return (
     <div style={{ height: "600px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
-        <Typography variant="h3">공장 공정 별 사이즈 기준</Typography>
+        <Typography variant="h4">공장 공정 별 사이즈 기준</Typography>
       </Grid>
 
 
@@ -219,7 +220,31 @@ const Standard = () => {
         }}
       >
         <div>
-
+        <FormControl
+            sx={{ m: 1 }}
+            style={{
+              paddingTop: 10,
+              paddingBottom: 20,
+              marginRight: 10,
+            }}
+          >
+            <InputLabel id="label1" style={{ paddingTop: 10 }}>
+              구분
+            </InputLabel>
+            <Select
+              labelId="분류"
+              id="demo-multiple-name"
+              defaultValue="T"
+              input={<OutlinedInput label="구분" />}
+              onChange={(e) => {
+                console.log(e);
+              }}
+              style={{ height: 40 }}
+            >
+              <MenuItem value="T">포항</MenuItem>
+              {/* <MenuItem value="K">광양</MenuItem> */}
+            </Select>
+          </FormControl>
         </div>
         <div>
           <Button size="small" type="submit" variant="contained">
