@@ -82,8 +82,8 @@ public class LotServiceImpl implements LotService{
                     }
 
                     if(!Objects.equals(faConfirmFlag, "F")) {
-                        LotGroupDto testDto = getLotGroupDto(innerEntry, smSteelGrdN, faConfirmFlag);
-                        resultList.add(testDto);
+                        LotGroupDto addDto = getLotGroupDto(innerEntry, smSteelGrdN, faConfirmFlag);
+                        resultList.add(addDto);
 
                         LotGroupDto addFlagFDto = LotGroupDto.builder()
                                 .smSteelGrdN(smSteelGrdN)
