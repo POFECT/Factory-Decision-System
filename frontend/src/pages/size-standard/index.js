@@ -59,11 +59,8 @@ const Standard = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const [editedCellValue, setEditedCellValue] = useState('');
 
-  
-  const handleCellEditCommit = (params) => {
-    console.log("외않되");
-    console.log(params);
 
+  const handleCellEditCommit = (params) => {
     const updatedList = sizeStandardList.map((item) =>
       item.id === params.id ? params : item
     );
@@ -106,50 +103,76 @@ const Standard = () => {
   }, []);
 
   const updateSizeStandard = async () => {
-    console.log("update")
-    SizeStandardApi.updateSize(sizeStandardList, (data) => {
-      console.log(data);
-    });
+    const updateFlag = false;
+    let result = "Max 값이 Min 값보다 작을 수 없습니다.\n다음 데이터를 확인해주세요.\n\n";
+
+    sizeStandardList.map(item => {
+      if (item.orderThickMin > item.orderThickMax) {
+        result += item.processCd + " " + item.firmPsFacTp + "공장 두께\n";
+        updateFlag = true;
+      }
+      if (item.orderWidthMin > item.orderWidthMax) {
+        result += item.processCd + " " + item.firmPsFacTp + "공장 폭\n"
+        updateFlag = true;
+      }
+      if (item.orderLengthMin > item.orderLengthMax) {
+        result += item.processCd + " " + item.firmPsFacTp + "공장 길이\n"
+        updateFlag = true;
+      }
+      if (item.hrRollUnitWgtMax1 > item.hrRollUnitWgtMax2) {
+        result += item.processCd + " " + item.firmPsFacTp + "공장 단중\n"
+        updateFlag = true;
+      }
+    })
+
+    if (updateFlag) {
+      alert(result);
+    } else if (!updateFlag) {
+      await SizeStandardApi.updateSize(sizeStandardList, (data) => {
+        console.log(data);
+      });
+    }
+
   };
 
   const columns = [
 
     {
-      field: "processCd", headerName: "공정", width: 185, sortable: false, headerAlign: "center",
+      field: "processCd", headerName: "공정", width: 185, sortable: false, headerAlign: "center"
     },
     {
       field: "firmPsFacTp", headerName: "공장", width: 100, sortable: false, headerAlign: "center",
     },
     {
-      field: "orderThickMin", headerName: "min", width: 138, sortable: false, headerAlign: "center",
+      field: "orderThickMin", headerName: "min", width: 138, sortable: false, headerAlign: "center", type: 'number',
       editable: true
     },
     {
-      field: "orderThickMax", headerName: "max", width: 138, sortable: false, headerAlign: "center",
+      field: "orderThickMax", headerName: "max", width: 138, sortable: false, headerAlign: "center", type: 'number',
       editable: true
     },
     {
-      field: "orderWidthMin", headerName: "min", width: 138, sortable: false, headerAlign: "center",
+      field: "orderWidthMin", headerName: "min", width: 138, sortable: false, headerAlign: "center", type: 'number',
       editable: true
     },
     {
-      field: "orderWidthMax", headerName: "max", width: 138, sortable: false, headerAlign: "center",
+      field: "orderWidthMax", headerName: "max", width: 138, sortable: false, headerAlign: "center", type: 'number',
       editable: true
     },
     {
-      field: "orderLengthMin", headerName: "min", width: 138, sortable: false, headerAlign: "center",
+      field: "orderLengthMin", headerName: "min", width: 138, sortable: false, headerAlign: "center", type: 'number',
       editable: true
     },
     {
-      field: "orderLengthMax", headerName: "max", width: 138, sortable: false, headerAlign: "center",
+      field: "orderLengthMax", headerName: "max", width: 138, sortable: false, headerAlign: "center", type: 'number',
       editable: true
     },
     {
-      field: "hrRollUnitWgtMax1", headerName: "min", width: 138, sortable: false, headerAlign: "center",
+      field: "hrRollUnitWgtMax1", headerName: "min", width: 138, sortable: false, headerAlign: "center", type: 'number',
       editable: true
     },
     {
-      field: "hrRollUnitWgtMax2", headerName: "max", width: 138, sortable: false, headerAlign: "center",
+      field: "hrRollUnitWgtMax2", headerName: "max", width: 138, sortable: false, headerAlign: "center", type: 'number',
       editable: true
     },
   ];
