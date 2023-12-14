@@ -32,7 +32,7 @@ const FactoryDetail = (props) => {
                 align="center"
                 style={{
                   width: "40%",
-                  backgroundColor: "#8E8E8E",
+                  backgroundColor: "#0A5380",
                   color: "white",
                   fontSize: 17,
                 }}

@@ -49,14 +49,17 @@ const OrderDetail = (props) => {
         </Grid>
         <div
           style={{
-            width: "80%",
+            width: "85%",
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
           }}
         >
           <Card style={{ marginRight: "20px", height: "200px" }}>
-            <TableContainer style={{ marginBottom: 20 }}>
+            <TableContainer
+              style={{ marginBottom: 20 }}
+              // component={Paper}
+            >
               <Table
                 aria-label="custom pagination table"
                 style={{
@@ -64,16 +67,14 @@ const OrderDetail = (props) => {
                   flexDirection: "row",
                   // justifyContent: "space-between",
                 }}
+                // component={Paper}
               >
-                <TableBody
-                  component={Paper}
-                  style={{ border: "1px solid #8E8E8E" }}
-                >
+                <TableBody>
                   <TableRow>
                     <TableCell
                       style={{
                         width: 160,
-                        backgroundColor: "#8E8E8E",
+                        backgroundColor: "#0A5380",
                         color: "#FFFFFF",
                       }}
                       align="center"
@@ -81,22 +82,18 @@ const OrderDetail = (props) => {
                       주문번호
                     </TableCell>
                     <TableCell
-                      style={{ width: 200, color: "000000" }}
+                      style={{
+                        width: 200,
+                        color: "000000",
+                      }}
                       align="center"
                     >
                       {props.order.orderHeadLineNo}
                     </TableCell>
-                  </TableRow>
-                </TableBody>
-                <TableBody
-                  component={Paper}
-                  style={{ border: "1px solid #8E8E8E" }}
-                >
-                  <TableRow>
                     <TableCell
                       style={{
                         width: 160,
-                        backgroundColor: "#8E8E8E",
+                        backgroundColor: "#0A5380",
                         color: "#FFFFFF",
                       }}
                       align="center"
