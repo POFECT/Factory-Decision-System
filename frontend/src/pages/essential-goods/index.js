@@ -485,7 +485,6 @@ const EssentialGoods = () => {
               style={{ height: 40 }}
             >
               <MenuItem value="T">포항</MenuItem>
-              <MenuItem value="K">광양</MenuItem>
             </Select>
           </FormControl>
           <FormControl
@@ -534,10 +533,16 @@ const EssentialGoods = () => {
             type="submit"
             variant="contained"
             onClick={filteredCondeNameList}
+            style={{ backgroundColor: "#E29E21" }}
           >
             조회
           </Button>
-          <Button size="small" type="submit" variant="contained">
+          <Button
+            size="small"
+            type="submit"
+            variant="contained"
+            style={{ backgroundColor: "#0A5380" }}
+          >
             저장
           </Button>
           <Button
@@ -545,6 +550,7 @@ const EssentialGoods = () => {
             type="submit"
             variant="contained"
             onClick={exportToExcel}
+            style={{ backgroundColor: "darkgreen" }}
           >
             Excel
           </Button>
@@ -562,6 +568,7 @@ const EssentialGoods = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                color: "gray",
               },
             "& .custom-data-grid .MuiDataGrid-columnHeader": {
               cursor: "pointer",
@@ -572,6 +579,9 @@ const EssentialGoods = () => {
               {
                 borderBottomStyle: "none",
               },
+            "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
+              backgroundColor: "#F5F9FF",
+            },
           }}
         >
           <DataGrid
