@@ -47,6 +47,7 @@ const LayoutAppBar = (props) => {
         marginBottom: "40px",
         padding: "10px",
         background: "#0A5380",
+        height: "69px",
       }}
     >
       <Toolbar

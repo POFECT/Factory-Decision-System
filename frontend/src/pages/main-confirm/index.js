@@ -278,7 +278,7 @@ const MainConfirm = () => {
     {
       field: "adjustConsBktStartDttm",
       headerName: "ATP조정일",
-      width: 150,
+      width: 180,
       editable: false,
       headerAlign: "center",
     },

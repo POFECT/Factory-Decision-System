@@ -234,7 +234,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
             order.changePosbDate();  // POSB_PASS_FAC_UPDATE_DATE update
 
             // 에러코드 포함 - FLAG : C
-            if(possibleCode.toString().contains("F") || possibleCode.toString().contains("P")) {
+            if(possibleCode.toString().contains("F") || possibleCode.toString().contains("P") || possibleCode.toString().contains("C")) {
                 order.changeFlag("C");
             }
             // 설계 성공 - FLAG : B
