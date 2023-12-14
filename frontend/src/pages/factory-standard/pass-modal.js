@@ -257,6 +257,8 @@ const PassModal = ({ open, handleClose }) => {
 
                 "& .custom-data-grid .MuiDataGrid-root": {
                   paddingBottom: "0px",
+                },"& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
+                  backgroundColor:"#F5F9FF",
                 },
               }}
             >
