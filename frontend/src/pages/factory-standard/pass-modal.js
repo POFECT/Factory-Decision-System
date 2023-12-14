@@ -130,7 +130,7 @@ const PassModal = ({ open, handleClose }) => {
       <DialogTitle>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
           {/* <Card></Card> */}
-          <Typography variant="h3">경유 공정 기준</Typography>
+          <Typography variant="h4">경유 공정 기준</Typography>
         </Grid>
       </DialogTitle>
       <DialogContent>
@@ -196,7 +196,7 @@ const PassModal = ({ open, handleClose }) => {
                     }}
                 style={{ height: 40 }}
               >
-               <MenuItem value="ALL">ALL</MenuItem>
+              <MenuItem value="ALL">ALL</MenuItem>
         {codeNameList.list.map((code, idx) => (
     <MenuItem key={idx} value={code.cdNm}>
       {code.cdNm}
@@ -206,18 +206,17 @@ const PassModal = ({ open, handleClose }) => {
             </FormControl>
           </div>
           <div>
-
-                <Button size="small" type="submit" variant="contained" onClick={handleSearch}>
-                  조회
+            <Button size="small" type="submit" variant="contained" onClick={handleSearch} style={{ backgroundColor: "#E29E21" }}>
+              조회
             </Button>
-            <Button size="small" type="submit" variant="contained">
+            <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "#0A5380" }}>
               저장
             </Button>
             <Button
             size="small"
             type="submit"
             variant="contained"
-            onClick={exportToExcel}>
+            onClick={exportToExcel} style={{ backgroundColor: "darkgreen" }}>
             Excel
             </Button>
           </div>
