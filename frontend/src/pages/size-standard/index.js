@@ -139,7 +139,7 @@ const Standard = () => {
   const columns = [
 
     {
-      field: "processCd", headerName: "공정", width: 170, sortable: false, headerAlign: "center"
+      field: "processCd", headerName: "공정", width: 169, sortable: false, headerAlign: "center"
     },
     {
       field: "firmPsFacTp", headerName: "공장", width: 100, sortable: false, headerAlign: "center",
@@ -204,7 +204,7 @@ const Standard = () => {
 
 
   return (
-    <div style={{ height: "600px", width: "100%" }}>
+    <div style={{ height: "100%", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Typography variant="h4">공장 공정 별 사이즈 기준</Typography>
       </Grid>
