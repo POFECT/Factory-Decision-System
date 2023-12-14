@@ -109,8 +109,8 @@ public class SizeStandardServiceImpl implements SizeStandardService {
 
                 if (!dto.getOrderLength().equals("C")) {
                     if (!(Objects.equals(sizeStandardResDto.getOrderLengthMax(), "0") && Objects.equals(sizeStandardResDto.getOrderLengthMin(), "0"))) {
-                        if (Double.parseDouble(sizeStandardResDto.getOrderLengthMax()) >= Double.parseDouble(orderLength)
-                                && Double.parseDouble(sizeStandardResDto.getOrderLengthMin()) <= Double.parseDouble(orderLength)) {
+                        if (sizeStandardResDto.getOrderLengthMax() >= Double.parseDouble(orderLength)
+                                && sizeStandardResDto.getOrderLengthMin() <= Double.parseDouble(orderLength)) {
                             booleanList.add(true);
                         } else {
                             booleanList.add(false);
