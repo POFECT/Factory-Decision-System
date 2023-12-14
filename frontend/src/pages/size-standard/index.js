@@ -37,8 +37,8 @@ function MyCell(props) {
       ...style,
       minHeight: props.height * span,
       maxHeight: props.height * span,
-      backgroundColor: "gray",
-      color: "white",
+      backgroundColor: "#F5F9FF",
+      color: "#05507DAD",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -247,13 +247,32 @@ const Standard = () => {
           </FormControl>
         </div>
         <div>
-          <Button size="small" type="submit" variant="contained">
+        <Button
+            size="small"
+            type="submit"
+            variant="contained"
+            // onClick={filteredCondeNameList}
+            
+            style={{ backgroundColor: "#E29E21" }}
+          >
             조회
           </Button>
-          <Button size="small" type="submit" variant="contained" onClick={updateSizeStandard}>
+          <Button
+            size="small"
+            type="submit"
+            variant="contained"
+            style={{ backgroundColor: "#0A5380" }}
+            onClick={updateSizeStandard}
+          >
             저장
           </Button>
-          <Button size="small" type="submit" variant="contained">
+          <Button
+            size="small"
+            type="submit"
+            variant="contained"
+            // onClick={exportToExcel}
+            style={{ backgroundColor: "darkgreen" }}
+          >
             Excel
           </Button>
         </div>
@@ -271,6 +290,7 @@ const Standard = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              color: "gray",
             },
             "& .custom-data-grid .MuiDataGrid-columnHeader": {
               cursor: "pointer",
@@ -281,6 +301,9 @@ const Standard = () => {
             {
               borderBottomStyle: "none",
 
+            },
+            "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
+              backgroundColor: "#F5F9FF",
             },
           }}
         >
