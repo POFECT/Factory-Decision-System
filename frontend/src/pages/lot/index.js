@@ -64,8 +64,10 @@ const Lot = () => {
 
     const [isChecked, setIsChecked] = useState(true);
 
-    useEffect(() => {
-        LotApi.getList((data) => {
+    const getLotList = (week) => {
+        if (week == 0) week = null;
+
+        LotApi.getList(week, (data) => {
             const resData = data.response;
             const testNum = 2;
 
@@ -118,6 +120,11 @@ const Lot = () => {
 
             setLotData(resultData);
         });
+    }
+
+
+    useEffect(() => {
+        getLotList(null);
 
         MainApi.getWeekList("H", ["E", "F"], (data) => {
             const list = data.response;
@@ -503,7 +510,8 @@ const Lot = () => {
                         <Button size="small" type="submit" variant="contained" 
                         style={{ backgroundColor: "#E29E21" }
                         } onClick={() => {
-                          }} >
+                            getLotList(weekList.select);
+                          }}>
                             조회
                         </Button>
                         <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "darkgreen" }}>
