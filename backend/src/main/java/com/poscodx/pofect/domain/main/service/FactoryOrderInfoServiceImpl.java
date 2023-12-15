@@ -1,12 +1,11 @@
 package com.poscodx.pofect.domain.main.service;
 
 //import com.poscodx.pofect.domain.lot.dto.LotResDto;
-import com.poscodx.pofect.common.dto.ResponseDto;
 import com.poscodx.pofect.domain.capacity.dto.CapacityInfoDto;
 import com.poscodx.pofect.domain.capacity.service.CapacityService;
-import com.poscodx.pofect.domain.essentialstandard.controller.EssentialStandardController;
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardBtiPosReqDto;
 import com.poscodx.pofect.domain.essentialstandard.service.EssentialStandardService;
+import com.poscodx.pofect.domain.lot.dto.LotSearchDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
@@ -19,9 +18,7 @@ import com.poscodx.pofect.domain.processstandard.service.ProcessStandardService;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardSetDto;
 import com.poscodx.pofect.domain.sizestandard.repository.SizeStandardRepository;
-import com.poscodx.pofect.domain.sizestandard.service.SizeStandardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -101,8 +98,8 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
     @Transactional(readOnly = true)
     @Override
-    public List<com.poscodx.pofect.domain.lot.dto.LotResDto> findLotAll() {
-        return factoryOrderInfoRepository.findLotAll().stream().map(com.poscodx.pofect.domain.lot.dto.LotResDto::fromDtoToDto)
+    public List<com.poscodx.pofect.domain.lot.dto.LotResDto> findLotAll(LotSearchDto searchDto) {
+        return factoryOrderInfoRepository.findLotAll(searchDto).stream().map(com.poscodx.pofect.domain.lot.dto.LotResDto::fromDtoToDto)
                 .toList();
     }
 

@@ -27,6 +27,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import SelectColumn from 'react-select';
 import makeAnimated from 'react-select/animated';
 import LotApi from "src/api/LotApi";
+import MainApi from "src/api/MainApi";
 // import { Grid, Typography } from "@mui/material";
 
 function MyCell(props) {
@@ -55,6 +56,13 @@ function MyCell(props) {
 
 const Lot = () => {
     const [lotData, setLotData] = useState([]);
+    // 출강주
+    const [weekList, setWeekList] = useState({
+        list: [],
+        select: "",
+    });
+
+    const [isChecked, setIsChecked] = useState(true);
 
     useEffect(() => {
         LotApi.getList((data) => {
@@ -110,11 +118,16 @@ const Lot = () => {
 
             setLotData(resultData);
         });
+
+        MainApi.getWeekList("H", ["E", "F"], (data) => {
+            const list = data.response;
+            // const select = list[0];
+            setWeekList((prev) => {
+                return { ...prev, list };
+            });
+        });
     }, []);
 
-
-
-    const [isChecked, setIsChecked] = useState(false);
 
     const buttonList = [
 
@@ -391,16 +404,27 @@ const Lot = () => {
                             출강주
                         </InputLabel>
                         <Select
-                            labelId="분류"
+                            labelId="출강주"
                             id="demo-multiple-name"
-                            defaultValue="test"
-                            input={<OutlinedInput label="구분" />}
+                            defaultValue={0}
+                            input={<OutlinedInput label="출강주" />}
                             onChange={(e) => {
-                                console.log(e);
+                                setWeekList(
+                                    Object.assign({}, weekList, {
+                                        select: e.target.value,
+                                    })
+                                );
                             }}
                             style={{ height: 40, width: 150 }}
                         >
-                            <MenuItem value="test">20231121</MenuItem>
+                            <MenuItem value={0}>All</MenuItem>
+                            {weekList.list.map((code, idx) => {
+                                return (
+                                    <MenuItem key={idx} value={code}>
+                                        {code}
+                                    </MenuItem>
+                                );
+                            })}
                         </Select>
                     </FormControl>
                 </div>
@@ -476,7 +500,10 @@ const Lot = () => {
                 >
 
                     <div>
-                        <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "#E29E21" }} >
+                        <Button size="small" type="submit" variant="contained" 
+                        style={{ backgroundColor: "#E29E21" }
+                        } onClick={() => {
+                          }} >
                             조회
                         </Button>
                         <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "darkgreen" }}>

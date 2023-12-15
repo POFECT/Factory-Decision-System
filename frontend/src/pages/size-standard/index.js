@@ -19,6 +19,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import SizeStandardApi from "/src/api/SizeStandardApi";
 import { UpdateRounded } from "@mui/icons-material";
+import { set } from "nprogress";
 // import { Grid, Typography } from "@mui/material";
 
 function MyCell(props) {
@@ -61,6 +62,7 @@ const Standard = () => {
 
 
   const handleCellEditCommit = (params) => {
+    console.log(params);
     const updatedList = sizeStandardList.map((item) =>
       item.id === params.id ? params : item
     );
@@ -69,57 +71,62 @@ const Standard = () => {
   };
 
   useEffect(() => {
-    SizeStandardApi.getList((data) => {
-      const resData = data.response;
-
-      const resultData = resData.map(item => {
-        if (item.processCd === "10") {
-          return { ...item, processCd: "제강" }
-        } else if (item.processCd === "20") {
-          return { ...item, processCd: "열연" }
-        } else if (item.processCd === "30") {
-          return { ...item, processCd: "열연정정" }
-        } else if (item.processCd === "40") {
-          return { ...item, processCd: "냉간압연" }
-        } else if (item.processCd === "50") {
-          return { ...item, processCd: "1차소둔" }
-        } else if (item.processCd === "60") {
-          return { ...item, processCd: "2차소둔" }
-        } else if (item.processCd === "70") {
-          return { ...item, processCd: "도금" }
-        } else if (item.processCd === "80") {
-          return { ...item, processCd: "정정" }
-        }
-
-        return item;
-      })
-
-      setSizeStandardList(resultData);
-
-      if (sizeStandardList.length != 0) {
-        setSizeStandardList(sizeStandardList[0].id);
-      }
-    });
+    getSizeStadards();
   }, []);
+
+  const getSizeStadards = () => {
+  SizeStandardApi.getList((data) => {
+    const resData = data.response;
+    
+    const resultData = resData.map(item => {
+      console.log(item.id);
+      if (item.processCd === "10") {
+        return { ...item, processCd: "제강" }
+      } else if (item.processCd === "20") {
+        return { ...item, processCd: "열연" }
+      } else if (item.processCd === "30") {
+        return { ...item, processCd: "열연정정" }
+      } else if (item.processCd === "40") {
+        return { ...item, processCd: "냉간압연" }
+      } else if (item.processCd === "50") {
+        return { ...item, processCd: "1차소둔" }
+      } else if (item.processCd === "60") {
+        return { ...item, processCd: "2차소둔" }
+      } else if (item.processCd === "70") {
+        return { ...item, processCd: "도금" }
+      } else if (item.processCd === "80") {
+        return { ...item, processCd: "정정" }
+      }
+
+      return item;
+    })
+  
+
+    setSizeStandardList(resultData);
+
+    // if (sizeStandardList.length != 0) {
+    //   setSizeStandardList(sizeStandardList[0].id);
+    // }
+  })};
 
   const updateSizeStandard = async () => {
     const updateFlag = false;
-    let result = "Max 값이 Min 값보다 작을 수 없습니다.\n다음 데이터를 확인해주세요.\n\n";
+    let result = "다음 데이터를 확인해주세요.\n\n";
 
     sizeStandardList.map(item => {
-      if (item.orderThickMin > item.orderThickMax) {
+      if (item.orderThickMin < 0 || item.orderThickMax < 0 || item.orderThickMin > item.orderThickMax) {
         result += item.processCd + " " + item.firmPsFacTp + "공장 두께\n";
         updateFlag = true;
       }
-      if (item.orderWidthMin > item.orderWidthMax) {
+      if (item.orderWidthMin < 0 || item.orderWidthMax < 0 || item.orderWidthMin > item.orderWidthMax) {
         result += item.processCd + " " + item.firmPsFacTp + "공장 폭\n"
         updateFlag = true;
       }
-      if (item.orderLengthMin > item.orderLengthMax) {
+      if (item.orderLengthMin < 0 || item.orderLengthMax < 0 || item.orderLengthMin > item.orderLengthMax) {
         result += item.processCd + " " + item.firmPsFacTp + "공장 길이\n"
         updateFlag = true;
       }
-      if (item.hrRollUnitWgtMax1 > item.hrRollUnitWgtMax2) {
+      if (item.hrRollUnitWgtMax1 < 0 || item.hrRollUnitWgtMax2 < 0 || item.hrRollUnitWgtMax1 > item.hrRollUnitWgtMax2) {
         result += item.processCd + " " + item.firmPsFacTp + "공장 단중\n"
         updateFlag = true;
       }
@@ -127,11 +134,14 @@ const Standard = () => {
 
     if (updateFlag) {
       alert(result);
+      // getSizeStadards();
     } else if (!updateFlag) {
       await SizeStandardApi.updateSize(sizeStandardList, (data) => {
         alert("저장되었습니다.");
+        getSizeStadards();
 
       });
+      
     }
 
   };
@@ -251,7 +261,7 @@ const Standard = () => {
             size="small"
             type="submit"
             variant="contained"
-            // onClick={filteredCondeNameList}
+            onClick={getSizeStadards}
             
             style={{ backgroundColor: "#E29E21" }}
           >
