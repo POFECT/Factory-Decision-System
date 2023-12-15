@@ -14,11 +14,16 @@ const OrderDetail = (props) => {
   const [factory, setFactory] = useState({
     no: "10",
     name: "제강",
-    code: props.order.cfirmPassOpCd.charAt(0),
+    code:
+      props.order.cfirmPassOpCd == null
+        ? null
+        : props.order.cfirmPassOpCd.charAt(0),
   });
 
   useEffect(() => {
-    setCfCode(props.order.cfirmPassOpCd.padEnd(8, " "));
+    if (props.order.cfirmPassOpCd != null) {
+      setCfCode(props.order.cfirmPassOpCd.padEnd(8, " "));
+    }
   }, [props.order]);
 
   const changeFactory = (e, code) => {

@@ -45,7 +45,6 @@ const MainConfirm = () => {
   /* 데이터 */
 
   const osMainStatusCd = "H";
-  const faConfirmFlag = ["D", "E"];
 
   // 주문
   const [orderList, setOrderList] = useState({
@@ -62,6 +61,8 @@ const MainConfirm = () => {
     list: [],
     select: "",
   });
+  // Flag
+  const [flag, setFlag] = useState(["D", "E"]);
 
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
 
@@ -88,7 +89,7 @@ const MainConfirm = () => {
   const getOrders = (kind, week) => {
     if (kind == 0) kind = null;
     if (week == 0) week = null;
-    MainApi.getOrderList(kind, week, osMainStatusCd, faConfirmFlag, (data) => {
+    MainApi.getOrderList(kind, week, osMainStatusCd, flag, (data) => {
       const list = data.response;
       const order = list[0];
       // console.log(list);
@@ -696,9 +697,30 @@ const MainConfirm = () => {
               onChange={(e) => {}}
               style={{ height: 40 }}
             >
-              <MenuItem value={0}>ALL</MenuItem>
-              <MenuItem value={1}>D</MenuItem>
-              <MenuItem value={2}>E</MenuItem>
+              <MenuItem
+                value={0}
+                onClick={() => {
+                  setFlag(["D", "E"]);
+                }}
+              >
+                ALL
+              </MenuItem>
+              <MenuItem
+                value={1}
+                onClick={() => {
+                  setFlag(["D"]);
+                }}
+              >
+                D
+              </MenuItem>
+              <MenuItem
+                value={2}
+                onClick={() => {
+                  setFlag(["E"]);
+                }}
+              >
+                E
+              </MenuItem>
             </Select>
           </FormControl>
         </div>

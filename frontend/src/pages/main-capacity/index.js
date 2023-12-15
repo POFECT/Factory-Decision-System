@@ -46,7 +46,6 @@ const MainCapacity = () => {
   /* 데이터 */
 
   const osMainStatusCd = "H";
-  const faConfirmFlag = ["A", "B", "C"];
 
   // 주문
   const [orderList, setOrderList] = useState({
@@ -63,6 +62,8 @@ const MainCapacity = () => {
     list: [],
     select: "",
   });
+  // Flag
+  const [flag, setFlag] = useState(["A", "B", "C"]);
 
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
 
@@ -88,7 +89,7 @@ const MainCapacity = () => {
   const getOrders = (kind, week) => {
     if (kind == 0) kind = null;
     if (week == 0) week = null;
-    MainApi.getOrderList(kind, week, osMainStatusCd, faConfirmFlag, (data) => {
+    MainApi.getOrderList(kind, week, osMainStatusCd, flag, (data) => {
       const list = data.response;
       const order = list[0];
       setOrderList((prev) => {
@@ -691,10 +692,38 @@ const MainCapacity = () => {
               onChange={(e) => {}}
               style={{ height: 40 }}
             >
-              <MenuItem value={0}>ALL</MenuItem>
-              <MenuItem value={1}>A</MenuItem>
-              <MenuItem value={2}>B</MenuItem>
-              <MenuItem value={3}>C</MenuItem>
+              <MenuItem
+                value={0}
+                onClick={() => {
+                  setFlag(["A", "B", "C"]);
+                }}
+              >
+                ALL
+              </MenuItem>
+              <MenuItem
+                value={1}
+                onClick={() => {
+                  setFlag(["A"]);
+                }}
+              >
+                A
+              </MenuItem>
+              <MenuItem
+                value={2}
+                onClick={() => {
+                  setFlag(["B"]);
+                }}
+              >
+                B
+              </MenuItem>
+              <MenuItem
+                value={3}
+                onClick={() => {
+                  setFlag(["C"]);
+                }}
+              >
+                C
+              </MenuItem>
             </Select>
           </FormControl>
         </div>
