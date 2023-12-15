@@ -1,5 +1,10 @@
 import CubeOutline from "mdi-material-ui/CubeOutline";
-
+import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing";
+import FactoryIcon from "@mui/icons-material/Factory";
+import CropRotateIcon from "@mui/icons-material/CropRotate";
+import CalculateIcon from "@mui/icons-material/Calculate";
+import LanIcon from "@mui/icons-material/Lan";
+import TouchAppIcon from "@mui/icons-material/TouchApp";
 const navigation = () => {
   return [
     {
@@ -7,12 +12,12 @@ const navigation = () => {
     },
 
     {
-      icon: CubeOutline,
+      icon: PrecisionManufacturingIcon,
       title: "가능 통과 공장 설계",
       path: "/main-capacity",
     },
     {
-      icon: CubeOutline,
+      icon: TouchAppIcon,
       title: "공장 결정",
       path: "/main-confirm",
     },
@@ -26,17 +31,17 @@ const navigation = () => {
       sectionTitle: "기준 관리",
     },
     {
-      icon: CubeOutline,
+      icon: CropRotateIcon,
       title: "사이즈 기준",
       path: "/size-standard",
     },
     {
-      icon: CubeOutline,
+      icon: CalculateIcon,
       title: "필수재 기준",
       path: "/essential-goods",
     },
     {
-      icon: CubeOutline,
+      icon: FactoryIcon,
       title: "가능/확통 기준",
       path: "/factory-standard",
     },
@@ -49,7 +54,7 @@ const navigation = () => {
     //   path: "/dashboard",
     // },
     {
-      icon: CubeOutline,
+      icon: LanIcon,
       title: "출강 Lot 집약",
       path: "/lot",
     },
