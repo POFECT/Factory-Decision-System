@@ -46,7 +46,6 @@ const MainCapacity = () => {
   /* 데이터 */
 
   const osMainStatusCd = "H";
-  const faConfirmFlag = ["A", "B", "C"];
 
   // 주문
   const [orderList, setOrderList] = useState({
@@ -63,6 +62,8 @@ const MainCapacity = () => {
     list: [],
     select: "",
   });
+  // Flag
+  const [flag, setFlag] = useState(["A", "B", "C"]);
 
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
 
@@ -88,7 +89,7 @@ const MainCapacity = () => {
   const getOrders = (kind, week) => {
     if (kind == 0) kind = null;
     if (week == 0) week = null;
-    MainApi.getOrderList(kind, week, osMainStatusCd, faConfirmFlag, (data) => {
+    MainApi.getOrderList(kind, week, osMainStatusCd, flag, (data) => {
       const list = data.response;
       const order = list[0];
       setOrderList((prev) => {
@@ -215,7 +216,7 @@ const MainCapacity = () => {
     {
       field: "creationDate",
       headerName: "생성일자",
-      width: 180,
+      width: 150,
       editable: false,
       headerAlign: "center",
     },
@@ -230,7 +231,7 @@ const MainCapacity = () => {
     {
       field: "faConfirmFlag",
       headerName: "공장결정확정구분",
-      width: 150,
+      width: 140,
       editable: false,
       headerAlign: "center",
     },
@@ -244,7 +245,7 @@ const MainCapacity = () => {
     {
       field: "posbPassFacUpdateDate",
       headerName: "가능통과공정설계일자",
-      width: 180,
+      width: 170,
       editable: false,
       headerAlign: "center",
     },
@@ -672,11 +673,65 @@ const MainCapacity = () => {
               })}
             </Select>
           </FormControl>
+          <FormControl
+            sx={{ m: 1 }}
+            style={{
+              paddingTop: 10,
+              paddingBottom: 20,
+              marginRight: 10,
+            }}
+          >
+            <InputLabel id="label3" style={{ paddingTop: 10, height: 40 }}>
+              진행 단계
+            </InputLabel>
+            <Select
+              labelId="진행 단계"
+              id="demo-multiple-name"
+              defaultValue={0}
+              input={<OutlinedInput label="진행 단계" />}
+              onChange={(e) => {}}
+              style={{ height: 40 }}
+            >
+              <MenuItem
+                value={0}
+                onClick={() => {
+                  setFlag(["A", "B", "C"]);
+                }}
+              >
+                ALL
+              </MenuItem>
+              <MenuItem
+                value={1}
+                onClick={() => {
+                  setFlag(["A"]);
+                }}
+              >
+                A
+              </MenuItem>
+              <MenuItem
+                value={2}
+                onClick={() => {
+                  setFlag(["B"]);
+                }}
+              >
+                B
+              </MenuItem>
+              <MenuItem
+                value={3}
+                onClick={() => {
+                  setFlag(["C"]);
+                }}
+              >
+                C
+              </MenuItem>
+            </Select>
+          </FormControl>
         </div>
         <div>
           <Button
             size="small"
             variant="contained"
+            style={{ backgroundColor: "#E29E21" }}
             onClick={() => {
               getOrders(codeNameList.select, weekList.select);
               setRowSelectionModel([]);
@@ -684,13 +739,28 @@ const MainCapacity = () => {
           >
             대상조회
           </Button>
-          <Button size="small" variant="contained" onClick={possibleDecision}>
+          <Button
+            size="small"
+            variant="contained"
+            style={{ backgroundColor: "#0A5380" }}
+            onClick={possibleDecision}
+          >
             설계
           </Button>
-          <Button size="small" variant="contained" onClick={updateConfirmFlag}>
+          <Button
+            size="small"
+            variant="contained"
+            style={{ backgroundColor: "#0A5380" }}
+            onClick={updateConfirmFlag}
+          >
             확정처리
           </Button>
-          <Button size="small" variant="contained" onClick={exportToExcel}>
+          <Button
+            size="small"
+            variant="contained"
+            style={{ backgroundColor: "darkgreen" }}
+            onClick={exportToExcel}
+          >
             Excel
           </Button>
         </div>
@@ -707,6 +777,7 @@ const MainCapacity = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                color: "gray",
               },
             "& .custom-data-grid .MuiDataGrid-columnHeader": {
               cursor: "pointer",

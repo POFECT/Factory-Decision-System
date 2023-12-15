@@ -51,24 +51,28 @@ const CapacityDetail = (props) => {
             margin: "auto",
           }}
         >
-          <TableContainer style={{ marginBottom: 20 }}>
+          <TableContainer
+            style={{ marginBottom: 20 }}
+            // component={Paper}
+          >
             <Table
               aria-label="custom pagination table"
               style={{
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-evenly",
+                backgroundColor: "#FFFFFF",
               }}
+              // component={Paper}
             >
               <TableBody
-                component={Paper}
-                style={{ border: "1px solid #8E8E8E" }}
+              // style={{ border: "1px solid #8E8E8E" }}
               >
-                <TableRow key="1">
+                <TableRow key="1" style={{ padding: 0 }}>
                   <TableCell
                     style={{
                       width: 160,
-                      backgroundColor: "#8E8E8E",
+                      backgroundColor: "#0A5380",
                       color: "#FFFFFF",
                     }}
                     align="center"
@@ -84,7 +88,7 @@ const CapacityDetail = (props) => {
                   <TableCell
                     style={{
                       width: 160,
-                      backgroundColor: "#8E8E8E",
+                      backgroundColor: "#0A5380",
                       color: "#FFFFFF",
                     }}
                     align="center"
@@ -97,17 +101,10 @@ const CapacityDetail = (props) => {
                   >
                     {props.order.posbPassFacUpdateDate}
                   </TableCell>
-                </TableRow>
-              </TableBody>
-              <TableBody
-                component={Paper}
-                style={{ border: "1px solid #8E8E8E" }}
-              >
-                <TableRow key="1">
                   <TableCell
                     style={{
                       width: 160,
-                      backgroundColor: "#8E8E8E",
+                      backgroundColor: "#0A5380",
                       color: "#FFFFFF",
                     }}
                     align="center"
@@ -335,52 +332,68 @@ const CapacityDetail = (props) => {
                       align="center"
                       style={{ fontWeight: "bold" }}
                     >
-                      {props.order.posbPassFacCdN.substr(0, 2)}
+                      {props.order.posbPassFacCdN != null
+                        ? props.order.posbPassFacCdN.substr(0, 2)
+                        : null}
                     </TableCell>
                     <TableCell
                       colSpan={2}
                       align="center"
                       style={{ fontWeight: "bold" }}
                     >
-                      {props.order.posbPassFacCdN.substr(2, 2)}
+                      {props.order.posbPassFacCdN != null
+                        ? props.order.posbPassFacCdN.substr(2, 2)
+                        : null}
                     </TableCell>
                     <TableCell
                       colSpan={2}
                       align="center"
                       style={{ fontWeight: "bold" }}
                     >
-                      {props.order.posbPassFacCdN.substr(4, 2)}
+                      {props.order.posbPassFacCdN != null
+                        ? props.order.posbPassFacCdN.substr(4, 2)
+                        : null}
                     </TableCell>
                     <TableCell
                       colSpan={3}
                       align="center"
                       style={{ fontWeight: "bold" }}
                     >
-                      {props.order.posbPassFacCdN.substr(6, 2)}
+                      {props.order.posbPassFacCdN != null
+                        ? props.order.posbPassFacCdN.substr(6, 2)
+                        : null}
                     </TableCell>
                     <TableCell
                       colSpan={3}
                       align="center"
                       style={{ fontWeight: "bold" }}
                     >
-                      {props.order.posbPassFacCdN.substr(8, 2)}
+                      {props.order.posbPassFacCdN != null
+                        ? props.order.posbPassFacCdN.substr(8, 2)
+                        : null}
                     </TableCell>
                     <TableCell
                       colSpan={2}
                       align="center"
                       style={{ fontWeight: "bold" }}
                     >
-                      {props.order.posbPassFacCdN.substr(10, 2)}
+                      {props.order.posbPassFacCdN != null
+                        ? props.order.posbPassFacCdN.substr(10, 2)
+                        : null}
                     </TableCell>
                     <TableCell
                       colSpan={2}
                       align="center"
                       style={{ fontWeight: "bold" }}
                     >
-                      {props.order.posbPassFacCdN.substr(12, 2)}
+                      {props.order.posbPassFacCdN != null
+                        ? props.order.posbPassFacCdN.substr(12, 2)
+                        : null}
                     </TableCell>
                     <TableCell align="center" style={{ fontWeight: "bold" }}>
-                      {props.order.posbPassFacCdN.substr(14, 2)}
+                      {props.order.posbPassFacCdN != null
+                        ? props.order.posbPassFacCdN.substr(14, 2)
+                        : null}
                     </TableCell>
                   </TableRow>
                 </TableBody>

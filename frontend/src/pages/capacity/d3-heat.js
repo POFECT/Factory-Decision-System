@@ -48,7 +48,7 @@ const MyD3Heatmap = ({ capacity }) => {
   });
 
   useEffect(() => {
-    const xSize = 100;
+    const xSize = 130;
     const ySize = 70; 
     const textColor = "#000";
     const legendWidth = 90;
@@ -80,8 +80,8 @@ const MyD3Heatmap = ({ capacity }) => {
       .data(yLabels)
       .enter().append('text')
       .text(d => d !== 0 ? d : '').raise()
-      .attr('x', 110)
-      .attr('y', (d, i) => i * ySize-6.5 )  
+      .attr('x', 155)
+      .attr('y', (d, i) => i * (ySize) +130 )  
       .style('text-anchor', 'end')
       // .style('text-anchor', '')
       // .style('dominant-baseline', 'middle')
@@ -97,8 +97,8 @@ const MyD3Heatmap = ({ capacity }) => {
     .attr('class', 'legend')
     .attr('width', legendWidth)
     .attr('height', 15)
-    .attr('x', (d, i) => i * legendWidth+150)
-    .attr('y', yLabels.length * ySize + 30) 
+    .attr('x', (d, i) => i * legendWidth+330)
+    .attr('y', yLabels.length * ySize - 510) 
   .style('fill', (d, i) => legendColorScale(i));
 
     svg.selectAll('.legendText')
@@ -106,8 +106,8 @@ const MyD3Heatmap = ({ capacity }) => {
       .enter().append('text')
       .attr('class', 'legendText')
       .text(d => d)
-      .attr('x', (d, i) =>( i * legendWidth + legendWidth / 2) +170)
-      .attr('y', yLabels.length * ySize + 30 + 25)
+      .attr('x', (d, i) =>( i * legendWidth + legendWidth / 2) +340)
+      .attr('y', yLabels.length * ySize + 30 -510)
       .style('font-size', '14px')
  
       .style('dominant-baseline', 'middle')
@@ -122,10 +122,10 @@ const MyD3Heatmap = ({ capacity }) => {
       .attr('class', 'cell')
       .attr('width', xSize)
       .attr('height', ySize)
-      .attr('x', (d, i) => (i % xLabels.length) * xSize+120)
-      .attr('y', (d, i) => Math.floor(i / xLabels.length) * ySize)
-      .attr('rx', 4)
-      .attr('ry', 4)
+      .attr('x', (d, i) => (i % xLabels.length) * xSize+165)
+      .attr('y', (d, i) => Math.floor(i / xLabels.length) * ySize +130)
+      .attr('rx', 3)
+      .attr('ry', 3)
       .style('fill', d => d === 0 ? 'none' : colorScale(d))
       .on('mouseover', (event, d) => {
         setHoveredCell(d);
@@ -144,8 +144,8 @@ const MyD3Heatmap = ({ capacity }) => {
       .data(cellData.flat())
       .enter().append('text')
       .text(d => d !== 0 ? d : '')
-      .attr('x', (d, i) => (i % xLabels.length) * xSize + xSize / 2 +120)
-      .attr('y', (d, i) => Math.floor(i / xLabels.length) * ySize + ySize / 2)
+      .attr('x', (d, i) => (i % xLabels.length) * xSize + xSize / 2 +165)
+      .attr('y', (d, i) => Math.floor(i / xLabels.length) * ySize + ySize / 2 +130)
       .style('text-anchor', 'middle')
       .style('dominant-baseline', 'middle')
         .style('font-size', '14px')
@@ -154,12 +154,12 @@ const MyD3Heatmap = ({ capacity }) => {
   }, [transformedData,cellData, xLabels, yLabels, hoveredCell]);
 
   return (
-    <animated.div style={fadeInAnimation}>
+    <animated.div style={{fadeInAnimation, display: 'flex'}}>
       <div>
         {/* <p>Hovered Cell: {hoveredCell}</p> */}
-        <p style={{ marginLeft: 5, marginBottom: 25 }}>선택된 공장의 잔여량: {clickedCell}</p>
+        {/* <p style={{ marginLeft: 5, marginBottom: 25  }}>선택된 공장의 잔여량: {clickedCell}</p> */}
       </div>
-      <svg id="heatmap-svg" width={1200} height={yLabels.length * 80}>
+      <svg id="heatmap-svg" width={1200} height={yLabels.length * 90}>
       </svg>
     </animated.div>
   );
