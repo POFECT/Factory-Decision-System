@@ -43,11 +43,11 @@ const navigation = () => {
     {
       sectionTitle: "모니터링",
     },
-    {
-      icon: CubeOutline,
-      title: "대시보드",
-      path: "/dashboard",
-    },
+    // {
+    //   icon: CubeOutline,
+    //   title: "대시보드",
+    //   path: "/dashboard",
+    // },
     {
       icon: CubeOutline,
       title: "출강 Lot 집약",
