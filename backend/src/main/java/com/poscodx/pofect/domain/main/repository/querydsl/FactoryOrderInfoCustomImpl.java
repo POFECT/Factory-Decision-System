@@ -1,18 +1,17 @@
 package com.poscodx.pofect.domain.main.repository.querydsl;
 
 import com.poscodx.pofect.common.querydsl.Querydsl4RepositorySupport;
+import com.poscodx.pofect.domain.lot.dto.LotSearchDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 import com.poscodx.pofect.domain.main.dto.lot.LotResDto;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAUpdateClause;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.poscodx.pofect.domain.main.entity.QFactoryOrderInfo.factoryOrderInfo;
 import static com.poscodx.pofect.domain.main.repository.querydsl.condition.FactoryOrderInfoCondition.*;
@@ -88,9 +87,10 @@ public class FactoryOrderInfoCustomImpl extends Querydsl4RepositorySupport imple
     }
 
     @Override
-    public List<LotResDto> findLotAll() {
+    public List<LotResDto> findLotAll(LotSearchDto searchDto) {
         BooleanBuilder option = integration(
-                inFaConfirmFlag(List.of("E", "F"))
+                inFaConfirmFlag(List.of("E", "F")),
+                eqOrdThwTapWekCd(searchDto.getOrdThwTapWekCd())
         );
 
         return select(LotResDto.class,

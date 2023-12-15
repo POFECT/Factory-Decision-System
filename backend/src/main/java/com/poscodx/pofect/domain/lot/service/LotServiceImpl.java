@@ -2,14 +2,12 @@ package com.poscodx.pofect.domain.lot.service;
 
 import com.poscodx.pofect.domain.lot.dto.LotGroupDto;
 import com.poscodx.pofect.domain.lot.dto.LotResDto;
+import com.poscodx.pofect.domain.lot.dto.LotSearchDto;
 import com.poscodx.pofect.domain.main.service.FactoryOrderInfoService;
-import com.poscodx.pofect.domain.sizestandard.dto.RowSpan;
-import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,9 +15,9 @@ import java.util.stream.Collectors;
 public class LotServiceImpl implements LotService{
     private final FactoryOrderInfoService factoryOrderInfoService;
 
-    public List<LotGroupDto> findLotAll(){
+    public List<LotGroupDto> findLotAll(LotSearchDto searchDto){
         List<LotResDto> lotAll
-                = factoryOrderInfoService.findLotAll();
+                = factoryOrderInfoService.findLotAll(searchDto);
 
         Map<String, Map<String, Map<Character, Map<String, Integer>>>> collect
                 = lotAll.stream().collect(Collectors.groupingBy(LotResDto::getSmSteelGrdN,
