@@ -62,7 +62,8 @@ const Lot = () => {
         select: "",
     });
 
-    const [isChecked, setIsChecked] = useState(false);
+    const [isChecked, setIsChecked] = useState(true);
+
     useEffect(() => {
         LotApi.getList((data) => {
             const resData = data.response;
@@ -126,6 +127,7 @@ const Lot = () => {
             });
         });
     }, []);
+
 
     const buttonList = [
 
@@ -498,7 +500,10 @@ const Lot = () => {
                 >
 
                     <div>
-                        <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "#E29E21" }} >
+                        <Button size="small" type="submit" variant="contained" 
+                        style={{ backgroundColor: "#E29E21" }
+                        } onClick={() => {
+                          }} >
                             조회
                         </Button>
                         <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "darkgreen" }}>
