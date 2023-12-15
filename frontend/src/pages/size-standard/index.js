@@ -104,22 +104,22 @@ const Standard = () => {
 
   const updateSizeStandard = async () => {
     const updateFlag = false;
-    let result = "Max 값이 Min 값보다 작을 수 없습니다.\n다음 데이터를 확인해주세요.\n\n";
+    let result = "다음 데이터를 확인해주세요.\n\n";
 
     sizeStandardList.map(item => {
-      if (item.orderThickMin > item.orderThickMax) {
+      if (item.orderThickMin < 0 || item.orderThickMax < 0 || item.orderThickMin > item.orderThickMax) {
         result += item.processCd + " " + item.firmPsFacTp + "공장 두께\n";
         updateFlag = true;
       }
-      if (item.orderWidthMin > item.orderWidthMax) {
+      if (item.orderWidthMin < 0 || item.orderWidthMax < 0 || item.orderWidthMin > item.orderWidthMax) {
         result += item.processCd + " " + item.firmPsFacTp + "공장 폭\n"
         updateFlag = true;
       }
-      if (item.orderLengthMin > item.orderLengthMax) {
+      if (item.orderLengthMin < 0 || item.orderLengthMax < 0 || item.orderLengthMin > item.orderLengthMax) {
         result += item.processCd + " " + item.firmPsFacTp + "공장 길이\n"
         updateFlag = true;
       }
-      if (item.hrRollUnitWgtMax1 > item.hrRollUnitWgtMax2) {
+      if (item.hrRollUnitWgtMax1 < 0 || item.hrRollUnitWgtMax2 < 0 || item.hrRollUnitWgtMax1 > item.hrRollUnitWgtMax2) {
         result += item.processCd + " " + item.firmPsFacTp + "공장 단중\n"
         updateFlag = true;
       }
