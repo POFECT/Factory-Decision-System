@@ -15,7 +15,6 @@ const FactoryStandardApi={
     await axiosApi()
     .get(`/factory-standard/confirmfactory/${processCD}`)
     .then((response)=>{
-      console.log(response)
       callback && callback(response.data);
     })
     .catch((error)=>{
@@ -32,6 +31,18 @@ const FactoryStandardApi={
       console.log(error);
     })
     .finally(()=>{});
+  },
+  updatePossibleFactory:async(processCd,checkedList)=>{
+    await axiosApi().patch("/factory-standard/updatePossibleFactory",{
+      processCd:processCd,
+      checkedList:checkedList,
+    })
+    .then((response) => {
+      callback && callback(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   },
 }
 
