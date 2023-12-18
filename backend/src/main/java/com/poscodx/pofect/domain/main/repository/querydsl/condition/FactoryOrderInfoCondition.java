@@ -39,5 +39,12 @@ public class FactoryOrderInfoCondition extends DefaultCondition {
         return factoryOrderInfo.ordThwTapWekCd.eq(week);
     }
 
+    public static BooleanExpression inOrdPdtItpCdN(List<String> codes) {
+        if(codes == null || codes.isEmpty()) {
+            return null;
+        }
+        return factoryOrderInfo.ordPdtItpCdN.in(codes);
+    }
+
 
 }

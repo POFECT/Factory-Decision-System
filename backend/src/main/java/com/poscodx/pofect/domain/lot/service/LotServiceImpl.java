@@ -52,6 +52,7 @@ public class LotServiceImpl implements LotService{
                                 )
                         )
                 ));
+        System.out.println(collect);
 
         return getLotGroupDtos(collect, searchDto.getIsChecked());
     }

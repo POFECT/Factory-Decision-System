@@ -33,7 +33,6 @@ public class LotController {
         List<LotGroupDto> lotAll = lotService.findLotAll(searchDto);
 //        return new ResponseEntity<>(new ResponseDto());
 //        List<LotGroupDto> lotAll = lotService.findLotAll();
-        System.out.println("size : " + lotAll.size());
         return new ResponseEntity<>(new ResponseDto(lotAll), HttpStatus.OK);
     }
 }
