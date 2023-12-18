@@ -150,14 +150,17 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                 String processCd = list.getProcessCd();
                 String factory = list.getFirmPsFacTp();
 
+                boolean exist = false;
                 for (PossibleToConfirmResDto es : essentialResult) {
                     if(es.getProcessCD().equals(processCd)) {
+                        exist = true;
                         List<String> factories = es.getFirmPsFacTpList();
                         if (factories != null && factories.contains(factory)) {
                             essentialStr.append(1);
                         } else essentialStr.append(0);
                     }
                 }
+                if(!exist) essentialStr.append(0);
             }
             order.changePosbPassFacEs(essentialStr.toString());
 
@@ -170,14 +173,17 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                 String processCd = list.getProcessCd();
                 String factory = list.getFirmPsFacTp();
 
+                boolean exist = false;
                 for (SizeStandardSetDto size : sizeResult) {
                     if(size.getProcessCD().equals(processCd)) {
+                        exist = true;
                         List<String> factories = size.getFirmPsFacTpList();
                         if (!factories.isEmpty() && factories.contains(factory)) {
                             sizeStr.append(1);
                         } else sizeStr.append(0);
                     }
                 }
+                if(!exist) sizeStr.append(0);
             }
             order.changePosbPassFacSize(sizeStr.toString());
 
