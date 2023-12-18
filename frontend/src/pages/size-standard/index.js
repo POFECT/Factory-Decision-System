@@ -18,9 +18,8 @@ import {
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import SizeStandardApi from "/src/api/SizeStandardApi";
-import { UpdateRounded } from "@mui/icons-material";
-import { set } from "nprogress";
-// import { Grid, Typography } from "@mui/material";
+import * as FileSaver from "file-saver";
+import XLSX from "sheetjs-style";
 
 function MyCell(props) {
   let style = {
@@ -75,39 +74,40 @@ const Standard = () => {
   }, []);
 
   const getSizeStadards = () => {
-  SizeStandardApi.getList((data) => {
-    const resData = data.response;
-    
-    const resultData = resData.map(item => {
-      console.log(item.id);
-      if (item.processCd === "10") {
-        return { ...item, processCd: "제강" }
-      } else if (item.processCd === "20") {
-        return { ...item, processCd: "열연" }
-      } else if (item.processCd === "30") {
-        return { ...item, processCd: "열연정정" }
-      } else if (item.processCd === "40") {
-        return { ...item, processCd: "냉간압연" }
-      } else if (item.processCd === "50") {
-        return { ...item, processCd: "1차소둔" }
-      } else if (item.processCd === "60") {
-        return { ...item, processCd: "2차소둔" }
-      } else if (item.processCd === "70") {
-        return { ...item, processCd: "도금" }
-      } else if (item.processCd === "80") {
-        return { ...item, processCd: "정정" }
-      }
+    SizeStandardApi.getList((data) => {
+      const resData = data.response;
 
-      return item;
+      const resultData = resData.map(item => {
+        console.log(item.id);
+        if (item.processCd === "10") {
+          return { ...item, processCd: "제강" }
+        } else if (item.processCd === "20") {
+          return { ...item, processCd: "열연" }
+        } else if (item.processCd === "30") {
+          return { ...item, processCd: "열연정정" }
+        } else if (item.processCd === "40") {
+          return { ...item, processCd: "냉간압연" }
+        } else if (item.processCd === "50") {
+          return { ...item, processCd: "1차소둔" }
+        } else if (item.processCd === "60") {
+          return { ...item, processCd: "2차소둔" }
+        } else if (item.processCd === "70") {
+          return { ...item, processCd: "도금" }
+        } else if (item.processCd === "80") {
+          return { ...item, processCd: "정정" }
+        }
+
+        return item;
+      })
+
+
+      setSizeStandardList(resultData);
+
+      // if (sizeStandardList.length != 0) {
+      //   setSizeStandardList(sizeStandardList[0].id);
+      // }
     })
-  
-
-    setSizeStandardList(resultData);
-
-    // if (sizeStandardList.length != 0) {
-    //   setSizeStandardList(sizeStandardList[0].id);
-    // }
-  })};
+  };
 
   const updateSizeStandard = async () => {
     const updateFlag = false;
@@ -141,7 +141,7 @@ const Standard = () => {
         getSizeStadards();
 
       });
-      
+
     }
 
   };
@@ -211,6 +211,36 @@ const Standard = () => {
     },
   ];
 
+  // excel
+  const fileType =
+    "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
+  const fileExtension = ".xlsx";
+
+  const koreanHeaderMap = {
+    "processCd": "공정",
+    "firmPsFacTp": "공장",
+    "orderThickMin20": "두께min",
+    "orderThickMax": "두께max",
+    "orderWidthMin": "폭min",
+    "orderWidthMax": "폭max",
+    "orderLengthMin": "길이min",
+    "orderLengthMax": "길이max",
+    "hrRollUnitWgtMax1": "단중min",
+    "hrRollUnitWgtMax2": "단중max",
+  };
+
+  const exportToExcelSize = async () => {
+    const originalHeader = ["processCd","firmPsFacTp","orderThickMin", "orderThickMax", "orderWidthMin", "orderWidthMax", "orderLengthMin", "orderLengthMax", "hrRollUnitWgtMax1", "hrRollUnitWgtMax2"]
+    const sortedSizeList = [...sizeStandardList].sort((a, b) => a.id - b.id);
+    const excelData = sortedSizeList.map(item => originalHeader.map(key => item[key]));
+    const koreanHeader = originalHeader.map(englishKey => koreanHeaderMap[englishKey] || englishKey);
+  
+    const ws = XLSX.utils.aoa_to_sheet([koreanHeader, ...excelData]);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, "사이즈기준" + fileExtension);
+  }
 
 
   return (
@@ -230,7 +260,7 @@ const Standard = () => {
         }}
       >
         <div>
-        <FormControl
+          <FormControl
             sx={{ m: 1 }}
             style={{
               paddingTop: 10,
@@ -257,12 +287,12 @@ const Standard = () => {
           </FormControl>
         </div>
         <div>
-        <Button
+          <Button
             size="small"
             type="submit"
             variant="contained"
             onClick={getSizeStadards}
-            
+
             style={{ backgroundColor: "#E29E21" }}
           >
             조회
@@ -282,6 +312,7 @@ const Standard = () => {
             variant="contained"
             // onClick={exportToExcel}
             style={{ backgroundColor: "darkgreen" }}
+            onClick={exportToExcelSize}
           >
             Excel
           </Button>
