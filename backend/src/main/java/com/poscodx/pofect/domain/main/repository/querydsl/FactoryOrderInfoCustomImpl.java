@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.poscodx.pofect.domain.main.entity.QFactoryOrderInfo.factoryOrderInfo;
@@ -88,9 +89,16 @@ public class FactoryOrderInfoCustomImpl extends Querydsl4RepositorySupport imple
 
     @Override
     public List<LotResDto> findLotAll(LotSearchDto searchDto) {
+        List<String> faConfirmFlagList = new ArrayList<>();
+        faConfirmFlagList.add("E");
+        if (searchDto.getIsChecked()){
+            faConfirmFlagList.add("F");
+        }
         BooleanBuilder option = integration(
-                inFaConfirmFlag(List.of("E", "F")),
-                eqOrdThwTapWekCd(searchDto.getOrdThwTapWekCd())
+                inFaConfirmFlag(faConfirmFlagList),
+                eqOrdThwTapWekCd(searchDto.getOrdThwTapWekCd()),
+                inOrdPdtItpCdN(searchDto.getOrdPdtItpCdNList()),
+                inSmSteelGrdN(searchDto.getSmList())
         );
 
         return select(LotResDto.class,
