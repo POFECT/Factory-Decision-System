@@ -52,11 +52,12 @@ public class LotServiceImpl implements LotService{
                                 )
                         )
                 ));
+        System.out.println(collect);
 
-        return getLotGroupDtos(collect);
+        return getLotGroupDtos(collect, searchDto.getIsChecked());
     }
 
-    private static List<LotGroupDto> getLotGroupDtos(Map<String, Map<String, Map<Character, Map<String, Integer>>>> collect) {
+    private static List<LotGroupDto> getLotGroupDtos(Map<String, Map<String, Map<Character, Map<String, Integer>>>> collect, Boolean isChecked) {
         List<LotGroupDto> resultList = new ArrayList<>();
 
         for (Map.Entry<String, Map<String, Map<Character, Map<String, Integer>>>> entry : collect.entrySet()) {
@@ -66,7 +67,7 @@ public class LotServiceImpl implements LotService{
                 String faConfirmFlag = innerEntry.getKey();
 
 
-                if (entry.getValue().entrySet().size() == 1){
+                if (entry.getValue().entrySet().size() == 1 && isChecked){
                     if(!Objects.equals(faConfirmFlag, "E")) {
                         LotGroupDto addFlagEDto = LotGroupDto.builder()
                                 .smSteelGrdN(smSteelGrdN)
