@@ -64,13 +64,18 @@ const Lot = () => {
     });
 
     const [ordPdtItpCdNList, setOrdPdtItpCdNList] = useState([]);
+    const [smList, setSmList] = useState([]);
 
     const getLotList = (week) => {
         if (week == 0) week = null;
-        const listString = ordPdtItpCdNList.selectordPdtItpCdN != undefined 
+        const ordPdtItpCdNString = ordPdtItpCdNList.selectordPdtItpCdN != undefined 
         && ordPdtItpCdNList.selectordPdtItpCdN.size != 0 ? ordPdtItpCdNList.selectordPdtItpCdN.join(',') : undefined;
 
-        LotApi.getList(week, isChecked, listString, (data) => {
+        const smString = smList.selectSm != undefined 
+        && smList.selectSm.size != 0 ? smList.selectSm.join(',') : undefined;
+
+        console.log(smString);
+        LotApi.getList(week, isChecked, ordPdtItpCdNString, smString, (data) => {
             const resData = data.response;
             const testNum = 2;
 
@@ -220,15 +225,15 @@ const Lot = () => {
     const testList = [
 
         {
-            value: "777",
+            value: "SM1",
             label: "극저"
         },
         {
-            value: "888",
+            value: "SM2",
             label: "중저탄"
         },
         {
-            value: "999",
+            value: "SM3",
             label: "중고탄"
         },
     ];
@@ -340,8 +345,7 @@ const Lot = () => {
     };
 
     const handleCheckboxChange = () => {
-        console.log(ordPdtItpCdNList);
-        console.log(Array.isArray(ordPdtItpCdNList.test));
+        console.log(smList);
         setIsChecked(!isChecked);
     };
 
@@ -400,9 +404,6 @@ const Lot = () => {
                             id="demo-multiple-name"
                             defaultValue="T"
                             input={<OutlinedInput label="구분" />}
-                            onChange={(e) => {
-                                console.log(e);
-                            }}
                             style={{ height: 40 }}
                         >
                             <MenuItem value="T">포항</MenuItem>
@@ -488,6 +489,12 @@ const Lot = () => {
                             components={makeAnimated}
                             isMulti
                             options={testList}
+                            onChange={(e) => {
+                                setSmList((prev) => {
+                                    const selectSm = e.map((item) => {return item.value})
+                                    return { ...prev, selectSm };
+                                });
+                            }}
                             
                         />
                     </div>
@@ -513,15 +520,7 @@ const Lot = () => {
                                     const selectordPdtItpCdN = e.map((item) => {return item.value})
                                     return { ...prev, selectordPdtItpCdN };
                                 });
-                                // e.map((item) => {
-                                //     setOrdPdtItpCdNList((prev) => {
-                                //         return { ...prev, item };
-                                //       });
-                                // })
                             }}
-                            // value={testList.find(function (option) {
-                            //     return option.value === ordPdtItpCdNList;
-                            //   })}
                         />
                     </div>
                 </div>
