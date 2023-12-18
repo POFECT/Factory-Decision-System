@@ -97,7 +97,8 @@ public class FactoryOrderInfoCustomImpl extends Querydsl4RepositorySupport imple
         BooleanBuilder option = integration(
                 inFaConfirmFlag(faConfirmFlagList),
                 eqOrdThwTapWekCd(searchDto.getOrdThwTapWekCd()),
-                inOrdPdtItpCdN(searchDto.getOrdPdtItpCdNList())
+                inOrdPdtItpCdN(searchDto.getOrdPdtItpCdNList()),
+                inSmSteelGrdN(searchDto.getSmList())
         );
 
         return select(LotResDto.class,

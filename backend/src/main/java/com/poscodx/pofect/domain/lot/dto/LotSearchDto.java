@@ -13,4 +13,5 @@ public class LotSearchDto {
     private String ordThwTapWekCd;
     private Boolean isChecked;
     private List<String> ordPdtItpCdNList;
+    private List<String> smList;
 }
