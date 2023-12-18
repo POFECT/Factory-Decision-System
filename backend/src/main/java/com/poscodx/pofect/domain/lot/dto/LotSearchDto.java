@@ -9,4 +9,5 @@ import lombok.*;
 @NoArgsConstructor
 public class LotSearchDto {
     private String ordThwTapWekCd;
+    private Boolean isChecked;
 }
