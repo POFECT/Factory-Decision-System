@@ -129,8 +129,10 @@ public class CapacityServiceImpl implements CapacityService {
 
     //update
     @Override
-    public void updateFaAdjustmentWgt(Long id, Long faAdjustmentWgt, String week) {
-        capacityRepository.updateFaAdjustmentWgt(id, faAdjustmentWgt, week);
+    public void updateFaAdjustmentWgt(List<CapacityInfoDto> updateList) {
+        for (CapacityInfoDto dto : updateList) {
+            capacityRepository.updateFaAdjustmentWgt(dto.getId(), dto.getFaAdjustmentWgt(), dto.getOrdRcpTapWekCd());
+        }
     }
 
 
