@@ -12,7 +12,9 @@ import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 import com.poscodx.pofect.domain.main.repository.FactoryOrderInfoRepository;
 import com.poscodx.pofect.common.exception.CustomException;
 import com.poscodx.pofect.common.exception.ErrorCode;
+import com.poscodx.pofect.domain.passstandard.dto.ConfirmFactoryStandardResDto;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleToConfirmResDto;
+import com.poscodx.pofect.domain.passstandard.service.ConfirmFactoryStandardService;
 import com.poscodx.pofect.domain.passstandard.service.PossibleFactoryStandardService;
 import com.poscodx.pofect.domain.processstandard.service.ProcessStandardService;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
@@ -34,6 +36,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
     private final PossibleFactoryStandardService possibleFactoryStandardService;
     private final EssentialStandardService essentialStandardService;
     private final CapacityService capacityService;
+    private final ConfirmFactoryStandardService confirmFactoryStandardService;
 //    private final SizeStandardService sizeStandardService;
 
     // 없어질 예정
@@ -118,6 +121,9 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         /** 경유공정 설계 */
         String passResult = processStandardService.getByOrdPdtItdsCdN(order.getOrdPdtItdsCdN());
 
+        // 경유공정 설계 결과 저장
+        order.changePosbPassFacProcess(passResult);
+
         // 설계 에러 - FLAG update, 설계일시 update
         if("00000000".equals(passResult)) {
             order.changeFlag("C");  // FA_CONFIRM_FLAG update
@@ -131,21 +137,58 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                 if(passResult.charAt(i) == '1') processList.add(Integer.toString(j));
             }
 
+            // 전체 공정의 공장 리스트 - ProcessCdAsc FirmPsFacTpAsc
+            List<ConfirmFactoryStandardResDto> factoryList = confirmFactoryStandardService.getFactoryList();
+
             /** 필수재 설계 */
             List<EssentialStandardBtiPosReqDto> e = essentialStandardService.applyEssentialStandard(getById(order.getId()), processList);
             List<PossibleToConfirmResDto> essentialResult = possibleFactoryStandardService.possibleToConfirm(e);
 
+            // 필수재 설계 결과 저장
+            StringBuilder essentialStr = new StringBuilder();
+            for (ConfirmFactoryStandardResDto list: factoryList) {
+                String processCd = list.getProcessCd();
+                String factory = list.getFirmPsFacTp();
+
+                for (PossibleToConfirmResDto es : essentialResult) {
+                    if(es.getProcessCD().equals(processCd)) {
+                        List<String> factories = es.getFirmPsFacTpList();
+                        if (factories != null && factories.contains(factory)) {
+                            essentialStr.append(1);
+                        } else essentialStr.append(0);
+                    }
+                }
+            }
+            order.changePosbPassFacEs(essentialStr.toString());
+
             /** 사이즈 기준 설계 */
             List<SizeStandardSetDto> sizeResult = setSizeStandard(order.getId(), processList);
 
-            System.out.println("size");
-            for(SizeStandardSetDto s: sizeResult) {
-                System.out.print(s.getProcessCD()+" : ");
-                for(String g : s.getFirmPsFacTpList()) {
-                    System.out.print(g+",");
+            // 사이즈 설계 결과 저장
+            StringBuilder sizeStr = new StringBuilder();
+            for (ConfirmFactoryStandardResDto list: factoryList) {
+                String processCd = list.getProcessCd();
+                String factory = list.getFirmPsFacTp();
+
+                for (SizeStandardSetDto size : sizeResult) {
+                    if(size.getProcessCD().equals(processCd)) {
+                        List<String> factories = size.getFirmPsFacTpList();
+                        if (!factories.isEmpty() && factories.contains(factory)) {
+                            sizeStr.append(1);
+                        } else sizeStr.append(0);
+                    }
                 }
-                System.out.println();
             }
+            order.changePosbPassFacSize(sizeStr.toString());
+
+//            System.out.println("size");
+//            for(SizeStandardSetDto s: sizeResult) {
+//                System.out.print(s.getProcessCD()+" : ");
+//                for(String g : s.getFirmPsFacTpList()) {
+//                    System.out.print(g+",");
+//                }
+//                System.out.println();
+//            }
 
             for (int i = 0, j = 10; i < 8; i++, j += 10) {
                 // 해당 공정 필요 없을 때
