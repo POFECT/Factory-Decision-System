@@ -64,12 +64,13 @@ const Lot = () => {
     });
 
     const [ordPdtItpCdNList, setOrdPdtItpCdNList] = useState([]);
-    const [ordPdtItpCdNList2, setOrdPdtItpCdNList2] = useState([]);
 
     const getLotList = (week) => {
         if (week == 0) week = null;
+        const listString = ordPdtItpCdNList.selectordPdtItpCdN != undefined 
+        && ordPdtItpCdNList.selectordPdtItpCdN.size != 0 ? ordPdtItpCdNList.selectordPdtItpCdN.join(',') : undefined;
 
-        LotApi.getList(week, isChecked, (data) => {
+        LotApi.getList(week, isChecked, listString, (data) => {
             const resData = data.response;
             const testNum = 2;
 
@@ -90,8 +91,8 @@ const Lot = () => {
                     if (item && item.widthGroups && item.widthGroups.width_1570_stand) {
                         newItem = { ...newItem, width_1570_stand: item.widthGroups.width_1570_stand }
                     }
-                    if (item && item.widthGroups && item.widthGroups.width_over_15702_stand) {
-                        newItem = { ...newItem, width_over_15702_stand: item.widthGroups.width_over_15702_stand }
+                    if (item && item.widthGroups && item.widthGroups.width_over_1570_stand) {
+                        newItem = { ...newItem, width_over_1570_stand: item.widthGroups.width_over_1570_stand }
                     }
                     return newItem;
                 } else if (item && item.faConfirmFlag === "F") {
@@ -246,7 +247,7 @@ const Lot = () => {
         { field: "width_1570_stand", headerName: "대기", width: 100, sortable: false, headerAlign: "center" },
         { field: "width_over_15701", headerName: "1", width: 100, sortable: false, headerAlign: "center" },
         { field: "width_over_15702", headerName: "2", width: 100, sortable: false, headerAlign: "center" },
-        { field: "width_over_15702_stand", headerName: "대기", width: 100, sortable: false, headerAlign: "center" },
+        { field: "width_over_1570_stand", headerName: "대기", width: 100, sortable: false, headerAlign: "center" },
 
         // { field: "합계", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
         {
@@ -286,9 +287,9 @@ const Lot = () => {
                 const width_970_stand = params.row.width_970_stand || 0;
                 const width_1270_stand = params.row.width_1270_stand || 0;
                 const width_1570_stand = params.row.width_1570_stand || 0;
-                const width_over_15702_stand = params.row.width_over_15702_stand || 0;
+                const width_over_1570_stand = params.row.width_over_1570_stand || 0;
 
-                return width_970_stand + width_1270_stand + width_1570_stand + width_over_15702_stand || "";
+                return width_970_stand + width_1270_stand + width_1570_stand + width_over_1570_stand || "";
             },
             headerAlign: "center"
         },
@@ -313,7 +314,7 @@ const Lot = () => {
         },
         {
             groupId: "1570~",
-            children: [{ field: "width_over_15701" }, { field: "width_over_15702" }, { field: "width_over_15702_stand" }],
+            children: [{ field: "width_over_15701" }, { field: "width_over_15702" }, { field: "width_over_1570_stand" }],
             headerAlign: "center"
         },
         {
@@ -340,6 +341,7 @@ const Lot = () => {
 
     const handleCheckboxChange = () => {
         console.log(ordPdtItpCdNList);
+        console.log(Array.isArray(ordPdtItpCdNList.test));
         setIsChecked(!isChecked);
     };
 
@@ -508,8 +510,8 @@ const Lot = () => {
                             options={buttonList}
                             onChange={(e) => {
                                 setOrdPdtItpCdNList((prev) => {
-                                    const ordPdtItpCdNList = e.map((item) => {return item.value})
-                                    return { ...prev, ordPdtItpCdNList };
+                                    const selectordPdtItpCdN = e.map((item) => {return item.value})
+                                    return { ...prev, selectordPdtItpCdN };
                                 });
                                 // e.map((item) => {
                                 //     setOrdPdtItpCdNList((prev) => {
@@ -538,7 +540,7 @@ const Lot = () => {
                         <Button size="small" type="submit" variant="contained" 
                         style={{ backgroundColor: "#E29E21" }
                         } onClick={() => {
-                            getLotList(weekList.select);
+                            getLotList(weekList.select, );
                           }}>
                             조회
                         </Button>
