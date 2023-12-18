@@ -230,27 +230,82 @@ const CapacityDetail = (props) => {
                     <TableCell
                       colSpan={2}
                       align="center"
-                      style={{ background: "lightgrey" }}
+                      style={
+                        props.order.posbPassFacProcess != null &&
+                        props.order.posbPassFacProcess.substr(0, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
                     ></TableCell>
-                    <TableCell colSpan={2} align="center"></TableCell>
                     <TableCell
                       colSpan={2}
                       align="center"
-                      style={{ background: "lightgrey" }}
+                      style={
+                        props.order.posbPassFacProcess != null &&
+                        props.order.posbPassFacProcess.substr(1, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
                     ></TableCell>
-                    <TableCell colSpan={3} align="center"></TableCell>
+                    <TableCell
+                      colSpan={2}
+                      align="center"
+                      style={
+                        props.order.posbPassFacProcess != null &&
+                        props.order.posbPassFacProcess.substr(2, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
                     <TableCell
                       colSpan={3}
                       align="center"
-                      style={{ background: "lightgrey" }}
+                      style={
+                        props.order.posbPassFacProcess != null &&
+                        props.order.posbPassFacProcess.substr(3, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
                     ></TableCell>
-                    <TableCell colSpan={2} align="center"></TableCell>
+                    <TableCell
+                      colSpan={3}
+                      align="center"
+                      style={
+                        props.order.posbPassFacProcess != null &&
+                        props.order.posbPassFacProcess.substr(4, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
                     <TableCell
                       colSpan={2}
                       align="center"
-                      style={{ background: "lightgrey" }}
+                      style={
+                        props.order.posbPassFacProcess != null &&
+                        props.order.posbPassFacProcess.substr(5, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
                     ></TableCell>
-                    <TableCell align="center"></TableCell>
+                    <TableCell
+                      colSpan={2}
+                      align="center"
+                      style={
+                        props.order.posbPassFacProcess != null &&
+                        props.order.posbPassFacProcess.substr(6, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacProcess != null &&
+                        props.order.posbPassFacProcess.substr(7, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell style={{ fontWeight: "bold", fontSize: 17 }}>
@@ -258,33 +313,157 @@ const CapacityDetail = (props) => {
                     </TableCell>
                     <TableCell
                       align="center"
-                      style={{ background: "lightgrey" }}
-                    ></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell
-                      align="center"
-                      style={{ background: "lightgrey" }}
-                    ></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell
-                      align="center"
-                      style={{ background: "lightgrey" }}
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(0, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
                     ></TableCell>
                     <TableCell
                       align="center"
-                      style={{ background: "lightgrey" }}
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(1, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
                     ></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(2, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(3, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(4, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(5, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(6, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(7, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(8, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(9, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(10, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(11, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(12, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(13, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(14, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(15, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacEs != null &&
+                        props.order.posbPassFacEs.substr(16, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell style={{ fontWeight: "bold", fontSize: 17 }}>
@@ -292,36 +471,157 @@ const CapacityDetail = (props) => {
                     </TableCell>
                     <TableCell
                       align="center"
-                      style={{ background: "lightgrey" }}
-                    ></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell
-                      align="center"
-                      style={{ background: "lightgrey" }}
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(0, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
                     ></TableCell>
                     <TableCell
                       align="center"
-                      style={{ background: "lightgrey" }}
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(1, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
                     ></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
                     <TableCell
                       align="center"
-                      style={{ background: "lightgrey" }}
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(2, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
                     ></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
                     <TableCell
                       align="center"
-                      style={{ background: "lightgrey" }}
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(3, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
                     ></TableCell>
-                    <TableCell align="center"></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(4, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(5, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(6, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(7, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(8, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(9, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(10, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(11, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(12, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(13, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(14, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(15, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      style={
+                        props.order.posbPassFacSize != null &&
+                        props.order.posbPassFacSize.substr(16, 1) == "1"
+                          ? { background: "lightgrey" }
+                          : null
+                      }
+                    ></TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell style={{ fontWeight: "bold", fontSize: 17 }}>
