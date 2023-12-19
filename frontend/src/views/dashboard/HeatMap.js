@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
-import { Typography } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -18,7 +18,7 @@ const options = {
           {
             from: -1,
             to: 0,
-            color: "#4caf50",
+            color: "#8ECEFF",
             name: "low",
           },
         ],
@@ -32,38 +32,27 @@ const options = {
 
 const series = [
   {
-    name: "Fri",
+    name: "제4 출강주",
     data: formatData([
-      0, 0, 0, 0, 20, 40, 45, 45, 30, 20, 5, 5, 15, 35, 35, 20, 45, 40, 25, 5,
-      20, 25, 40, 5,
+      0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160,
     ]),
   },
   {
-    name: "Thu",
+    name: "제3 출강주",
     data: formatData([
-      0, 0, 15, 10, 40, 25, 35, 25, 30, 10, 5, 5, 5, 20, 30, 30, 10, 15, 15, 5,
-      55, 20, 20, 5,
+      0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160,
     ]),
   },
   {
-    name: "Wed",
+    name: "제2 출강주",
     data: formatData([
-      0, 0, 5, 10, 35, 25, 30, 30, 5, 20, 0, 0, 15, 10, 20, 5, 40, 25, 20, 30,
-      45, 20, 15, 5,
+      0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160,
     ]),
   },
   {
-    name: "Tue",
+    name: "제1 출강주",
     data: formatData([
-      0, 0, 4, 0, 28, 28, 12, 28, 44, 28, 28, 8, 0, 8, 16, 32, 20, 36, 36, 44,
-      28, 32, 4, 4,
-    ]),
-  },
-  {
-    name: "Mon",
-    data: formatData([
-      0, 4, 0, 4, 4, 0, 4, 12, 16, 24, 16, 8, 16, 4, 20, 32, 48, 44, 36, 36, 90,
-      28, 8, 16,
+      0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160,
     ]),
   },
 ];
@@ -71,30 +60,23 @@ const series = [
 function formatData(data) {
   let newData = [];
   let categories = [
-    "7:00-7.30",
-    "7:30-8.00",
-    "8:00-8.30",
-    "8:30-9.00",
-    "9:00-9.30",
-    "9:30-10.00",
-    "10:00-10.30",
-    "10:30-11.00",
-    "11:00-11.30",
-    "11:30-12.00",
-    "12:00-12.30",
-    "12:30-1.00",
-    "1:00-1.30",
-    "1.30-2.00",
-    "2:00-2.30",
-    "2:30-3.00",
-    "3:00-3.30",
-    "3:30-4.00",
-    "4:00-4.30",
-    "4:30-5.00",
-    "5:00-5.30",
-    "5:30-6.00",
-    "6:00-6.30",
-    "6:30-7.00",
+    "1제강",
+    "2제강",
+    "1열연",
+    "2열연",
+    "1열연정정",
+    "2열연정정",
+    "1PCM",
+    "2PCM",
+    "3PCM",
+    "1CAL",
+    "2CAL",
+    "3CAL",
+    "1ACL",
+    "3ACL",
+    "2EGL",
+    "3EGL",
+    "1RCL",
   ];
 
   for (var i = 0; i < categories.length; i++) {
@@ -117,9 +99,9 @@ export default function HeatMap() {
   }, []);
 
   return (
-    <>
+    <Card>
       <Typography variant="h5" style={{ padding: "10px 10px 0px 15px" }}>
-        출강주 별 공장 투입 건 수{" "}
+        출강주 별 공장 투입 건 수
       </Typography>
       <ReactApexChart
         options={options}
@@ -128,6 +110,6 @@ export default function HeatMap() {
         height="350"
         width="100%"
       />
-    </>
+    </Card>
   );
 }

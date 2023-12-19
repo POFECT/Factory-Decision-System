@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 import { Treemap } from "recharts";
 const WeeklyHeatMap = () => {
   const data = [
@@ -345,7 +345,7 @@ const WeeklyHeatMap = () => {
   ];
 
   return (
-    <>
+    <Card>
       <Typography variant="h5" style={{ padding: "10px 10px 0px 15px" }}>
         출강주 별 공장 투입 건 수
       </Typography>
@@ -357,9 +357,9 @@ const WeeklyHeatMap = () => {
         aspectRatio={4 / 3}
         stroke="#fff"
         fill="#09537F"
-        animationDuration={5000}
+        animationDuration={1000}
       />
-    </>
+    </Card>
   );
 };
 
