@@ -9,20 +9,15 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-import { Bar, Pie } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import DashBoardApi from "src/api/DashBoardApi";
 import { Paper, Typography, Grid, Box, Card, Tabs, Tab } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import ApexChartWrapper from "src/@core/styles/libs/react-apexcharts";
-import Trophy from "src/views/dashboard/Trophy";
-import CardStatisticsVerticalComponent from "src/@core/components/card-statistics/card-stats-vertical";
-import Poll from "mdi-material-ui/Poll";
-import CurrencyUsd from "mdi-material-ui/CurrencyUsd";
-import HelpCircleOutline from "mdi-material-ui/HelpCircleOutline";
-import BriefcaseVariantOutline from "mdi-material-ui/BriefcaseVariantOutline";
-import SalesByCountries from "src/views/dashboard/SalesByCountries";
-import DepositWithdraw from "src/views/dashboard/DepositWithdraw";
+
 import dynamic from "next/dynamic";
+import WeeklyHeatMap from "src/views/dashboard/WeeklyHeatMap";
+import HeatMap from "src/views/dashboard/HeatMap";
 
 ChartJS.register(
   CategoryScale,
@@ -123,15 +118,21 @@ export default function BarChart() {
 
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
-    // event.preventDefault();
     setValue(newValue);
   };
 
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>
-        <Grid item xs={12} md={12}>
-          <Card style={{ display: "flex" }}>sdad</Card>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <HeatMap />
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <WeeklyHeatMap />
+          </Card>
         </Grid>
         <Grid item xs={12} md={6} lg={4} sx={{ paddingBottom: 4 }}>
           <Paper>
@@ -210,7 +211,6 @@ export default function BarChart() {
             </div>
           </Card>
         </Grid>
-
         <Grid item xs={12}>
           <Paper>
             <Typography variant="h5" style={{ padding: "10px 20px 10px 20px" }}>
