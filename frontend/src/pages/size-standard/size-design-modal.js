@@ -1,15 +1,10 @@
 // pass-standard/pass-modal.js
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     Card,
     Grid,
     Typography,
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel,
-    OutlinedInput,
     Button
 } from "@mui/material";
 import {
@@ -17,7 +12,6 @@ import {
     DialogTitle,
     DialogContent,
     DialogContentText,
-    DialogActions,
     Button as MuiButton, // Rename Button to MuiButton to avoid conflict
 } from '@mui/material';
 import "react-datasheet-grid/dist/style.css";
@@ -26,35 +20,6 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 //excel
 import SizeStandardApi from 'src/api/SizeStandardApi';
-
-function MyCell(props) {
-    let style = {
-        minWidth: props.width,
-        maxWidth: props.width,
-        minHeight: props.height,
-        maxHeight: props.height === "auto" ? "none" : props.height,
-        ...props.style,
-        //중앙배열
-        display: "flex",
-        alignItems: "center",
-        headerAlign: 'center',
-        justifyContent: "center",
-    };
-    const apiRef = useGridApiContext();
-    const row = apiRef.current.getRow(props.rowId);
-
-    if (row && row.rowSpan && row.rowSpan[props.column.field]) {
-        const span = row.rowSpan[props.column.field];
-        style = {
-            ...style,
-            minHeight: props.height * span,
-            maxHeight: props.height * span,
-            backgroundColor: "gray",
-            zIndex: 1,
-        };
-    }
-    return <GridCell {...props} style={style} />;
-}
 
 const SizeDesignModal = ({ open, handleClose }) => {
     const [columns, setColumns] = useState([
@@ -137,6 +102,12 @@ const SizeDesignModal = ({ open, handleClose }) => {
     const clearResult = () => {
         setResultSize([]);
         setResultFlag(false);
+        setRows([
+            { id: 1, name: "두께", value: "thick", inputValue: 0 },
+            { id: 2, name: "폭", value: "width", inputValue: 0 },
+            { id: 3, name: "길이", value: "length", inputValue: 0 },
+            { id: 4, name: "단중", value: "roll", inputValue: 0 }
+        ]);
     }
 
     return (
@@ -246,7 +217,7 @@ const SizeDesignModal = ({ open, handleClose }) => {
                                         flexBasis: "85",
                                         marginRight: "16px ",
                                         padding: "10px",
-                                        height: "110%",
+                                        height: "109%",
                                     }}
                                 >
                                     <Box

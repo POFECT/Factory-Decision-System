@@ -1,5 +1,5 @@
 "use strict";
-import { useCallback, useState, useMemo, StrictMode, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 import "react-datasheet-grid/dist/style.css";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
@@ -303,7 +303,7 @@ const Standard = () => {
             type="submit"
             variant="contained"
             onClick={clikcModal}
-            style={{ backgroundColor: "#E29E21" }}
+            style={{ backgroundColor: "#0A5380" }}
           >
             임시 설계
           </Button>
