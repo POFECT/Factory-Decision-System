@@ -25,7 +25,7 @@ import {
 } from "chart.js";
 
 import { GridToolbar } from "@mui/x-data-grid";
-import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
+import { DataGrid, GridCell, useGridApiContext, GridCellEditStopReasons } from "@mui/x-data-grid";
 import ModalTest from "./modal-test";
 import React, {
     useEffect,
@@ -79,7 +79,6 @@ const CapacityMgt = () => {
 
     // 능력
     const [capacity, setCapacity] = useState([]);
-
     const [labels, setLabels] = useState([]);
 
     // 출강주
@@ -88,10 +87,20 @@ const CapacityMgt = () => {
         select: "",
     });
 
+    //Update
+    const [editedCellValue, setEditedCellValue] = useState('');
+
+    const handleCellEditCommit = (params) => {
+    console.log(params);
+    const updatedList = capacity.map((item) =>
+      item.id === params.id ? params : item
+    );
+
+    setCapacity(updatedList);
+  };
+
     useEffect(() => {
-        CapacityStandardApi.getCapacityListByWeek((data) => {
-            setCapacity(data.response);
-        });
+        handleSearch();
 
         CapacityStandardApi.getWeek("H", ["D", "E"], (data) => {
             const list = data.response;
@@ -119,50 +128,6 @@ const CapacityMgt = () => {
     console.log(" weeklist:", weekList);
 
 
-    console.log(" capacity:",capacity[0])
-    console.log(" capacity[0].processCd:",capacity[0]?.processCd);
-    console.log(capacity[0]?.firmPsfac_tp);
-
-//   useEffect(() => {
-//   const calculatedData = capacity.map((item) => {
-//     const remainingQty = `${item.faAdjustmentWgt - item.progressQty}`;
-//     return { ...item, remainingQty };
-//   });
-//    console.log("*", calculatedData);
-
-//   setRemainingQtyData(calculatedData);
-// }, [capacity]);
-
-
-//공장부하 차트
-    // const options = {
-    //   plugins: {
-    //     title: {
-    //       display: true,
-    //       text: "부하",
-    //     },
-    //   },
-    // };
-    // const inputStatusChartData = {
-    //   labels: labels,
-    //   datasets: [
-    //     {
-    //       label: "공장1",
-    //       data: capacity,
-    //       backgroundColor: "rgba(53, 162, 235, 0.5)",
-    //     },
-    //     {
-    //       label: "공장2",
-    //       data: capacity,
-    //       backgroundColor: "rgba(53, 162, 235, 0.5)",
-    //     }, {
-    //       label: "공장3",
-    //       data: capacity,
-    //       backgroundColor: "rgba(53, 162, 235, 0.5)",
-    //     },
-    //   ],
-    // };
-    // //
 
     //컬럼
     const columns = [
@@ -176,18 +141,34 @@ const CapacityMgt = () => {
     ];
 
 //update
-    const handleCellEdit = (params) => {
-        const { id, field, value } = params;
-        const updatedCapacity = capacity.map((item) =>
-            item.id === id ? { ...item, [field]: value } : item
-        );
-        console.log("Updated capacity:", updatedCapacity);
+ 
+  const updateCapacity = async () => {
+    const updateFlag = false;
+    let result = "다음 데이터를 확인해주세요.\n\n";
+
+    capacity.map(item => {
+      if (isNaN(item.faAdjustmentWgt) ) {
+          result += item.processName + " " + item.firmPsFacTp + "공장 조정량\n";
+        updateFlag = true;
+      }
+      
+    })
+
+    if (updateFlag) {
+      alert(result);
+      // getSizeStadards();
+    } else if (!updateFlag) {
+      await CapacityStandardApi.updateSave(capacity, (data) => {
+        alert("저장되었습니다.");
+
+      });
+      
+    }
+
+  };
 
 
-        setCapacity(updatedCapacity);
-    };
-
-    //excel
+  //excel
     const fileType =
         "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
     const fileExtension = ".xlsx";
@@ -255,6 +236,8 @@ const CapacityMgt = () => {
                             labelId="출강주"
                             id="demo-multiple-name"
                             value={weekList.select}
+                            defaultValue={0}
+
                             input={<OutlinedInput label="출강주" />}
                             onChange={(e) => {
                                 setWeekList(
@@ -277,11 +260,11 @@ const CapacityMgt = () => {
                     </FormControl>
                 </div>
                 <div>
-                    <Button size="small" type="submit" variant="contained" onClick={handleSearch} 
-                    style={{ backgroundColor: "#E29E21" }}>
+                    <Button size="small" type="submit" variant="contained" onClick={handleSearch}
+                            style={{ backgroundColor: "#E29E21" }}>
                         조회
                     </Button>
-                    <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "#0A5380" }} >
+                    <Button size="small" type="submit" variant="contained" onClick={updateCapacity} style={{ backgroundColor: "#0A5380" }} >
                         저장
                     </Button>
                     <Button
@@ -303,12 +286,12 @@ const CapacityMgt = () => {
                         padding: "16px",
                     }}
 
-                    
+
                 >
                     <Grid item xs={4} sx={{ paddingBottom: 5 , paddingTop:3, paddingLeft:3 }}>
                         <Typography variant="h5" > 공정별 능력 관리 </Typography>
-                        </ Grid>
-                    
+                    </ Grid>
+
                     <Box
                         sx={{
                             height: "100",
@@ -349,9 +332,16 @@ const CapacityMgt = () => {
                             disableRowSelectionOnClick
                             rows={capacity}
                             columns={columns}
-                            onCellClick={(e) => {
-                                console.log(e);
+                            // onCellEditStop={(params, event) => {
+                            //     if (params.field === 'faAdjustmentWgt' && params.reason === GridCellEditStopReasons.cellEdit) {
+                            //         handleFaAdjustmentWgtEdit(params.id, params.value);
+                            //     }
+                            // }}
+                        processRowUpdate={(newVal) => {
+                        handleCellEditCommit(newVal)
+                        return newVal;
                             }}
+                        
                             components={{
                                 // Toolbar: GridToolbar,
                                 Cell: MyCell,
@@ -360,7 +350,7 @@ const CapacityMgt = () => {
                             hideFooterPagination={true}
                             hideFooter={true}
                             disableColumnReorder
-                            onEditCellChange={handleCellEdit}
+
 
                         />
 
@@ -385,9 +375,9 @@ const CapacityMgt = () => {
             /> */}
                         {/* <RadarChart week={weekList} capacity={capacity} /> */}
 
-                        
-                        <MyD3Heatmap 
-                        capacity={capacity} />
+
+                        <MyD3Heatmap
+                            capacity={capacity} />
 
                     </Grid>
                     {/* <MyHeatmap capacity={capacity} /> */}
@@ -403,7 +393,7 @@ const CapacityMgt = () => {
                 </Card>
 
             </div>
-    
+
         </>
     );
 };
