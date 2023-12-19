@@ -28,43 +28,53 @@ const possibleDetail =({a,openFun})=>{
   const [processFactoryList,setProcessFactoryList]=useState([]);//공정별 리스트
   const isSelected=2;
   const [checkedItemList,setCheckedItemList]=useState([]);//check여부 리스트 
+  const [checkedExplList,setCheckedExplList]=useState([]);//check된것들 Expl
   const setInitialData=null;
 
   useEffect(() => {
     FactoryStandardApi.getPossiblePopper(a.processCd, (data) => {
       setProcessFactoryList(data.response);//Table에 보여줄 리스트 세팅
-      const initialCheckedItems = data.response.map((item) => item.firmPsFacTp);
       //processFacNum값이 초기 세팅된 값이므로 setCheckedItemList에 세팅
+      console.log("a.processFacNum", a.processFacNum.map(String));
       setCheckedItemList(a.processFacNum.map(String));
-    }, []);
-  }, [a.processFacNum]);
+      const checkedExplList = data.response
+        .filter(item => a.processFacNum.map(String).includes(item.firmPsFacTp))
+        .map(item => item.cdExpl);
 
-  const handleCheckboxChange = (event, firmPsFacTp) => {
+      console.log("checked 설명리스트",checkedExplList);
+      // checkedExplList를 설정
+      setCheckedExplList(checkedExplList);
+    }, []);
+  }, [a.processFacNum,a.processFacNum]);
+
+  const handleCheckboxChange = (event, firmPsFacTp,cdExpl) => {
     console.log('Checkbox clicked!', event.target.checked, ' , 현재 체크된 번호 : ',firmPsFacTp);
     const updatedCheckedItemList = [...checkedItemList];
+    const updatedCheckedExplList=[...checkedExplList];
     if (event.target.checked) {
       // 체크가 되어 있지 않으면 추가
       updatedCheckedItemList.push(firmPsFacTp);
+      updatedCheckedExplList.push(cdExpl);
     } else {
       // 체크가 해제되면 제거
       const index = updatedCheckedItemList.indexOf(firmPsFacTp);
       if (index !== -1) {
         updatedCheckedItemList.splice(index, 1);
+        updatedCheckedExplList.splice(index, 1);
       }
     }
-    // 상태 업데이트
     setCheckedItemList(updatedCheckedItemList);
+    setCheckedExplList(updatedCheckedExplList);
   };
-
-  const saveCheck=()=>{
+  const savePossibleFactory=async()=>{
     console.log('Checked Item List 🔽');
-    console.log(checkedItemList)
-    console.log('processCd = '+a.processCd);
-    const savePossibleFactory=async()=>{
-      await FactoryStandardApi.updatePossibleFactory(a.processCd,checkedItemList,(data)=>{
-        console.log(data);
-      })
-    }
+    const checkedList=checkedItemList.sort().join('');
+    console.log("저장할 체크된번호리스트",checkedItemList)
+    console.log("저장할 설명리스트",checkedExplList.sort().join(','));
+    console.log('processCd = '+a.processCd+", bti코드 = "+a.btiPosbPsFacTp);
+    await FactoryStandardApi.updatePossibleFactory(a.btiPosbPsFacTp,a.processCd,checkedList,checkedExplList.sort().join(','),(data)=>{
+      console.log(data);
+    })
   }
 
   const processColumn = [
@@ -136,7 +146,7 @@ const possibleDetail =({a,openFun})=>{
                 <TableCell padding="checkbox" style={{width:"20%"}}>
                   <Checkbox
                     checked={checkedItemList.includes(e.firmPsFacTp)}
-                    onChange={(event) => handleCheckboxChange(event, e.firmPsFacTp)}                                                                                    
+                    onChange={(event) => handleCheckboxChange(event, e.firmPsFacTp,e.cdExpl)}                                                                                    
                     style={{margin:0,padding:0}}
                   />
                 </TableCell>
@@ -159,7 +169,7 @@ const possibleDetail =({a,openFun})=>{
                   type="submit" 
                   variant="contained" 
                   style={{ backgroundColor: "#0A5380",color:"white" }}
-                  onClick={()=>saveCheck()}
+                  onClick={savePossibleFactory}
                 >
                 저장
               </Button>

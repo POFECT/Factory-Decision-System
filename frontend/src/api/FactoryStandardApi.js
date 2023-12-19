@@ -32,10 +32,12 @@ const FactoryStandardApi={
     })
     .finally(()=>{});
   },
-  updatePossibleFactory:async(processCd,checkedList)=>{
+  updatePossibleFactory:async(btiPosbPsFacTp,processCd,checkedList,checkedExpl)=>{
     await axiosApi().patch("/factory-standard/updatePossibleFactory",{
+      btiPosbPsFacTp:btiPosbPsFacTp,
       processCd:processCd,
       checkedList:checkedList,
+      checkedExpl:checkedExpl
     })
     .then((response) => {
       callback && callback(response.data);

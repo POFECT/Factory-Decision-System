@@ -2,6 +2,8 @@ package com.poscodx.pofect.domain.passstandard.service;
 
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardBtiPosReqDto;
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardResDto;
+import com.poscodx.pofect.domain.passstandard.dto.PossibleChangeReqDto;
+import com.poscodx.pofect.domain.passstandard.dto.PossibleChangeResultResDto;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleFactoryStandardResDto;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleToConfirmResDto;
 import com.poscodx.pofect.domain.passstandard.entity.PossibleFactoryStandard;
@@ -9,6 +11,7 @@ import com.poscodx.pofect.domain.passstandard.repository.PossibleFactoryStandard
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -20,13 +23,6 @@ import java.util.stream.Collectors;
 public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStandardService {
 
     private final PossibleFactoryStandardRepository possibleFactoryStandardRepository;
-//    @Override
-//    public List<PossibleFactoryStandardResDto> getList() {
-//        return possibleFactoryStandardRepository.findAll().stream()
-//                .map(PossibleFactoryStandardResDto::toDto)
-//                .collect(Collectors.toList());
-//    }
-
     @Override
     public List<PossibleFactoryStandardResDto> getGridData() {
         return possibleFactoryStandardRepository.getGridData().stream()
@@ -72,4 +68,34 @@ public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStanda
         }
         else return "0";
     }
+
+    @Override
+    @Transactional
+    public PossibleChangeResultResDto updateFeasibleRoutingGroup(PossibleChangeReqDto checkedFactory){
+        String btiPosbPsFacTp= checkedFactory.getBtiPosbPsFacTp();
+        String processCd = checkedFactory.getProcessCd();
+        String checkedList = checkedFactory.getCheckedList();
+        String checkedExpl = checkedFactory.getCheckedExpl();
+
+        System.out.println("checkedList = "+checkedList+", expl = "+checkedExpl);
+        PossibleChangeResultResDto result =new PossibleChangeResultResDto();
+        int exist = possibleFactoryStandardRepository.checklistExist(btiPosbPsFacTp,processCd);
+        if(exist>0&&checkedList.length()>0){//이미 존재하는 기준 변경
+            //내용 변경 전, 똑같은 공장코드를 가진 code가 있는 지 유효성검사
+            int sameCount = possibleFactoryStandardRepository.checkFeasibleRoutingGroupSame(processCd,checkedList);
+            System.out.println(">> sameCount = "+sameCount);
+            if(sameCount==0){
+                possibleFactoryStandardRepository.updateFeasibleRoutingGroup(btiPosbPsFacTp,processCd,checkedList);
+                result.setResult("Update");
+            }else{
+                result.setResult("Fail");
+            }
+        } else if (exist>0) { //이미 존재하는 기준이지만, 체크값 아예 X
+            possibleFactoryStandardRepository.deleteFeasibleRoutingGroup(btiPosbPsFacTp,processCd);
+        }else{//현재 존재하지 않는 값을 insert
+            //possibleFactoryStandardRepository.insertFeasibleRoutingGroup(btiPosbPsFacTp,processCd,checkedList);
+        }
+        return result;
+    };
+
 }
