@@ -12,6 +12,8 @@ public interface ProcessStandardService {
 
     List<ProcessStandardDto> getProcessByItemList(String ordPdtItpCdN);
 
+    void updateProcessList(List<ProcessStandardDto> updateList);
+
 
 //    GrantCapacityDto getById(Long id);
 }
