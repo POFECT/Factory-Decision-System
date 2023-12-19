@@ -47,7 +47,7 @@ public class PossibleFactoryStandardController {
     public ResponseEntity<ResponseDto> updatePossibleFactory(@RequestBody PossibleChangeReqDto checkedFactory) {
         PossibleChangeResultResDto result = possibleFactoryStandardService.updateFeasibleRoutingGroup(checkedFactory);
         System.out.println(">>>>>>>>>>> RESULT >>>>>>>>> "+result.getResult());
-        return new ResponseEntity<>(new ResponseDto(result.getResult()), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 
 }

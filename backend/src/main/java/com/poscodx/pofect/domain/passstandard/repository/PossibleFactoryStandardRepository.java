@@ -63,19 +63,10 @@ public interface PossibleFactoryStandardRepository extends JpaRepository<Possibl
 
     @Modifying
     @Query(value="DELETE FROM possible_factory_standard pfs " +
-            "WHERE pfs.process_cd=:processCd and pfs.bti_posb_ps_fac_tp=:btiPosbPsFacTp;"
+            "WHERE pfs.process_cd=:processCd and pfs.bti_posb_ps_fac_tp=:btiPosbPsFacTp"
             ,nativeQuery = true)
-    void deleteFeasibleRoutingGroup(@Param("btiPosbPsFacTp")String btiPosbPsFacTp,
+    int deleteFeasibleRoutingGroup(@Param("btiPosbPsFacTp")String btiPosbPsFacTp,
                                     @Param("processCd") String processCd);
-
-//    @Modifying
-//    @Query(value="INSERT INTO possible_factory_standard pfs " +
-//            "(pfs.gcs_comp_code, pfs.mill_cd, pfs.process_cd, pfs.bti_posb_ps_fac_tp, pfs.feasible_routing_group, " +
-//            " pfs.cd_expl, pfs.user_id, pfs.last_update_date) " +
-//            "VALUES ('01', 'T', :processCd, :btiPosbPsFacTp , :checkedList, '설명', 'SYSTEM', now())"
-//            ,nativeQuery = true)
-//    void insertFeasibleRoutingGroup(String btiPosbPsFacTp, String processCd, String checkedList);
-
 
     @Query(value="SELECT count(pfs.feasible_routing_group) " +
             "FROM possible_factory_standard pfs " +
@@ -84,4 +75,16 @@ public interface PossibleFactoryStandardRepository extends JpaRepository<Possibl
     int checkFeasibleRoutingGroupSame(
             @Param("processCd") String processCd,
             @Param("checkedList") String checkedList);
+
+      @Modifying
+      @Query(value="INSERT INTO possible_factory_standard " +
+              "(gcs_comp_code, mill_cd, process_cd, bti_posb_ps_fac_tp, feasible_routing_group, " +
+              " cd_expl, user_id, last_update_date) " +
+              "VALUES ('01', 'T', :processCd, :btiPosbPsFacTp , :checkedList, :checkedExpl, 'SYSTEM', now())"
+              , nativeQuery = true)
+    int insertFeasibleRoutingGroup(
+              @Param("btiPosbPsFacTp")String btiPosbPsFacTp,
+              @Param("processCd") String processCd,
+              @Param("checkedList") String checkedList,
+              @Param("checkedExpl") String checkedExpl);
 }

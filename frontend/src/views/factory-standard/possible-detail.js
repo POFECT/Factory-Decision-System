@@ -35,17 +35,13 @@ const possibleDetail =({a,openFun})=>{
     FactoryStandardApi.getPossiblePopper(a.processCd, (data) => {
       setProcessFactoryList(data.response);//Table에 보여줄 리스트 세팅
       //processFacNum값이 초기 세팅된 값이므로 setCheckedItemList에 세팅
-      console.log("a.processFacNum", a.processFacNum.map(String));
       setCheckedItemList(a.processFacNum.map(String));
       const checkedExplList = data.response
         .filter(item => a.processFacNum.map(String).includes(item.firmPsFacTp))
         .map(item => item.cdExpl);
-
-      console.log("checked 설명리스트",checkedExplList);
-      // checkedExplList를 설정
       setCheckedExplList(checkedExplList);
     }, []);
-  }, [a.processFacNum,a.processFacNum]);
+  }, [a.processFacNum]);
 
   const handleCheckboxChange = (event, firmPsFacTp,cdExpl) => {
     console.log('Checkbox clicked!', event.target.checked, ' , 현재 체크된 번호 : ',firmPsFacTp);
@@ -67,15 +63,35 @@ const possibleDetail =({a,openFun})=>{
     setCheckedExplList(updatedCheckedExplList);
   };
   const savePossibleFactory=async()=>{
-    console.log('Checked Item List 🔽');
-    const checkedList=checkedItemList.sort().join('');
-    console.log("저장할 체크된번호리스트",checkedItemList)
-    console.log("저장할 설명리스트",checkedExplList.sort().join(','));
-    console.log('processCd = '+a.processCd+", bti코드 = "+a.btiPosbPsFacTp);
-    await FactoryStandardApi.updatePossibleFactory(a.btiPosbPsFacTp,a.processCd,checkedList,checkedExplList.sort().join(','),(data)=>{
-      console.log(data.response);
-    })
-  }
+    const checkedList = checkedItemList.sort().join('');
+    console.log("저장할 체크된 번호 리스트", checkedItemList);
+    console.log("저장할 설명 리스트", checkedExplList.sort().join(','));
+    const saveResult = "";
+    const res = await FactoryStandardApi.updatePossibleFactory(
+      a.btiPosbPsFacTp,
+      a.processCd,
+      checkedList,
+      checkedExplList.sort().join(','),
+      (data)=>{
+        saveResult=data.response.result;
+      }
+    );
+    console.log("코드 변경 시도 결과 ",saveResult)
+    
+    switch (saveResult) {
+      case "Delete":
+        alert("선택 해제한 코드 조합이 삭제되었습니다.");
+        break;
+      case "Update"||"Insert":
+        alert("변경한 코드 조합이 저장되었습니다.");
+        break;
+      case "Fail":
+        alert("이미 존재하는 가능통과코드 조합입니다.");
+        break;
+    }
+    //부분 새로고침 방법 생각하기
+    //window.location.reload();
+  };
 
   const processColumn = [
     { field:'isSelected', headerName:isSelected, hidden:true},
