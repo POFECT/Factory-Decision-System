@@ -42,5 +42,12 @@ public class ProcessStandardController {
         return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
     }
 
+    //  Update
+    @PatchMapping("/update")
+    @ApiOperation(value = "공유공정 update", notes = "공유공정 update")
+    public ResponseEntity<ResponseDto> updateProcessList(@RequestBody List<ProcessStandardDto> updateList) {
+        processStandardService.updateProcessList(updateList);
+        return new ResponseEntity<>(new ResponseDto(updateList), HttpStatus.OK);
+    }
 
 }

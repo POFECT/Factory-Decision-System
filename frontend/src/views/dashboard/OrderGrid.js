@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import DashBoardApi from "src/api/DashBoardApi";
@@ -16,43 +16,43 @@ const OrderGrid = () => {
     {
       field: "ordPdtItpCdN",
       headerName: "품종",
-      width: 150,
+      width: 50,
       headerAlign: "center",
     },
     {
       field: "countA",
       headerName: "주문 처리 상태",
-      width: 200,
+      width: 91,
       headerAlign: "center",
     },
     {
       field: "countB",
       headerName: "가능통과공장 확정",
-      width: 200,
+      width: 91,
       headerAlign: "center",
     },
     {
       field: "countC",
       headerName: "가능통과공장 조치 필요",
-      width: 200,
+      width: 91,
       headerAlign: "center",
     },
     {
       field: "countD",
       headerName: "가능통과공장 확정",
-      width: 200,
+      width: 91,
       headerAlign: "center",
     },
     {
       field: "countE",
       headerName: "확정통과공장 확정",
-      width: 200,
+      width: 91,
       headerAlign: "center",
     },
     {
       field: "countF",
       headerName: "제조 투입",
-      width: 200,
+      width: 91,
       headerAlign: "center",
     },
   ];
@@ -63,7 +63,7 @@ const OrderGrid = () => {
   }));
 
   return (
-    <Card>
+    <Paper elevation={3} style={{ padding: "15px" }}>
       <Typography variant="h5" style={{ padding: "10px 20px 10px 20px" }}>
         주문 조회
       </Typography>
@@ -97,12 +97,12 @@ const OrderGrid = () => {
           className="custom-data-grid"
           rows={changeRowData}
           columns={columns}
-          rowHeight={40}
+          rowHeight={30}
           hideFooterPagination={true}
           hideFooter={true}
         />
       </Box>
-    </Card>
+    </Paper>
   );
 };
 export default OrderGrid;

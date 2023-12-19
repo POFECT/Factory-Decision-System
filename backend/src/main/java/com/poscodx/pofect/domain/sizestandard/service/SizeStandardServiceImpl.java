@@ -5,10 +5,7 @@ import com.poscodx.pofect.domain.main.service.FactoryOrderInfoService;
 import com.poscodx.pofect.domain.main.service.FactoryOrderInfoServiceImpl;
 import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
 import com.poscodx.pofect.domain.processstandard.service.ProcessStandardService;
-import com.poscodx.pofect.domain.sizestandard.dto.RowSpan;
-import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardReqDto;
-import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
-import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardSetDto;
+import com.poscodx.pofect.domain.sizestandard.dto.*;
 import com.poscodx.pofect.domain.sizestandard.entity.FactorySizeStandard;
 import com.poscodx.pofect.domain.sizestandard.repository.SizeStandardRepository;
 import lombok.RequiredArgsConstructor;
@@ -66,6 +63,10 @@ public class SizeStandardServiceImpl implements SizeStandardService {
         FactoryOrderInfoResDto dto
                 = factoryOrderInfoService.getById(id);
 
+        Double hrProdThkAim = dto.getHrProdThkAim();
+        Double hrProdWthAim = dto.getHrProdWthAim();
+        String orderLength = dto.getOrderLength();
+        Double hrRollUnitWgtMax = dto.getHrRollUnitWgtMax();
         // 공정 리스트 가져옴
         Map<String, List<SizeStandardResDto>> result =
                 repository.findByProcessCdIn(processCodeList)
@@ -73,68 +74,7 @@ public class SizeStandardServiceImpl implements SizeStandardService {
                         .map(SizeStandardResDto::toDto)
                         .collect(Collectors.groupingBy(SizeStandardResDto::getProcessCd));
 
-        List<SizeStandardSetDto> sizeStandardSetDtoList = new ArrayList<>();
-
-        for (String process : result.keySet()) {
-            SizeStandardSetDto setDto = SizeStandardSetDto.builder()
-                    .processCD(process)
-                    .firmPsFacTpList(new ArrayList<>())
-                    .build();
-
-            for (SizeStandardResDto sizeStandardResDto : result.get(process)) {
-                List<Boolean> booleanList = new ArrayList<>();
-
-                Double hrProdThkAim = dto.getHrProdThkAim();
-                Double hrProdWthAim = dto.getHrProdWthAim();
-                String orderLength = dto.getOrderLength();
-                Double hrRollUnitWgtMax = dto.getHrRollUnitWgtMax();
-
-                if(!(sizeStandardResDto.getOrderThickMax() == 0 && sizeStandardResDto.getOrderThickMin() == 0)){
-                    if (sizeStandardResDto.getOrderThickMax() >= hrProdThkAim
-                            && sizeStandardResDto.getOrderThickMin() <= hrProdThkAim) {
-                        booleanList.add(true);
-                    } else {
-                        booleanList.add(false);
-                    }
-                }
-
-                if(!(sizeStandardResDto.getOrderWidthMax() == 0 && sizeStandardResDto.getOrderWidthMin() == 0)){
-                    if (sizeStandardResDto.getOrderWidthMax() >= hrProdWthAim
-                            && sizeStandardResDto.getOrderWidthMin() <= hrProdWthAim) {
-                        booleanList.add(true);
-                    } else {
-                        booleanList.add(false);
-                    }
-                }
-
-                if (!dto.getOrderLength().equals("C")) {
-                    if (!(Objects.equals(sizeStandardResDto.getOrderLengthMax(), "0") && Objects.equals(sizeStandardResDto.getOrderLengthMin(), "0"))) {
-                        if (sizeStandardResDto.getOrderLengthMax() >= Double.parseDouble(orderLength)
-                                && sizeStandardResDto.getOrderLengthMin() <= Double.parseDouble(orderLength)) {
-                            booleanList.add(true);
-                        } else {
-                            booleanList.add(false);
-                        }
-                    }
-                }
-
-                if (!(sizeStandardResDto.getHrRollUnitWgtMax2() == 0 && sizeStandardResDto.getHrRollUnitWgtMax1() == 0)) {
-                    if (sizeStandardResDto.getHrRollUnitWgtMax2() >= hrRollUnitWgtMax
-                            && sizeStandardResDto.getHrRollUnitWgtMax1() <= hrRollUnitWgtMax) {
-                        booleanList.add(true);
-                    } else {
-                        booleanList.add(false);
-                    }
-                }
-
-                if (!booleanList.contains(false)) {
-                    setDto.getFirmPsFacTpList().add(sizeStandardResDto.getFirmPsFacTp());
-                }
-            }
-            sizeStandardSetDtoList.add(setDto);
-        }
-
-        return  sizeStandardSetDtoList;
+        return getSizeStandardSetDtos(result, hrProdThkAim, hrProdWthAim, orderLength, hrRollUnitWgtMax);
     }
 
     @Override
@@ -178,6 +118,94 @@ public class SizeStandardServiceImpl implements SizeStandardService {
             }
         }
 
+    }
+
+    @Override
+    public List<SizeStandardSetDto> designSizeStandard(SizeDesignReqDto dto) {
+
+        Map<String, List<SizeStandardResDto>> result =
+                repository.findAll()
+                        .stream()
+                        .map(SizeStandardResDto::toDto)
+                        .collect(Collectors.groupingBy(SizeStandardResDto::getProcessCd));
+
+        Double hrProdThkAim = dto.getThick();
+        Double hrProdWthAim = dto.getWidth();
+        String orderLength = String.valueOf(dto.getLength());
+        Double hrRollUnitWgtMax = dto.getRoll();
+
+        return getSizeStandardSetDtos(result, hrProdThkAim, hrProdWthAim, orderLength, hrRollUnitWgtMax).stream()
+                .sorted(Comparator.comparing(SizeStandardSetDto::getProcessCD)).toList();
+    }
+
+    private static List<SizeStandardSetDto> getSizeStandardSetDtos(Map<String, List<SizeStandardResDto>> result, Double hrProdThkAim, Double hrProdWthAim, String orderLength, Double hrRollUnitWgtMax) {
+        List<SizeStandardSetDto> sizeStandardSetDtoList = new ArrayList<>();
+
+        for (String process : result.keySet()) {
+            SizeStandardSetDto setDto = SizeStandardSetDto.builder()
+                    .processCD(process)
+                    .firmPsFacTpList(new ArrayList<>())
+                    .build();
+
+            for (SizeStandardResDto sizeStandardResDto : result.get(process)) {
+                List<Boolean> booleanList = new ArrayList<>();
+
+                if(!(sizeStandardResDto.getOrderThickMax() == 0 && sizeStandardResDto.getOrderThickMin() == 0)){
+                    if (sizeStandardResDto.getOrderThickMax() >= hrProdThkAim
+                            && sizeStandardResDto.getOrderThickMin() <= hrProdThkAim) {
+                        booleanList.add(true);
+                    } else {
+                        booleanList.add(false);
+                    }
+                } else {
+                    booleanList.add(true);
+                }
+
+                if(!(sizeStandardResDto.getOrderWidthMax() == 0 && sizeStandardResDto.getOrderWidthMin() == 0)){
+                    if (sizeStandardResDto.getOrderWidthMax() >= hrProdWthAim
+                            && sizeStandardResDto.getOrderWidthMin() <= hrProdWthAim) {
+                        booleanList.add(true);
+                    } else {
+                        booleanList.add(false);
+                    }
+                } else {
+                    booleanList.add(true);
+                }
+
+                if (!orderLength.equals("C")) {
+                    if (!(sizeStandardResDto.getOrderLengthMax() == 0 && sizeStandardResDto.getOrderLengthMin() == 0)) {
+                        if (sizeStandardResDto.getOrderLengthMax() >= Double.parseDouble(orderLength)
+                                && sizeStandardResDto.getOrderLengthMin() <= Double.parseDouble(orderLength)) {
+                            booleanList.add(true);
+                        } else {
+                            booleanList.add(false);
+                        }
+                    } else {
+                        booleanList.add(true);
+                    }
+                } else {
+                    booleanList.add(true);
+                }
+
+                if (!(sizeStandardResDto.getHrRollUnitWgtMax2() == 0 && sizeStandardResDto.getHrRollUnitWgtMax1() == 0)) {
+                    if (sizeStandardResDto.getHrRollUnitWgtMax2() >= hrRollUnitWgtMax
+                            && sizeStandardResDto.getHrRollUnitWgtMax1() <= hrRollUnitWgtMax) {
+                        booleanList.add(true);
+                    } else {
+                        booleanList.add(false);
+                    }
+                } else {
+                    booleanList.add(true);
+                }
+
+                if (!booleanList.contains(false)) {
+                    setDto.getFirmPsFacTpList().add(sizeStandardResDto.getFirmPsFacTp());
+                }
+            }
+            sizeStandardSetDtoList.add(setDto);
+
+        }
+        return sizeStandardSetDtoList;
     }
 
 }
