@@ -357,7 +357,7 @@ const WeeklyHeatMap = () => {
         aspectRatio={4 / 3}
         stroke="#fff"
         fill="#09537F"
-        animationDuration={5000}
+        animationDuration={1000}
       />
     </>
   );
