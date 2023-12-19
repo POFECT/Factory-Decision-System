@@ -51,7 +51,7 @@ const navigation = () => {
     {
       icon: CubeOutline,
       title: "대시보드",
-      path: "/dashboard",
+      path: "/",
     },
     {
       icon: LanIcon,
