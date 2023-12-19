@@ -73,7 +73,7 @@ const possibleDetail =({a,openFun})=>{
     console.log("저장할 설명리스트",checkedExplList.sort().join(','));
     console.log('processCd = '+a.processCd+", bti코드 = "+a.btiPosbPsFacTp);
     await FactoryStandardApi.updatePossibleFactory(a.btiPosbPsFacTp,a.processCd,checkedList,checkedExplList.sort().join(','),(data)=>{
-      console.log(data);
+      console.log(data.response);
     })
   }
 

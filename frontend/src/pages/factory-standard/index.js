@@ -3,8 +3,8 @@ import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import Popper from '@mui/material/Popper';
 import Fade from '@mui/material/Fade';
 import Paper from '@mui/material/Paper';
-import PossibleDetail from "./possible-detail";
-import PassModal from './pass-modal';
+import PossibleDetail from "../../views/factory-standard/possible-detail";
+import PassModal from '../../views/factory-standard/pass-modal';
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
 

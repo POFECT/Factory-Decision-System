@@ -46,7 +46,8 @@ public class PossibleFactoryStandardController {
     @ApiOperation(value="가통기준 상세에서 코드 변환", notes="가통기준 상세에서 코드 변환하기")
     public ResponseEntity<ResponseDto> updatePossibleFactory(@RequestBody PossibleChangeReqDto checkedFactory) {
         PossibleChangeResultResDto result = possibleFactoryStandardService.updateFeasibleRoutingGroup(checkedFactory);
-        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+        System.out.println(">>>>>>>>>>> RESULT >>>>>>>>> "+result.getResult());
+        return new ResponseEntity<>(new ResponseDto(result.getResult()), HttpStatus.OK);
     }
 
 }
