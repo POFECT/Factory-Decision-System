@@ -25,7 +25,7 @@ const Trophy = () => {
     theme.palette.mode === "light" ? "triangle-light.png" : "triangle-dark.png";
 
   return (
-    <Card sx={{ position: "relative" }}>
+    <Card elevation={3} style={{ padding: "15px" }}>
       <CardContent>
         <Typography variant="h5">2023.12</Typography>
         <Typography variant="body2" sx={{ letterSpacing: "0.25px" }}>
@@ -41,11 +41,6 @@ const Trophy = () => {
         >
           주문 확인
         </Button>
-        <TriangleImg
-          alt="triangle background"
-          src={`/images/misc/${imageSrc}`}
-        />
-        <TrophyImg alt="trophy" src="/images/misc/trophy.png" />
       </CardContent>
     </Card>
   );
