@@ -25,7 +25,7 @@ public interface CapacityService {
     List<CombinedCapacityRowSpanDto> getCombinedCapacityWithRowSpan(String week);
 
     //update
-    void updateFaAdjustmentWgt(Long id, Long faAdjustmentWgt, String week);
+    void updateFaAdjustmentWgt(List<CapacityInfoDto> updateList);
 
     List<CapacityInfoDto.FactoryCapacityDto> getFactoryCapacityList(String processCode, String week);
 

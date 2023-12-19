@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
-import java.util.Optional;
 
 public interface CapacityRepository extends JpaRepository<CapacityInfo, Long> {
 
@@ -58,9 +58,8 @@ public interface CapacityRepository extends JpaRepository<CapacityInfo, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE CapacityInfo c SET c.faAdjustmentWgt = :faAdjustmentWgt WHERE c.id = :id AND c.ordRcpTapWekCd = :week")
-    void updateFaAdjustmentWgt(@Param("id") Long id,  @Param("faAdjustmentWgt") Long faAdjustmentWgt, @Param("week") String week);
-
+    @Query("UPDATE CapacityInfo c SET c.faAdjustmentWgt = :faAdjustmentWgt WHERE c.id IN :ids AND c.ordRcpTapWekCd = :week")
+    void updateFaAdjustmentWgt(@Param("ids") @NotBlank Long ids, @Param("faAdjustmentWgt") Long faAdjustmentWgt, @Param("week") String week);
 
     List<CapacityInfo> findAllByProcessCdOrderByFirmPsFacTpAsc(String processCode);
 
