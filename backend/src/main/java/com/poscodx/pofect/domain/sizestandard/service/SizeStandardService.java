@@ -2,6 +2,7 @@ package com.poscodx.pofect.domain.sizestandard.service;
 
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
+import com.poscodx.pofect.domain.sizestandard.dto.SizeDesignReqDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardReqDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardSetDto;
@@ -16,5 +17,7 @@ public interface SizeStandardService {
     List<SizeStandardSetDto> setSizeStandard(Long id, List<String> processList);
 
     void updateSizeStandard(List<SizeStandardReqDto> dto);
+
+    List<SizeStandardSetDto> designSizeStandard(SizeDesignReqDto dto);
 }
 

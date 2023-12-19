@@ -4,6 +4,7 @@ import com.poscodx.pofect.common.dto.ResponseDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
+import com.poscodx.pofect.domain.sizestandard.dto.SizeDesignReqDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardReqDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardSetDto;
@@ -47,6 +48,15 @@ public class SizeStandardController {
         List<SizeStandardSetDto> result = sizeStandardService.setSizeStandard(id, processList);
 
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+    }
+
+    @GetMapping("/design")
+    @ApiOperation(value = "사이즈 기준 예비 설계", notes = "두께, 폭, 길이, 단중을 받아 사이즈 기준을 설계한다.")
+    public ResponseEntity<ResponseDto> designSizeStandard(
+            SizeDesignReqDto dto
+        ) {
+        List<SizeStandardSetDto> setDto = sizeStandardService.designSizeStandard(dto);
+        return new ResponseEntity<>(new ResponseDto(setDto), HttpStatus.OK);
     }
 
     @PatchMapping("")
