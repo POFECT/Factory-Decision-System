@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
-import { Typography } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -40,16 +40,20 @@ const series = [
   {
     name: "제3 출강주",
     data: formatData([
-      200, 210, 0, 560, 30, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160,
     ]),
   },
   {
     name: "제2 출강주",
-    data: formatData([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+    data: formatData([
+      0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160,
+    ]),
   },
   {
     name: "제1 출강주",
-    data: formatData([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+    data: formatData([
+      0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160,
+    ]),
   },
 ];
 
@@ -95,9 +99,9 @@ export default function HeatMap() {
   }, []);
 
   return (
-    <>
+    <Card>
       <Typography variant="h5" style={{ padding: "10px 10px 0px 15px" }}>
-        출강주 별 공장 투입 건 수{" "}
+        출강주 별 공장 투입 건 수
       </Typography>
       <ReactApexChart
         options={options}
@@ -106,6 +110,6 @@ export default function HeatMap() {
         height="350"
         width="100%"
       />
-    </>
+    </Card>
   );
 }
