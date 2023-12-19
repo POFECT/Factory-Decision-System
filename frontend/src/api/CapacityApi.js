@@ -16,11 +16,9 @@ const CacpacityApi = {
   },
 
 
-putSave: async (id, faAdjustmentWgt, week, callback) => {
-  const url = `/capacity/update/${id}/${faAdjustmentWgt}/${week != null ? week : ''}`;
-  
-  await axiosApi()
-    .put(url)
+updateSave: async (capacityUpdateList, callback) => {
+   await axiosApi()
+    .patch("/capacity/update", capacityUpdateList)
     .then((response) => {
       console.log("Update successful:", response.data);
       callback && callback(response.data);

@@ -13,6 +13,7 @@ import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 import com.poscodx.pofect.domain.main.repository.FactoryOrderInfoRepository;
 import com.poscodx.pofect.domain.main.service.FactoryOrderInfoService;
+import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardReqDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -81,11 +82,12 @@ public class CapacityController {
     }
 
     // 조정량 Update
-    @PutMapping("/update/{id}/{faAdjustmentWgt}/{week}")
+    @PatchMapping("/update")
     @ApiOperation(value = "투입능력 update", notes = "투입능력 update")
 
-    public void updateFaAdjustmentWgt(@PathVariable Long id, @PathVariable Long faAdjustmentWgt, @PathVariable String week) {
-        capacityService.updateFaAdjustmentWgt(id, faAdjustmentWgt, week);
+    public ResponseEntity<ResponseDto> updateFaAdjustmentWgt(@RequestBody List<CapacityInfoDto> updateList) {
+        capacityService.updateFaAdjustmentWgt(updateList);
+        return new ResponseEntity<>(new ResponseDto(updateList), HttpStatus.OK);
     }
 
     @GetMapping("/factory/{id}/{week}")
