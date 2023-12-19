@@ -1,10 +1,6 @@
 "use strict";
 import {
-    useCallback,
-    useRef,
     useState,
-    useMemo,
-    StrictMode,
     useEffect,
 } from "react";
 
@@ -28,7 +24,8 @@ import SelectColumn from 'react-select';
 import makeAnimated from 'react-select/animated';
 import LotApi from "src/api/LotApi";
 import MainApi from "src/api/MainApi";
-// import { Grid, Typography } from "@mui/material";
+import * as FileSaver from "file-saver";
+import XLSX from "sheetjs-style";
 
 function MyCell(props) {
     let style = {
@@ -68,66 +65,82 @@ const Lot = () => {
 
     const getLotList = (week) => {
         if (week == 0) week = null;
-        const ordPdtItpCdNString = ordPdtItpCdNList.selectordPdtItpCdN != undefined 
-        && ordPdtItpCdNList.selectordPdtItpCdN.size != 0 ? ordPdtItpCdNList.selectordPdtItpCdN.join(',') : undefined;
+        const ordPdtItpCdNString = ordPdtItpCdNList.selectordPdtItpCdN != undefined
+            && ordPdtItpCdNList.selectordPdtItpCdN.size != 0 ? ordPdtItpCdNList.selectordPdtItpCdN.join(',') : undefined;
 
-        const smString = smList.selectSm != undefined 
-        && smList.selectSm.size != 0 ? smList.selectSm.join(',') : undefined;
+        const smString = smList.selectSm != undefined
+            && smList.selectSm.size != 0 ? smList.selectSm.join(',') : undefined;
 
         console.log(smString);
         LotApi.getList(week, isChecked, ordPdtItpCdNString, smString, (data) => {
             const resData = data.response;
             const testNum = 2;
 
-            if(!isChecked){
+            if (!isChecked) {
                 testNum = 1;
             }
 
             const resultData = resData.map((item, index) => {
                 const newItem = { ...item, id: index + 1 };
                 if (item && item.faConfirmFlag === "E") {
+                    const sumStand = 0;
                     newItem = { ...newItem, faConfirmFlag: "투입대기", rowSpan: { smSteelGrdN: testNum } }
                     if (item && item.widthGroups && item.widthGroups.width_970_stand) {
-                        newItem = { ...newItem, width_970_stand: item.widthGroups.width_970_stand }
+                        newItem = { ...newItem, width_970_stand: item.widthGroups.width_970_stand };
+                        sumStand += item.widthGroups.width_970_stand;
                     }
                     if (item && item.widthGroups && item.widthGroups.width_1270_stand) {
                         newItem = { ...newItem, width_1270_stand: item.widthGroups.width_1270_stand }
+                        sumStand += item.widthGroups.width_1270_stand;
                     }
                     if (item && item.widthGroups && item.widthGroups.width_1570_stand) {
                         newItem = { ...newItem, width_1570_stand: item.widthGroups.width_1570_stand }
+                        sumStand += item.widthGroups.width_1570_stand;
                     }
                     if (item && item.widthGroups && item.widthGroups.width_over_1570_stand) {
                         newItem = { ...newItem, width_over_1570_stand: item.widthGroups.width_over_1570_stand }
+                        sumStand += item.widthGroups.width_over_1570_stand;
                     }
-                    return newItem;
+                    return {...newItem, sum_stand: sumStand == 0 ? "" : sumStand};
                 } else if (item && item.faConfirmFlag === "F") {
                     newItem = { ...newItem, faConfirmFlag: "기투입" }
+                    const sum = 0;
+                    const sum2 = 0;
                     if (item && item.widthGroups && item.widthGroups.width_9701) {
-                        newItem = { ...newItem, width_9701: item.widthGroups.width_9701 }
+                        newItem = { ...newItem, width_9701: item.widthGroups.width_9701 };
+                        sum += item.widthGroups.width_9701;
                     }
                     if (item && item.widthGroups && item.widthGroups.width_9702) {
-                        newItem = { ...newItem, width_9702: item.widthGroups.width_9702 }
+                        newItem = { ...newItem, width_9702: item.widthGroups.width_9702 };
+                        sum2 += item.widthGroups.width_9702;
                     }
                     if (item && item.widthGroups && item.widthGroups.width_12701) {
-                        newItem = { ...newItem, width_12701: item.widthGroups.width_12701 }
+                        newItem = { ...newItem, width_12701: item.widthGroups.width_12701 };
+                        sum += item.widthGroups.width_12701;
                     }
                     if (item && item.widthGroups && item.widthGroups.width_12702) {
-                        newItem = { ...newItem, width_12702: item.widthGroups.width_12702 }
+                        newItem = { ...newItem, width_12702: item.widthGroups.width_12702 };
+                        sum2 += item.widthGroups.width_12702;
                     }
                     if (item && item.widthGroups && item.widthGroups.width_15701) {
-                        newItem = { ...newItem, width_15701: item.widthGroups.width_15701 }
+                        newItem = { ...newItem, width_15701: item.widthGroups.width_15701 };
+                        sum += item.widthGroups.width_15701;
                     }
                     if (item && item.widthGroups && item.widthGroups.width_15702) {
-                        newItem = { ...newItem, width_15702: item.widthGroups.width_15702 }
+                        newItem = { ...newItem, width_15702: item.widthGroups.width_15702 };
+                        sum2 += item.widthGroups.width_15702;
                     }
                     if (item && item.widthGroups && item.widthGroups.width_over_15701) {
-                        newItem = { ...newItem, width_over_15701: item.widthGroups.width_over_15701 }
+                        newItem = { ...newItem, width_over_15701: item.widthGroups.width_over_15701 };
+                        sum += item.widthGroups.width_over_15701;
                     }
                     if (item && item.widthGroups && item.widthGroups.width_over_15702) {
-                        newItem = { ...newItem, width_over_15702: item.widthGroups.width_over_15702 }
+                        newItem = { ...newItem, width_over_15702: item.widthGroups.width_over_15702 };
+                        sum2 += item.widthGroups.width_over_15702;
                     }
+
                 }
-                return { ...newItem }
+                return { ...newItem, sum: sum == 0 ? "" : sum, sum2: sum2 == 0 ? "" : sum2}
             });
 
             setLotData(resultData);
@@ -254,51 +267,48 @@ const Lot = () => {
         { field: "width_over_15702", headerName: "2", width: 100, sortable: false, headerAlign: "center" },
         { field: "width_over_1570_stand", headerName: "대기", width: 100, sortable: false, headerAlign: "center" },
 
-        // { field: "합계", headerName: "1", width: 80, sortable: false, headerAlign: "center" },
         {
-            field: "합계",
+            field: "sum",
             headerName: "1",
             width: 80,
-            valueGetter: (params) => {
-                const width_9701 = params.row.width_9701 || 0;
-                const width_12701 = params.row.width_12701 || 0;
-                const width_15701 = params.row.width_15701 || 0;
-                const width_over_15701 = params.row.width_over_15701 || 0;
+            // valueGetter: (params) => {
+            //     const width_9701 = params.row.width_9701 || 0;
+            //     const width_12701 = params.row.width_12701 || 0;
+            //     const width_15701 = params.row.width_15701 || 0;
+            //     const width_over_15701 = params.row.width_over_15701 || 0;
 
-                return width_9701 + width_12701 + width_15701 + width_over_15701 || "";
-            },
+            //     return width_9701 + width_12701 + width_15701 + width_over_15701 || "";
+            // },
             headerAlign: "center"
         },
         {
-            field: "합계2",
+            field: "sum2",
             headerName: "2",
             width: 80,
-            valueGetter: (params) => {
-                const width_9702 = params.row.width_9702 || 0;
-                const width_12702 = params.row.width_12702 || 0;
-                const width_15702 = params.row.width_15702 || 0;
-                const width_over_15702 = params.row.width_over_15702 || 0;
+            // valueGetter: (params) => {
+            //     const width_9702 = params.row.width_9702 || 0;
+            //     const width_12702 = params.row.width_12702 || 0;
+            //     const width_15702 = params.row.width_15702 || 0;
+            //     const width_over_15702 = params.row.width_over_15702 || 0;
 
-                return width_9702 + width_12702 + width_15702 + width_over_15702 || "";
-            },
+            //     return width_9702 + width_12702 + width_15702 + width_over_15702 || "";
+            // },
             headerAlign: "center"
         },
-        // { field: "합계2", headerName: "2", width: 80, sortable: false, headerAlign: "center" },
         {
-            field: "합계대기",
+            field: "sum_stand",
             headerName: "대기",
             width: 80,
-            valueGetter: (params) => {
-                const width_970_stand = params.row.width_970_stand || 0;
-                const width_1270_stand = params.row.width_1270_stand || 0;
-                const width_1570_stand = params.row.width_1570_stand || 0;
-                const width_over_1570_stand = params.row.width_over_1570_stand || 0;
+            // valueGetter: (params) => {
+            //     const width_970_stand = params.row.width_970_stand || 0;
+            //     const width_1270_stand = params.row.width_1270_stand || 0;
+            //     const width_1570_stand = params.row.width_1570_stand || 0;
+            //     const width_over_1570_stand = params.row.width_over_1570_stand || 0;
 
-                return width_970_stand + width_1270_stand + width_1570_stand + width_over_1570_stand || "";
-            },
+            //     return width_970_stand + width_1270_stand + width_1570_stand + width_over_1570_stand || "";
+            // },
             headerAlign: "center"
         },
-        // { field: "합계대기", headerName: "대기", width: 80, sortable: false, headerAlign: "center" },
     ];
 
     const columnGroupingModel = [
@@ -324,7 +334,7 @@ const Lot = () => {
         },
         {
             groupId: "합계량",
-            children: [{ field: "합계" }, { field: "합계2" }, { field: "합계3" }, { field: "합계대기" }],
+            children: [{ field: "sum" }, { field: "sum2" }, { field: "sum_stand" }],
             headerAlign: "center"
         },
     ];
@@ -351,11 +361,6 @@ const Lot = () => {
 
     const [totalSum, setTotalSum] = useState(0);
 
-    //Tlqkf
-
-    // const handleTypeSelect = (e) => {
-    //     setSelectedOption(e.value);
-    //   };
 
     useEffect(() => {
         calculateSum();
@@ -372,6 +377,47 @@ const Lot = () => {
 
         setTotalSum(sum);
     };
+
+    // excel
+    const fileType =
+        "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
+    const fileExtension = ".xlsx";
+
+    const koreanHeaderMap = {
+        "smSteelGrdN": "강종",
+        "faConfirmFlag": "구분",
+        "width_9701": "길이 970 이하 공장 1",
+        "width_9702": "길이 970 이하 공장 2",
+        "width_970_stand": "길이 970 이하 대기",
+        "width_12701": "길이 1270 이하 공장 1",
+        "width_12702": "길이 1270 이하 공장 2",
+        "width_1270_stand": "길이 1270 이하 공장 대기",
+        "width_15701": "길이 1570 이하 공장 1",
+        "width_15702": "길이 1570 이하 공장 2",
+        "width_1570_stand": "길이 1570 이하 공장 대기",
+        "width_over_15701": "길이 1570 초과 공장 1",
+        "width_over_15702": "길이 1570 초과 공장 2",
+        "width_over_1570_stand": "길이 1570 이하 공장 대기",
+        "sum": "공장 1 합계량",
+        "sum2": "공장 2 합계량",
+        "sum_stand": "투입대기 합계량",
+    };
+
+    const exportToExcelLot = async () => {
+        const originalHeader = ["smSteelGrdN","faConfirmFlag","width_9701", "width_9702", "width_970_stand", 
+        "width_12701", "width_12702", "width_1270_stand", "width_15701", "width_15702", "width_1570_stand", "width_over_15701",
+        "width_over_15702", "width_over_1570_stand", "sum","sum2","sum_stand"];
+
+        const sortedLotList = [...lotData].sort((a, b) => a.id - b.id);
+        const excelData = sortedLotList.map(item => originalHeader.map(key => item[key]));
+        const koreanHeader = originalHeader.map(englishKey => koreanHeaderMap[englishKey] || englishKey);
+
+        const ws = XLSX.utils.aoa_to_sheet([koreanHeader, ...excelData]);
+        const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+        const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+        const data = new Blob([excelBuffer], { type: fileType });
+        FileSaver.saveAs(data, "출강Lot" + fileExtension);
+    }
 
     return (
         <div style={{ height: "100%", width: "100%" }}>
@@ -491,11 +537,11 @@ const Lot = () => {
                             options={testList}
                             onChange={(e) => {
                                 setSmList((prev) => {
-                                    const selectSm = e.map((item) => {return item.value})
+                                    const selectSm = e.map((item) => { return item.value })
                                     return { ...prev, selectSm };
                                 });
                             }}
-                            
+
                         />
                     </div>
                     <div
@@ -517,7 +563,7 @@ const Lot = () => {
                             options={buttonList}
                             onChange={(e) => {
                                 setOrdPdtItpCdNList((prev) => {
-                                    const selectordPdtItpCdN = e.map((item) => {return item.value})
+                                    const selectordPdtItpCdN = e.map((item) => { return item.value })
                                     return { ...prev, selectordPdtItpCdN };
                                 });
                             }}
@@ -536,14 +582,14 @@ const Lot = () => {
                 >
 
                     <div>
-                        <Button size="small" type="submit" variant="contained" 
-                        style={{ backgroundColor: "#E29E21" }
-                        } onClick={() => {
-                            getLotList(weekList.select, );
-                          }}>
+                        <Button size="small" type="submit" variant="contained"
+                            style={{ backgroundColor: "#E29E21" }
+                            } onClick={() => {
+                                getLotList(weekList.select,);
+                            }}>
                             조회
                         </Button>
-                        <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "darkgreen" }}>
+                        <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "darkgreen" }} onClick={exportToExcelLot}>
                             Excel
                         </Button>
                     </div>
