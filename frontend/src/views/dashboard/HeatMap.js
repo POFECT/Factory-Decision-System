@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
-import { Card, Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -93,13 +93,13 @@ function formatData(data) {
   return newData;
 }
 
-export default function HeatMap() {
+const HeatMap = () => {
   useEffect(() => {
     console.log("Component mounted on the client side");
   }, []);
 
   return (
-    <Card>
+    <Paper elevation={3} style={{ padding: "15px" }}>
       <Typography variant="h5" style={{ padding: "10px 10px 0px 15px" }}>
         출강주 별 공장 투입 건 수
       </Typography>
@@ -107,9 +107,10 @@ export default function HeatMap() {
         options={options}
         series={series}
         type="heatmap"
-        height="350"
+        height="281"
         width="100%"
       />
-    </Card>
+    </Paper>
   );
-}
+};
+export default HeatMap;

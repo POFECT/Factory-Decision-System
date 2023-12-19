@@ -1,4 +1,4 @@
-import { Box, Card, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Paper, Tab, Tabs, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 
@@ -10,10 +10,12 @@ const FactoryGuage = () => {
     setValue(newValue);
   };
   return (
-    <Card
+    <Paper
+      elevation={6}
       style={{
         display: "flex",
         flexDirection: "column",
+        padding: "15px",
       }}
     >
       <Typography variant="h5" style={{ padding: "10px 20px 10px 20px" }}>
@@ -70,7 +72,7 @@ const FactoryGuage = () => {
           style={{ width: "33%" }}
         />
       </div>
-    </Card>
+    </Paper>
   );
 };
 export default FactoryGuage;
