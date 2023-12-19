@@ -20,6 +20,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import SizeStandardApi from "/src/api/SizeStandardApi";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
+import SizeDesignModal from './size-design-modal';
 
 function MyCell(props) {
   let style = {
@@ -58,10 +59,10 @@ const Standard = () => {
   const [sizeStandardList, setSizeStandardList] = useState([]);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const [editedCellValue, setEditedCellValue] = useState('');
+  const [sizeDesign, setSizeDesign] = useState(false);
 
 
   const handleCellEditCommit = (params) => {
-    console.log(params);
     const updatedList = sizeStandardList.map((item) =>
       item.id === params.id ? params : item
     );
@@ -211,6 +212,16 @@ const Standard = () => {
     },
   ];
 
+  // 임시 설계
+  const clikcModal = () => {
+    setSizeDesign(true);
+
+  }
+
+  const closeModal = () => {
+    setSizeDesign(false);
+  };
+
   // excel
   const fileType =
     "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
@@ -287,6 +298,16 @@ const Standard = () => {
           </FormControl>
         </div>
         <div>
+        <Button
+            size="small"
+            type="submit"
+            variant="contained"
+            onClick={clikcModal}
+            style={{ backgroundColor: "#E29E21" }}
+          >
+            임시 설계
+          </Button>
+          <SizeDesignModal open={sizeDesign} handleClose={closeModal} />
           <Button
             size="small"
             type="submit"
