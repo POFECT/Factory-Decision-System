@@ -204,4 +204,10 @@ public class FactoryOrderInfo extends BaseEntity {
     public void changePosbPassFacCdN(String posbCode) { this.posbPassFacCdN = posbCode; }
 
     public void changeCfirmPassOpCd(String confirmCode) { this.cfirmPassOpCd = confirmCode; }
+
+    public void changePosbPassFacProcess(String process) { this.posbPassFacProcess = process; }
+
+    public void changePosbPassFacEs(String essential) { this.posbPassFacEs = essential; }
+
+    public void changePosbPassFacSize(String size) { this.posbPassFacSize = size; }
 }
