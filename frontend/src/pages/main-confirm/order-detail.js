@@ -6,7 +6,6 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableHead from "@mui/material/TableHead";
-import Paper from "@mui/material/Paper";
 import FactoryDetail from "./factory-detail";
 
 const OrderDetail = (props) => {
@@ -60,16 +59,15 @@ const OrderDetail = (props) => {
             justifyContent: "space-between",
           }}
         >
-          <Card style={{ marginRight: "20px", height: "200px" }}>
-            <TableContainer
-              style={{ marginBottom: 20 }}
-              // component={Paper}
-            >
+          <div style={{ marginRight: "20px", height: "200px" }}>
+            {/* <Card style={{ marginRight: "20px", height: "200px" }}> */}
+            <TableContainer style={{ marginBottom: 20 }}>
               <Table
                 aria-label="custom pagination table"
                 style={{
                   display: "flex",
                   flexDirection: "row",
+                  backgroundColor: "#FFFFFF",
                   // justifyContent: "space-between",
                 }}
                 // component={Paper}
@@ -111,165 +109,183 @@ const OrderDetail = (props) => {
                     >
                       {props.order.orderLineQty}
                     </TableCell>
+                    <TableCell
+                      style={{
+                        width: 160,
+                        backgroundColor: "#0A5380",
+                        color: "#FFFFFF",
+                      }}
+                      align="center"
+                    >
+                      설계 결과
+                    </TableCell>
+                    <TableCell
+                      style={{ width: 200, color: "000000" }}
+                      align="center"
+                    >
+                      {props.order.cfirmPassOpCd}
+                    </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
             </TableContainer>
 
-            <TableContainer>
-              <Table aria-label="spanning table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="center" style={{ fontSize: 17 }}>
-                      구분
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      accessKey={10}
-                      onClick={(e) => {
-                        changeFactory(e, cfCode.charAt(0));
-                      }}
-                      style={{
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                        fontSize: 17,
-                        padding: 0,
-                      }}
-                    >
-                      제강
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      accessKey={20}
-                      onClick={(e) => {
-                        changeFactory(e, cfCode.charAt(1));
-                      }}
-                      style={{
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                        fontSize: 17,
-                        padding: 0,
-                      }}
-                    >
-                      열연
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      accessKey={30}
-                      onClick={(e) => {
-                        changeFactory(e, cfCode.charAt(2));
-                      }}
-                      style={{
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                        fontSize: 17,
-                        padding: 0,
-                      }}
-                    >
-                      열연정정
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      accessKey={40}
-                      onClick={(e) => {
-                        changeFactory(e, cfCode.charAt(3));
-                      }}
-                      style={{
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                        fontSize: 17,
-                        padding: 0,
-                      }}
-                    >
-                      냉간압연
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      accessKey={50}
-                      onClick={(e) => {
-                        changeFactory(e, cfCode.charAt(4));
-                      }}
-                      style={{
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                        fontSize: 17,
-                        padding: 0,
-                      }}
-                    >
-                      1차소둔
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      accessKey={60}
-                      onClick={(e) => {
-                        changeFactory(e, cfCode.charAt(5));
-                      }}
-                      style={{
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                        fontSize: 17,
-                        padding: 0,
-                      }}
-                    >
-                      2차소둔
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      accessKey={70}
-                      onClick={(e) => {
-                        changeFactory(e, cfCode.charAt(6));
-                      }}
-                      style={{
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                        fontSize: 17,
-                        padding: 0,
-                      }}
-                    >
-                      도금
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      accessKey={80}
-                      onClick={(e) => {
-                        changeFactory(e, cfCode.charAt(7));
-                      }}
-                      style={{
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                        fontSize: 17,
+            <Card>
+              <TableContainer>
+                <Table aria-label="spanning table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center" style={{ fontSize: 17 }}>
+                        구분
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        accessKey={10}
+                        onClick={(e) => {
+                          changeFactory(e, cfCode.charAt(0));
+                        }}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                          fontSize: 17,
+                          padding: 0,
+                        }}
+                      >
+                        제강
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        accessKey={20}
+                        onClick={(e) => {
+                          changeFactory(e, cfCode.charAt(1));
+                        }}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                          fontSize: 17,
+                          padding: 0,
+                        }}
+                      >
+                        열연
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        accessKey={30}
+                        onClick={(e) => {
+                          changeFactory(e, cfCode.charAt(2));
+                        }}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                          fontSize: 17,
+                          padding: 0,
+                        }}
+                      >
+                        열연정정
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        accessKey={40}
+                        onClick={(e) => {
+                          changeFactory(e, cfCode.charAt(3));
+                        }}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                          fontSize: 17,
+                          padding: 0,
+                        }}
+                      >
+                        냉간압연
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        accessKey={50}
+                        onClick={(e) => {
+                          changeFactory(e, cfCode.charAt(4));
+                        }}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                          fontSize: 17,
+                          padding: 0,
+                        }}
+                      >
+                        1차소둔
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        accessKey={60}
+                        onClick={(e) => {
+                          changeFactory(e, cfCode.charAt(5));
+                        }}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                          fontSize: 17,
+                          padding: 0,
+                        }}
+                      >
+                        2차소둔
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        accessKey={70}
+                        onClick={(e) => {
+                          changeFactory(e, cfCode.charAt(6));
+                        }}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                          fontSize: 17,
+                          padding: 0,
+                        }}
+                      >
+                        도금
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        accessKey={80}
+                        onClick={(e) => {
+                          changeFactory(e, cfCode.charAt(7));
+                        }}
+                        style={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                          fontSize: 17,
 
-                        padding: 0,
-                      }}
-                    >
-                      정정
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell
-                      align="center"
-                      style={{ fontWeight: "bold", fontSize: 17 }}
-                    >
-                      공장
-                    </TableCell>
-                    <TableCell align="center">{cfCode.charAt(0)}</TableCell>
-                    <TableCell align="center">{cfCode.charAt(1)}</TableCell>
-                    <TableCell align="center">{cfCode.charAt(2)}</TableCell>
-                    <TableCell align="center">{cfCode.charAt(3)}</TableCell>
-                    <TableCell align="center">{cfCode.charAt(4)}</TableCell>
-                    <TableCell align="center">{cfCode.charAt(5)}</TableCell>
-                    <TableCell align="center">{cfCode.charAt(6)}</TableCell>
-                    <TableCell align="center">{cfCode.charAt(7)}</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Card>
-          <Card style={{ marginLeft: "20px" }}>
+                          padding: 0,
+                        }}
+                      >
+                        정정
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell
+                        align="center"
+                        style={{ fontWeight: "bold", fontSize: 17 }}
+                      >
+                        공장
+                      </TableCell>
+                      <TableCell align="center">{cfCode.charAt(0)}</TableCell>
+                      <TableCell align="center">{cfCode.charAt(1)}</TableCell>
+                      <TableCell align="center">{cfCode.charAt(2)}</TableCell>
+                      <TableCell align="center">{cfCode.charAt(3)}</TableCell>
+                      <TableCell align="center">{cfCode.charAt(4)}</TableCell>
+                      <TableCell align="center">{cfCode.charAt(5)}</TableCell>
+                      <TableCell align="center">{cfCode.charAt(6)}</TableCell>
+                      <TableCell align="center">{cfCode.charAt(7)}</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Card>
+          </div>
+          <div style={{ marginLeft: "20px", width: "55%" }}>
             <FactoryDetail factory={factory} order={props.order} />
-          </Card>
+          </div>
         </div>
       </div>
     </>
