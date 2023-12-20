@@ -63,8 +63,8 @@ public class SizeStandardServiceImpl implements SizeStandardService {
         FactoryOrderInfoResDto dto
                 = factoryOrderInfoService.getById(id);
 
-        Double hrProdThkAim = dto.getHrProdThkAim();
-        Double hrProdWthAim = dto.getHrProdWthAim();
+        Double hrProdThkAim = dto.getOrderThick();
+        Double hrProdWthAim = dto.getOrderWidth();
         String orderLength = dto.getOrderLength();
         Double hrRollUnitWgtMax = dto.getHrRollUnitWgtMax();
         // 공정 리스트 가져옴
