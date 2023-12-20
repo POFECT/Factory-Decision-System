@@ -1,5 +1,6 @@
 "use strict";
-import { useState, useMemo, useEffect } from "react";
+// import { useState, useMemo, useEffect } from "react";
+import { useCallback, useState, useMemo, StrictMode, useEffect } from "react";
 
 import "react-datasheet-grid/dist/style.css";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
@@ -20,7 +21,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import SizeStandardApi from "/src/api/SizeStandardApi";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
-import SizeDesignModal from './size-design-modal';
+import SizeDesignModal from "./size-design-modal";
 
 function MyCell(props) {
   let style = {
@@ -50,7 +51,7 @@ function MyCell(props) {
       ...style,
       alignItems: "center",
       justifyContent: "center",
-    }
+    };
   }
   return <GridCell {...props} style={style} />;
 }
@@ -58,9 +59,8 @@ function MyCell(props) {
 const Standard = () => {
   const [sizeStandardList, setSizeStandardList] = useState([]);
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
-  const [editedCellValue, setEditedCellValue] = useState('');
+  const [editedCellValue, setEditedCellValue] = useState("");
   const [sizeDesign, setSizeDesign] = useState(false);
-
 
   const handleCellEditCommit = (params) => {
     const updatedList = sizeStandardList.map((item) =>
@@ -78,60 +78,75 @@ const Standard = () => {
     SizeStandardApi.getList((data) => {
       const resData = data.response;
 
-      const resultData = resData.map(item => {
+      const resultData = resData.map((item) => {
         console.log(item.id);
         if (item.processCd === "10") {
-          return { ...item, processCd: "제강" }
+          return { ...item, processCd: "제강" };
         } else if (item.processCd === "20") {
-          return { ...item, processCd: "열연" }
+          return { ...item, processCd: "열연" };
         } else if (item.processCd === "30") {
-          return { ...item, processCd: "열연정정" }
+          return { ...item, processCd: "열연정정" };
         } else if (item.processCd === "40") {
-          return { ...item, processCd: "냉간압연" }
+          return { ...item, processCd: "냉간압연" };
         } else if (item.processCd === "50") {
-          return { ...item, processCd: "1차소둔" }
+          return { ...item, processCd: "1차소둔" };
         } else if (item.processCd === "60") {
-          return { ...item, processCd: "2차소둔" }
+          return { ...item, processCd: "2차소둔" };
         } else if (item.processCd === "70") {
-          return { ...item, processCd: "도금" }
+          return { ...item, processCd: "도금" };
         } else if (item.processCd === "80") {
-          return { ...item, processCd: "정정" }
+          return { ...item, processCd: "정정" };
         }
 
         return item;
-      })
-
+      });
 
       setSizeStandardList(resultData);
 
       // if (sizeStandardList.length != 0) {
       //   setSizeStandardList(sizeStandardList[0].id);
       // }
-    })
+    });
   };
 
   const updateSizeStandard = async () => {
     const updateFlag = false;
     let result = "다음 데이터를 확인해주세요.\n\n";
 
-    sizeStandardList.map(item => {
-      if (item.orderThickMin < 0 || item.orderThickMax < 0 || item.orderThickMin > item.orderThickMax) {
+    sizeStandardList.map((item) => {
+      if (
+        item.orderThickMin < 0 ||
+        item.orderThickMax < 0 ||
+        item.orderThickMin > item.orderThickMax
+      ) {
         result += item.processCd + " " + item.firmPsFacTp + "공장 두께\n";
         updateFlag = true;
       }
-      if (item.orderWidthMin < 0 || item.orderWidthMax < 0 || item.orderWidthMin > item.orderWidthMax) {
-        result += item.processCd + " " + item.firmPsFacTp + "공장 폭\n"
+      if (
+        item.orderWidthMin < 0 ||
+        item.orderWidthMax < 0 ||
+        item.orderWidthMin > item.orderWidthMax
+      ) {
+        result += item.processCd + " " + item.firmPsFacTp + "공장 폭\n";
         updateFlag = true;
       }
-      if (item.orderLengthMin < 0 || item.orderLengthMax < 0 || item.orderLengthMin > item.orderLengthMax) {
-        result += item.processCd + " " + item.firmPsFacTp + "공장 길이\n"
+      if (
+        item.orderLengthMin < 0 ||
+        item.orderLengthMax < 0 ||
+        item.orderLengthMin > item.orderLengthMax
+      ) {
+        result += item.processCd + " " + item.firmPsFacTp + "공장 길이\n";
         updateFlag = true;
       }
-      if (item.hrRollUnitWgtMax1 < 0 || item.hrRollUnitWgtMax2 < 0 || item.hrRollUnitWgtMax1 > item.hrRollUnitWgtMax2) {
-        result += item.processCd + " " + item.firmPsFacTp + "공장 단중\n"
+      if (
+        item.hrRollUnitWgtMax1 < 0 ||
+        item.hrRollUnitWgtMax2 < 0 ||
+        item.hrRollUnitWgtMax1 > item.hrRollUnitWgtMax2
+      ) {
+        result += item.processCd + " " + item.firmPsFacTp + "공장 단중\n";
         updateFlag = true;
       }
-    })
+    });
 
     if (updateFlag) {
       alert(result);
@@ -140,52 +155,96 @@ const Standard = () => {
       await SizeStandardApi.updateSize(sizeStandardList, (data) => {
         alert("저장되었습니다.");
         getSizeStadards();
-
       });
-
     }
-
   };
 
   const columns = [
-
     {
-      field: "processCd", headerName: "공정", width: 169, sortable: false, headerAlign: "center"
+      field: "processCd",
+      headerName: "공정",
+      width: 169,
+      sortable: false,
+      headerAlign: "center",
     },
     {
-      field: "firmPsFacTp", headerName: "공장", width: 100, sortable: false, headerAlign: "center",
+      field: "firmPsFacTp",
+      headerName: "공장",
+      width: 100,
+      sortable: false,
+      headerAlign: "center",
     },
     {
-      field: "orderThickMin", headerName: "min", width: 138, sortable: false, headerAlign: "center", type: 'number',
-      editable: true
+      field: "orderThickMin",
+      headerName: "min",
+      width: 138,
+      sortable: false,
+      headerAlign: "center",
+      type: "number",
+      editable: true,
     },
     {
-      field: "orderThickMax", headerName: "max", width: 138, sortable: false, headerAlign: "center", type: 'number',
-      editable: true
+      field: "orderThickMax",
+      headerName: "max",
+      width: 138,
+      sortable: false,
+      headerAlign: "center",
+      type: "number",
+      editable: true,
     },
     {
-      field: "orderWidthMin", headerName: "min", width: 138, sortable: false, headerAlign: "center", type: 'number',
-      editable: true
+      field: "orderWidthMin",
+      headerName: "min",
+      width: 138,
+      sortable: false,
+      headerAlign: "center",
+      type: "number",
+      editable: true,
     },
     {
-      field: "orderWidthMax", headerName: "max", width: 138, sortable: false, headerAlign: "center", type: 'number',
-      editable: true
+      field: "orderWidthMax",
+      headerName: "max",
+      width: 138,
+      sortable: false,
+      headerAlign: "center",
+      type: "number",
+      editable: true,
     },
     {
-      field: "orderLengthMin", headerName: "min", width: 138, sortable: false, headerAlign: "center", type: 'number',
-      editable: true
+      field: "orderLengthMin",
+      headerName: "min",
+      width: 138,
+      sortable: false,
+      headerAlign: "center",
+      type: "number",
+      editable: true,
     },
     {
-      field: "orderLengthMax", headerName: "max", width: 138, sortable: false, headerAlign: "center", type: 'number',
-      editable: true
+      field: "orderLengthMax",
+      headerName: "max",
+      width: 138,
+      sortable: false,
+      headerAlign: "center",
+      type: "number",
+      editable: true,
     },
     {
-      field: "hrRollUnitWgtMax1", headerName: "min", width: 138, sortable: false, headerAlign: "center", type: 'number',
-      editable: true
+      field: "hrRollUnitWgtMax1",
+      headerName: "min",
+      width: 138,
+      sortable: false,
+      headerAlign: "center",
+      type: "number",
+      editable: true,
     },
     {
-      field: "hrRollUnitWgtMax2", headerName: "max", width: 138, sortable: false, headerAlign: "center", type: 'number',
-      editable: true
+      field: "hrRollUnitWgtMax2",
+      headerName: "max",
+      width: 138,
+      sortable: false,
+      headerAlign: "center",
+      type: "number",
+      editable: true,
     },
   ];
 
@@ -207,7 +266,10 @@ const Standard = () => {
     },
     {
       groupId: "단중",
-      children: [{ field: "hrRollUnitWgtMax1" }, { field: "hrRollUnitWgtMax2" }],
+      children: [
+        { field: "hrRollUnitWgtMax1" },
+        { field: "hrRollUnitWgtMax2" },
+      ],
       headerAlign: "center",
     },
   ];
@@ -215,8 +277,7 @@ const Standard = () => {
   // 임시 설계
   const clikcModal = () => {
     setSizeDesign(true);
-
-  }
+  };
 
   const closeModal = () => {
     setSizeDesign(false);
@@ -228,38 +289,51 @@ const Standard = () => {
   const fileExtension = ".xlsx";
 
   const koreanHeaderMap = {
-    "processCd": "공정",
-    "firmPsFacTp": "공장",
-    "orderThickMin20": "두께min",
-    "orderThickMax": "두께max",
-    "orderWidthMin": "폭min",
-    "orderWidthMax": "폭max",
-    "orderLengthMin": "길이min",
-    "orderLengthMax": "길이max",
-    "hrRollUnitWgtMax1": "단중min",
-    "hrRollUnitWgtMax2": "단중max",
+    processCd: "공정",
+    firmPsFacTp: "공장",
+    orderThickMin20: "두께min",
+    orderThickMax: "두께max",
+    orderWidthMin: "폭min",
+    orderWidthMax: "폭max",
+    orderLengthMin: "길이min",
+    orderLengthMax: "길이max",
+    hrRollUnitWgtMax1: "단중min",
+    hrRollUnitWgtMax2: "단중max",
   };
 
   const exportToExcelSize = async () => {
-    const originalHeader = ["processCd","firmPsFacTp","orderThickMin", "orderThickMax", "orderWidthMin", "orderWidthMax", "orderLengthMin", "orderLengthMax", "hrRollUnitWgtMax1", "hrRollUnitWgtMax2"]
+    const originalHeader = [
+      "processCd",
+      "firmPsFacTp",
+      "orderThickMin",
+      "orderThickMax",
+      "orderWidthMin",
+      "orderWidthMax",
+      "orderLengthMin",
+      "orderLengthMax",
+      "hrRollUnitWgtMax1",
+      "hrRollUnitWgtMax2",
+    ];
     const sortedSizeList = [...sizeStandardList].sort((a, b) => a.id - b.id);
-    const excelData = sortedSizeList.map(item => originalHeader.map(key => item[key]));
-    const koreanHeader = originalHeader.map(englishKey => koreanHeaderMap[englishKey] || englishKey);
-  
+    const excelData = sortedSizeList.map((item) =>
+      originalHeader.map((key) => item[key])
+    );
+    const koreanHeader = originalHeader.map(
+      (englishKey) => koreanHeaderMap[englishKey] || englishKey
+    );
+
     const ws = XLSX.utils.aoa_to_sheet([koreanHeader, ...excelData]);
     const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const data = new Blob([excelBuffer], { type: fileType });
     FileSaver.saveAs(data, "사이즈기준" + fileExtension);
-  }
-
+  };
 
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Typography variant="h4">공장 공정 별 사이즈 기준</Typography>
       </Grid>
-
 
       <div
         style={{
@@ -298,7 +372,7 @@ const Standard = () => {
           </FormControl>
         </div>
         <div>
-        <Button
+          <Button
             size="small"
             type="submit"
             variant="contained"
@@ -313,7 +387,6 @@ const Standard = () => {
             type="submit"
             variant="contained"
             onClick={getSizeStadards}
-
             style={{ backgroundColor: "#E29E21" }}
           >
             조회
@@ -346,24 +419,23 @@ const Standard = () => {
             height: 600,
             width: "100%",
             "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
-            {
-              borderBottom: "1px solid rgba(225, 234, 239, 1)",
-              borderRight: "1px solid rgba(225, 234, 239, 1)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "gray",
-            },
+              {
+                borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                borderRight: "1px solid rgba(225, 234, 239, 1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "gray",
+              },
             "& .custom-data-grid .MuiDataGrid-columnHeader": {
               cursor: "pointer",
               borderBottom: "1px solid rgba(225, 234, 239, 1)",
               borderRight: "1px solid rgba(225, 234, 239, 1)",
             },
             "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
-            {
-              borderBottomStyle: "none",
-
-            },
+              {
+                borderBottomStyle: "none",
+              },
             "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
               backgroundColor: "#F5F9FF",
             },
@@ -378,13 +450,10 @@ const Standard = () => {
             // onCellEditStart={handleCellEditStart}
             // onCellEditStop={handleCellEditCommit}
 
-
             processRowUpdate={(newVal) => {
-              handleCellEditCommit(newVal)
+              handleCellEditCommit(newVal);
               return newVal;
             }}
-
-
             //  onCellEditStop={handleCellEditCommit}
             // onCellClick={(e) => {
             //   console.log(e.field);
@@ -399,7 +468,7 @@ const Standard = () => {
             disableColumnMenu
             hideFooterPagination={true}
             hideFooter={true}
-          // rowHeight={40}
+            // rowHeight={40}
           />
         </Box>
       </Card>

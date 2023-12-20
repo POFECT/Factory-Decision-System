@@ -100,6 +100,14 @@ public class MainController {
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 
+    @PatchMapping("/factory/update")
+    @ApiOperation(value = "공장 변경", notes = "한 주문의 공장을 변경한다.")
+    public ResponseEntity<ResponseDto> changeFactory(@RequestBody FactoryOrderInfoReqDto.updateFactoryDto dto) {
+        factoryOrderInfoService.updateFactory(dto);
+
+        return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
+    }
+
     @PostMapping
     @ApiOperation(value = "주문 데이터 생성", notes = "주문 데이터를 생성한다.")
     public ResponseEntity<ResponseDto> createOrder(@RequestBody FactoryOrderInfoReqDto factoryOrderInfoReqDto) {

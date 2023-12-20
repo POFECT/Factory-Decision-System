@@ -23,6 +23,17 @@ const OrderDetail = (props) => {
     if (props.order.cfirmPassOpCd != null) {
       setCfCode(props.order.cfirmPassOpCd.padEnd(8, " "));
     }
+    setFactory((prev) => {
+      return {
+        ...prev,
+        no: "10",
+        name: "제강",
+        code:
+          props.order.cfirmPassOpCd == null
+            ? null
+            : props.order.cfirmPassOpCd.charAt(0),
+      };
+    });
   }, [props.order]);
 
   const changeFactory = (e, code) => {
@@ -61,74 +72,76 @@ const OrderDetail = (props) => {
         >
           <div style={{ marginRight: "20px", height: "200px" }}>
             {/* <Card style={{ marginRight: "20px", height: "200px" }}> */}
-            <TableContainer style={{ marginBottom: 20 }}>
-              <Table
-                aria-label="custom pagination table"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  backgroundColor: "#FFFFFF",
-                  // justifyContent: "space-between",
-                }}
-                // component={Paper}
-              >
-                <TableBody>
-                  <TableRow>
-                    <TableCell
-                      style={{
-                        width: 160,
-                        backgroundColor: "#0A5380",
-                        color: "#FFFFFF",
-                      }}
-                      align="center"
-                    >
-                      주문번호
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        width: 200,
-                        color: "000000",
-                      }}
-                      align="center"
-                    >
-                      {props.order.orderHeadLineNo}
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        width: 160,
-                        backgroundColor: "#0A5380",
-                        color: "#FFFFFF",
-                      }}
-                      align="center"
-                    >
-                      주문량
-                    </TableCell>
-                    <TableCell
-                      style={{ width: 200, color: "000000" }}
-                      align="center"
-                    >
-                      {props.order.orderLineQty}
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        width: 160,
-                        backgroundColor: "#0A5380",
-                        color: "#FFFFFF",
-                      }}
-                      align="center"
-                    >
-                      설계 결과
-                    </TableCell>
-                    <TableCell
-                      style={{ width: 200, color: "000000" }}
-                      align="center"
-                    >
-                      {props.order.cfirmPassOpCd}
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <Card style={{ marginBottom: 20 }}>
+              <TableContainer>
+                <Table
+                  aria-label="custom pagination table"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    backgroundColor: "#FFFFFF",
+                    // justifyContent: "space-between",
+                  }}
+                  // component={Paper}
+                >
+                  <TableBody>
+                    <TableRow>
+                      <TableCell
+                        style={{
+                          width: 160,
+                          backgroundColor: "#F5F9FF",
+                          color: "#0A5380",
+                        }}
+                        align="center"
+                      >
+                        주문번호
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          width: 200,
+                          color: "000000",
+                        }}
+                        align="center"
+                      >
+                        {props.order.orderHeadLineNo}
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          width: 160,
+                          backgroundColor: "#F5F9FF",
+                          color: "#0A5380",
+                        }}
+                        align="center"
+                      >
+                        주문량
+                      </TableCell>
+                      <TableCell
+                        style={{ width: 200, color: "000000" }}
+                        align="center"
+                      >
+                        {props.order.orderLineQty}
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          width: 160,
+                          backgroundColor: "#F5F9FF",
+                          color: "#0A5380",
+                        }}
+                        align="center"
+                      >
+                        설계 결과
+                      </TableCell>
+                      <TableCell
+                        style={{ width: 200, color: "000000" }}
+                        align="center"
+                      >
+                        {props.order.cfirmPassOpCd}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Card>
 
             <Card>
               <TableContainer>
@@ -284,7 +297,11 @@ const OrderDetail = (props) => {
             </Card>
           </div>
           <div style={{ marginLeft: "20px", width: "55%" }}>
-            <FactoryDetail factory={factory} order={props.order} />
+            <FactoryDetail
+              factory={factory}
+              order={props.order}
+              getOrder={props.getOrder}
+            />
           </div>
         </div>
       </div>

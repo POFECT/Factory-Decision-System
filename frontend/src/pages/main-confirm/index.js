@@ -816,7 +816,9 @@ const MainConfirm = () => {
         </Box>
       </Card>
 
-      {orderList.order ? <OrderDetail order={orderList.order} /> : null}
+      {orderList.order ? (
+        <OrderDetail order={orderList.order} getOrder={getOrders} />
+      ) : null}
     </>
   );
 };

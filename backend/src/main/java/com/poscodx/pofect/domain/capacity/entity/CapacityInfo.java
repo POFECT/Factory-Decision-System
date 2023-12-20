@@ -48,5 +48,5 @@ public class CapacityInfo extends BaseEntity {
     private String userId;  // 8.박판공정계획사용자ID
 
 
-    public void updateProgressQty(Long qty) { this.progressQty += qty; }
+    public void updateProgressQty(Long qty) { this.progressQty = qty; }
 }

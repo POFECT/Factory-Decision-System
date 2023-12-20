@@ -13,18 +13,33 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableHead from "@mui/material/TableHead";
-import MainCapacityApi from "src/api/MainApi";
+import MainApi from "/src/api/MainApi";
 
 const FactoryDetail = (props) => {
   const [factoryList, setFactoryList] = useState({
     list: [],
   });
   const [selectedFac, setSelectedFac] = useState(null);
+  const [changeData, setChangeData] = useState({
+    orderId: 0,
+    processCd: "",
+    prevFactory: "",
+    nextFactory: "",
+  });
 
   useEffect(() => {
     setSelectedFac(props.factory.code);
 
-    MainCapacityApi.getFaCapacityList(props.factory.no, (data) => {
+    setChangeData((prev) => {
+      return {
+        ...prev,
+        orderId: props.order.id,
+        processCd: props.factory.no,
+        prevFactory: props.factory.code,
+      };
+    });
+
+    MainApi.getFaCapacityList(props.factory.no, (data) => {
       const list = data.response;
       setFactoryList((prev) => {
         return { ...prev, list };
@@ -35,52 +50,61 @@ const FactoryDetail = (props) => {
   const handleFactory = (facNo) => {
     console.log(facNo);
     setSelectedFac(facNo);
+
+    setChangeData((prev) => {
+      return {
+        ...prev,
+        nextFactory: facNo,
+      };
+    });
   };
 
   const changeFactory = () => {
     // 이전 값이랑 같으면 pass
     if (props.factory.code == selectedFac) return;
 
-    console.log(
-      props.order.id,
-      props.order.orderLineQty,
-      props.factory,
-      selectedFac
-    );
+    console.log(changeData);
+
+    MainApi.changeFactory(changeData, (data) => {
+      const res = data.response;
+      alert("변경되었습니다.");
+      props.getOrder(null, null);
+    });
   };
 
   return (
     <>
-      <TableContainer
-        style={{
-          background: "#FFFFFF",
-          marginBottom: 20,
-          display: "flex",
-          flexDirection: "row",
-        }}
-      >
-        <Table aria-label="spanning table">
-          <TableHead>
-            <TableRow>
-              <TableCell
-                align="center"
-                style={{
-                  width: "40%",
-                  backgroundColor: "#0A5380",
-                  color: "white",
-                  fontSize: 17,
-                }}
-              >
-                공정
-              </TableCell>
-              <TableCell align="center" style={{ fontSize: 17 }}>
-                {props.factory.name}
-              </TableCell>
-            </TableRow>
-          </TableHead>
-        </Table>
-      </TableContainer>
-
+      {/* order: {props.order.id} :{props.factory.code} */}
+      <Card style={{ marginBottom: 20 }}>
+        <TableContainer
+          style={{
+            // background: "#FFFFFF",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <Table aria-label="spanning table">
+            <TableHead>
+              <TableRow>
+                <TableCell
+                  align="center"
+                  style={{
+                    width: "40%",
+                    backgroundColor: "#F5F9FF",
+                    color: "#0A5380",
+                    fontSize: 17,
+                  }}
+                >
+                  공정
+                </TableCell>
+                <TableCell align="center" style={{ fontSize: 17 }}>
+                  {props.factory.name}
+                </TableCell>
+              </TableRow>
+            </TableHead>
+          </Table>
+        </TableContainer>
+      </Card>
       <Card>
         <TableContainer>
           <FormControl>
@@ -161,7 +185,12 @@ const FactoryDetail = (props) => {
                             }}
                             control={<Radio />}
                             style={{ margin: "auto" }}
-                            disabled={props.factory.code == " " ? true : false}
+                            disabled={
+                              props.factory.code == " " ||
+                              props.order.cfirmPassOpCd == null
+                                ? true
+                                : false
+                            }
                           />
                         </TableCell>
                       </TableRow>
