@@ -27,6 +27,8 @@ import MainApi from "src/api/MainApi";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
 import LotDetail from './lot-detail';
+import LotChart from './lot-chart';
+import { set } from "nprogress";
 
 function MyCell(props) {
     let style = {
@@ -66,6 +68,10 @@ const Lot = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCellValue, setSelectedCellValue] = useState([]);
+
+    // 차트보기
+    const [isChartOpen, setIsChartOpen] = useState(false);
+    const [sumValue, setSumValue] = useState([]);
 
     const getLotList = (week) => {
         if (week == 0) week = null;
@@ -351,9 +357,147 @@ const Lot = () => {
         }
     };
 
+    const handleChartClick = () => {
+        const width_9701_sum = lotData.reduce((total, row) => {
+            const ageValue = Number(row.width_9701);
+
+            if (!isNaN(ageValue)) {
+                return total + ageValue;
+            } else {
+                return total;
+            }
+        }, 0);
+
+        const width_9702_sum = lotData.reduce((total, row) => {
+            const ageValue = Number(row.width_9702);
+
+            if (!isNaN(ageValue)) {
+                return total + ageValue;
+            } else {
+                return total;
+            }
+        }, 0);
+
+        const width_12701_sum = lotData.reduce((total, row) => {
+            const ageValue = Number(row.width_12701);
+
+            if (!isNaN(ageValue)) {
+                return total + ageValue;
+            } else {
+                return total;
+            }
+        }, 0);
+
+        const width_12702_sum = lotData.reduce((total, row) => {
+            const ageValue = Number(row.width_12702);
+
+            if (!isNaN(ageValue)) {
+                return total + ageValue;
+            } else {
+                return total;
+            }
+        }, 0);
+
+        const width_15701_sum = lotData.reduce((total, row) => {
+            const ageValue = Number(row.width_15701);
+
+            if (!isNaN(ageValue)) {
+                return total + ageValue;
+            } else {
+                return total;
+            }
+        }, 0);
+
+        const width_15702_sum = lotData.reduce((total, row) => {
+            const ageValue = Number(row.width_15702);
+
+            if (!isNaN(ageValue)) {
+                return total + ageValue;
+            } else {
+                return total;
+            }
+        }, 0);
+
+        const width_over_15701_sum = lotData.reduce((total, row) => {
+            const ageValue = Number(row.width_over_15701);
+
+            if (!isNaN(ageValue)) {
+                return total + ageValue;
+            } else {
+                return total;
+            }
+        }, 0);
+
+        const width_over_15702_sum = lotData.reduce((total, row) => {
+            const ageValue = Number(row.width_over_15702);
+
+            if (!isNaN(ageValue)) {
+                return total + ageValue;
+            } else {
+                return total;
+            }
+        }, 0);
+
+        const width_970_stand_sum = lotData.reduce((total, row) => {
+            const ageValue = Number(row.width_970_stand);
+
+            if (!isNaN(ageValue)) {
+                return total + ageValue;
+            } else {
+                return total;
+            }
+        }, 0);
+
+        const width_1270_stand_sum = lotData.reduce((total, row) => {
+            const ageValue = Number(row.width_1270_stand);
+
+            if (!isNaN(ageValue)) {
+                return total + ageValue;
+            } else {
+                return total;
+            }
+        }, 0);
+
+        const width_1570_stand_sum = lotData.reduce((total, row) => {
+            const ageValue = Number(row.width_1570_stand);
+
+            if (!isNaN(ageValue)) {
+                return total + ageValue;
+            } else {
+                return total;
+            }
+        }, 0);
+
+        const width_over_1570_stand_sum = lotData.reduce((total, row) => {
+            const ageValue = Number(row.width_over_1570_stand);
+
+            if (!isNaN(ageValue)) {
+                return total + ageValue;
+            } else {
+                return total;
+            }
+        }, 0);
+
+        const newObjcet = {
+            ...sumValue, width_9701_sum: width_9701_sum, width_9702_sum: width_9702_sum, width_12701_sum: width_12701_sum, width_12702_sum: width_12702_sum,
+            width_15701_sum: width_15701_sum, width_15702_sum: width_15702_sum, width_over_15701_sum: width_over_15701_sum, width_over_15702_sum: width_over_15702_sum,
+            width_970_stand_sum: width_970_stand_sum, width_1270_stand_sum: width_1270_stand_sum, width_1570_stand_sum: width_1570_stand_sum, width_over_1570_stand_sum: width_over_1570_stand_sum
+        };
+
+        setSumValue(newObjcet);
+
+        setIsChartOpen(true);
+
+    };
+
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
+
+    const handleCloseChart = () => {
+        setIsChartOpen(false);
+    };
+
 
     const customStyles = {
         control: (provided, state) => ({
@@ -597,6 +741,14 @@ const Lot = () => {
                 >
 
                     <div>
+                        <Button size="small" type="submit" variant="contained"
+                            style={{ backgroundColor: "#0A5380" }
+                            } onClick={
+                                handleChartClick
+                            }>
+                            차트보기
+                        </Button>
+                        <LotChart open={isChartOpen} handleClose={handleCloseChart} sumValue={sumValue} />
                         <Button size="small" type="submit" variant="contained"
                             style={{ backgroundColor: "#E29E21" }
                             } onClick={() => {

@@ -45,57 +45,57 @@ import { Doughnut } from 'react-chartjs-2';
 
 
 
-const LotDetail = ({ open, handleClose, selectedCellValue }) => {
+const LotChart = ({ open, handleClose, sumValue }) => {
 
-    console.log(selectedCellValue);
+    console.log(sumValue);
 
-    const [barData, setBarData] = useState({
-        smSteelGrdN: "",
-        width_9701: 0,
-        width_9702: 0,
-        width_12701: 0,
-        width_12702: 0,
-        width_15701: 0,
-        width_15702: 0,
-        width_over_15701: 0,
-        width_over_15702: 0,
-        sum: 0,
-        sum2: 0
-    })
+    // const [barData, setBarData] = useState({
+    //     smSteelGrdN: "",
+    //     width_9701: 0,
+    //     width_9702: 0,
+    //     width_12701: 0,
+    //     width_12702: 0,
+    //     width_15701: 0,
+    //     width_15702: 0,
+    //     width_over_15701: 0,
+    //     width_over_15702: 0,
+    //     sum: 0,
+    //     sum2: 0
+    // })
 
-    const [standBarData, setStandBarData] = useState({
-        smSteelGrdN: "",
-        width_970_stand: 0,
-        width_1270_stand: 0,
-        width_1570_stand: 0,
-        width_over_1570_stand: 0,
-        sum_stand: 0,
-    })
+    // const [standBarData, setStandBarData] = useState({
+    //     smSteelGrdN: "",
+    //     width_970_stand: 0,
+    //     width_1270_stand: 0,
+    //     width_1570_stand: 0,
+    //     width_over_1570_stand: 0,
+    //     sum_stand: 0,
+    // })
 
-    if (open) {
-        console.log(selectedCellValue.size === 1);
-        standBarData.smSteelGrdN = selectedCellValue[0].smSteelGrdN;
-        standBarData.width_970_stand = selectedCellValue[0].width_970_stand;
-        standBarData.width_1270_stand = selectedCellValue[0].width_1270_stand;
-        standBarData.width_1570_stand = selectedCellValue[0].width_1570_stand;
-        standBarData.width_over_1570_stand = selectedCellValue[0].width_over_1570_stand;
-        standBarData.sum_stand = selectedCellValue[0].sum_stand;
+    // if (open) {
+    //     console.log(selectedCellValue.size === 1);
+    //     standBarData.smSteelGrdN = selectedCellValue[0].smSteelGrdN;
+    //     standBarData.width_970_stand = selectedCellValue[0].width_970_stand;
+    //     standBarData.width_1270_stand = selectedCellValue[0].width_1270_stand;
+    //     standBarData.width_1570_stand = selectedCellValue[0].width_1570_stand;
+    //     standBarData.width_over_1570_stand = selectedCellValue[0].width_over_1570_stand;
+    //     standBarData.sum_stand = selectedCellValue[0].sum_stand;
 
-        if (selectedCellValue.length === 2) {
-            console.log(selectedCellValue);
-            barData.smSteelGrdN = selectedCellValue[1].smSteelGrdN;
-            barData.width_9701 = selectedCellValue[1].width_9701;
-            barData.width_9702 = selectedCellValue[1].width_9702;
-            barData.width_12701 = selectedCellValue[1].width_12701;
-            barData.width_12702 = selectedCellValue[1].width_12702;
-            barData.width_15701 = selectedCellValue[1].width_15701;
-            barData.width_15702 = selectedCellValue[1].width_15702;
-            barData.width_over_15701 = selectedCellValue[1].width_over_15701;
-            barData.width_over_15702 = selectedCellValue[1].width_over_15702;
-            barData.sum = selectedCellValue[1].sum;
-            barData.sum2 = selectedCellValue[1].sum2;
-        }
-    }
+    //     if (selectedCellValue.length === 2) {
+    //         console.log(selectedCellValue);
+    //         barData.smSteelGrdN = selectedCellValue[1].smSteelGrdN;
+    //         barData.width_9701 = selectedCellValue[1].width_9701;
+    //         barData.width_9702 = selectedCellValue[1].width_9702;
+    //         barData.width_12701 = selectedCellValue[1].width_12701;
+    //         barData.width_12702 = selectedCellValue[1].width_12702;
+    //         barData.width_15701 = selectedCellValue[1].width_15701;
+    //         barData.width_15702 = selectedCellValue[1].width_15702;
+    //         barData.width_over_15701 = selectedCellValue[1].width_over_15701;
+    //         barData.width_over_15702 = selectedCellValue[1].width_over_15702;
+    //         barData.sum = selectedCellValue[1].sum;
+    //         barData.sum2 = selectedCellValue[1].sum2;
+    //     }
+    // }
 
     const options = {
         responsive: true,
@@ -109,19 +109,19 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
             },
         },
     };
-    const labels = ['970', '1270', '1570', '1570~', '합계량'];
+    const labels = ['970', '1270', '1570', '1570~'];
 
     const data = {
         labels,
         datasets: [
             {
                 label: '1공장',
-                data: [barData.width_9701, barData.width_12701, barData.width_15701, barData.width_over_15701, barData.sum],
+                data: [sumValue.width_9701_sum, sumValue.width_12701_sum, sumValue.width_15701_sum, sumValue.width_over_15701_sum],
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
             },
             {
                 label: '2공장',
-                data: [barData.width_9702, barData.width_12702, barData.width_15702, barData.width_over_15702, barData.sum2],
+                data: [sumValue.width_9702_sum, sumValue.width_12702_sum, sumValue.width_15702_sum, sumValue.width_over_15702_sum],
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',
             },
         ],
@@ -145,7 +145,7 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
         datasets: [
             {
                 label: '대기량',
-                data: [standBarData.width_970_stand, standBarData.width_1270_stand, standBarData.width_1570_stand, standBarData.width_over_1570_stand, standBarData.sum_stand],
+                data: [sumValue.width_970_stand_sum, sumValue.width_1270_stand_sum, sumValue.width_1570_stand_sum, sumValue.width_over_1570_stand_sum],
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
             },
         ],
@@ -156,7 +156,9 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
         datasets: [
             {
                 label: '합계량',
-                data: [standBarData.sum_stand, barData.sum + barData.sum2],
+                data: [sumValue.width_970_stand_sum + sumValue.width_1270_stand_sum + sumValue.width_1570_stand_sum + sumValue.width_over_1570_stand_sum,
+                    sumValue.width_9701_sum + sumValue.width_12701_sum + sumValue.width_15701_sum + sumValue.width_over_15701_sum + 
+                    sumValue.width_9702_sum + sumValue.width_12702_sum + sumValue.width_15702_sum + sumValue.width_over_15702_sum],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -174,7 +176,7 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
         <Dialog open={open} onClose={handleClose} sx={{ width: '100%' }} maxWidth="xl">
             <DialogTitle>
                 <Grid item xs={12}>
-                    <Typography variant="h5">{standBarData.smSteelGrdN} 차트</Typography>
+                    <Typography variant="h5">출강Lot 전체 차트</Typography>
                 </Grid>
             </DialogTitle>
             <DialogContent>
@@ -196,19 +198,17 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
                                     data={dataStand}
                                 />
                             </Card >
-                            {selectedCellValue.length === 2 ? <Card>
+                            <Card>
                                 <Bar
                                     options={options}
                                     data={data}
                                 />
-                            </Card> : ""}
+                            </Card>
 
                         </div>
-                        {selectedCellValue.length === 2 ? <div style={{ paddingLeft: "10px" }}>
-                            <Card>
+                        <Card>
                                 <Doughnut data={test} />
                             </Card>
-                        </div> : ""}
                     </div>
 
 
@@ -221,4 +221,4 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
     );
 };
 
-export default LotDetail;
+export default LotChart;
