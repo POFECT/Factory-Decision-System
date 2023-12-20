@@ -14,7 +14,7 @@ import {
 import MainApi from "src/api/MainApi";
 import Card from "@mui/material/Card";
 
-import CapacityDetail from "./capacity-detail";
+import CapacityDetail from "../../views/main-capacity/capacity-detail";
 
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";

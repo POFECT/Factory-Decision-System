@@ -117,6 +117,17 @@ const MainApi = {
         console.log(error);
       });
   },
+
+  changeFactory: async (dto, callback) => {
+    await axiosApi()
+      .patch("/main/factory/update", dto)
+      .then((response) => {
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
 };
 
 export default MainApi;

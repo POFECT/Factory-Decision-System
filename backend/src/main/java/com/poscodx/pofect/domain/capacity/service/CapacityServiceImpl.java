@@ -1,5 +1,6 @@
 package com.poscodx.pofect.domain.capacity.service;
 
+import com.poscodx.pofect.common.dto.ResponseDto;
 import com.poscodx.pofect.common.exception.CustomException;
 import com.poscodx.pofect.common.exception.ErrorCode;
 import com.poscodx.pofect.domain.capacity.dto.CapacityInfoDto;
@@ -7,10 +8,14 @@ import com.poscodx.pofect.domain.capacity.dto.CombinedCapacityDto;
 import com.poscodx.pofect.domain.capacity.entity.CapacityInfo;
 import com.poscodx.pofect.domain.capacity.dto.CombinedCapacityRowSpanDto;
 import com.poscodx.pofect.domain.capacity.repository.CapacityRepository;
+import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 import com.poscodx.pofect.domain.passstandard.service.ConfirmFactoryStandardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -167,10 +172,49 @@ public class CapacityServiceImpl implements CapacityService {
 
     @Transactional
     @Override
-    public void updateQty(Long id, Long qty) {
+    public void plusQty(Long id, Integer qty) {
         CapacityInfo capacityInfo = capacityRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
 
-        capacityInfo.updateProgressQty(qty);
+        capacityInfo.updateProgressQty(capacityInfo.getProgressQty() + qty);
     }
+
+    @Transactional
+    @Override
+    public void minusQty(Long id, Integer qty) {
+        CapacityInfo capacityInfo = capacityRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+
+        capacityInfo.updateProgressQty(capacityInfo.getProgressQty() - qty);
+    }
+
+    @Override
+    public CapacityInfoDto findFactoryByOption(String processCd, String prevFactory, String week) {
+        CapacityInfo capacityInfo = capacityRepository.findByProcessCdAndFirmPsFacTpAndAndOrdRcpTapWekCd(processCd, prevFactory, week)
+                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+
+        return CapacityInfoDto.toDto(capacityInfo);
+    }
+
+    @Transactional
+    @Override
+    public void minusProcessQty(FactoryOrderInfoReqDto.updateFactoryDto dto) {
+        // 출강주, 공정, 공장 정보로 해당 데이터 찾기
+        CapacityInfoDto capacityInfoDto = findFactoryByOption(dto.getProcessCd(), dto.getPrevFactory(), dto.getWeek());
+
+        // 공장 PK, Qty로 process_qty 감소
+        minusQty(capacityInfoDto.getId(), dto.getOrderQty());
+    }
+
+    @Transactional
+    @Override
+    public void plusProcessQty(FactoryOrderInfoReqDto.updateFactoryDto dto) {
+        // 출강주, 공정, 공장 정보로 해당 데이터 찾기
+        CapacityInfoDto capacityInfoDto = findFactoryByOption(dto.getProcessCd(), dto.getNextFactory(), dto.getWeek());
+
+        // 공장 PK, Qty로 process_qty 증가
+        plusQty(capacityInfoDto.getId(), dto.getOrderQty());
+    }
+
+
 }
