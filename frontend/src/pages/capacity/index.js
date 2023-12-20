@@ -1,6 +1,13 @@
 import "react-datasheet-grid/dist/style.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+
+//Alert 
+import { Alert, AlertTitle } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import { DialogTitle, DialogContent, DialogActions } from '@mui/material';
+
+
 import {
     Box,
     Card,
@@ -26,13 +33,13 @@ import {
 
 import { GridToolbar } from "@mui/x-data-grid";
 import { DataGrid, GridCell, useGridApiContext, GridCellEditStopReasons } from "@mui/x-data-grid";
-import ModalTest from "./modal-test";
+import ModalTest from "../../views/capacity/modal-test";
 import React, {
     useEffect,
     useState,
 } from "react";
 import CapacityStandardApi from "src/api/CapacityApi";
-import MyD3Heatmap from "./d3-heat";
+import MyD3Heatmap from "../../views/capacity/d3-heat";
 
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
@@ -87,9 +94,11 @@ const CapacityMgt = () => {
         select: "",
     });
 
-    //Update
-    const [editedCellValue, setEditedCellValue] = useState('');
+    // Alert
+    const [showAlert, setShowAlert] = useState(false);
 
+
+    //Update
     const handleCellEditCommit = (params) => {
     console.log(params);
     const updatedList = capacity.map((item) =>
@@ -99,8 +108,16 @@ const CapacityMgt = () => {
     setCapacity(updatedList);
   };
 
+
+   const capacityApi = () =>
+   {
+       CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
+           setCapacity(data.response);
+       });
+   };
+
     useEffect(() => {
-        handleSearch();
+        capacityApi();
 
         CapacityStandardApi.getWeek("H", ["D", "E"], (data) => {
             const list = data.response;
@@ -114,16 +131,55 @@ const CapacityMgt = () => {
             });
 
         });
+                    setShowAlert(false);
+
 
     }, []);
 
-    const handleSearch = () => {
-        console.log("Selected week:", weekList.select);
-
-        CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
-            setCapacity(data.response);
-        });
+    
+    const handleCloseAlert = () => {
+        setShowAlert(false);
     };
+
+    const handleAccept = () => {
+          CapacityStandardApi.createCapacity(weekList.select)
+            .then((response) => {
+                CapacityStandardApi.getCapacityListByWeek(weekList.select, (newData) => {
+                setCapacity(newData.response);
+                });
+                handleCloseAlert();
+                 
+
+            })
+            .catch((error) => {
+                console.error("Failed to create capacity data:", error);
+            });
+    }
+            
+    const handleSearch = async () => {
+    console.log("Selected week:", weekList.select);
+
+    const data = await new Promise((resolve, reject) => {
+    CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
+      resolve(data);
+    });
+  });
+
+  setCapacity(data.response);
+
+  if (capacity.length === 0) {
+    setShowAlert(true);
+    // alert("데이터가 없으므로 데이터를 생성하겠습니다.");
+  } else { 
+                CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
+            setCapacity(data.response);
+  })
+        }
+    }
+
+    
+    
+
 
     console.log(" weeklist:", weekList);
 
@@ -160,6 +216,8 @@ const CapacityMgt = () => {
     } else if (!updateFlag) {
       await CapacityStandardApi.updateSave(capacity, (data) => {
         alert("저장되었습니다.");
+        capacityApi();
+
 
       });
       
@@ -325,37 +383,39 @@ const CapacityMgt = () => {
 
                         }}
                     >
-                        {/* <Grid item xs={4} sx={{ paddingBottom: 2 , }}>
-                        </Grid> */}
-                        <DataGrid
-                            className="custom-data-grid"
-                            disableRowSelectionOnClick
-                            rows={capacity}
-                            columns={columns}
-                            // onCellEditStop={(params, event) => {
-                            //     if (params.field === 'faAdjustmentWgt' && params.reason === GridCellEditStopReasons.cellEdit) {
-                            //         handleFaAdjustmentWgtEdit(params.id, params.value);
-                            //     }
-                            // }}
-                        processRowUpdate={(newVal) => {
-                        handleCellEditCommit(newVal)
-                        return newVal;
-                            }}
-                        
-                            components={{
-                                // Toolbar: GridToolbar,
-                                Cell: MyCell,
-                            }}
-                            rowHeight={40}
-                            hideFooterPagination={true}
-                            hideFooter={true}
-                            disableColumnReorder
-
-
-                        />
-
-                    </Box>
-                </Card>
+                        {capacity.length === 0 ? (
+                                    <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        height: "100%",
+                                        backgroundColor: "rgba(255, 255, 255, 0.7)",
+                                    }}
+                                    >
+                                    <Typography variant="h6">데이터가 없습니다.</Typography>
+                                    </div>
+                                ) : (
+                                    <DataGrid
+                                    className="custom-data-grid"
+                                    disableRowSelectionOnClick
+                                    rows={capacity}
+                                    columns={columns}
+                                    processRowUpdate={(newVal) => {
+                                        handleCellEditCommit(newVal);
+                                        return newVal;
+                                    }}
+                                    components={{
+                                        Cell: MyCell,
+                                    }}
+                                    rowHeight={40}
+                                    hideFooterPagination={true}
+                                    hideFooter={true}
+                                    disableColumnReorder
+                                    />
+                                )}
+        </Box>
+      </Card>   
                 <Card
                     elevation={3}
                     style={{
@@ -364,38 +424,61 @@ const CapacityMgt = () => {
 
                     }}
                 >
+
+                    
                     <Grid item xs={4} sx={{ paddingBottom: 10 , paddingTop:3, paddingLeft:3,
                     }}>
                         <Typography variant="h5" > 공장 부하 현황 </Typography>
 
-                        {/* <Bar
-              options={options}
-              data={inputStatusChartData}
-              style={{ width: "100%", height: "80%" }}
-            /> */}
-                        {/* <RadarChart week={weekList} capacity={capacity} /> */}
+                        {capacity.length === 0 ? (
+                                    <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        height: "100%",
+                                        backgroundColor: "rgba(255, 255, 255, 0.7)",
+                                            marginTop: "20px", 
 
-
+                                    }}
+                                    >
+                                    <Typography variant="h6">데이터가 없습니다.</Typography>
+                                    </div>
+                                ) : (
                         <MyD3Heatmap
                             capacity={capacity} />
-
+                                )}
                     </Grid>
-                    {/* <MyHeatmap capacity={capacity} /> */}
-
-                    {/* <ul>
-  {capacity.map((item) => (
-    <li key={item.id}>
-      ID: {item.id}, Company Code: {item.gcsCompCode}, Mill Code: {item.millCd}, ...
-    </li>
-  ))}
-</ul> */}
 
                 </Card>
+                
 
             </div>
 
-        </>
-    );
+            {/* alert */}
+                  {showAlert && (
+
+            <Dialog open={capacity.length == 0} onClose={handleCloseAlert} maxWidth="sm" fullWidth>
+            <DialogTitle>투입 능력 관리</DialogTitle>
+            <DialogContent>
+                <Alert severity="info">
+                {`현재 ${weekList.select} 출강주의 투입 능력 관리 데이터가 없습니다.`}
+                <br />
+                데이터를 추가 하시겠습니까?
+                </Alert>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleAccept} color="primary">
+                Accept
+                </Button>
+                <Button onClick={handleCloseAlert} color="primary">
+                Close
+                </Button>
+            </DialogActions>
+            </Dialog>
+                  )}
+                </>
+            );
 };
 
 export default CapacityMgt;
