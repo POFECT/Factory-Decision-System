@@ -734,7 +734,7 @@ const MainConfirm = () => {
               setRowSelectionModel([]);
             }}
           >
-            대상조회
+            조회
           </Button>
           <Button
             size="small"

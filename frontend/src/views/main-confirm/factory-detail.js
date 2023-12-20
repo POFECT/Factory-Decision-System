@@ -205,7 +205,7 @@ const FactoryDetail = (props) => {
       <Button
         size="small"
         variant="contained"
-        style={{ backgroundColor: "#0A5380", float: "right" }}
+        style={{ backgroundColor: "#0E9DDE", float: "right" }}
         onClick={changeFactory}
       >
         저장
