@@ -89,8 +89,8 @@ const OrderDetail = (props) => {
                       <TableCell
                         style={{
                           width: 160,
-                          backgroundColor: "#F5F9FF",
-                          color: "#0A5380",
+                          backgroundColor: "#0A5380",
+                          color: "#FFFFFF",
                         }}
                         align="center"
                       >
@@ -108,8 +108,8 @@ const OrderDetail = (props) => {
                       <TableCell
                         style={{
                           width: 160,
-                          backgroundColor: "#F5F9FF",
-                          color: "#0A5380",
+                          backgroundColor: "#0A5380",
+                          color: "#FFFFFF",
                         }}
                         align="center"
                       >
@@ -124,8 +124,8 @@ const OrderDetail = (props) => {
                       <TableCell
                         style={{
                           width: 160,
-                          backgroundColor: "#F5F9FF",
-                          color: "#0A5380",
+                          backgroundColor: "#0A5380",
+                          color: "#FFFFFF",
                         }}
                         align="center"
                       >

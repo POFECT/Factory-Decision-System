@@ -13,7 +13,7 @@ import {
   Box,
 } from "@mui/material";
 import MainApi from "src/api/MainApi";
-import OrderDetail from "./order-detail";
+import OrderDetail from "../../views/main-confirm/order-detail";
 
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
