@@ -89,8 +89,8 @@ const possibleDetail =({a,openFun})=>{
         alert("이미 존재하는 가능통과코드 조합입니다.");
         break;
     }
-    //부분 새로고침 방법 생각하기
-    //window.location.reload();
+    //부분 새로고침
+    window.location.replace("/factory-standard");
   };
 
   const processColumn = [
