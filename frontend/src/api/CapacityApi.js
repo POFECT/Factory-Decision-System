@@ -44,6 +44,19 @@ updateSave: async (capacityUpdateList, callback) => {
       })
       .finally(() => {});
   },
+  
+createCapacity: async (week, callback) => {
+    await axiosApi()
+      .post(`/capacity/${week}`)
+      .then((response) => {
+        console.log("Insert successful:", response.data);
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log("Error during insert:", error);
+      });
+  },
+
 
 }
 

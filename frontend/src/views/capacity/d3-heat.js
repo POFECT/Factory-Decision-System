@@ -25,6 +25,8 @@ const MyD3Heatmap = ({ capacity }) => {
   console.log("))))))", cleanedResultArray)
   const transformedData = cleanedResultArray;
 
+  console.log("******", transformedData);
+
   const cellData = [
     ["1제강", "2제강", ""],
     ["1열연", "2열연", ""],
