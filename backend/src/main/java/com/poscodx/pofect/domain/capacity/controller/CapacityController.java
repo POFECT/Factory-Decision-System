@@ -87,5 +87,12 @@ public class CapacityController {
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 
+//    @GetMapping("/week/capacity")
+//    @ApiOperation(value = "출강주 리스트의 능력 데이터 확인", notes = "출강주 리스트의 능력 데이터가 모두 있는지 확인한다.")
+//    public ResponseEntity<ResponseDto> checkFactoryCapacity(@PathVariable(name = "id") String processCode, @PathVariable String week) {
+//        List<CapacityInfoDto.FactoryCapacityDto> result = capacityService.getFactoryCapacityList(processCode, week);
+//        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+//    }
+
 
 }

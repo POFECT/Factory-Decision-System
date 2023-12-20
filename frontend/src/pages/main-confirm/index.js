@@ -151,6 +151,19 @@ const MainConfirm = () => {
       return;
     }
 
+    /** 선택한 주문들의 출강주에 투입 능력 데이터가 모두 있는지 확인 */
+    // 선택 주문들의 출강주 리스트 추출
+    // const selectedWeekList = rows.map((selectedRow) => {
+    //   const selectedWeek = orderList.list.find(
+    //     (row) => row.ordThwTapWekCd === selectedRow.ordThwTapWekCd
+    //   );
+    //   return selectedWeek.ordThwTapWekCd;
+    // });
+
+    // // 출강주 배열 중복값 제거
+    // const weekSet = [...new Set(selectedWeekList)];
+    // console.log(weekSet);
+
     /** 확통 설계할 주문들의 ID 추출 */
     const selectedIdList = rows.map((selectedRow) => {
       const selectedId = orderList.list.find(
