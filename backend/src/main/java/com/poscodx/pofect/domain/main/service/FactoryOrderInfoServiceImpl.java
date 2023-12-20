@@ -348,6 +348,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         return ("E".equals(order.getFaConfirmFlag()));
     }
 
+    @Transactional
     @Override
     public void updateFactory(FactoryOrderInfoReqDto.updateFactoryDto reqDto) {
         FactoryOrderInfo order = factoryOrderInfoRepository.findById(reqDto.getOrderId())
@@ -367,7 +368,6 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         cfirmCode.append(order.getCfirmPassOpCd());
         cfirmCode.setCharAt((Integer.parseInt(reqDto.getProcessCd())/10)-1, reqDto.getNextFactory().charAt(0));
         order.changeCfirmPassOpCd(cfirmCode.toString());
-
     }
 
 
@@ -378,6 +378,11 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         FactoryOrderInfoResDto dto
                 = getById(id);
 
+        Double hrProdThkAim = dto.getOrderThick();
+        Double hrProdWthAim = dto.getOrderWidth();
+        String orderLength = dto.getOrderLength();
+        Double hrRollUnitWgtMax = dto.getHrRollUnitWgtMax();
+
         // 공정 리스트 가져옴
         Map<String, List<SizeStandardResDto>> result =
                 sizeStandardRepository.findByProcessCdIn(processCodeList)
@@ -385,6 +390,10 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                         .map(SizeStandardResDto::toDto)
                         .collect(Collectors.groupingBy(SizeStandardResDto::getProcessCd));
 
+        return getSizeStandardSetDtos(result, hrProdThkAim, hrProdWthAim, orderLength, hrRollUnitWgtMax);
+    }
+
+    private static List<SizeStandardSetDto> getSizeStandardSetDtos(Map<String, List<SizeStandardResDto>> result, Double hrProdThkAim, Double hrProdWthAim, String orderLength, Double hrRollUnitWgtMax) {
         List<SizeStandardSetDto> sizeStandardSetDtoList = new ArrayList<>();
 
         for (String process : result.keySet()) {
@@ -396,11 +405,6 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
             for (SizeStandardResDto sizeStandardResDto : result.get(process)) {
                 List<Boolean> booleanList = new ArrayList<>();
 
-                Double hrProdThkAim = dto.getHrProdThkAim();
-                Double hrProdWthAim = dto.getHrProdWthAim();
-                String orderLength = dto.getOrderLength();
-                Double hrRollUnitWgtMax = dto.getHrRollUnitWgtMax();
-
                 if(!(sizeStandardResDto.getOrderThickMax() == 0 && sizeStandardResDto.getOrderThickMin() == 0)){
                     if (sizeStandardResDto.getOrderThickMax() >= hrProdThkAim
                             && sizeStandardResDto.getOrderThickMin() <= hrProdThkAim) {
@@ -408,6 +412,8 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                     } else {
                         booleanList.add(false);
                     }
+                } else {
+                    booleanList.add(true);
                 }
 
                 if(!(sizeStandardResDto.getOrderWidthMax() == 0 && sizeStandardResDto.getOrderWidthMin() == 0)){
@@ -417,17 +423,23 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                     } else {
                         booleanList.add(false);
                     }
+                } else {
+                    booleanList.add(true);
                 }
 
-                if (!dto.getOrderLength().equals("C")) {
-                    if (!(Objects.equals(sizeStandardResDto.getOrderLengthMax(), "0") && Objects.equals(sizeStandardResDto.getOrderLengthMin(), "0"))) {
+                if (!orderLength.equals("C")) {
+                    if (!(sizeStandardResDto.getOrderLengthMax() == 0 && sizeStandardResDto.getOrderLengthMin() == 0)) {
                         if (sizeStandardResDto.getOrderLengthMax() >= Double.parseDouble(orderLength)
                                 && sizeStandardResDto.getOrderLengthMin() <= Double.parseDouble(orderLength)) {
                             booleanList.add(true);
                         } else {
                             booleanList.add(false);
                         }
+                    } else {
+                        booleanList.add(true);
                     }
+                } else {
+                    booleanList.add(true);
                 }
 
                 if (!(sizeStandardResDto.getHrRollUnitWgtMax2() == 0 && sizeStandardResDto.getHrRollUnitWgtMax1() == 0)) {
@@ -437,6 +449,8 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                     } else {
                         booleanList.add(false);
                     }
+                } else {
+                    booleanList.add(true);
                 }
 
                 if (!booleanList.contains(false)) {
@@ -444,8 +458,8 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                 }
             }
             sizeStandardSetDtoList.add(setDto);
-        }
 
-        return  sizeStandardSetDtoList;
+        }
+        return sizeStandardSetDtoList;
     }
 }
