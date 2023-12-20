@@ -68,10 +68,29 @@ const PassModal = ({ open, handleClose }) => {
     select: "ALL", 
   });
 
+      //Update
+    const handleCellEditCommit = (params) => {
+    console.log(params);
+    const updatedList = passStandard.map((item) =>
+      item.id === params.id ? params : item
+    );
+
+    setPassStandard(updatedList);
+  };
+
+
 
   useEffect(() => {
 
-    PassStandardApi.getList((data) => {
+   
+    handleSearch();
+   
+  }, []);
+
+  const handleSearch = () => {
+
+
+     PassStandardApi.getList((data) => {
       setPassStandard(data.response);
     });
     
@@ -81,12 +100,6 @@ const PassModal = ({ open, handleClose }) => {
         return { ...prev, list};
       })
     });
-
-   
-  }, []);
-
-  const handleSearch = () => {
-
     console.log("Selected item:", codeNameList.select);
 
     if (codeNameList.select === "ALL") {
@@ -100,8 +113,9 @@ const PassModal = ({ open, handleClose }) => {
     }
   };
   const columns = [
-    { field: "ordPdtItdsCdN", headerName: "품명", width: 130, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
-    { field: "availablePassFacCdN1", headerName: "제강", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
+    { field: "ordPdtItdsCdN", headerName: "품명", width: 130, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: false },
+    { field: "availablePassFacCdN1", headerName: "제강", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true, 
+},
     { field: "availablePassFacCdN2", headerName: "열연", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
     { field: "availablePassFacCdN3", headerName: "열연정정", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
     { field: "availablePassFacCdN4", headerName: "냉연", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
@@ -110,6 +124,49 @@ const PassModal = ({ open, handleClose }) => {
     { field: "availablePassFacCdN7", headerName: "도금", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
     { field: "availablePassFacCdN8", headerName: "정정", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
   ];
+
+  //Update
+  const updatePass = async () => {
+    let updateFlag = false;
+    let result = "데이터를 확인해주세요.\n\n빈값 혹은 *만 들어갈 수 있습니다.";
+
+
+      passStandard.map(item => {
+          for (let i = 1; i <= 8; i++) {
+              const columnName = `availablePassFacCdN${i}`;
+              const value = item[columnName];
+              if ( value !== null && value !=='' && value !=='*') 
+              {
+                  updateFlag = true;
+                  
+                  break;
+              }
+          }
+          for (let i = 1; i <= 8; i++) {
+              const columnName = `availablePassFacCdN${i}`;
+              const value = item[columnName];
+              if ( value === '') 
+              {
+                  value = null;
+                 console.log("*****", value)
+
+              }
+          }
+    });
+
+    if (updateFlag) {
+      alert(result);
+      handleSearch();
+
+    } else if (!updateFlag) {
+      await PassStandardApi.updateSave(passStandard, (data) => {
+        alert("저장되었습니다.");
+
+      });
+      
+    }
+
+  };
 
  //excel
    const fileType =
@@ -209,7 +266,9 @@ const PassModal = ({ open, handleClose }) => {
             <Button size="small" type="submit" variant="contained" onClick={handleSearch} style={{ backgroundColor: "#E29E21" }}>
               조회
             </Button>
-            <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "#0A5380" }}>
+            <Button size="small" type="submit" variant="contained" 
+            onClick={updatePass}
+            style={{ backgroundColor: "#0A5380" }}>
               저장
             </Button>
             <Button
@@ -268,9 +327,12 @@ const PassModal = ({ open, handleClose }) => {
                 disableRowSelectionOnClick
                 rows={passStandard}
                 columns={columns}
-                onCellClick={(e) => {
-                  console.log(e);
-                }}
+
+                processRowUpdate={(newVal) => {
+              
+                        handleCellEditCommit(newVal)
+                        return newVal;
+                            }}
                 components={{
                   // Toolbar: GridToolbar,
                   Cell: MyCell,

@@ -4,16 +4,9 @@ import com.poscodx.pofect.common.dto.ResponseDto;
 import com.poscodx.pofect.common.exception.CustomException;
 import com.poscodx.pofect.domain.capacity.dto.CapacityInfoDto;
 import com.poscodx.pofect.domain.capacity.dto.CombinedCapacityDto;
-import com.poscodx.pofect.domain.capacity.dto.CombinedCapacityRowSpanDto;
-import com.poscodx.pofect.domain.capacity.dto.GrantCapacityDto;
-import com.poscodx.pofect.domain.capacity.entity.CapacityInfo;
 import com.poscodx.pofect.domain.capacity.service.CapacityService;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
-import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
-import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
-import com.poscodx.pofect.domain.main.repository.FactoryOrderInfoRepository;
 import com.poscodx.pofect.domain.main.service.FactoryOrderInfoService;
-import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardReqDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Api(value = "Capacity API", tags = {"투입능력관리"})
 @CrossOrigin("*")
@@ -84,7 +75,6 @@ public class CapacityController {
     // 조정량 Update
     @PatchMapping("/update")
     @ApiOperation(value = "투입능력 update", notes = "투입능력 update")
-
     public ResponseEntity<ResponseDto> updateFaAdjustmentWgt(@RequestBody List<CapacityInfoDto> updateList) {
         capacityService.updateFaAdjustmentWgt(updateList);
         return new ResponseEntity<>(new ResponseDto(updateList), HttpStatus.OK);
@@ -96,5 +86,6 @@ public class CapacityController {
         List<CapacityInfoDto.FactoryCapacityDto> result = capacityService.getFactoryCapacityList(processCode, week);
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
+
 
 }

@@ -4,6 +4,9 @@ import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
 import com.poscodx.pofect.domain.processstandard.entity.ProcessStandard;
 import com.poscodx.pofect.domain.processstandard.repository.ProcessStandardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,5 +55,21 @@ public class ProcessStandardServiceImpl implements ProcessStandardService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void updateProcessList(List<ProcessStandardDto> updateList) {
+        for (ProcessStandardDto dto : updateList) {
+            processStandardRepository.updateAvailablePassFacCdN(
+                    dto.getId(),
+                    dto.getAvailablePassFacCdN1(),
+                    dto.getAvailablePassFacCdN2(),
+                    dto.getAvailablePassFacCdN3(),
+                    dto.getAvailablePassFacCdN4(),
+                    dto.getAvailablePassFacCdN5(),
+                    dto.getAvailablePassFacCdN6(),
+                    dto.getAvailablePassFacCdN7(),
+                    dto.getAvailablePassFacCdN8()
+            );
+        }
+    }
 
 }

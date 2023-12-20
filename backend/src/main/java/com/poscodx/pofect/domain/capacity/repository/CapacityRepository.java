@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.Optional;
 
 public interface CapacityRepository extends JpaRepository<CapacityInfo, Long> {
 
@@ -64,4 +65,6 @@ public interface CapacityRepository extends JpaRepository<CapacityInfo, Long> {
     List<CapacityInfo> findAllByProcessCdOrderByFirmPsFacTpAsc(String processCode);
 
     List<CapacityInfo> findAllByProcessCdAndOrdRcpTapWekCdOrderByFirmPsFacTpAsc(String processCode, String week);
+
+    Optional<CapacityInfo> findByProcessCdAndFirmPsFacTpAndAndOrdRcpTapWekCd(String processCd, String firmPsFacTp, String ordRcpTapWekCd);
 }

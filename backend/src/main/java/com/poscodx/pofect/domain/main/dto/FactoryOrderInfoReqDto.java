@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class FactoryOrderInfoReqDto {
 
-    /* 출강주 조회 request data */
+    /** 출강주 조회 request data */
     @Getter
     @Setter
     @AllArgsConstructor
@@ -22,7 +22,7 @@ public class FactoryOrderInfoReqDto {
         private List<String> faConfirmFlag;  // 공장결정확정구분
     }
 
-    /* 주문데이터 조회 request data */
+    /** 주문데이터 조회 request data */
     @Getter
     @Setter
     @AllArgsConstructor
@@ -33,7 +33,7 @@ public class FactoryOrderInfoReqDto {
         private List<String> faConfirmFlag;  // 공장결정확정구분
     }
 
-    /* FA_CONFIRM_FLAG, OS_MAIN_STATUS_CD_N 수정 request data */
+    /** FA_CONFIRM_FLAG, OS_MAIN_STATUS_CD_N 수정 request data */
     @Getter
     @Setter
     @AllArgsConstructor
@@ -41,6 +41,20 @@ public class FactoryOrderInfoReqDto {
     public static class updateCodeDto {
         private String value;  // 변경할 값
         private List<Long> ids;  // FLAG를 변경할 주문 ID 리스트
+    }
+
+    /** 공장 변경 request data */
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class updateFactoryDto {
+        private Long orderId;  // 주문 PK
+        private String processCd;  // 바꿀 공정
+        private String prevFactory;  // 이전 공장
+        private String nextFactory;  // 바꿀 공장
+        private String week;  // 출강주
+        private Integer orderQty;  // 해당 주문 투입량
     }
 
     @NotBlank

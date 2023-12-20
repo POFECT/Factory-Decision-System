@@ -24,6 +24,17 @@ const PassStandardApi = {
       })
       .finally(() => { });
   },
+  updateSave: async (passUpdateList, callback) => {
+    await axiosApi()
+      .patch("/pass-standard/update", passUpdateList)
+      .then((response) => {
+        console.log("Update successful:", response.data);
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log("Error during update:", error);
+      });
+  },
 
   getCodeNameList: async (callback) => {
     await axiosApi()

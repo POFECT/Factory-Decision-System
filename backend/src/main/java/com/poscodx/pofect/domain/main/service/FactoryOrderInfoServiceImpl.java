@@ -12,6 +12,7 @@ import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 import com.poscodx.pofect.domain.main.repository.FactoryOrderInfoRepository;
 import com.poscodx.pofect.common.exception.CustomException;
 import com.poscodx.pofect.common.exception.ErrorCode;
+import com.poscodx.pofect.domain.passstandard.controller.ConfirmFactoryStandardController;
 import com.poscodx.pofect.domain.passstandard.dto.ConfirmFactoryStandardResDto;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleToConfirmResDto;
 import com.poscodx.pofect.domain.passstandard.service.ConfirmFactoryStandardService;
@@ -21,6 +22,7 @@ import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardSetDto;
 import com.poscodx.pofect.domain.sizestandard.repository.SizeStandardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
     private final EssentialStandardService essentialStandardService;
     private final CapacityService capacityService;
     private final ConfirmFactoryStandardService confirmFactoryStandardService;
+    private final ConfirmFactoryStandardController confirmFactoryStandardController;
 //    private final SizeStandardService sizeStandardService;
 
     // 없어질 예정
@@ -313,8 +316,6 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                 List<CapacityInfoDto.FactoryCapacityDto> factoryCapacity =
                         capacityService.getFactoryCapacityList(Integer.toString(j), order.getOrdThwTapWekCd());
 
-                System.out.println("능력데이터");
-
                 // 리스트 돌면서 잔여량 가장 큰 공장의 index 구하기
                 int maxIdx = 0;
                 long max = Integer.MIN_VALUE;
@@ -331,7 +332,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
                 // 잔여량 max인 공장의 투입량 갱신
                 Long factoryId = factoryCapacity.get(maxIdx).getId();
-                capacityService.updateQty(factoryId, order.getOrderLineQty().longValue());
+                capacityService.plusQty(factoryId, order.getOrderLineQty());
 
                 // 잔여량 max인 공장의 공장번호 확통코드에 등록
                 confirmCode.append(factoryCapacity.get(maxIdx).getFirmPsFacTp());
@@ -347,6 +348,27 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         return ("E".equals(order.getFaConfirmFlag()));
     }
 
+    @Transactional
+    @Override
+    public void updateFactory(FactoryOrderInfoReqDto.updateFactoryDto reqDto) {
+        FactoryOrderInfo order = factoryOrderInfoRepository.findById(reqDto.getOrderId())
+                .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+
+        reqDto.setWeek(order.getOrdThwTapWekCd());
+        reqDto.setOrderQty(order.getOrderLineQty());
+
+        // 기존 공장 투입량 업데이트
+        capacityService.minusProcessQty(reqDto);
+
+        // 변경할 공장 투입량 업데이트
+        capacityService.plusProcessQty(reqDto);
+
+        // 주문의 확통코드 업데이트
+        StringBuilder cfirmCode = new StringBuilder();
+        cfirmCode.append(order.getCfirmPassOpCd());
+        cfirmCode.setCharAt((Integer.parseInt(reqDto.getProcessCd())/10)-1, reqDto.getNextFactory().charAt(0));
+        order.changeCfirmPassOpCd(cfirmCode.toString());
+    }
 
 
     // 없어질 예정 - 사이즈 기준 설계
@@ -356,6 +378,11 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         FactoryOrderInfoResDto dto
                 = getById(id);
 
+        Double hrProdThkAim = dto.getOrderThick();
+        Double hrProdWthAim = dto.getOrderWidth();
+        String orderLength = dto.getOrderLength();
+        Double hrRollUnitWgtMax = dto.getHrRollUnitWgtMax();
+
         // 공정 리스트 가져옴
         Map<String, List<SizeStandardResDto>> result =
                 sizeStandardRepository.findByProcessCdIn(processCodeList)
@@ -363,6 +390,10 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                         .map(SizeStandardResDto::toDto)
                         .collect(Collectors.groupingBy(SizeStandardResDto::getProcessCd));
 
+        return getSizeStandardSetDtos(result, hrProdThkAim, hrProdWthAim, orderLength, hrRollUnitWgtMax);
+    }
+
+    private static List<SizeStandardSetDto> getSizeStandardSetDtos(Map<String, List<SizeStandardResDto>> result, Double hrProdThkAim, Double hrProdWthAim, String orderLength, Double hrRollUnitWgtMax) {
         List<SizeStandardSetDto> sizeStandardSetDtoList = new ArrayList<>();
 
         for (String process : result.keySet()) {
@@ -374,11 +405,6 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
             for (SizeStandardResDto sizeStandardResDto : result.get(process)) {
                 List<Boolean> booleanList = new ArrayList<>();
 
-                Double hrProdThkAim = dto.getHrProdThkAim();
-                Double hrProdWthAim = dto.getHrProdWthAim();
-                String orderLength = dto.getOrderLength();
-                Double hrRollUnitWgtMax = dto.getHrRollUnitWgtMax();
-
                 if(!(sizeStandardResDto.getOrderThickMax() == 0 && sizeStandardResDto.getOrderThickMin() == 0)){
                     if (sizeStandardResDto.getOrderThickMax() >= hrProdThkAim
                             && sizeStandardResDto.getOrderThickMin() <= hrProdThkAim) {
@@ -386,6 +412,8 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                     } else {
                         booleanList.add(false);
                     }
+                } else {
+                    booleanList.add(true);
                 }
 
                 if(!(sizeStandardResDto.getOrderWidthMax() == 0 && sizeStandardResDto.getOrderWidthMin() == 0)){
@@ -395,17 +423,23 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                     } else {
                         booleanList.add(false);
                     }
+                } else {
+                    booleanList.add(true);
                 }
 
-                if (!dto.getOrderLength().equals("C")) {
-                    if (!(Objects.equals(sizeStandardResDto.getOrderLengthMax(), "0") && Objects.equals(sizeStandardResDto.getOrderLengthMin(), "0"))) {
+                if (!orderLength.equals("C")) {
+                    if (!(sizeStandardResDto.getOrderLengthMax() == 0 && sizeStandardResDto.getOrderLengthMin() == 0)) {
                         if (sizeStandardResDto.getOrderLengthMax() >= Double.parseDouble(orderLength)
                                 && sizeStandardResDto.getOrderLengthMin() <= Double.parseDouble(orderLength)) {
                             booleanList.add(true);
                         } else {
                             booleanList.add(false);
                         }
+                    } else {
+                        booleanList.add(true);
                     }
+                } else {
+                    booleanList.add(true);
                 }
 
                 if (!(sizeStandardResDto.getHrRollUnitWgtMax2() == 0 && sizeStandardResDto.getHrRollUnitWgtMax1() == 0)) {
@@ -415,6 +449,8 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                     } else {
                         booleanList.add(false);
                     }
+                } else {
+                    booleanList.add(true);
                 }
 
                 if (!booleanList.contains(false)) {
@@ -422,8 +458,8 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                 }
             }
             sizeStandardSetDtoList.add(setDto);
-        }
 
-        return  sizeStandardSetDtoList;
+        }
+        return sizeStandardSetDtoList;
     }
 }

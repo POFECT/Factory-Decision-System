@@ -1,4 +1,4 @@
-import { Card, Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import DashBoardApi from "src/api/DashBoardApi";
@@ -21,7 +21,7 @@ const InputStatusBar = () => {
       {
         label: "품종",
         data: inputStatusData,
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        backgroundColor: "#FB4560",
       },
     ],
   };
@@ -35,7 +35,7 @@ const InputStatusBar = () => {
   }, []);
 
   return (
-    <Card>
+    <Paper elevation={3} style={{ padding: "15px" }}>
       <Typography variant="h5" style={{ padding: "10px 10px 0px 15px" }}>
         품종 별 투입 현황
       </Typography>
@@ -46,7 +46,7 @@ const InputStatusBar = () => {
           padding: "0px 15px 0px 15px",
         }}
       />
-    </Card>
+    </Paper>
   );
 };
 export default InputStatusBar;

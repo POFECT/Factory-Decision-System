@@ -22,6 +22,7 @@ public interface FactoryOrderInfoService {
     List<String> getOrderWeeks(FactoryOrderInfoReqDto.SearchDto dto);
 
     List<LotResDto> findLotAll(LotSearchDto searchDto);
+
     Long updateOrderFlag(FactoryOrderInfoReqDto.updateCodeDto reqDto);
 
     Long updateOrderStatus(FactoryOrderInfoReqDto.updateCodeDto reqDto);
@@ -29,4 +30,6 @@ public interface FactoryOrderInfoService {
     Boolean possibleFactory(Long id);
 
     Boolean confirmFactory(Long id);
+
+    void updateFactory(FactoryOrderInfoReqDto.updateFactoryDto reqDto);
 }
