@@ -3,8 +3,8 @@ import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import Popper from '@mui/material/Popper';
 import Fade from '@mui/material/Fade';
 import Paper from '@mui/material/Paper';
-import PossibleDetail from "./possible-detail";
-import PassModal from './pass-modal';
+import PossibleDetail from "../../views/factory-standard/possible-detail";
+import PassModal from '../../views/factory-standard/pass-modal';
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
 
@@ -62,7 +62,8 @@ const Capacity = () => {
 
   const [a,setA] = useState({
     processCd:null,
-    processFacNum:null
+    processFacNum:null,
+    btiPosbPsFacTp:null,
   })
   const passClick = () => {
     setOpenPassStandard(true);
@@ -149,7 +150,8 @@ const Capacity = () => {
     setA({
       ...a,
       processCd: e.currentTarget.dataset.field,  
-      processFacNum: String(feasibleRoutingGroup).split('').map(Number) 
+      processFacNum: String(feasibleRoutingGroup).split('').map(Number) ,
+      btiPosbPsFacTp: e.currentTarget.parentElement.dataset.id
     });
 
     setAnchorEl(e.currentTarget);
@@ -177,21 +179,6 @@ const Capacity = () => {
   const fileExtension = ".xlsx";
 
   const exportToExcelPossible = async () => {
-    //   // 헤더 순서
-    // const header = ["id", "10", "20", "30", "40", "50", "60", "70", "80"];
-
-    // // possibleList의 id를 기준으로 정렬
-    // const sortedPossibleList = [...possibleList].sort((a, b) => a.id - b.id);
-
-    // // 데이터를 헤더와 일치하는 형식으로 변환
-    // const excelData = sortedPossibleList.map(item => header.map(key => item[key]));
-
-    // // 헤더와 데이터를 함께 전달하여 엑셀 생성
-    // const ws = XLSX.utils.aoa_to_sheet([header, ...excelData]);
-    // const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-    // const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-    // const data = new Blob([excelBuffer], { type: fileType });
-    // FileSaver.saveAs(data, "가능통과공장기준" + fileExtension);
     // 헤더 순서
     const originalHeader = ["id", "10", "20", "30", "40", "50", "60", "70", "80"];
 
@@ -378,7 +365,7 @@ const Capacity = () => {
         className="custom-data-grid"
         rows={confirmList}
         columns={confirmColumns}
-        hideFooter = {true}last
+        hideFooter = {true}
         slots={{
           cell: MyCell,
         }}
