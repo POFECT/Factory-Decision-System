@@ -59,7 +59,7 @@ const Capacity = () => {
   const [anchorEl, setAnchorEl] = useState(null);//Popper
   const [placement, setPlacement] = useState();//Popper위치
   const [openPassStandard, setOpenPassStandard] = useState(false);
-
+  const [test,setTest] = useState(false)
   const [a,setA] = useState({
     processCd:null,
     processFacNum:null,
@@ -109,7 +109,7 @@ const Capacity = () => {
       confirmListforExcel=transformData;
       setConfirmList(transformData);
     }, []);
-  },[]);
+  },[test]);
   //가통 컬럼
   const possibleColumns = [
     { field: "id",headerName:"Code", width:158, headerAlign: "center"},
@@ -323,7 +323,7 @@ const Capacity = () => {
             <Paper>
               {/* 가능통과공장 팝업 */}
               <Typography sx={{p:4,backgroundColor:'#f4f5fa'}}>
-                <PossibleDetail  a={a} openFun={openFun}/>
+                <PossibleDetail  a={a} openFun={openFun} checkNone={(value)=>{setTest(value)}} test={test}/>
               </Typography>
             </Paper>
           </Fade>

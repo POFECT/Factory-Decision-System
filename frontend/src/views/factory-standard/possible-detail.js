@@ -5,8 +5,9 @@ import { Grid, Typography, Button, Select, MenuItem, FormControl,
   Table, TableBody, TableCell, TableContainer, TableRow, TableHead, Checkbox } 
 from "@mui/material";
 import FactoryStandardApi from 'src/api/FactoryStandardApi';
+import { CheckNetworkOutline } from 'mdi-material-ui';
 
-const possibleDetail =({a,openFun})=>{
+const possibleDetail =({a,openFun,checkNone,test})=>{
   let processName=null;
   if(a.processCd==='10'){
     processName='제강'
@@ -30,7 +31,10 @@ const possibleDetail =({a,openFun})=>{
   const [checkedItemList,setCheckedItemList]=useState([]);//check여부 리스트 
   const [checkedExplList,setCheckedExplList]=useState([]);//check된것들 Expl
   const setInitialData=null;
-
+const checking = ()=>{
+  console.log("test"+test)
+  checkNone(!test)
+}
   useEffect(() => {
     FactoryStandardApi.getPossiblePopper(a.processCd, (data) => {
       setProcessFactoryList(data.response);//Table에 보여줄 리스트 세팅
@@ -81,16 +85,20 @@ const possibleDetail =({a,openFun})=>{
     switch (saveResult) {
       case "Delete":
         alert("선택 해제한 코드 조합이 삭제되었습니다.");
+        checking();
         break;
-      case "Update"||"Insert":
+      case "Update":
+      case "Insert":
         alert("변경한 코드 조합이 저장되었습니다.");
+        checking();
         break;
       case "Fail":
         alert("이미 존재하는 가능통과코드 조합입니다.");
         break;
     }
     //부분 새로고침
-    window.location.replace("/factory-standard");
+    
+
   };
 
   const processColumn = [
