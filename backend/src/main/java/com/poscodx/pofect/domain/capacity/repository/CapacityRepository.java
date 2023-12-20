@@ -67,4 +67,6 @@ public interface CapacityRepository extends JpaRepository<CapacityInfo, Long> {
     List<CapacityInfo> findAllByProcessCdAndOrdRcpTapWekCdOrderByFirmPsFacTpAsc(String processCode, String week);
 
     Optional<CapacityInfo> findByProcessCdAndFirmPsFacTpAndAndOrdRcpTapWekCd(String processCd, String firmPsFacTp, String ordRcpTapWekCd);
+
+    List<CapacityInfo> findAllByOrdRcpTapWekCd(String week);
 }
