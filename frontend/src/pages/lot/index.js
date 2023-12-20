@@ -26,6 +26,7 @@ import LotApi from "src/api/LotApi";
 import MainApi from "src/api/MainApi";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
+import LotDetail from './lot-detail';
 
 function MyCell(props) {
     let style = {
@@ -62,6 +63,9 @@ const Lot = () => {
 
     const [ordPdtItpCdNList, setOrdPdtItpCdNList] = useState([]);
     const [smList, setSmList] = useState([]);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedCellValue, setSelectedCellValue] = useState([]);
 
     const getLotList = (week) => {
         if (week == 0) week = null;
@@ -101,7 +105,7 @@ const Lot = () => {
                         newItem = { ...newItem, width_over_1570_stand: item.widthGroups.width_over_1570_stand }
                         sumStand += item.widthGroups.width_over_1570_stand;
                     }
-                    return {...newItem, sum_stand: sumStand == 0 ? "" : sumStand};
+                    return { ...newItem, sum_stand: sumStand == 0 ? "" : sumStand };
                 } else if (item && item.faConfirmFlag === "F") {
                     newItem = { ...newItem, faConfirmFlag: "기투입" }
                     const sum = 0;
@@ -140,7 +144,7 @@ const Lot = () => {
                     }
 
                 }
-                return { ...newItem, sum: sum == 0 ? "" : sum, sum2: sum2 == 0 ? "" : sum2}
+                return { ...newItem, sum: sum == 0 ? "" : sum, sum2: sum2 == 0 ? "" : sum2 }
             });
 
             setLotData(resultData);
@@ -339,6 +343,18 @@ const Lot = () => {
         },
     ];
 
+    const handleCellClick = (params) => {
+        if (params.field === 'smSteelGrdN') {
+            const filteredData = lotData.filter(item => item.smSteelGrdN === params.value);
+            // const filteredData = lotData.filter(item => item.smSteelGrdN === params.value).filter(item => item.faConfirmFlag==="기투입");
+            setSelectedCellValue(filteredData);
+            setIsModalOpen(true);
+        }
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
 
     const customStyles = {
         control: (provided, state) => ({
@@ -404,9 +420,9 @@ const Lot = () => {
     };
 
     const exportToExcelLot = async () => {
-        const originalHeader = ["smSteelGrdN","faConfirmFlag","width_9701", "width_9702", "width_970_stand", 
-        "width_12701", "width_12702", "width_1270_stand", "width_15701", "width_15702", "width_1570_stand", "width_over_15701",
-        "width_over_15702", "width_over_1570_stand", "sum","sum2","sum_stand"];
+        const originalHeader = ["smSteelGrdN", "faConfirmFlag", "width_9701", "width_9702", "width_970_stand",
+            "width_12701", "width_12702", "width_1270_stand", "width_15701", "width_15702", "width_1570_stand", "width_over_15701",
+            "width_over_15702", "width_over_1570_stand", "sum", "sum2", "sum_stand"];
 
         const sortedLotList = [...lotData].sort((a, b) => a.id - b.id);
         const excelData = sortedLotList.map(item => originalHeader.map(key => item[key]));
@@ -630,6 +646,7 @@ const Lot = () => {
                         disableRowSelectionOnClick
                         rows={lotData}
                         columns={columns}
+                        onCellClick={handleCellClick}
                         columnGroupingModel={columnGroupingModel}
                         slots={{
                             cell: MyCell,
@@ -637,6 +654,7 @@ const Lot = () => {
                     />
                 </Box>
             </Card>
+            <LotDetail open={isModalOpen} handleClose={handleCloseModal} selectedCellValue={selectedCellValue} />
 
         </div>
     );
