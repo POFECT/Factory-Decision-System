@@ -435,7 +435,6 @@ const EssentialGoods = () => {
   const passClose = () => {
     setOpenPassStandard(false);
   };
-  const [addEssential, setAddEssential] = useState({});
   return (
     <div style={{ height: "800px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
@@ -446,7 +445,7 @@ const EssentialGoods = () => {
         open={openPassStandard}
         handleClose={passClose}
         addEssentialRow={(value) => {
-          setAddEssential(value);
+          setessentialList(value);
         }}
       />
       <div
