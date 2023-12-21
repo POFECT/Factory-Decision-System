@@ -335,6 +335,7 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                   id="demo-simple-select"
                   label="법인"
                   onChange={gcsCompCodeChange}
+                  required={true}
                 >
                   <MenuItem value={"01"}>01</MenuItem>
                 </Select>
@@ -1060,6 +1061,9 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
             type="submit"
             variant="contained"
             style={{ backgroundColor: "#0A5380" }}
+            onClick={() => {
+              handleClose();
+            }}
           >
             닫기
           </Button>
