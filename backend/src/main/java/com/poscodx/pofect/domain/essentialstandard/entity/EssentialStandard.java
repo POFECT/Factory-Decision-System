@@ -36,6 +36,7 @@ public class EssentialStandard extends BaseEntity {
     private String seq;  // 4.일련번호
 
     @Column(name = "PROCESS_CD", length = 2)
+    @NotNull
     private String processCd;  // 5.박판공정계획공정구분
 
     @Column(name = "PPL_MMAT_CANC_APP_DT")
@@ -45,6 +46,7 @@ public class EssentialStandard extends BaseEntity {
     private String pplBasPsgnoTp;  // 7.공정계획기준가등록구분
 
     @Column(name = "BTI_POSB_PS_FAC_TP", length = 2)
+    @NotNull
     private String btiPosbPsFacTp;  // 8.박판가능통과공장구분
 
     @Column(name = "CON_CALC_OPXA01", length = 20)
