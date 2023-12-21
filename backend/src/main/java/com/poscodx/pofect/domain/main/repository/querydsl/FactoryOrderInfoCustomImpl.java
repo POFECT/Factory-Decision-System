@@ -34,7 +34,7 @@ public class FactoryOrderInfoCustomImpl extends Querydsl4RepositorySupport imple
                 .from(factoryOrderInfo)
                 .where(option)
                 .distinct()
-                .orderBy(factoryOrderInfo.ordThwTapWekCd.asc())
+                .orderBy(factoryOrderInfo.ordThwTapWekCd.desc())
                 .fetch();  // List로 변환
     }
 

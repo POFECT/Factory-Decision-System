@@ -128,6 +128,17 @@ const MainApi = {
         console.log(error);
       });
   },
+
+  checkWeekListCapacity: async (weekList, callback) => {
+    await axiosApi()
+      .get(`/capacity/weeklist?weekList=${weekList}`)
+      .then((response) => {
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
 };
 
 export default MainApi;

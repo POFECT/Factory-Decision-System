@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import {
   Grid,
@@ -14,6 +15,8 @@ import {
 } from "@mui/material";
 import MainApi from "src/api/MainApi";
 import OrderDetail from "../../views/main-confirm/order-detail";
+import { Report } from "src/notifix/notiflix-report-aio";
+import { Notify } from "src/notifix/notiflix-notify-aio";
 
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
@@ -42,6 +45,8 @@ function MyCell(props) {
 }
 
 const MainConfirm = () => {
+  const router = useRouter();
+
   /* 데이터 */
 
   const osMainStatusCd = "H";
@@ -107,14 +112,14 @@ const MainConfirm = () => {
 
     // 선택한 행이 없을 경우
     if (rows.length == 0) {
-      alert("주문을 선택해주세요.");
+      Notify.failure("주문을 선택해주세요");
       return;
     }
 
     /** 공장결정 되지 않은 주문이 있다면 실패 */
     for (const row of rows) {
       if (row.faConfirmFlag != "E") {
-        alert("공장 결정이 되지 않은 주문이 존재합니다.");
+        Notify.failure("공장 결정이 되지 않은 주문이 존재합니다.");
         return;
       }
     }
@@ -133,7 +138,7 @@ const MainConfirm = () => {
     });
     await MainApi.updateStatus("C", selectedIdList, (data) => {
       const cnt = data.response;
-      alert(cnt + "건 제조투입 완료되었습니다.");
+      Notify.success(cnt + "건 제조투입 완료되었습니다.");
       setRowSelectionModel([]);
 
       /** 리스트 update */
@@ -147,11 +152,47 @@ const MainConfirm = () => {
 
     // 선택한 행이 없을 경우
     if (rows.length == 0) {
-      alert("주문을 선택해주세요.");
+      Notify.failure("주문을 선택해주세요");
       return;
     }
 
-    /** 확통 설계할 주문들의 ID 추출 */
+    /** 선택한 주문들의 출강주에 투입 능력 데이터가 모두 있는지 확인 */
+    // 선택 주문들의 출강주 리스트 추출
+    const selectedWeekList = rows.map((selectedRow) => {
+      const selectedWeek = orderList.list.find(
+        (row) => row.ordThwTapWekCd === selectedRow.ordThwTapWekCd
+      );
+      return selectedWeek.ordThwTapWekCd;
+    });
+
+    // 출강주 배열 중복값 제거
+    const weekSet = [...new Set(selectedWeekList)];
+
+    await MainApi.checkWeekListCapacity(weekSet, (data) => {
+      const result = data.response;
+      console.log(result);
+
+      if (result.length > 0) {
+        Report.warning(
+          "",
+          "[" +
+            result.toString() +
+            "]<br />" +
+            " 출강주의 투입 능력 데이터가 없습니다.<br />데이터를 추가해주세요.",
+          "확인",
+          () => {
+            router.push("/capacity");
+          },
+          {
+            backOverlayClickToClose: true,
+          }
+        );
+
+        return;
+      }
+    });
+
+    // /** 확통 설계할 주문들의 ID 추출 */
     const selectedIdList = rows.map((selectedRow) => {
       const selectedId = orderList.list.find(
         (row) => row.id === selectedRow.id
@@ -163,9 +204,13 @@ const MainConfirm = () => {
 
     MainApi.confirmDecision(selectedIdList, (data) => {
       const res = data.response;
-      alert(
-        allCnt + "건 중 " + res.success + "건 성공, " + res.fail + "건 실패"
-      );
+      Notify.success(res.success + "/" + allCnt + "건 성공", {
+        showOnlyTheLastOne: false,
+      });
+      Notify.failure(res.fail + "/" + allCnt + "건 실패", {
+        showOnlyTheLastOne: false,
+      });
+
       // alert(
       //   res.success +
       //     "/" +
@@ -734,7 +779,7 @@ const MainConfirm = () => {
               setRowSelectionModel([]);
             }}
           >
-            대상조회
+            조회
           </Button>
           <Button
             size="small"

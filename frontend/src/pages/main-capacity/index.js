@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import MainApi from "src/api/MainApi";
 import Card from "@mui/material/Card";
+import { Notify } from "src/notifix/notiflix-notify-aio";
 
 import CapacityDetail from "../../views/main-capacity/capacity-detail";
 
@@ -105,14 +106,14 @@ const MainCapacity = () => {
 
     // 선택한 행이 없을 경우
     if (rows.length == 0) {
-      alert("주문을 선택해주세요.");
+      Notify.failure("주문을 선택해주세요");
       return;
     }
 
     /** 정상설계 되지 않은 주문이 있다면 실패 */
     for (const row of rows) {
       if (row.faConfirmFlag != "B") {
-        alert("정상 설계되지 않은 주문이 존재합니다.");
+        Notify.failure("정상 설계되지 않은 주문이 존재합니다.");
         return;
       }
     }
@@ -127,7 +128,7 @@ const MainCapacity = () => {
 
     MainApi.updateFlag("D", selectedIdList, (data) => {
       const cnt = data.response;
-      alert(cnt + "건 설계 확정되었습니다.");
+      Notify.success(cnt + "건 설계 확정되었습니다.");
       setRowSelectionModel([]);
 
       /** 리스트 update */
@@ -141,7 +142,7 @@ const MainCapacity = () => {
 
     // 선택한 행이 없을 경우
     if (rows.length == 0) {
-      alert("주문을 선택해주세요.");
+      Notify.failure("주문을 선택해주세요");
       return;
     }
 
@@ -157,9 +158,15 @@ const MainCapacity = () => {
 
     MainApi.possibleDecision(selectedIdList, (data) => {
       const res = data.response;
-      alert(
-        allCnt + "건 중 " + res.success + "건 성공, " + res.fail + "건 실패"
-      );
+      Notify.success(res.success + "/" + allCnt + "건 성공", {
+        showOnlyTheLastOne: false,
+      });
+      Notify.failure(res.fail + "/" + allCnt + "건 실패", {
+        showOnlyTheLastOne: false,
+      });
+      // alert(
+      //   allCnt + "건 중 " + res.success + "건 성공, " + res.fail + "건 실패"
+      // );
       // alert(
       //   res.success +
       //     "/" +
@@ -737,7 +744,7 @@ const MainCapacity = () => {
               setRowSelectionModel([]);
             }}
           >
-            대상조회
+            조회
           </Button>
           <Button
             size="small"
