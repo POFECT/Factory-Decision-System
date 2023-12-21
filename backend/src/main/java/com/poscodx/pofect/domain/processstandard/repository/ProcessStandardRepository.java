@@ -55,4 +55,8 @@ public interface ProcessStandardRepository extends JpaRepository<ProcessStandard
             @Param("availablePassFacCdN6") String availablePassFacCdN6,
             @Param("availablePassFacCdN7") String availablePassFacCdN7,
             @Param("availablePassFacCdN8") String availablePassFacCdN8);
+
+    boolean existsByOrdPdtItdsCdN(String ordPdtItdsCdN);
+
+
 }

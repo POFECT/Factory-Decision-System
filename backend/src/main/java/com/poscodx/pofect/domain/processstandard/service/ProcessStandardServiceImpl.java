@@ -4,10 +4,8 @@ import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
 import com.poscodx.pofect.domain.processstandard.entity.ProcessStandard;
 import com.poscodx.pofect.domain.processstandard.repository.ProcessStandardRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,4 +70,15 @@ public class ProcessStandardServiceImpl implements ProcessStandardService {
         }
     }
 
-}
+    @Transactional
+    @Override
+    public ProcessStandard insert(ProcessStandardDto insertList) {
+        System.out.println("!!!!!!!!!insertList = " + insertList);
+//            if (processStandardRepository.existsByOrdPdtItdsCdN(dto.getOrdPdtItdsCdN())) {
+//                throw new CustomException(ErrorCode.BAD_REQUEST);
+//            }
+            ProcessStandard processStandard = ProcessStandard.toEntity(insertList);
+            System.out.println("processStandard = " + processStandard);
+            return processStandardRepository.save(processStandard);
+        }
+    }

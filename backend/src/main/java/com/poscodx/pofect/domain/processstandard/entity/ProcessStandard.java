@@ -1,6 +1,7 @@
 package com.poscodx.pofect.domain.processstandard.entity;
 
 import com.poscodx.pofect.domain.etc.entity.BaseEntity;
+import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,4 +58,20 @@ public class ProcessStandard extends BaseEntity {
     @Column(name = "USER_ID", length = 8)
     private String userId;  // 12.박판공정계획사용자ID
 
+    public static ProcessStandard toEntity(ProcessStandardDto dto) {
+        return ProcessStandard.builder()
+                .gcsCompCode(dto.getGcsCompCode())
+                .millCd(dto.getMillCd())
+                .ordPdtItdsCdN(dto.getOrdPdtItdsCdN())
+                .availablePassFacCdN1(dto.getAvailablePassFacCdN1())
+                .availablePassFacCdN2(dto.getAvailablePassFacCdN2())
+                .availablePassFacCdN3(dto.getAvailablePassFacCdN3())
+                .availablePassFacCdN4(dto.getAvailablePassFacCdN4())
+                .availablePassFacCdN5(dto.getAvailablePassFacCdN5())
+                .availablePassFacCdN6(dto.getAvailablePassFacCdN6())
+                .availablePassFacCdN7(dto.getAvailablePassFacCdN7())
+                .availablePassFacCdN8(dto.getAvailablePassFacCdN8())
+                .userId(dto.getUserId())
+                .build();
+    }
 }

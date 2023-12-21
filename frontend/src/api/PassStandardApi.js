@@ -36,6 +36,18 @@ const PassStandardApi = {
       });
   },
 
+  insertSave: async (passInsertList, callback) => {
+    await axiosApi()
+      .post("/pass-standard", passInsertList)
+      .then((response) => {
+        console.log("Update successful:", response.data);
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log("Error during update:", error);
+      });
+  },
+
   getCodeNameList: async (callback) => {
     await axiosApi()
       .get("/etc/business")
