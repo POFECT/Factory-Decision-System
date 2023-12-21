@@ -38,5 +38,5 @@ public interface CapacityService {
 
     void plusProcessQty(FactoryOrderInfoReqDto.updateFactoryDto dto);
 
-    Boolean checkWeekCapacityList(List<String> weekList);
+    List<String> checkWeekCapacityList(List<String> weekList);
 }

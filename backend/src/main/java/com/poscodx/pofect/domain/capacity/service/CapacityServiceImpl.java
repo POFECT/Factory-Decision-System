@@ -217,14 +217,13 @@ public class CapacityServiceImpl implements CapacityService {
     }
 
     @Override
-    public Boolean checkWeekCapacityList(List<String> weekList) {
-        boolean result = true;
+    public List<String> checkWeekCapacityList(List<String> weekList) {
+        List<String> result = new ArrayList<>();
 
         for(String week: weekList) {
             List<CapacityInfo> list = capacityRepository.findAllByOrdRcpTapWekCd(week);
             if(list.isEmpty()) {
-                result = false;
-                break;
+                result.add(week);
             }
         }
 
