@@ -1,5 +1,4 @@
 import {
-  Grid,
   Typography,
   Select,
   MenuItem,
@@ -19,8 +18,8 @@ import { useState } from "react";
 
 const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
   const addData = {
-    btiPosbPsFacTp: "03",
-    conCalcOpxa01: "=",
+    btiPosbPsFacTp: null,
+    conCalcOpxa01: null,
     conCalcOpxa02: null,
     conCalcOpxa03: null,
     conCalcOpxa04: null,
@@ -31,24 +30,24 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
     conCalcOpxa09: null,
     conCalcOpxa10: null,
     customerNumber: null,
-    gcsCompCode: "01",
-    id: 504,
+    gcsCompCode: null,
+    id: 505,
     lastUpdateDate: null,
-    millCd: "T",
+    millCd: null,
     ordPdtItdsCdN: null,
-    ordPdtItpCdN: "FM",
+    ordPdtItpCdN: null,
     orderThickMax: null,
     orderThickMin: null,
     orderUsageCdN: null,
     orderWidthMax: null,
     orderWidthMin: null,
     postTreatmentMethodCdN: null,
-    pplBasPsgnoTp: "C",
-    pplMmatCancAppDt: "2022-04-15",
-    pplMmatCngMgtNo: "20190416361",
-    processCd: "80",
+    pplBasPsgnoTp: null,
+    pplMmatCancAppDt: null,
+    pplMmatCngMgtNo: null,
+    processCd: null,
     salCusLocLClsTp: null,
-    seq: "26220",
+    seq: null,
     smSteelGrdN: null,
     specificationCdN: null,
     userId: null,
@@ -287,7 +286,9 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
 
   // 값 업데이트
   const addEssentailRowCallBack = () => {
-    addEssentialRow(addData);
+    addEssentialRow((props) => [addData, ...props]);
+    console.log(".........................................");
+    console.log(addData);
   };
 
   return (
@@ -335,6 +336,7 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                   id="demo-simple-select"
                   label="법인"
                   onChange={gcsCompCodeChange}
+                  required={true}
                 >
                   <MenuItem value={"01"}>01</MenuItem>
                 </Select>
@@ -1060,6 +1062,9 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
             type="submit"
             variant="contained"
             style={{ backgroundColor: "#0A5380" }}
+            onClick={() => {
+              handleClose();
+            }}
           >
             닫기
           </Button>
