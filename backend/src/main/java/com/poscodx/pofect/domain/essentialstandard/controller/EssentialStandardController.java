@@ -25,7 +25,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EssentialStandardController {
     private final EssentialStandardService essentialStandardService;
-//    private final MainController mainController;
     private final PossibleFactoryStandardController possibleFactoryStandardController;
     private final FactoryOrderInfoService factoryOrderInfoService;
 
@@ -40,12 +39,17 @@ public class EssentialStandardController {
     @ApiOperation(value = "필수재 기준 측정", notes = "필수재 기준을 측정한다.")
     public ResponseEntity<ResponseDto> applyEssentialStandard(@RequestParam List<String> processList,
                                                                       @RequestParam("id") Long id) {
-//        ResponseEntity<ResponseDto> responseEntity = mainController.getOrderById(id);
-//        FactoryOrderInfoResDto factoryInfo = (FactoryOrderInfoResDto) responseEntity.getBody().getResponse();
         FactoryOrderInfoResDto factoryInfo = factoryOrderInfoService.getById(id);
 
         ResponseEntity<ResponseDto> responseEntityResult = possibleFactoryStandardController.getPossibleToConfirm(essentialStandardService.applyEssentialStandard(factoryInfo,processList));
         List<PossibleToConfirmResDto> result = (List<PossibleToConfirmResDto>) responseEntityResult.getBody().getResponse();
+        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+    }
+
+    @PostMapping("/essential-standard")
+    @ApiOperation(value = "필수재 기준 추가", notes = "필수재 기준을 추가한다.")
+    public ResponseEntity<ResponseDto> addEssential(@RequestBody EssentialStandardResDto essentialStandardResDto) {
+        EssentialStandardResDto result = essentialStandardService.addEssential(essentialStandardResDto);
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 }
