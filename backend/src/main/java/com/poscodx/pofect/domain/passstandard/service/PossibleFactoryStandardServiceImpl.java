@@ -95,8 +95,15 @@ public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStanda
             System.out.println("삭제된 내용 있을 때 >>"+deletedCount);
             result.setResult("Delete");
         }else{//현재 존재하지 않는 값을 insert
-            int insertCount = possibleFactoryStandardRepository.insertFeasibleRoutingGroup(btiPosbPsFacTp,processCd,checkedList,checkedExpl);
-            if(insertCount>0) result.setResult("Insert");
+            int sameCount = possibleFactoryStandardRepository.checkFeasibleRoutingGroupSame(processCd,checkedList);
+            System.out.println(">> sameCount = "+sameCount);
+            if(sameCount==0){
+                int insertCount = possibleFactoryStandardRepository.insertFeasibleRoutingGroup(btiPosbPsFacTp,processCd,checkedList,checkedExpl);
+                if(insertCount>0) result.setResult("Insert");
+            }else{
+                result.setResult("Fail");
+            }
+
         }
         return result;
     };
