@@ -303,6 +303,23 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         String possibleCode = order.getPosbPassFacCdN();
         StringBuilder confirmCode = new StringBuilder();
 
+        /** 공장확정 이력이 있다면 기존 이력 삭제하고 재설계 */
+        if(order.getCfirmPassOpCd() != null) {
+            for(int i = 0, j = 10; i < order.getCfirmPassOpCd().length(); i++, j+=10) {
+                char c = order.getCfirmPassOpCd().charAt(i);
+                if(c == ' ') continue;
+
+                FactoryOrderInfoReqDto.updateFactoryDto reqDto = new FactoryOrderInfoReqDto.updateFactoryDto();
+                reqDto.setProcessCd(Integer.toString(j));
+                reqDto.setPrevFactory(Character.toString(c));
+                reqDto.setWeek(order.getOrdThwTapWekCd());
+                reqDto.setOrderQty(order.getOrderLineQty());
+
+                // 기존 공장 투입량 감소
+                capacityService.minusProcessQty(reqDto);
+            }
+        }
+
         /** 가통코드 16자리 - 2자리씩 끊어서 공정 구분 */
         for(int i = 0, j = 10; i < 16; i+=2, j+=10) {
             String process = possibleCode.substring(i,i+2);
