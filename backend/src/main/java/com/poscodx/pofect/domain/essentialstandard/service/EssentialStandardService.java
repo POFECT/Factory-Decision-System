@@ -9,4 +9,5 @@ import java.util.List;
 public interface EssentialStandardService {
     List<EssentialStandardResDto> getList();
     List<EssentialStandardBtiPosReqDto> applyEssentialStandard(FactoryOrderInfoResDto factoryOrderInfoResDto, List<String> porcessStandardList);
+    EssentialStandardResDto addEssential(EssentialStandardResDto essentialStandardResDto);
 }

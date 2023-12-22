@@ -16,6 +16,7 @@ import {
 import EssentialStandardApi from "src/api/EssentialStandardApi";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
+import EssentialModal from "src/views/essential-goods/EssentialModal";
 const util = require("util");
 
 function MyCell(props) {
@@ -57,6 +58,7 @@ const EssentialGoods = () => {
   useEffect(() => {
     EssentialStandardApi.getEssentialStandardList((data) => {
       const responseData = data.response;
+      console.log(data.response);
       const processCdMappings = {
         10: "제강",
         20: "열연",
@@ -394,31 +396,7 @@ const EssentialGoods = () => {
     FileSaver.saveAs(data, "필수재기준" + fileExtension);
   };
 
-  //const f = util.promisify(EssentialStandardApi.getEssentialStandardList);
-
   const filteredCondeNameList = async () => {
-    console.log("체크");
-
-    // await EssentialStandardApi.getEssentialStandardList((data) => {
-    //   const responseData = data.response;
-    //   const processCdMappings = {
-    //     10: "제강",
-    //     20: "열연",
-    //     30: "열연정정",
-    //     40: "냉간압연",
-    //     50: "1차소둔",
-    //     60: "2차소둔",
-    //     70: "도금",
-    //     80: "정정",
-    //   };
-
-    // const responseDataFilter = responseData.map((item) => {
-    //   const mappedProcessCd =
-    //     processCdMappings[item.processCd] || item.processCd;
-    //   return { ...item, processCd: mappedProcessCd };
-    // });
-    // });
-
     const responseData = await EssentialStandardApi.getEssentialStandardList();
 
     const processCdMappings = {
@@ -449,11 +427,27 @@ const EssentialGoods = () => {
     setessentialList(responseDataFilter);
   };
 
+  const [openPassStandard, setOpenPassStandard] = useState(false);
+
+  const passClick = () => {
+    setOpenPassStandard(true);
+  };
+  const passClose = () => {
+    setOpenPassStandard(false);
+  };
   return (
     <div style={{ height: "800px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Typography variant="h4">필수재 기준</Typography>
       </Grid>
+
+      <EssentialModal
+        open={openPassStandard}
+        handleClose={passClose}
+        addEssentialRow={(value) => {
+          setessentialList(value);
+        }}
+      />
       <div
         style={{
           display: "flex",
@@ -542,9 +536,11 @@ const EssentialGoods = () => {
             type="submit"
             variant="contained"
             style={{ backgroundColor: "#0A5380" }}
+            onClick={passClick}
           >
-            저장
+            기준 추가
           </Button>
+
           <Button
             size="small"
             type="submit"

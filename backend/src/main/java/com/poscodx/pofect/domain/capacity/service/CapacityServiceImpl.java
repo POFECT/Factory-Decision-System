@@ -216,5 +216,19 @@ public class CapacityServiceImpl implements CapacityService {
         plusQty(capacityInfoDto.getId(), dto.getOrderQty());
     }
 
+    @Override
+    public List<String> checkWeekCapacityList(List<String> weekList) {
+        List<String> result = new ArrayList<>();
+
+        for(String week: weekList) {
+            List<CapacityInfo> list = capacityRepository.findAllByOrdRcpTapWekCd(week);
+            if(list.isEmpty()) {
+                result.add(week);
+            }
+        }
+
+        return result;
+    }
+
 
 }

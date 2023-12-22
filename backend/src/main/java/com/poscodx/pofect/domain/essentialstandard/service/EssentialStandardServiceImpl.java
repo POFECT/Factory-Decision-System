@@ -2,6 +2,7 @@ package com.poscodx.pofect.domain.essentialstandard.service;
 
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardBtiPosReqDto;
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardResDto;
+import com.poscodx.pofect.domain.essentialstandard.entity.EssentialStandard;
 import com.poscodx.pofect.domain.essentialstandard.repository.EssentialStandardRepository;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import lombok.RequiredArgsConstructor;
@@ -275,4 +276,12 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
             }
             return essentialStandardBtiPosReqDtoList;
         }
+
+    @Override
+    public EssentialStandardResDto addEssential(EssentialStandardResDto essentialStandardResDto) {
+        EssentialStandard essentialStandard = EssentialStandard.fromDto(essentialStandardResDto);
+        EssentialStandard savedEntity = essentialStandardRepository.save(essentialStandard);
+
+        return EssentialStandardResDto.toDto(savedEntity);
     }
+}

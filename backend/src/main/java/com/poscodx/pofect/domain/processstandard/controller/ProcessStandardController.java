@@ -1,6 +1,7 @@
 package com.poscodx.pofect.domain.processstandard.controller;
 
 import com.poscodx.pofect.common.dto.ResponseDto;
+import com.poscodx.pofect.common.exception.CustomException;
 import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
 import com.poscodx.pofect.domain.processstandard.service.ProcessStandardService;
 import io.swagger.annotations.Api;
@@ -48,6 +49,20 @@ public class ProcessStandardController {
     public ResponseEntity<ResponseDto> updateProcessList(@RequestBody List<ProcessStandardDto> updateList) {
         processStandardService.updateProcessList(updateList);
         return new ResponseEntity<>(new ResponseDto(updateList), HttpStatus.OK);
+    }
+
+    // Insert
+    @PostMapping("")
+    @ApiOperation(value = "공유공정 insert", notes = "공유공정 insert")
+    public ResponseEntity<ResponseDto> insertProcessList(@RequestBody ProcessStandardDto insertList) {
+        try {
+            processStandardService.insert(insertList);
+            System.out.println("********insertList = " + insertList);
+            return new ResponseEntity<>(new ResponseDto(insertList), HttpStatus.OK);
+        } catch (CustomException e) {
+            System.out.println("error ***** insertList = " + insertList);
+            return new ResponseEntity<>(new ResponseDto("Failed to create capacity data: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

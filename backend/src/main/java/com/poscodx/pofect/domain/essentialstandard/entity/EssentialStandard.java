@@ -1,5 +1,6 @@
 package com.poscodx.pofect.domain.essentialstandard.entity;
 
+import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardResDto;
 import com.poscodx.pofect.domain.etc.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,6 +37,7 @@ public class EssentialStandard extends BaseEntity {
     private String seq;  // 4.일련번호
 
     @Column(name = "PROCESS_CD", length = 2)
+    @NotNull
     private String processCd;  // 5.박판공정계획공정구분
 
     @Column(name = "PPL_MMAT_CANC_APP_DT")
@@ -45,6 +47,7 @@ public class EssentialStandard extends BaseEntity {
     private String pplBasPsgnoTp;  // 7.공정계획기준가등록구분
 
     @Column(name = "BTI_POSB_PS_FAC_TP", length = 2)
+    @NotNull
     private String btiPosbPsFacTp;  // 8.박판가능통과공장구분
 
     @Column(name = "CON_CALC_OPXA01", length = 20)
@@ -116,4 +119,41 @@ public class EssentialStandard extends BaseEntity {
     @Column(name = "USER_ID", length = 8)
     private String userId;  // 31.박판공정계획사용자ID
 
+    public static EssentialStandard fromDto(EssentialStandardResDto dto) {
+        return EssentialStandard.builder()
+                .gcsCompCode(dto.getGcsCompCode())
+                .millCd(dto.getMillCd())
+                .pplMmatCngMgtNo(dto.getPplMmatCngMgtNo())
+                .seq(dto.getSeq())
+                .processCd(dto.getProcessCd())
+                .pplMmatCancAppDt(dto.getPplMmatCancAppDt())
+                .pplBasPsgnoTp(dto.getPplBasPsgnoTp())
+                .btiPosbPsFacTp(dto.getBtiPosbPsFacTp())
+                .conCalcOpxa01(dto.getConCalcOpxa01())
+                .ordPdtItpCdN(dto.getOrdPdtItpCdN())
+                .conCalcOpxa02(dto.getConCalcOpxa02())
+                .ordPdtItdsCdN(dto.getOrdPdtItdsCdN())
+                .conCalcOpxa03(dto.getConCalcOpxa03())
+                .customerNumber(dto.getCustomerNumber())
+                .conCalcOpxa04(dto.getConCalcOpxa04())
+                .orderUsageCdN(dto.getOrderUsageCdN())
+                .conCalcOpxa05(dto.getConCalcOpxa05())
+                .orderThickMin(dto.getOrderThickMin())
+                .orderThickMax(dto.getOrderThickMax())
+                .conCalcOpxa06(dto.getConCalcOpxa06())
+                .orderWidthMin(dto.getOrderWidthMin())
+                .orderWidthMax(dto.getOrderWidthMax())
+                .conCalcOpxa07(dto.getConCalcOpxa07())
+                .specificationCdN(dto.getSpecificationCdN())
+                .conCalcOpxa08(dto.getConCalcOpxa08())
+                .salCusLocLClsTp(dto.getSalCusLocLClsTp())
+                .conCalcOpxa09(dto.getConCalcOpxa09())
+                .smSteelGrdN(dto.getSmSteelGrdN())
+                .conCalcOpxa10(dto.getConCalcOpxa10())
+                .postTreatmentMethodCdN(dto.getPostTreatmentMethodCdN())
+                .userId(dto.getUserId())
+                .id(dto.getId())
+                .lastUpdateDate(dto.getLastUpdateDate())
+                .build();
+    }
 }

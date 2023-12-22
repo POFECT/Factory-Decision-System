@@ -8,10 +8,9 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-import { Paper, Typography, Grid, Box, Card, Tabs, Tab } from "@mui/material";
+import { Grid } from "@mui/material";
 import ApexChartWrapper from "src/@core/styles/libs/react-apexcharts";
 
-import WeeklyHeatMap from "src/views/dashboard/WeeklyHeatMap";
 import HeatMap from "src/views/dashboard/HeatMap";
 import InputStatusBar from "src/views/dashboard/InputStatusBar";
 import FactoryGuage from "src/views/dashboard/FactoryGuage";
