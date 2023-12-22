@@ -194,19 +194,29 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
                                 <Bar
                                     options={optionStand}
                                     data={dataStand}
+                                    style={{
+                                        padding: "0px 15px 0px 15px",
+                                    }}
                                 />
                             </Card >
                             {selectedCellValue.length === 2 ? <Card>
                                 <Bar
                                     options={options}
                                     data={data}
+                                    style={{
+                                        padding: "0px 15px 0px 15px",
+                                    }}
                                 />
                             </Card> : ""}
 
                         </div>
                         {selectedCellValue.length === 2 ? <div style={{ paddingLeft: "10px" }}>
                             <Card>
-                                <Doughnut data={test} />
+                                <Doughnut
+                                    data={test}
+                                    style={{
+                                        padding: "0px 15px 0px 15px",
+                                    }} />
                             </Card>
                         </div> : ""}
                     </div>

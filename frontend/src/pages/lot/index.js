@@ -667,7 +667,6 @@ const Lot = () => {
                 }}
             >
                 <div style={{ display: "flex", alignItems: "center" }}>
-                    <div style={{ paddingRight: 10, paddingLeft: 10 }}>진도</div>
                     <input
                         type="checkbox"
                         checked={isChecked}
