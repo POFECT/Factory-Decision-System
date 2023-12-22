@@ -15,7 +15,11 @@ import {
   Button as MuiButton,
 } from "@mui/material";
 import { useState } from "react";
-
+import EssentialStandardApi from "src/api/EssentialStandardApi";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
   const addData = {
     btiPosbPsFacTp: null,
@@ -51,10 +55,16 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
     specificationCdN: null,
     userId: null,
   };
-
+  // 값 업데이트
+  const addEssentailRowCallBack = () => {
+    // addEssentialRow((props) => [addData, ...props]);
+    console.log("--------------------------------------------------");
+    console.log(EssentialStandardApi.addEssential(addData));
+    console.log(addData);
+  };
   const gcsCompCodeChange = (event) => {
-    console.log(event.target.value);
     addData.gcsCompCode = event.target.value;
+    console.log(event.target.value);
   };
   const millCdChange = (event) => {
     console.log(event.target.value);
@@ -72,9 +82,9 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
     console.log(event.target.value);
     addData.processCd = event.target.value;
   };
-  const pplMmatCancAppDtChange = (event) => {
-    console.log(event.target.value);
-    addData.pplMmatCancAppDt = event.target.value;
+  const pplMmatCancAppDtChange = (selectDate) => {
+    console.log(selectDate);
+    addData.pplMmatCancAppDt = selectDate;
   };
   const pplBasPsgnoTpChange = (event) => {
     console.log(event.target.value);
@@ -97,7 +107,6 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
   };
 
   const ordPdtItpCdNChange = (event) => {
-    console.log(event.target.value);
     addData.ordPdtItpCdN = event.target.value;
   };
 
@@ -283,13 +292,6 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
     addData.customerNumber = event.target.value;
   };
 
-  // 값 업데이트
-  const addEssentailRowCallBack = () => {
-    addEssentialRow((props) => [addData, ...props]);
-    console.log(".........................................");
-    console.log(addData);
-  };
-
   return (
     <Dialog
       open={open}
@@ -338,6 +340,7 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                   required={true}
                 >
                   <MenuItem value={"01"}>01</MenuItem>
+                  <MenuItem value={"02"}>02</MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -475,16 +478,21 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
               >
                 일련번호
               </Typography>
-              <FormControl>
-                <TextField
+              <LocalizationProvider
+                style={{ background: "#F6FAFE" }}
+                dateAdapter={AdapterDayjs}
+              >
+                <DemoContainer
                   style={{ background: "#F6FAFE" }}
-                  id="outlined-basic"
-                  label="공정계회길수해지적용일자"
-                  variant="outlined"
-                  type="number"
-                  onChange={pplMmatCancAppDtChange}
-                />
-              </FormControl>
+                  components={["DatePicker"]}
+                >
+                  <DatePicker
+                    style={{ background: "#F6FAFE" }}
+                    label="공정계회길수해지적용일자"
+                    onChange={pplMmatCancAppDtChange}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
             </div>
 
             {/* 공정계획기준가등록구분 */}
