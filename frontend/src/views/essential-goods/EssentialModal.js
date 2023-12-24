@@ -31,7 +31,6 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
     conCalcOpxa10: null,
     customerNumber: null,
     gcsCompCode: null,
-    id: 505,
     lastUpdateDate: null,
     millCd: null,
     ordPdtItdsCdN: null,
