@@ -10,7 +10,9 @@ import {
   InputLabel,
   OutlinedInput,
   Box,
+  Chip,
 } from "@mui/material";
+// import Chip from "@mui/material-next/Chip";
 import MainApi from "src/api/MainApi";
 import Card from "@mui/material/Card";
 import { Notify } from "src/notifix/notiflix-notify-aio";
@@ -247,6 +249,41 @@ const MainCapacity = () => {
       width: 140,
       editable: false,
       headerAlign: "center",
+      renderCell: (params) => {
+        const flag = params.value;
+
+        if (flag === "A") {
+          return (
+            <Chip
+              variant="outlined"
+              color="primary"
+              size="small"
+              label={params.value}
+            />
+          );
+        }
+        if (flag === "B") {
+          return (
+            <Chip
+              variant="outlined"
+              color="success"
+              size="small"
+              label={params.value}
+            />
+          );
+        }
+        if (flag === "C") {
+          return (
+            <Chip
+              variant="outlined"
+              color="error"
+              size="small"
+              label={params.value}
+            />
+          );
+        }
+        // <Chip icon={isRejected ? <WarningIcon/> : <CheckIcon/>}  label={params.value} variant={"outlined"} color={isRejected ? "error" : "success"} />;
+      },
     },
     {
       field: "posbPassFacCdN",

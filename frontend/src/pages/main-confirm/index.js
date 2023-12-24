@@ -12,6 +12,7 @@ import {
   OutlinedInput,
   Card,
   Box,
+  Chip,
 } from "@mui/material";
 import MainApi from "src/api/MainApi";
 import OrderDetail from "../../views/main-confirm/order-detail";
@@ -213,16 +214,6 @@ const MainConfirm = () => {
         showOnlyTheLastOne: false,
       });
 
-      // alert(
-      //   res.success +
-      //     "/" +
-      //     allCnt +
-      //     "건 성공, " +
-      //     res.fail +
-      //     "/" +
-      //     allCnt +
-      //     "건 실패하였습니다."
-      // );
       setRowSelectionModel([]);
 
       /** 리스트 update */
@@ -287,6 +278,30 @@ const MainConfirm = () => {
       width: 140,
       editable: false,
       headerAlign: "center",
+      renderCell: (params) => {
+        const flag = params.value;
+
+        if (flag === "D") {
+          return (
+            <Chip
+              variant="outlined"
+              color="primary"
+              size="small"
+              label={params.value}
+            />
+          );
+        }
+        if (flag === "E") {
+          return (
+            <Chip
+              variant="outlined"
+              color="success"
+              size="small"
+              label={params.value}
+            />
+          );
+        }
+      },
     },
     {
       field: "posbPassFacCdN",
