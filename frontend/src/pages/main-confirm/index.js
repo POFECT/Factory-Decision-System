@@ -168,29 +168,31 @@ const MainConfirm = () => {
     // 출강주 배열 중복값 제거
     const weekSet = [...new Set(selectedWeekList)];
 
+    const weekResult = [];
     await MainApi.checkWeekListCapacity(weekSet, (data) => {
-      const result = data.response;
-      console.log(result);
-
-      if (result.length > 0) {
-        Report.warning(
-          "",
-          "[" +
-            result.toString() +
-            "]<br />" +
-            " 출강주의 투입 능력 데이터가 없습니다.<br />데이터를 추가해주세요.",
-          "확인",
-          () => {
-            router.push("/capacity");
-          },
-          {
-            backOverlayClickToClose: true,
-          }
-        );
-
-        return;
-      }
+      weekResult = data.response;
     });
+
+    if (weekResult.length > 0) {
+      Report.warning(
+        "",
+        "[" +
+          weekResult.toString() +
+          "]<br />" +
+          " 출강주의 투입 능력 데이터가 없습니다.<br />데이터를 추가해주세요.",
+        "확인",
+        () => {
+          router.push("/capacity");
+        },
+        "취소",
+        // () => {},
+        {
+          backOverlayClickToClose: true,
+        }
+      );
+
+      return;
+    }
 
     // /** 확통 설계할 주문들의 ID 추출 */
     const selectedIdList = rows.map((selectedRow) => {
@@ -202,7 +204,7 @@ const MainConfirm = () => {
 
     const allCnt = selectedIdList.length;
 
-    MainApi.confirmDecision(selectedIdList, (data) => {
+    await MainApi.confirmDecision(selectedIdList, (data) => {
       const res = data.response;
       Notify.success(res.success + "/" + allCnt + "건 성공", {
         showOnlyTheLastOne: false,
