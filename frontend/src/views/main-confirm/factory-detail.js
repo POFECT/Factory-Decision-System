@@ -39,12 +39,16 @@ const FactoryDetail = (props) => {
       };
     });
 
-    MainApi.getFaCapacityList(props.factory.no, (data) => {
-      const list = data.response;
-      setFactoryList((prev) => {
-        return { ...prev, list };
-      });
-    });
+    MainApi.getFaCapacityList(
+      props.factory.no,
+      props.order.ordThwTapWekCd,
+      (data) => {
+        const list = data.response;
+        setFactoryList((prev) => {
+          return { ...prev, list };
+        });
+      }
+    );
   }, [props.factory, props.order]);
 
   const handleFactory = (facNo) => {
