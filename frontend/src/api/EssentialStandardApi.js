@@ -17,6 +17,11 @@ const EssentialStandardApi = {
       })
       .finally(() => {});
   },
+
+  addEssential: async (addData) => {
+    const result = await axiosApi().post(`/essential-standard`, addData);
+    return result.data.response;
+  },
 };
 
 export default EssentialStandardApi;
