@@ -2,6 +2,7 @@ package com.poscodx.pofect.domain.essentialstandard.controller;
 
 import com.poscodx.pofect.common.dto.ResponseDto;
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardBtiPosReqDto;
+import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardReqDto;
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardResDto;
 import com.poscodx.pofect.domain.essentialstandard.service.EssentialStandardService;
 import com.poscodx.pofect.domain.main.controller.MainController;
@@ -48,8 +49,8 @@ public class EssentialStandardController {
 
     @PostMapping("/essential-standard")
     @ApiOperation(value = "필수재 기준 추가", notes = "필수재 기준을 추가한다.")
-    public ResponseEntity<ResponseDto> addEssential(@RequestBody EssentialStandardResDto essentialStandardResDto) {
-        EssentialStandardResDto result = essentialStandardService.addEssential(essentialStandardResDto);
+    public ResponseEntity<ResponseDto> addEssential(@RequestBody EssentialStandardReqDto essentialStandardReqDto) {
+        EssentialStandardResDto result = essentialStandardService.addEssential(essentialStandardReqDto);
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 }

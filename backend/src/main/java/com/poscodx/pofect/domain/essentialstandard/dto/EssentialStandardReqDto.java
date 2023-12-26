@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EssentialStandardResDto  {
+public class EssentialStandardReqDto  {
     @Size(max = 2)
     @NotBlank
     private String gcsCompCode;  // 1.연결결산법인구분
@@ -38,8 +38,8 @@ public class EssentialStandardResDto  {
     @Size(max = 2)
     private String processCd;  // 5.박판공정계획공정구분
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime pplMmatCancAppDt;  // 6.공정계획필수재해지적용일자
 
     @Size(max = 1)

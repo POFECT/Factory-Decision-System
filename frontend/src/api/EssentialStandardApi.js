@@ -19,14 +19,8 @@ const EssentialStandardApi = {
   },
 
   addEssential: async (addData) => {
-    await axiosApi()
-      .post(`/essential-standard`, addData)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log("Error during insert:", error);
-      });
+    const result = await axiosApi().post(`/essential-standard`, addData);
+    return result.data.response;
   },
 };
 

@@ -1,5 +1,6 @@
 package com.poscodx.pofect.domain.essentialstandard.entity;
 
+import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardReqDto;
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardResDto;
 import com.poscodx.pofect.domain.etc.entity.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -119,7 +120,7 @@ public class EssentialStandard extends BaseEntity {
     @Column(name = "USER_ID", length = 8)
     private String userId;  // 31.박판공정계획사용자ID
 
-    public static EssentialStandard fromDto(EssentialStandardResDto dto) {
+    public static EssentialStandard fromDto(EssentialStandardReqDto dto) {
         return EssentialStandard.builder()
                 .gcsCompCode(dto.getGcsCompCode())
                 .millCd(dto.getMillCd())
