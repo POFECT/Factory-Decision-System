@@ -73,7 +73,7 @@
       className: "notiflix-notify",
       zindex: 4001,
       fontFamily: "TheJamsil5Bold",
-      fontSize: "25px",
+      fontSize: "20px",
       cssAnimation: true,
       cssAnimationDuration: 400,
       cssAnimationStyle: "fade", // 'fade' - 'zoom' - 'from-right' - 'from-top' - 'from-bottom' - 'from-left'
@@ -104,7 +104,7 @@
       },
 
       warning: {
-        background: "#eebf31",
+        background: "#E29E21",
         textColor: "#fff",
         childClassName: "notiflix-notify-warning",
         notiflixIconColor: "rgba(0,0,0,0.2)",

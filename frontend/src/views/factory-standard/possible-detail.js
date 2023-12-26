@@ -6,6 +6,7 @@ import { Grid, Typography, Button, Select, MenuItem, FormControl,
 from "@mui/material";
 import FactoryStandardApi from 'src/api/FactoryStandardApi';
 import { CheckNetworkOutline } from 'mdi-material-ui';
+import { Notify } from "src/notifix/notiflix-notify-aio";
 
 const possibleDetail =({a,openFun,checkNone,test})=>{
   let processName=null;
@@ -84,16 +85,16 @@ const checking = ()=>{
     
     switch (saveResult) {
       case "Delete":
-        alert("선택 해제한 코드 조합이 삭제되었습니다.");
+        Notify.success("코드 조합이 삭제되었습니다.");
         checking();
         break;
       case "Update":
       case "Insert":
-        alert("변경한 코드 조합이 저장되었습니다.");
+        Notify.success("코드 조합이 변경되었습니다.");
         checking();
         break;
       case "Fail":
-        alert("이미 존재하는 가능통과코드 조합입니다.");
+        Notify.failure("이미 존재하는 코드 조합입니다.");
         break;
     }
     //부분 새로고침
