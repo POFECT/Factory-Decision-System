@@ -25,7 +25,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import PassStandardApi from "src/api/PassStandardApi";
-import InsertFormComponent from '../../views/factory-standard/pass-modal-insert';
+import InsertFormComponent from '../../views/pass-standard/pass-modal-insert';
 
 //excel
 import * as FileSaver from "file-saver";
