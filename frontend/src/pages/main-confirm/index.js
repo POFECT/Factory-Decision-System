@@ -12,6 +12,7 @@ import {
   OutlinedInput,
   Card,
   Box,
+  Chip,
 } from "@mui/material";
 import MainApi from "src/api/MainApi";
 import OrderDetail from "../../views/main-confirm/order-detail";
@@ -168,29 +169,31 @@ const MainConfirm = () => {
     // 출강주 배열 중복값 제거
     const weekSet = [...new Set(selectedWeekList)];
 
+    const weekResult = [];
     await MainApi.checkWeekListCapacity(weekSet, (data) => {
-      const result = data.response;
-      console.log(result);
-
-      if (result.length > 0) {
-        Report.warning(
-          "",
-          "[" +
-            result.toString() +
-            "]<br />" +
-            " 출강주의 투입 능력 데이터가 없습니다.<br />데이터를 추가해주세요.",
-          "확인",
-          () => {
-            router.push("/capacity");
-          },
-          {
-            backOverlayClickToClose: true,
-          }
-        );
-
-        return;
-      }
+      weekResult = data.response;
     });
+
+    if (weekResult.length > 0) {
+      Report.warning(
+        "",
+        "[" +
+          weekResult.toString() +
+          "]<br />" +
+          " 출강주의 투입 능력 데이터가 없습니다.<br />데이터를 추가해주세요.",
+        "확인",
+        () => {
+          router.push("/capacity");
+        },
+        "취소",
+        // () => {},
+        {
+          backOverlayClickToClose: true,
+        }
+      );
+
+      return;
+    }
 
     // /** 확통 설계할 주문들의 ID 추출 */
     const selectedIdList = rows.map((selectedRow) => {
@@ -202,7 +205,7 @@ const MainConfirm = () => {
 
     const allCnt = selectedIdList.length;
 
-    MainApi.confirmDecision(selectedIdList, (data) => {
+    await MainApi.confirmDecision(selectedIdList, (data) => {
       const res = data.response;
       Notify.success(res.success + "/" + allCnt + "건 성공", {
         showOnlyTheLastOne: false,
@@ -211,16 +214,6 @@ const MainConfirm = () => {
         showOnlyTheLastOne: false,
       });
 
-      // alert(
-      //   res.success +
-      //     "/" +
-      //     allCnt +
-      //     "건 성공, " +
-      //     res.fail +
-      //     "/" +
-      //     allCnt +
-      //     "건 실패하였습니다."
-      // );
       setRowSelectionModel([]);
 
       /** 리스트 update */
@@ -285,6 +278,30 @@ const MainConfirm = () => {
       width: 140,
       editable: false,
       headerAlign: "center",
+      renderCell: (params) => {
+        const flag = params.value;
+
+        if (flag === "D") {
+          return (
+            <Chip
+              variant="outlined"
+              color="primary"
+              size="small"
+              label={params.value}
+            />
+          );
+        }
+        if (flag === "E") {
+          return (
+            <Chip
+              variant="outlined"
+              color="success"
+              size="small"
+              label={params.value}
+            />
+          );
+        }
+      },
     },
     {
       field: "posbPassFacCdN",
