@@ -57,9 +57,9 @@ const MainApi = {
       .finally(() => {});
   },
 
-  getFaCapacityList: async (no, callback) => {
+  getFaCapacityList: async (no, week, callback) => {
     await axiosApi()
-      .get(`/capacity/factory/${no}/0`)
+      .get(`/capacity/factory/${no}/${week}`)
       .then((response) => {
         callback && callback(response.data);
       })
