@@ -145,11 +145,8 @@ public class CapacityServiceImpl implements CapacityService {
     public List<CapacityInfoDto.FactoryCapacityDto> getFactoryCapacityList(String processCode, String week) {
         List<CapacityInfoDto.FactoryCapacityDto> result = new ArrayList<>();
 
-        List<CapacityInfo> list = null;
-
-        if("0".equals(week)) list = capacityRepository.findAllByProcessCdOrderByFirmPsFacTpAsc(processCode);
-        else list =  capacityRepository.findAllByProcessCdAndOrdRcpTapWekCdOrderByFirmPsFacTpAsc(processCode, week);
-
+        List<CapacityInfo> list = capacityRepository.findAllByProcessCdAndOrdRcpTapWekCdOrderByFirmPsFacTpAsc(processCode, week);
+        
         for(CapacityInfo capacityInfo : list) {
             // 공장 이름 GET 후 매핑
             String factoryName = confirmFactoryStandardService.getFactoryName(capacityInfo.getProcessCd(), capacityInfo.getFirmPsFacTp());
