@@ -14,6 +14,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableHead from "@mui/material/TableHead";
 import MainApi from "/src/api/MainApi";
+import { Notify } from "src/notifix/notiflix-notify-aio";
 
 const FactoryDetail = (props) => {
   const [factoryList, setFactoryList] = useState({
@@ -71,7 +72,7 @@ const FactoryDetail = (props) => {
 
     MainApi.changeFactory(changeData, (data) => {
       const res = data.response;
-      alert("변경되었습니다.");
+      Notify.success("변경되었습니다.");
       props.getOrder(null, null);
     });
   };
