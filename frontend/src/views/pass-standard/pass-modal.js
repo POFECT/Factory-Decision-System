@@ -127,13 +127,15 @@ const PassModal = ({ open, handleClose }) => {
 
   useEffect(() => {
 
-
+    handleInsertCancel();
     handleSearch();
+
 
   }, []);
 
   const handleSearch = () => {
 
+    setInsertMode(false);
 
     PassStandardApi.getList((data) => {
       setPassStandard(data.response);
@@ -158,7 +160,7 @@ const PassModal = ({ open, handleClose }) => {
     }
   };
   const columns = [
-    { field: "ordPdtItdsCdN", headerName: "품명", width: 130, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: false },
+    { field: "ordPdtItdsCdN", headerName: "품명", width: 130, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: false, type:"number" },
     {
       field: "availablePassFacCdN1", headerName: "제강", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true,
     },
@@ -205,7 +207,7 @@ const PassModal = ({ open, handleClose }) => {
     } else if (!updateFlag) {
       await PassStandardApi.updateSave(passStandard, (data) => {
         alert("저장되었습니다.");
-
+        handleSearch();
       });
 
     }
@@ -320,7 +322,7 @@ const PassModal = ({ open, handleClose }) => {
                       type="submit"
                       variant="contained"
                       onClick={handleInsert}
-                      style={{ backgroundColor: "#4CAF50" }}
+                      style={{ backgroundColor: "#0A5380" }}
                     >
                       추가
                     </Button>
@@ -422,17 +424,26 @@ const PassModal = ({ open, handleClose }) => {
                     }}
                     rowHeight={31}
                   />
+
+
                    )}
                 </Box>
               </Card>
             </div>
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
+ {insertMode ? (<><Grid item xs={4} sx={{ paddingBottom: 1 , paddingTop:3, paddingLeft:3 }}>
+                    </ Grid></>)
+                      :(<>        
+                      <DialogActions>
           <Button onClick={handleClose} color="primary">
             닫기
           </Button>
         </DialogActions>
+        </>)}
+
+
+
       </div>
     </Dialog>
   );

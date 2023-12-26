@@ -56,7 +56,9 @@ const InsertFormComponent = ({ onSave, onCancel, columns, codeNameList }) => {
 
   return (
     <div>
-      <h3 style={{ marginBottom: 40 }}></h3>
+      <h3 style={{ marginBottom: 20 }}></h3>
+         <p style={{ color: '#0A5380', marginRight: 16, marginBottom:20}}>
+              구분과 품종 선택 후, 품명을 입력하세요:<br/> </p>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <FormControl style={{ width: '30%', marginBottom: 16 }}>
           <InputLabel id="label1">구분</InputLabel>
@@ -81,7 +83,6 @@ const InsertFormComponent = ({ onSave, onCancel, columns, codeNameList }) => {
             onChange={(e) => handleProductTypeChange(e.target.value)}
             style={{ height: 55 }}
           >
-            <MenuItem value="ALL">ALL</MenuItem>
             {codeNameList.list.map((code, idx) => (
               <MenuItem key={idx} value={code.cdNm}>
                 {code.cdNm}
@@ -101,7 +102,11 @@ const InsertFormComponent = ({ onSave, onCancel, columns, codeNameList }) => {
         </FormControl>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16, marginTop: 30 }}>
+      <p style={{ color: '#0A5380', marginRight: 16, marginTop:40 }}>
+              추가할 공정을 선택하세요: </p>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16, marginTop: 10 }}>
+           
+
         {columns.map((column) => {
           if (column.field !== 'ordPdtItdsCdN') {
             return (
