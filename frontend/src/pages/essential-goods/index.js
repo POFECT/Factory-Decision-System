@@ -447,6 +447,7 @@ const EssentialGoods = () => {
         addEssentialRow={(value) => {
           setessentialList(value);
         }}
+        essentialList={essentialList}
       />
       <div
         style={{

@@ -38,7 +38,6 @@ public class PossibleFactoryStandardController {
     @ApiOperation(value="필수재에서 받은 가통코드를 확통 공장 번호 변환", notes="가통 코드 > 확통 공장 번호")
     public ResponseEntity<ResponseDto> getPossibleToConfirm(@RequestBody List<EssentialStandardBtiPosReqDto> essentialStandardBtiPosReqDtoList){
         List<PossibleToConfirmResDto> result = possibleFactoryStandardService.possibleToConfirm(essentialStandardBtiPosReqDtoList);
-
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 
@@ -46,7 +45,6 @@ public class PossibleFactoryStandardController {
     @ApiOperation(value="가통기준 상세에서 코드 변환", notes="가통기준 상세에서 코드 변환하기")
     public ResponseEntity<ResponseDto> updatePossibleFactory(@RequestBody PossibleChangeReqDto checkedFactory) {
         PossibleChangeResultResDto result = possibleFactoryStandardService.updateFeasibleRoutingGroup(checkedFactory);
-        System.out.println(">>>>>>>>>>> RESULT >>>>>>>>> "+result.getResult());
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 

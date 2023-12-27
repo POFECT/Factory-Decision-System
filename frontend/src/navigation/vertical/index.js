@@ -43,7 +43,7 @@ const navigation = () => {
     {
       icon: FactoryIcon,
       title: "가능/확통 기준",
-      path: "/factory-standard",
+      path: "/pass-standard",
     },
     {
       sectionTitle: "모니터링",

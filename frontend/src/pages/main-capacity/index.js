@@ -10,7 +10,9 @@ import {
   InputLabel,
   OutlinedInput,
   Box,
+  Chip,
 } from "@mui/material";
+// import Chip from "@mui/material-next/Chip";
 import MainApi from "src/api/MainApi";
 import Card from "@mui/material/Card";
 import { Notify } from "src/notifix/notiflix-notify-aio";
@@ -19,6 +21,7 @@ import CapacityDetail from "../../views/main-capacity/capacity-detail";
 
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
+import CapacityModal from "src/views/main-capacity/capacity-modal";
 
 function MyCell(props) {
   let style = {
@@ -65,6 +68,8 @@ const MainCapacity = () => {
   });
   // Flag
   const [flag, setFlag] = useState(["A", "B", "C"]);
+  // Modal Flag
+  const [modal, setModal] = useState({ open: false, time: 0 });
 
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
 
@@ -156,32 +161,35 @@ const MainCapacity = () => {
 
     const allCnt = selectedIdList.length;
 
+    // 가통 설계 start
+    const res = {};
     MainApi.possibleDecision(selectedIdList, (data) => {
-      const res = data.response;
+      res = data.response;
+    });
+
+    // 설계 modal, progress bar start
+    const time = allCnt * 0.2;
+    setModal((prev) => {
+      return { ...prev, open: true, time };
+    });
+
+    // time초 후 실행
+    setTimeout(() => {
+      setModal((prev) => {
+        return { ...prev, open: false };
+      });
+
       Notify.success(res.success + "/" + allCnt + "건 성공", {
         showOnlyTheLastOne: false,
       });
       Notify.failure(res.fail + "/" + allCnt + "건 실패", {
         showOnlyTheLastOne: false,
       });
-      // alert(
-      //   allCnt + "건 중 " + res.success + "건 성공, " + res.fail + "건 실패"
-      // );
-      // alert(
-      //   res.success +
-      //     "/" +
-      //     allCnt +
-      //     "건 성공, " +
-      //     res.fail +
-      //     "/" +
-      //     allCnt +
-      //     "건 실패하였습니다."
-      // );
       setRowSelectionModel([]);
 
       /** 리스트 update */
       getOrders(codeNameList.select, weekList.select);
-    });
+    }, time * 1000);
   };
 
   const exportToExcel = async () => {
@@ -241,6 +249,41 @@ const MainCapacity = () => {
       width: 140,
       editable: false,
       headerAlign: "center",
+      renderCell: (params) => {
+        const flag = params.value;
+
+        if (flag === "A") {
+          return (
+            <Chip
+              variant="outlined"
+              color="primary"
+              size="small"
+              label={params.value}
+            />
+          );
+        }
+        if (flag === "B") {
+          return (
+            <Chip
+              variant="outlined"
+              color="success"
+              size="small"
+              label={params.value}
+            />
+          );
+        }
+        if (flag === "C") {
+          return (
+            <Chip
+              variant="outlined"
+              color="error"
+              size="small"
+              label={params.value}
+            />
+          );
+        }
+        // <Chip icon={isRejected ? <WarningIcon/> : <CheckIcon/>}  label={params.value} variant={"outlined"} color={isRejected ? "error" : "success"} />;
+      },
     },
     {
       field: "posbPassFacCdN",
@@ -575,6 +618,8 @@ const MainCapacity = () => {
 
   return (
     <>
+      <CapacityModal modal={modal} />
+
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Typography variant="h4">가능통과공장 설계</Typography>
       </Grid>

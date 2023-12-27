@@ -15,9 +15,18 @@ import {
   Button as MuiButton,
 } from "@mui/material";
 import { useState } from "react";
+import EssentialStandardApi from "src/api/EssentialStandardApi";
 
-const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
-  const addData = {
+import { TuiDatePicker } from "nextjs-tui-date-picker";
+import { Notify } from "src/notifix/notiflix-notify-aio";
+
+const EssentialModal = ({
+  open,
+  handleClose,
+  addEssentialRow,
+  essentialList,
+}) => {
+  const [addData, setAddData] = useState({
     btiPosbPsFacTp: null,
     conCalcOpxa01: null,
     conCalcOpxa02: null,
@@ -42,95 +51,380 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
     orderWidthMin: null,
     postTreatmentMethodCdN: null,
     pplBasPsgnoTp: null,
-    pplMmatCancAppDt: null,
+    pplMmatCancAppDt: new Date(),
     pplMmatCngMgtNo: null,
     processCd: null,
     salCusLocLClsTp: null,
     seq: null,
     smSteelGrdN: null,
     specificationCdN: null,
-    userId: null,
-  };
+    addDataId: null,
+  });
 
+  const addEssentailRowCallBack = () => {
+    console.log(addData);
+    async function validateData(addData) {
+      // gcsCompCode 조건 검사
+      if (
+        addData.gcsCompCode === null ||
+        typeof addData.gcsCompCode !== "string" ||
+        addData.gcsCompCode.length > 2
+      ) {
+        Notify.failure("[법인] 조건을 만족하지 않습니다.");
+        console.error("gcsCompCode 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+      // millCd 조건 검사
+      if (
+        addData.millCd === null ||
+        typeof addData.millCd !== "string" ||
+        addData.millCd.length !== 1
+      ) {
+        Notify.failure("[공적계획박판Mill구분] 조건을 만족하지 않습니다.");
+        console.error("millCd 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+      // pplMmatCngMgtNo 조건 검사
+      if (
+        addData.pplMmatCngMgtNo === null ||
+        typeof addData.pplMmatCngMgtNo !== "string" ||
+        addData.pplMmatCngMgtNo.length > 11
+      ) {
+        Notify.failure(
+          "[공정계획필수재변경관리번호] 조건을 만족하지 않습니다."
+        );
+        console.error("pplMmatCngMgtNo 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+      // seq 조건 검사
+      if (
+        addData.seq === null ||
+        typeof addData.seq !== "string" ||
+        addData.seq.length > 22
+      ) {
+        Notify.failure("[일련번호] 조건을 만족하지 않습니다.");
+        console.error("seq 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+      // processCd 조건 검사
+      if (
+        addData.processCd === null ||
+        typeof addData.processCd !== "string" ||
+        addData.processCd.length > 2
+      ) {
+        Notify.failure("[박판계획공정구분] 조건을 만족하지 않습니다.");
+        console.error("processCd 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+      // pplBasPsgnoTp 조건 검사
+      if (
+        addData.pplBasPsgnoTp === null ||
+        typeof addData.pplBasPsgnoTp !== "string" ||
+        addData.pplBasPsgnoTp.length > 1
+      ) {
+        Notify.failure("[공정계획기준가등록구분] 조건을 만족하지 않습니다.");
+        console.error("pplBasPsgnoTp 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+      // btiPosbPsFacTp 조건 검사
+      if (
+        addData.btiPosbPsFacTp === null ||
+        typeof addData.btiPosbPsFacTp !== "string" ||
+        addData.btiPosbPsFacTp.length > 2
+      ) {
+        Notify.failure("[박판가능통과공장구분] 조건을 만족하지 않습니다.");
+        console.error("btiPosbPsFacTp 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+
+      // 연산1
+      if (
+        addData.conCalcOpxa01 !== null &&
+        (addData.ordPdtItpCdN == null ||
+          typeof addData.ordPdtItpCdN !== "string" ||
+          addData.ordPdtItpCdN.trim() === "" ||
+          addData.ordPdtItpCdN.length > 2)
+      ) {
+        Notify.failure("[주문품종코드] 조건을 만족하지 않습니다.");
+        console.error("ordPdtItpCdN 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+
+      // 연산2
+      if (
+        addData.conCalcOpxa02 !== null &&
+        (addData.ordPdtItdsCdN == null ||
+          typeof addData.ordPdtItdsCdN !== "string" ||
+          addData.ordPdtItdsCdN.trim() === "" ||
+          addData.ordPdtItdsCdN.length > 4)
+      ) {
+        Notify.failure("[품명] 조건을 만족하지 않습니다.");
+        console.error("ordPdtItdsCdN 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+
+      //  연산3
+      if (
+        addData.conCalcOpxa03 !== null &&
+        (addData.customerNumber == null ||
+          typeof addData.customerNumber !== "string" ||
+          addData.customerNumber.trim() === "" ||
+          addData.customerNumber.length > 10)
+      ) {
+        Notify.failure("[고객사코드] 조건을 만족하지 않습니다.");
+        console.error("customerNumber 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+      //  연산4
+      if (
+        addData.conCalcOpxa04 !== null &&
+        (addData.orderUsageCdN == null ||
+          typeof addData.orderUsageCdN !== "string" ||
+          addData.orderUsageCdN.trim() === "" ||
+          addData.orderUsageCdN.length > 6)
+      ) {
+        Notify.failure("[주문용도지정코드] 조건을 만족하지 않습니다.");
+        console.error("orderUsageCdN 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+      // 연산 5
+      if (
+        (addData.conCalcOpxa05 === "value < a <= value" &&
+          !(addData.orderThickMin < addData.orderThickMax)) ||
+        (addData.conCalcOpxa05 === "value <= a < value" &&
+          !(addData.orderThickMin < addData.orderThickMax)) ||
+        (addData.conCalcOpxa05 === "value <= a <= value" &&
+          !(addData.orderThickMin <= addData.orderThickMax)) ||
+        (addData.conCalcOpxa05 === "value < a < value" &&
+          !(addData.orderThickMin < addData.orderThickMax)) ||
+        (addData.conCalcOpxa05 === "value >= a" &&
+          addData.orderUsageCdN === null) ||
+        (addData.conCalcOpxa05 === "value > a" &&
+          addData.orderUsageCdN === null) ||
+        (addData.conCalcOpxa05 === "value < a" &&
+          addData.orderUsageCdN === null) ||
+        (addData.conCalcOpxa05 === "value <= a" &&
+          addData.orderUsageCdN === null)
+      ) {
+        Notify.failure("[제품두께] 조건을 만족하지 않습니다.");
+        console.error("conCalcOpxa05 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+
+      // 연산 6
+      if (
+        (addData.conCalcOpxa06 === "value < a <= value" &&
+          !(addData.orderWidthMin < addData.orderWidthMax)) ||
+        (addData.conCalcOpxa06 === "value <= a < value" &&
+          !(addData.orderWidthMin < addData.orderWidthMax)) ||
+        (addData.conCalcOpxa06 === "value <= a <= value" &&
+          !(addData.orderWidthMin <= addData.orderWidthMax)) ||
+        (addData.conCalcOpxa06 === "value < a < value" &&
+          !(addData.orderWidthMin < addData.orderWidthMax)) ||
+        (addData.conCalcOpxa06 === "value >= a" &&
+          addData.orderUsageCdN === null) ||
+        (addData.conCalcOpxa06 === "value > a" &&
+          addData.orderUsageCdN === null) ||
+        (addData.conCalcOpxa06 === "value < a" &&
+          addData.orderUsageCdN === null) ||
+        (addData.conCalcOpxa06 === "value <= a" &&
+          addData.orderUsageCdN === null)
+      ) {
+        Notify.failure("[제품주문폭] 조건을 만족하지 않습니다.");
+        console.error("orderWidthMin 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+      //  연산 7
+      if (
+        addData.conCalcOpxa07 !== null &&
+        (addData.specificationCdN == null ||
+          typeof addData.specificationCdN !== "string" ||
+          addData.specificationCdN.trim() === "" ||
+          addData.specificationCdN.length > 30)
+      ) {
+        Notify.failure("[제품규격약호] 조건을 만족하지 않습니다.");
+        console.error("specificationCdN 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+
+      //  연산 8
+      if (
+        addData.conCalcOpxa08 !== null &&
+        (addData.salCusLocLClsTp == null ||
+          typeof addData.salCusLocLClsTp !== "string" ||
+          addData.salCusLocLClsTp.trim() === "" ||
+          addData.salCusLocLClsTp.length > 1)
+      ) {
+        Notify.failure("[판매고객사지역대분류구분] 조건을 만족하지 않습니다.");
+        console.error("salCusLocLClsTp 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+
+      //  연산 9
+      if (
+        addData.conCalcOpxa09 !== null &&
+        (addData.smSteelGrdN == null ||
+          typeof addData.smSteelGrdN !== "string" ||
+          addData.smSteelGrdN.trim() === "" ||
+          addData.smSteelGrdN.length > 14)
+      ) {
+        Notify.failure("[출강목표번호] 조건을 만족하지 않습니다.");
+        console.error("smSteelGrdN 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+
+      //  연산 10
+      if (
+        addData.conCalcOpxa10 !== null &&
+        (addData.postTreatmentMethodCdN == null ||
+          typeof addData.postTreatmentMethodCdN !== "string" ||
+          addData.postTreatmentMethodCdN.trim() === "" ||
+          addData.postTreatmentMethodCdN.length > 3)
+      ) {
+        Notify.failure(
+          "[주문제품후처리방법지정코드] 조건을 만족하지 않습니다."
+        );
+        console.error("postTreatmentMethodCdN 조건을 만족하지 않습니다.");
+        return false; // 조건 통과 실패
+      }
+
+      await EssentialStandardApi.addEssential(addData).then((data) => {
+        console.log(data);
+        addEssentialRow([...essentialList, data]);
+      });
+
+      console.log("test");
+      Notify.success("필수재 기준이 추가 되었습니다", {
+        showOnlyTheLastOne: false,
+      });
+      setAddData({
+        btiPosbPsFacTp: null,
+        conCalcOpxa01: null,
+        conCalcOpxa02: null,
+        conCalcOpxa03: null,
+        conCalcOpxa04: null,
+        conCalcOpxa05: null,
+        conCalcOpxa06: null,
+        conCalcOpxa07: null,
+        conCalcOpxa08: null,
+        conCalcOpxa09: null,
+        conCalcOpxa10: null,
+        customerNumber: null,
+        gcsCompCode: null,
+        lastUpdateDate: null,
+        millCd: null,
+        ordPdtItdsCdN: null,
+        ordPdtItpCdN: null,
+        orderThickMax: null,
+        orderThickMin: null,
+        orderUsageCdN: null,
+        orderWidthMax: null,
+        orderWidthMin: null,
+        postTreatmentMethodCdN: null,
+        pplBasPsgnoTp: null,
+        pplMmatCancAppDt: null,
+        pplMmatCngMgtNo: null,
+        processCd: null,
+        salCusLocLClsTp: null,
+        seq: null,
+        smSteelGrdN: null,
+        specificationCdN: null,
+        addDataId: null,
+      });
+
+      handleClose();
+
+      return true;
+    }
+    if (!validateData(addData)) {
+      console.log("실패");
+    }
+  };
   const gcsCompCodeChange = (event) => {
+    setAddData((prev) => ({ ...prev, gcsCompCode: event.target.value }));
     console.log(event.target.value);
-    addData.gcsCompCode = event.target.value;
   };
   const millCdChange = (event) => {
+    setAddData((prev) => ({ ...prev, millCd: event.target.value }));
     console.log(event.target.value);
-    addData.millCd = event.target.value;
   };
   const pplMmatCngMgtNoChange = (event) => {
+    setAddData((prev) => ({ ...prev, pplMmatCngMgtNo: event.target.value }));
     console.log(event.target.value);
-    addData.pplMmatCngMgtNo = event.target.value;
   };
   const seqChange = (event) => {
+    setAddData((prev) => ({ ...prev, seq: event.target.value }));
     console.log(event.target.value);
-    addData.seq = event.target.value;
   };
   const processCdChange = (event) => {
+    setAddData((prev) => ({ ...prev, processCd: event.target.value }));
     console.log(event.target.value);
-    addData.processCd = event.target.value;
   };
-  const pplMmatCancAppDtChange = (event) => {
-    console.log(event.target.value);
-    addData.pplMmatCancAppDt = event.target.value;
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const pplMmatCancAppDtChange = (selectDate) => {
+    setAddData((prev) => ({ ...prev, pplMmatCancAppDt: new Date(selectDate) }));
+    setSelectedDate(new Date(selectDate));
+    console.log(selectDate);
   };
   const pplBasPsgnoTpChange = (event) => {
+    setAddData((prev) => ({ ...prev, pplBasPsgnoTp: event.target.value }));
     console.log(event.target.value);
-    addData.pplBasPsgnoTp = event.target.value;
   };
   const btiPosbPsFacTpChange = (event) => {
+    setAddData((prev) => ({ ...prev, btiPosbPsFacTp: event.target.value }));
     console.log(event.target.value);
-    addData.btiPosbPsFacTp = event.target.value;
   };
 
   const [check01, setCheck01] = useState(false);
   const conCalcOpxa01Change = (event) => {
     if (event.target.value === "=") {
       setCheck01(true);
+      setAddData((prev) => ({ ...prev, conCalcOpxa01: "=" }));
     } else {
       setCheck01(false);
-      addData.ordPdtItpCdN = null;
+      setAddData((prev) => ({ ...prev, ordPdtItpCdN: null }));
+      setAddData((prev) => ({ ...prev, conCalcOpxa01: null }));
+      console.log(addData.conCalcOpxa01);
     }
-    addData.conCalcOpxa01 = event.target.value;
+    console.log(addData.conCalcOpxa01);
   };
 
   const ordPdtItpCdNChange = (event) => {
-    console.log(event.target.value);
-    addData.ordPdtItpCdN = event.target.value;
+    setAddData((prev) => ({ ...prev, ordPdtItpCdN: event.target.value }));
   };
 
   const [check02, setCheck02] = useState(false);
   const conCalcOpxa02Change = (event) => {
     if (event.target.value === "=") {
       setCheck02(true);
+      setAddData((prev) => ({ ...prev, conCalcOpxa02: event.target.value }));
     } else {
       setCheck02(false);
-      addData.ordPdtItdsCdN = null;
+      setAddData((prev) => ({ ...prev, ordPdtItdsCdN: null }));
+      setAddData((prev) => ({ ...prev, conCalcOpxa02: null }));
     }
-    addData.conCalcOpxa02 = event.target.value;
   };
 
   const ordPdtItdsCdNChange = (event) => {
+    setAddData((prev) => ({ ...prev, ordPdtItdsCdN: event.target.value }));
     console.log(event.target.value);
-    addData.ordPdtItdsCdN = event.target.value;
   };
 
   const [check03, setCheck03] = useState(false);
   const conCalcOpxa03Change = (event) => {
     if (event.target.value === "=") {
       setCheck03(true);
+      setAddData((prev) => ({ ...prev, conCalcOpxa03: event.target.value }));
     } else {
       setCheck03(false);
-      addData.specificationCdN = null;
+      setAddData((prev) => ({ ...prev, specificationCdN: null }));
+      setAddData((prev) => ({ ...prev, conCalcOpxa03: null }));
     }
-    addData.conCalcOpxa03 = event.target.value;
   };
 
   const specificationCdNChange = (event) => {
+    setAddData((prev) => ({ ...prev, specificationCdN: event.target.value }));
     console.log(event.target.value);
-    addData.specificationCdN = event.target.value;
   };
 
   const [check04, setCheck04] = useState(false);
@@ -138,16 +432,20 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
   const conCalcOpxa04Change = (event) => {
     if (event.target.value === "=") {
       setCheck04(true);
+      setAddData((prev) => ({ ...prev, conCalcOpxa04: event.target.value }));
     } else {
       setCheck04(false);
-      addData.orderUsageCdN = null;
+      setAddData((prev) => ({
+        ...prev,
+        orderUsageCdN: null,
+      }));
+      setAddData((prev) => ({ ...prev, conCalcOpxa04: null }));
     }
-    addData.conCalcOpxa04 = event.target.value;
   };
 
   const orderUsageCdNChange = (event) => {
+    setAddData((prev) => ({ ...prev, orderUsageCdN: event.target.value }));
     console.log(event.target.value);
-    addData.orderUsageCdN = event.target.value;
   };
 
   const [check05, setCheck05] = useState(0);
@@ -160,29 +458,31 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
       event.target.value === "value <= a"
     ) {
       setCheck05(1);
-      addData.orderThickMax = null;
+      setAddData((prev) => ({ ...prev, orderThickMax: null }));
+      setAddData((prev) => ({ ...prev, conCalcOpxa05: event.target.value }));
     } else if (
       event.target.value === "value < a <= value" ||
       event.target.value === "value <= a < value" ||
       event.target.value === "value <= a <= value" ||
-      event.target.value === "value <= a <= value"
+      event.target.value === "value < a < value"
     ) {
       setCheck05(2);
+      setAddData((prev) => ({ ...prev, conCalcOpxa05: event.target.value }));
     } else {
       setCheck05(0);
-      addData.orderThickMax = null;
-      addData.orderThickMin = null;
+      setAddData((prev) => ({ ...prev, conCalcOpxa05: null }));
+      setAddData((prev) => ({ ...prev, orderThickMax: null }));
+      setAddData((prev) => ({ ...prev, orderThickMin: null }));
     }
-    addData.conCalcOpxa05 = event.target.value;
   };
 
   const orderThickMinChange = (event) => {
+    setAddData((prev) => ({ ...prev, orderThickMin: event.target.value }));
     console.log(event.target.value);
-    addData.orderThickMin = event.target.value;
   };
   const orderThickMaxChange = (event) => {
+    setAddData((prev) => ({ ...prev, orderThickMax: event.target.value }));
     console.log(event.target.value);
-    addData.orderThickMax = event.target.value;
   };
 
   const [check06, setCheck06] = useState(0);
@@ -194,100 +494,133 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
       event.target.value === "value <= a"
     ) {
       setCheck06(1);
-      addData.orderWidthMax = null;
+      setAddData((prev) => ({ ...prev, conCalcOpxa06: event.target.value }));
+      setAddData((prev) => ({ ...prev, orderWidthMax: null }));
     } else if (
       event.target.value === "value < a <= value" ||
       event.target.value === "value <= a < value" ||
       event.target.value === "value <= a <= value" ||
-      event.target.value === "value <= a <= value"
+      event.target.value === "value < a < value"
     ) {
       setCheck06(2);
+      setAddData((prev) => ({ ...prev, conCalcOpxa06: event.target.value }));
     } else {
       setCheck06(0);
-      addData.orderWidthMax = null;
-      addData.orderWidthMin = null;
+      setAddData((prev) => ({ ...prev, conCalcOpxa06: null }));
+      setAddData((prev) => ({ ...prev, orderWidthMax: null }));
+      setAddData((prev) => ({ ...prev, orderWidthMin: null }));
     }
-    addData.conCalcOpxa06 = event.target.value;
   };
 
   const orderWidthMinChange = (event) => {
     console.log(event.target.value);
-    addData.orderWidthMin = event.target.value;
+    setAddData((prev) => ({ ...prev, orderWidthMin: event.target.value }));
   };
   const orderWidthMaxChange = (event) => {
     console.log(event.target.value);
-    addData.orderWidthMax = event.target.value;
+    setAddData((prev) => ({ ...prev, orderWidthMax: event.target.value }));
   };
 
   const [check07, setCheck07] = useState(false);
   const conCalcOpxa07Change = (event) => {
     if (event.target.value === "=") {
       setCheck07(true);
+      setAddData((prev) => ({ ...prev, conCalcOpxa07: event.target.value }));
     } else {
       setCheck07(false);
-      addData.postTreatmentMethodCdN = null;
+      setAddData((prev) => ({ ...prev, conCalcOpxa07: null }));
+      setAddData((prev) => ({ ...prev, postTreatmentMethodCdN: null }));
     }
-    addData.conCalcOpxa07 = event.target.value;
   };
 
   const postTreatmentMethodCdNChange = (event) => {
     console.log(event.target.value);
-    addData.postTreatmentMethodCdN = event.target.value;
+    setAddData((prev) => ({
+      ...prev,
+      postTreatmentMethodCdN: event.target.value,
+    }));
   };
 
   const [check08, setCheck08] = useState(false);
   const conCalcOpxa08Change = (event) => {
     if (event.target.value === "=") {
       setCheck08(true);
+      setAddData((prev) => ({
+        ...prev,
+        conCalcOpxa08: event.target.value,
+      }));
     } else {
       setCheck08(false);
-      addData.smSteelGrd = null;
+      setAddData((prev) => ({ ...prev, conCalcOpxa08: null }));
+      setAddData((prev) => ({
+        ...prev,
+        smSteelGrd: null,
+      }));
     }
-    addData.conCalcOpxa08 = event.target.value;
   };
 
   const smSteelGrdNChange = (event) => {
+    setAddData((prev) => ({
+      ...prev,
+      smSteelGrdN: event.target.value,
+    }));
     console.log(event.target.value);
-    addData.smSteelGrdN = event.target.value;
   };
 
   const [check09, setCheck09] = useState(false);
   const conCalcOpxa09Change = (event) => {
     if (event.target.value === "=") {
       setCheck09(true);
+      setAddData((prev) => ({
+        ...prev,
+        conCalcOpxa09: event.target.value,
+      }));
     } else {
       setCheck09(false);
-      addData.salCusLocLClsTp = null;
+      setAddData((prev) => ({ ...prev, conCalcOpxa09: null }));
+      setAddData((prev) => ({
+        ...prev,
+        salCusLocLClsTp: null,
+      }));
     }
-    addData.conCalcOpxa09 = event.target.value;
   };
 
   const salCusLocLClsTpChange = (event) => {
     console.log(event.target.value);
-    addData.salCusLocLClsTp = event.target.value;
+    setAddData((prev) => ({
+      ...prev,
+      salCusLocLClsTp: event.target.value,
+    }));
   };
 
   const [check10, setCheck10] = useState(false);
   const conCalcOpxa10Change = (event) => {
     if (event.target.value === "=") {
+      setAddData((prev) => ({
+        ...prev,
+        conCalcOpxa10: event.target.value,
+      }));
       setCheck10(true);
     } else {
       setCheck10(false);
-      addData.customerNumber = null;
+      setAddData((prev) => ({ ...prev, conCalcOpxa10: null }));
+      setAddData((prev) => ({
+        ...prev,
+        customerNumber: null,
+      }));
+      setAddData((prev) => ({
+        ...prev,
+        conCalcOpxa10: null,
+      }));
     }
-    addData.conCalcOpxa10 = event.target.value;
   };
 
   const customerNumberChange = (event) => {
     console.log(event.target.value);
-    addData.customerNumber = event.target.value;
-  };
-
-  // 값 업데이트
-  const addEssentailRowCallBack = () => {
-    addEssentialRow((props) => [addData, ...props]);
-    console.log(".........................................");
-    console.log(addData);
+    setAddData((prev) => ({
+      ...prev,
+      customerNumber: event.target.value,
+    }));
   };
 
   return (
@@ -310,7 +643,7 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
           variant="h4"
         >
           필수재 기준 추가
-        </Typography>{" "}
+        </Typography>
         <DialogContent>
           <DialogContentText style={{ marginTop: "10px" }}>
             {/* 법인 */}
@@ -328,11 +661,9 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                 법인
               </Typography>
               <FormControl>
-                <InputLabel id="demo-simple-select-label">법인</InputLabel>
+                <InputLabel>법인</InputLabel>
                 <Select
                   style={{ background: "#F6FAFE" }}
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
                   label="법인"
                   onChange={gcsCompCodeChange}
                   required={true}
@@ -357,12 +688,9 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                 공적계획박판Mill구분
               </Typography>
               <FormControl>
-                <InputLabel id="demo-simple-select-label">
-                  공적계획박판Mill구분
-                </InputLabel>
+                <InputLabel>공적계획박판Mill구분</InputLabel>
                 <Select
                   style={{ background: "#F6FAFE" }}
-                  labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="공적계획박판Mill구분"
                   onChange={millCdChange}
@@ -384,16 +712,15 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                 style={{ marginBottom: "15px", color: "gray" }}
                 variant="h6"
               >
-                공정계획필수재변경관리번호{" "}
+                공정계획필수재변경관리번호
               </Typography>
               <FormControl>
                 <TextField
                   style={{ background: "#F6FAFE" }}
-                  id="outlined-basic"
                   label="공정계획필수재변경관리번호"
                   variant="outlined"
-                  type="number"
                   onChange={pplMmatCngMgtNoChange}
+                  type="number"
                 />
               </FormControl>
             </div>
@@ -415,7 +742,6 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
               <FormControl>
                 <TextField
                   style={{ background: "#F6FAFE" }}
-                  id="outlined-basic"
                   label="일련번호"
                   variant="outlined"
                   type="number"
@@ -439,12 +765,9 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                 박판계획공정구분
               </Typography>
               <FormControl>
-                <InputLabel id="demo-simple-select-label">
-                  박판계획공정구분
-                </InputLabel>
+                <InputLabel>박판계획공정구분</InputLabel>
                 <Select
                   style={{ background: "#F6FAFE" }}
-                  labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="박판계획공정구분"
                   onChange={processCdChange}
@@ -473,18 +796,25 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                 style={{ marginBottom: "15px", color: "gray" }}
                 variant="h6"
               >
-                일련번호
+                공정계획필수재해지적용일자
               </Typography>
-              <FormControl>
-                <TextField
-                  style={{ background: "#F6FAFE" }}
-                  id="outlined-basic"
-                  label="공정계회길수해지적용일자"
-                  variant="outlined"
-                  type="number"
-                  onChange={pplMmatCancAppDtChange}
+              <div
+                style={{
+                  background: "#F6FAFE",
+                  width: "500px",
+                  cursor: "pointer",
+                  borderRadius: "6px",
+                }}
+              >
+                <TuiDatePicker
+                  handleChange={pplMmatCancAppDtChange}
+                  date={selectedDate}
+                  fontSize={20}
+                  backgroundColor="#F6FAFE"
+                  color="gray"
+                  inputWidth={230}
                 />
-              </FormControl>
+              </div>
             </div>
 
             {/* 공정계획기준가등록구분 */}
@@ -502,13 +832,9 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                 공정계획기준가등록구분
               </Typography>
               <FormControl>
-                <InputLabel id="demo-simple-select-label">
-                  공정계획기준가등록구분
-                </InputLabel>
+                <InputLabel>공정계획기준가등록구분</InputLabel>
                 <Select
                   style={{ background: "#F6FAFE" }}
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
                   label="공정계획기준가등록구분"
                   onChange={pplBasPsgnoTpChange}
                 >
@@ -532,13 +858,9 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                 박판가능통과공장구분
               </Typography>
               <FormControl>
-                <InputLabel id="demo-simple-select-label">
-                  박판가능통과공장구분
-                </InputLabel>
+                <InputLabel>박판가능통과공장구분</InputLabel>
                 <Select
                   style={{ background: "#F6FAFE" }}
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
                   label="박판가능통과공장구분"
                   onChange={btiPosbPsFacTpChange}
                 >
@@ -571,15 +893,13 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
               </Typography>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
-                  <InputLabel id="demo-simple-select-label">연산자</InputLabel>
+                  <InputLabel>연산자 없음</InputLabel>
                   <Select
                     style={{ background: "#F6FAFE" }}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="연산자"
+                    label="연산자 없음"
                     onChange={conCalcOpxa01Change}
                   >
-                    <MenuItem value={" "}>연산자 없음</MenuItem>
+                    <MenuItem value={"연산자 없음"}>연산자 없음</MenuItem>
                     <MenuItem value={"="}>=</MenuItem>
                   </Select>
                 </FormControl>
@@ -588,7 +908,6 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                     <FormControl>
                       <TextField
                         style={{ background: "#F6FAFE" }}
-                        id="outlined-basic"
                         label="주문 품종 코드"
                         variant="outlined"
                         onChange={ordPdtItpCdNChange}
@@ -615,15 +934,13 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
               </Typography>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
-                  <InputLabel id="demo-simple-select-label">연산자</InputLabel>
+                  <InputLabel>연산자 없음</InputLabel>
                   <Select
                     style={{ background: "#F6FAFE" }}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="연산자"
+                    label="연산자 없음"
                     onChange={conCalcOpxa02Change}
                   >
-                    <MenuItem value={" "}>연산자 없음</MenuItem>
+                    <MenuItem value={"연산자 없음"}>연산자 없음</MenuItem>
                     <MenuItem value={"="}>=</MenuItem>
                   </Select>
                 </FormControl>
@@ -632,7 +949,6 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                     <FormControl>
                       <TextField
                         style={{ background: "#F6FAFE" }}
-                        id="outlined-basic"
                         label="주문 품명 코드"
                         variant="outlined"
                         onChange={ordPdtItdsCdNChange}
@@ -659,15 +975,13 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
               </Typography>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
-                  <InputLabel id="demo-simple-select-label">연산자</InputLabel>
+                  <InputLabel>연산자 없음</InputLabel>
                   <Select
                     style={{ background: "#F6FAFE" }}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="연산자"
+                    label="연산자 없음"
                     onChange={conCalcOpxa03Change}
                   >
-                    <MenuItem value={" "}>연산자 없음</MenuItem>
+                    <MenuItem value={"연산자 없음"}>연산자 없음</MenuItem>
                     <MenuItem value={"="}>=</MenuItem>
                   </Select>
                 </FormControl>
@@ -676,7 +990,6 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                     <FormControl>
                       <TextField
                         style={{ background: "#F6FAFE" }}
-                        id="outlined-basic"
                         label="고객사코드"
                         variant="outlined"
                         onChange={specificationCdNChange}
@@ -703,15 +1016,14 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
               </Typography>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
-                  <InputLabel id="demo-simple-select-label">연산자</InputLabel>
+                  <InputLabel>연산자 없음</InputLabel>
                   <Select
                     style={{ background: "#F6FAFE" }}
-                    labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    label="연산자"
+                    label="연산자 없음"
                     onChange={conCalcOpxa04Change}
                   >
-                    <MenuItem value={" "}>연산자 없음</MenuItem>
+                    <MenuItem value={"연산자 없음"}>연산자 없음</MenuItem>
                     <MenuItem value={"="}>=</MenuItem>
                   </Select>
                 </FormControl>
@@ -720,7 +1032,6 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                     <FormControl>
                       <TextField
                         style={{ background: "#F6FAFE" }}
-                        id="outlined-basic"
                         label="주문용도지정코드"
                         variant="outlined"
                         onChange={orderUsageCdNChange}
@@ -747,15 +1058,14 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
               </Typography>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
-                  <InputLabel id="demo-simple-select-label">연산자</InputLabel>
+                  <InputLabel>연산자 없음</InputLabel>
                   <Select
                     style={{ background: "#F6FAFE" }}
-                    labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    label="연산자"
+                    label="연산자 없음"
                     onChange={conCalcOpxa05Change}
                   >
-                    <MenuItem value={" "}>연산자 없음</MenuItem>
+                    <MenuItem value={"연산자 없음"}>연산자 없음</MenuItem>
                     <MenuItem value={"value >= a"}>{"value >= a"}</MenuItem>
                     <MenuItem value={"value > a"}>{"value > a"}</MenuItem>
                     <MenuItem value={"value < a"}>{"value < a"}</MenuItem>
@@ -778,10 +1088,10 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                   <FormControl style={{ width: "100%", marginLeft: "10px" }}>
                     <TextField
                       style={{ background: "#F6FAFE" }}
-                      id="outlined-basic"
                       label="제품두께1"
                       variant="outlined"
                       onChange={orderThickMinChange}
+                      type="number"
                     />
                   </FormControl>
                 ) : null}
@@ -793,6 +1103,7 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                       label="제품두께2"
                       variant="outlined"
                       onChange={orderThickMaxChange}
+                      type="number"
                     />
                   </FormControl>
                 ) : null}
@@ -815,15 +1126,13 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
               </Typography>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
-                  <InputLabel id="demo-simple-select-label">연산자</InputLabel>
+                  <InputLabel>연산자 없음</InputLabel>
                   <Select
                     style={{ background: "#F6FAFE" }}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="연산자"
+                    label="연산자 없음"
                     onChange={conCalcOpxa06Change}
                   >
-                    <MenuItem value={" "}>연산자 없음</MenuItem>
+                    <MenuItem value={"연산자 없음"}>연산자 없음</MenuItem>
                     <MenuItem value={"value >= a"}>{"value >= a"}</MenuItem>
                     <MenuItem value={"value > a"}>{"value > a"}</MenuItem>
                     <MenuItem value={"value < a"}>{"value < a"}</MenuItem>
@@ -846,10 +1155,10 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                   <FormControl style={{ width: "100%", marginLeft: "10px" }}>
                     <TextField
                       style={{ background: "#F6FAFE" }}
-                      id="outlined-basic"
                       label="제품주문폭1"
                       variant="outlined"
                       onChange={orderWidthMinChange}
+                      type="number"
                     />
                   </FormControl>
                 ) : null}
@@ -857,10 +1166,10 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                   <FormControl style={{ width: "100%", marginLeft: "10px" }}>
                     <TextField
                       style={{ background: "#F6FAFE" }}
-                      id="outlined-basic"
                       label="제품주문폭2"
                       variant="outlined"
                       onChange={orderWidthMaxChange}
+                      type="number"
                     />
                   </FormControl>
                 ) : null}
@@ -883,15 +1192,15 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
               </Typography>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
-                  <InputLabel id="demo-simple-select-label">연산자</InputLabel>
+                  <InputLabel>연산자 없음</InputLabel>
                   <Select
                     style={{ background: "#F6FAFE" }}
-                    labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    label="연산자"
+                    label="연산자 없음"
                     onChange={conCalcOpxa07Change}
+                    type="number"
                   >
-                    <MenuItem value={" "}>연산자 없음</MenuItem>
+                    <MenuItem value={"연산자 없음"}>연산자 없음</MenuItem>
                     <MenuItem value={"="}>=</MenuItem>
                   </Select>
                 </FormControl>
@@ -900,7 +1209,6 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                     <FormControl>
                       <TextField
                         style={{ background: "#F6FAFE" }}
-                        id="outlined-basic"
                         label="제품규격약효"
                         variant="outlined"
                         onChange={postTreatmentMethodCdNChange}
@@ -927,15 +1235,14 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
               </Typography>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
-                  <InputLabel id="demo-simple-select-label">연산자</InputLabel>
+                  <InputLabel>연산자 없음</InputLabel>
                   <Select
                     style={{ background: "#F6FAFE" }}
-                    labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    label="연산자"
+                    label="연산자 없음"
                     onChange={conCalcOpxa08Change}
                   >
-                    <MenuItem value={" "}>연산자 없음</MenuItem>
+                    <MenuItem value={"연산자 없음"}>연산자 없음</MenuItem>
                     <MenuItem value={"="}>=</MenuItem>
                   </Select>
                 </FormControl>
@@ -944,7 +1251,6 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                     <FormControl>
                       <TextField
                         style={{ background: "#F6FAFE" }}
-                        id="outlined-basic"
                         label="판매고객사지역대분류구분"
                         variant="outlined"
                         onChange={smSteelGrdNChange}
@@ -971,15 +1277,13 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
               </Typography>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
-                  <InputLabel id="demo-simple-select-label">연산자</InputLabel>
+                  <InputLabel>연산자 없음</InputLabel>
                   <Select
                     style={{ background: "#F6FAFE" }}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="연산자"
+                    label="연산자 없음"
                     onChange={conCalcOpxa09Change}
                   >
-                    <MenuItem value={" "}>연산자 없음</MenuItem>
+                    <MenuItem value={"연산자 없음"}>연산자 없음</MenuItem>
                     <MenuItem value={"="}>=</MenuItem>
                   </Select>
                 </FormControl>
@@ -988,7 +1292,6 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                     <FormControl>
                       <TextField
                         style={{ background: "#F6FAFE" }}
-                        id="outlined-basic"
                         label="출강목표번호"
                         variant="outlined"
                         onChange={salCusLocLClsTpChange}
@@ -1015,15 +1318,13 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
               </Typography>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
-                  <InputLabel id="demo-simple-select-label">연산자</InputLabel>
+                  <InputLabel>연산자 없음</InputLabel>
                   <Select
                     style={{ background: "#F6FAFE" }}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="연산자"
+                    label="연산자 없음"
                     onChange={conCalcOpxa10Change}
                   >
-                    <MenuItem value={" "}>연산자 없음</MenuItem>
+                    <MenuItem value={"연산자 없음"}>연산자 없음</MenuItem>
                     <MenuItem value={"="}>=</MenuItem>
                   </Select>
                 </FormControl>
@@ -1032,7 +1333,6 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
                     <FormControl>
                       <TextField
                         style={{ background: "#F6FAFE" }}
-                        id="outlined-basic"
                         label="주문제품후처리방법지정코드"
                         variant="outlined"
                         onChange={customerNumberChange}
@@ -1062,6 +1362,40 @@ const EssentialModal = ({ open, handleClose, addEssentialRow }) => {
             variant="contained"
             style={{ backgroundColor: "#0A5380" }}
             onClick={() => {
+              setAddData({
+                btiPosbPsFacTp: null,
+                conCalcOpxa01: null,
+                conCalcOpxa02: null,
+                conCalcOpxa03: null,
+                conCalcOpxa04: null,
+                conCalcOpxa05: null,
+                conCalcOpxa06: null,
+                conCalcOpxa07: null,
+                conCalcOpxa08: null,
+                conCalcOpxa09: null,
+                conCalcOpxa10: null,
+                customerNumber: null,
+                gcsCompCode: null,
+                lastUpdateDate: null,
+                millCd: null,
+                ordPdtItdsCdN: null,
+                ordPdtItpCdN: null,
+                orderThickMax: null,
+                orderThickMin: null,
+                orderUsageCdN: null,
+                orderWidthMax: null,
+                orderWidthMin: null,
+                postTreatmentMethodCdN: null,
+                pplBasPsgnoTp: null,
+                pplMmatCancAppDt: null,
+                pplMmatCngMgtNo: null,
+                processCd: null,
+                salCusLocLClsTp: null,
+                seq: null,
+                smSteelGrdN: null,
+                specificationCdN: null,
+                addDataId: null,
+              });
               handleClose();
             }}
           >

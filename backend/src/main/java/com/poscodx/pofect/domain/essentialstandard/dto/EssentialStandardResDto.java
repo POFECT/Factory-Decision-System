@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.poscodx.pofect.domain.etc.entity.BaseEntity;
 import com.poscodx.pofect.domain.essentialstandard.entity.EssentialStandard;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
@@ -38,6 +39,7 @@ public class EssentialStandardResDto  {
     private String processCd;  // 5.박판공정계획공정구분
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime pplMmatCancAppDt;  // 6.공정계획필수재해지적용일자
 
     @Size(max = 1)

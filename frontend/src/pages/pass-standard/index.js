@@ -1,25 +1,20 @@
-import "react-datasheet-grid/dist/style.css";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import {
-  Box,
-  Card,
-  Grid,
-  Typography,
-  Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-} from "@mui/material";
-import { GridToolbar } from "@mui/x-data-grid";
+import { React, useState, useEffect } from "react";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
-import React, {
-  useEffect,
-  useState,
-} from "react";
-import PassStandardApi from "src/api/PassStandardApi";
+import Popper from '@mui/material/Popper';
+import Fade from '@mui/material/Fade';
+import Paper from '@mui/material/Paper';
+import PossibleDetail from "../../views/pass-standard/possible-detail";
+import PassModal from '../../views/pass-standard/pass-modal';
+import * as FileSaver from "file-saver";
+import XLSX from "sheetjs-style";
+
+import "react-datasheet-grid/dist/style.css";
+import { Grid, Typography, 
+          Button, Select, MenuItem, FormControl, 
+          InputLabel, OutlinedInput,
+          Card, Box} from "@mui/material";
+import FactoryStandardApi from "src/api/FactoryStandardApi";
+
 
 function MyCell(props) {
   let style = {
@@ -49,221 +44,333 @@ function MyCell(props) {
   }
   return <GridCell {...props} style={style} />;
 }
+let confirmListforExcel=null;
+let possibleBtiPosbPsFacTpValues=null;
 
-const passStandard = () => {
-
-  const [passStandard, setPassStandard] = useState([]);
-
-  // 품종
-  const [codeNameList, setCodeNameList] = useState({
-    list: [],
-    select: "",
-  });
-
-  useEffect(() => {
-    PassStandardApi.getList((data) => {
-      setPassStandard(data.response);
-    });
-
-    PassStandardApi.getCodeNameList((data) => {
-      const list = data.response;
-      const select = list[0];
-      setCodeNameList((prev) => {
-        return { ...prev, list, select };
-      });   
-
-    PassStandardApi.getListByItem(select, (data) => {
-      setPassStandard(data.response);
-    });
-
-    });
-
-  }, []);
-
-  const handleSearch = () => {
-
-    console.log("Selected item:", codeNameList.select);
-    PassStandardApi.getListByItem(codeNameList.select, (data) => {
-      setPassStandard(data.response);
-    });
+const Capacity = () => {
+  /* Data */
+  const [possibleList,setPossibleList]=useState([]);//가통리스트
+  const [confirmList,setConfirmList]=useState([]);//확통리스트
+  const [millCd,setMillCd]=useState([]);//소구분
+  const [open, setOpen] = useState(false); //가통Popper오픈
+  const [anchorEl, setAnchorEl] = useState(null);//Popper
+  const [placement, setPlacement] = useState();//Popper위치
+  const [openPassStandard, setOpenPassStandard] = useState(false);
+  const [test,setTest] = useState(false)
+  const [a,setA] = useState({
+    processCd:null,
+    processFacNum:null,
+    btiPosbPsFacTp:null,
+  })
+  const passClick = () => {
+    setOpenPassStandard(true);
   };
-  //   const uniqueWeekCodes = [...new Set(week.map((item) => item.ordThwTapWekCd))];
-  // const handleWeekSelectChange = (e) => {
-  //   console.log(e);
-  // };
-  const columns = [
-    { field: "ordPdtItdsCdN", headerName: "품명", width: 130, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
-    { field: "availablePassFacCdN1", headerName: "제강", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
-    { field: "availablePassFacCdN2", headerName: "열연", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
-    { field: "availablePassFacCdN3", headerName: "열연정정", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
-    { field: "availablePassFacCdN4", headerName: "냉연", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
-    { field: "availablePassFacCdN5", headerName: "1차소둔", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
-    { field: "availablePassFacCdN6", headerName: "2차소둔", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
-    { field: "availablePassFacCdN7", headerName: "도금", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
-    { field: "availablePassFacCdN8", headerName: "정정", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
+
+  const passClose = () => {
+    setOpenPassStandard(false);
+  };
+  const openFun= (check)=>{
+    setOpen(check)
+  }
+  useEffect(() => {
+    FactoryStandardApi.getPossibleList((data) => {
+      const dataMap = data.response.reduce((list, { btiPosbPsFacTp, processCd, feasibleRoutingGroup }) => {
+        list[btiPosbPsFacTp] = list[btiPosbPsFacTp]||{};
+        list[btiPosbPsFacTp][processCd] = feasibleRoutingGroup;
+        return list;
+      }, {});
+
+      possibleBtiPosbPsFacTpValues = Array.from(
+        { length: Math.max(...Object.keys(dataMap).map(Number)) },
+        (_, index) => String(index + 1).padStart(2, '0')
+      );
+
+      const transformData = possibleBtiPosbPsFacTpValues.map((code) => ({
+        ...(dataMap[code] || ''), //code값이 빈 경우에도 나오게하기
+        id: code,
+      }));
+      setPossibleList(transformData);
+    }, []);
+
+    FactoryStandardApi.getCommonList((data) => {
+      const dataMap = data.response.reduce((list, { cdExpl,firmPsFacTp, id,lastUpdate, processCd }) => {
+        list[firmPsFacTp] = list[firmPsFacTp] || {};
+        list[firmPsFacTp][processCd] = cdExpl;
+        return list;
+      }, {});
+
+      const transformData = Object.entries(dataMap).map(([code, processCd]) => ({
+        id: code,
+        ...processCd,
+      }));
+      confirmListforExcel=transformData;
+      setConfirmList(transformData);
+    }, []);
+  },[test]);
+  //가통 컬럼
+  const possibleColumns = [
+    { field: "id",headerName:"Code", width:158, headerAlign: "center"},
+    { field: "10", headerName: "제강", width:154, headerAlign: "center"},
+    { field: "20", headerName: "열연", width:154, headerAlign: "center"},
+    { field: "30", headerName: "열연정정", width:154,  headerAlign: "center"},
+    { field: "40", headerName: "냉간압연", width:154,  headerAlign: "center"},
+    { field: "50", headerName: "1차소둔", width:154,  headerAlign: "center"},
+    { field: "60", headerName: "2차소둔", width:154,  headerAlign: "center"},
+    { field: "70", headerName: "도금", width:154, headerAlign: "center"},
+    { field: "80", headerName: "정정", width:154, headerAlign: "center"},
   ];
 
+  //확통 컬럼
+  const confirmColumns=[
+    { field: "id",headerName:"Code", width:158, headerAlign: "center"   },
+    { field: "10", headerName: "제강", width:154, headerAlign: "center"    },
+    { field: "20", headerName: "열연", width:154, headerAlign: "center"     },
+    { field: "30", headerName: "열연정정", width:154,headerAlign: "center"  },
+    { field: "40", headerName: "냉간압연", width:154,headerAlign: "center"  },
+    { field: "50", headerName: "1차소둔", width:154, headerAlign: "center"  },
+    { field: "60", headerName: "2차소둔", width:154, headerAlign: "center"  },
+    { field: "70", headerName: "도금", width:154, headerAlign: "center"     },
+    { field: "80", headerName: "정정", width:154, headerAlign: "center"     },
+  ]
+  let pPopupProcessCd=null;
+  let feasibleArray = null;
+
+
+  const openPossibleOne=(e)=>{
+    pPopupProcessCd = e.currentTarget.dataset.field;
+    const code = e.currentTarget.parentElement.dataset.id;
+    const feasibleRoutingGroup = e.currentTarget.querySelector('.MuiDataGrid-cellContent').title;
+    feasibleArray=String(feasibleRoutingGroup).split('').map(Number);
+    console.log('code = '+code+", pPopupProcessCd = "+pPopupProcessCd);
+    console.log('feasibleArray = '+feasibleArray)
+
+    setA({
+      ...a,
+      processCd: e.currentTarget.dataset.field,  
+      processFacNum: String(feasibleRoutingGroup).split('').map(Number) ,
+      btiPosbPsFacTp: e.currentTarget.parentElement.dataset.id
+    });
+
+    setAnchorEl(e.currentTarget);
+    setOpen((previousOpen)=>!previousOpen);
+
+    if(pPopupProcessCd==='code'){
+      setOpen(false);
+    }
+  }
+  // 한글 헤더 매핑 (엑셀용)
+  const koreanHeaderMap = {
+    "id": "Code",
+    "10": "제강",
+    "20": "열연",
+    "30": "열연정정",
+    "40": "냉간압연",
+    "50": "1차소둔",
+    "60": "2차소둔",
+    "70": "도금",
+    "80": "정정",
+  };
+
+  const fileType =
+    "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
+  const fileExtension = ".xlsx";
+
+  const exportToExcelPossible = async () => {
+    // 헤더 순서
+    const originalHeader = ["id", "10", "20", "30", "40", "50", "60", "70", "80"];
+
+    // possibleList의 id를 기준으로 정렬
+    const sortedPossibleList = [...possibleList].sort((a, b) => a.id - b.id);
+
+    // 데이터를 헤더와 일치하는 형식으로 변환
+    const excelData = sortedPossibleList.map(item => originalHeader.map(key => item[key]));
+
+    // 헤더를 한글로 변경
+    const koreanHeader = originalHeader.map(englishKey => koreanHeaderMap[englishKey] || englishKey);
+
+    // 헤더와 데이터를 함께 전달하여 엑셀 생성
+    const ws = XLSX.utils.aoa_to_sheet([koreanHeader, ...excelData]);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, "가능통과공장기준" + fileExtension);
+  };
+  const exportToExcelConfirm = async () => {
+    const originalHeader = ["id", "10", "20", "30", "40", "50", "60", "70", "80"];
+    const sortedConfirmList = [...confirmList].sort((a, b) => a.id - b.id);
+    const excelData = sortedConfirmList.map(item => originalHeader.map(key => item[key]));
+    // 헤더를 한글로 변경
+    const koreanHeader = originalHeader.map(englishKey => koreanHeaderMap[englishKey] || englishKey);
+
+    const ws = XLSX.utils.aoa_to_sheet([koreanHeader, ...excelData]);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, "확정통과공장기준" + fileExtension);
+  };
 
   return (
-    <>
-      <div style={{ height: "600px", width: "100%" }}>
-        <Grid item xs={12} sx={{ paddingBottom: 4 }}>
-          <Card></Card>
-          <Typography variant="h3">경유 공정 기준</Typography>
-        </Grid>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "20px",
-          }}
-        >
-          <div>
-            <FormControl
-              sx={{ m: 1 }}
-              style={{
-                paddingTop: 10,
-                paddingBottom: 20,
-                marginRight: 10,
-              }}>
-              <InputLabel id="label1" style={{ paddingTop: 10 }}>
-                구분
-              </InputLabel>
-              <Select
-                labelId="분류"
-                id="demo-multiple-name"
-                defaultValue="T"
-                input={<OutlinedInput label="구분" />}
-                onChange={(e) => {
-                  console.log(e);
-                }}
-                style={{ height: 40 }}
-              >
-                <MenuItem value="T">포항</MenuItem>
-                <MenuItem value="K">광양</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl
-              sx={{ m: 1 }}
-              style={{
-                paddingTop: 10,
-                paddingBottom: 20,
-                marginRight: 10,
-              }}
-            >
-              <InputLabel id="label2" style={{ paddingTop: 10 }}>
-                품종
-              </InputLabel>
-
-              <Select
-                labelId="분류"
-                id="demo-multiple-name"
-                defaultValue="FS"
-                input={<OutlinedInput label="품종" />}
-                onChange={(e) => {
-                  setCodeNameList(
-                    Object.assign({}, codeNameList, {
-                      select: e.target.value,
-                    })
-                  );
-                }}
-                style={{ height: 40 }}
-              >
-                {codeNameList.map((code, idx) => {
-                  return (
-                    <MenuItem key={idx} value={code.cdNm}>
-                      {code.cdNm}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-          </div>
-          <div>
-
-            <Button size="small" type="submit" variant="contained" onClick={handleSearch}>
-              조회
-            </Button>
-            <Button size="small" type="submit" variant="contained">
-              저장
-            </Button>
-            <Button size="small" type="submit" variant="contained">
-              Excel
-            </Button>
-          </div>
-        </div>
-        <div style={{ height: 400, display: "flex", justifyContent: "center", marginTop: 30, }}>
-          <Card
-            elevation={3}
+    <div style={{ height: "100%", width: "100%" }}>
+      <Grid item xs={12} sx={{ paddingBottom: 4 }}>
+        <Typography variant="h4">가능통과공장/확정통과공장 코드</Typography>
+      </Grid>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+      <div>
+          <FormControl
+            sx={{ m: 1 }}
             style={{
-              flexBasis: "85",
-              marginRight: "16px ",
-              padding: "20px",
-              height: "100%",
-
+              paddingTop: 10,
+              paddingBottom: 20,
+              marginRight: 10,
             }}
           >
-            <Box
-              sx={{
-                height: "100%",
-                width: "100%",
-                marginBottom: "20px",
-                "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
-                {
-                  borderBottom: "1px solid rgba(225, 234, 239, 1)",
-                  borderRight: "1px solid rgba(225, 234, 239, 1)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                },
-                "& .custom-data-grid .MuiDataGrid-columnHeader": {
-                  cursor: "pointer",
-                  borderBottom: "1px solid rgba(225, 234, 239, 1)",
-                  borderRight: "1px solid rgba(225, 234, 239, 1)",
-                },
-                "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
-                {
-                  borderBottomStyle: "none",
-                },
-
-                "& .custom-data-grid .MuiDataGrid-root": {
-                  paddingBottom: "0px",
-                },
-              }}
-            >
-              <DataGrid
-                className="custom-data-grid"
-
-                disableRowSelectionOnClick
-                rows={passStandard}
-                columns={columns}
-                onCellClick={(e) => {
-                  console.log(e);
-                }}
-                components={{
-                  Toolbar: GridToolbar,
-                  Cell: MyCell,
-                }}
-                rowHeight={31}
-
-              />
-            </Box>
-          </Card>
-          {/* <Card
-          elevation={3}
-          style={{
-            flexBasis: "70%", 
-            padding: "16px",
-          }}
-        >
-  
-        </Card> */}
+          <InputLabel id="label1" style={{ paddingTop: 10 }}>
+            구분
+          </InputLabel>
+          <Select
+            labelId="분류"
+            id="demo-multiple-name"
+            defaultValue="T"
+            input={<OutlinedInput label="구분" />}
+            onChange={(e) => {
+              console.log(e.target.value);
+              setMillCd(e.target.value);
+            }}
+            style={{ height: 40 }}
+          >
+            <MenuItem value="T">포항</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+        <div style={{width:"40%", textAlign:"right"}}>
+          <Button size="small" type="submit" variant="contained" onClick={passClick} style={{ backgroundColor: "#0A5380", whiteSpace:"nowrap"}}>
+          경유공정
+          </Button>
+          <PassModal open={openPassStandard} handleClose={passClose} />
+          <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "#E29E21" }}>
+            조회
+          </Button>
+          <Button sx={{width:'25%'}} size="small" type="submit" variant="contained" onClick={exportToExcelPossible} style={{ backgroundColor: "darkgreen" }}>
+            가통 Excel
+          </Button>
+          <Button sx={{width:'25%'}} size="small" type="submit" variant="contained" onClick={exportToExcelConfirm} style={{ backgroundColor: "darkgreen" }}>
+            확통 Excel
+          </Button>
         </div>
       </div>
-    </>
+      <div style={{height:"auto", marginBottom:20}}>
+      <Card>
+        <Box
+          sx={{
+            height: "inherit",
+            width: "100%",
+            "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
+              {
+                borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                borderRight: "1px solid rgba(225, 234, 239, 1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              },
+            "& .custom-data-grid .MuiDataGrid-columnHeader": {
+              cursor: "pointer",
+              borderBottom: "1px solid rgba(225, 234, 239, 1)",
+              borderRight: "1px solid rgba(225, 234, 239, 1)",
+            },
+            "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
+              {
+                borderBottomStyle: "none",
+              },
+              "& .custom-data-grid .MuiDataGrid-root": {
+                paddingBottom: "0px",
+              },"& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
+                backgroundColor:"#F5F9FF",
+              },
+          }}
+        >
+          
+      <DataGrid
+        //disableRowSelectionOnClick
+        className="custom-data-grid"
+        rows={possibleList}
+        columns={possibleColumns}
+        slotProps={{
+          cell:{
+            onDoubleClick:openPossibleOne,
+          },
+        }}
+        slots={{
+          cell: MyCell,
+        }}
+        hideFooter = {true}
+        hideFooterPagination={true}
+      /></Box>
+      </Card>
+      
+      <Popper open={open} anchorEl={anchorEl} placement={placement} transition>
+        {({ TransitionProps }) => (
+          <Fade {...TransitionProps} timeout={350}>
+            <Paper>
+              {/* 가능통과공장 팝업 */}
+              <Typography sx={{p:4,backgroundColor:'#f4f5fa'}}>
+                <PossibleDetail  a={a} openFun={openFun} checkNone={(value)=>{setTest(value)}} test={test}/>
+              </Typography>
+            </Paper>
+          </Fade>
+        )}
+      </Popper>
+      {/*isPossibleModal && <ModalTest onClose={() => setPossibleModalOpen(false)}/>*/}
+
+      </div>
+      {/* <div style={{height:250}}> */}
+      <Card>
+        <Box
+          sx={{
+            height: "inherit",
+            width: "100%",
+            "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
+            {
+              borderBottom: "1px solid rgba(225, 234, 239, 1)",
+              borderRight: "1px solid rgba(225, 234, 239, 1)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            },
+            "& .custom-data-grid .MuiDataGrid-columnHeader": {
+              cursor: "pointer",
+              borderBottom: "1px solid rgba(225, 234, 239, 1)",
+              borderRight: "1px solid rgba(225, 234, 239, 1)",
+            },
+            "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
+            {
+              borderBottomStyle: "none",
+            },
+            "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
+              backgroundColor:"#F5F9FF",
+            },
+          }}
+        >
+      <DataGrid
+        //disableRowSelectionOnClick
+        className="custom-data-grid"
+        rows={confirmList}
+        columns={confirmColumns}
+        hideFooter = {true}
+        slots={{
+          cell: MyCell,
+        }}
+      /></Box>
+      </Card>
+      </div>
+    // </div>
   );
 };
 
-export default passStandard;
+export default Capacity;
