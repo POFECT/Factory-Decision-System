@@ -4,6 +4,7 @@ import com.poscodx.pofect.common.dto.ResponseDto;
 import com.poscodx.pofect.common.exception.CustomException;
 import com.poscodx.pofect.domain.capacity.dto.CapacityInfoDto;
 import com.poscodx.pofect.domain.capacity.dto.CombinedCapacityDto;
+import com.poscodx.pofect.domain.capacity.entity.CapacityInfo;
 import com.poscodx.pofect.domain.capacity.service.CapacityService;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 import com.poscodx.pofect.domain.main.service.FactoryOrderInfoService;
@@ -45,7 +46,7 @@ public class CapacityController {
         return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
     }
 
-
+    //@@@
     // 출강주 별 능력 리스트 조회 (rowSpan 포함)
     @GetMapping("/combined-capacity-rowspan/{week}")
     @ApiOperation(value = "출강주 별 능력 리스트 조회 (rowSpan 포함)", notes = "출강주에 따른 능력 데이터 조회 (rowSpan 포함)")
@@ -60,11 +61,11 @@ public class CapacityController {
     }
 
     //출강주별 능력 insert
-    @PostMapping("{week}")
+    @PostMapping("")
     @ApiOperation(value = "투입능력 insert", notes = "투입능력 insert")
-    public ResponseEntity<ResponseDto> createCapacity(@PathVariable String week) {
+    public ResponseEntity<ResponseDto> createCapacity(@RequestBody CapacityInfoDto.InsertCapacityDto insertDto) {
         try {
-            capacityService.insert(week);
+            capacityService.insert(insertDto);
             return new ResponseEntity<>(new ResponseDto("Capacity data created successfully"), HttpStatus.OK);
         } catch (CustomException e) {
 
