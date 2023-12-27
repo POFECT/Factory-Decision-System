@@ -16,9 +16,12 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import EssentialStandardApi from "src/api/EssentialStandardApi";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import { TuiDatePicker } from "nextjs-tui-date-picker";
 import { Notify } from "src/notifix/notiflix-notify-aio";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 const EssentialModal = ({
   open,
@@ -360,7 +363,7 @@ const EssentialModal = ({
     setAddData((prev) => ({ ...prev, processCd: event.target.value }));
     console.log(event.target.value);
   };
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(dayjs(new Date()));
   const pplMmatCancAppDtChange = (selectDate) => {
     setAddData((prev) => ({ ...prev, pplMmatCancAppDt: new Date(selectDate) }));
     setSelectedDate(new Date(selectDate));
@@ -798,24 +801,25 @@ const EssentialModal = ({
               >
                 공정계획필수재해지적용일자
               </Typography>
-              <div
-                style={{
-                  background: "#F6FAFE",
-                  width: "500px",
-                  cursor: "pointer",
-                  borderRadius: "6px",
-                }}
-              >
-                <TuiDatePicker
-                  handleChange={pplMmatCancAppDtChange}
-                  date={selectedDate}
-                  fontSize={20}
-                  backgroundColor="#F6FAFE"
-                  color="gray"
-                  inputWidth={230}
-                />
+              <div style={{ background: "#F6FAFE" }}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    date={selectedDate}
+                    value={selectedDate}
+                    defaultValue={selectedDate}
+                    onChange={pplMmatCancAppDtChange}
+                    label="공정계획필수해지적용일자"
+                    slotProps={{
+                      textField: {
+                        readOnly: true,
+                        style: { width: "100%", color: "#5d86a7" },
+                      },
+                    }}
+                  />
+                </LocalizationProvider>
               </div>
             </div>
+            {/* </div> */}
 
             {/* 공정계획기준가등록구분 */}
             <div
@@ -837,6 +841,7 @@ const EssentialModal = ({
                   style={{ background: "#F6FAFE" }}
                   label="공정계획기준가등록구분"
                   onChange={pplBasPsgnoTpChange}
+                  renderInput={(props) => <TextField {...props} disabled />}
                 >
                   <MenuItem value={"C"}>C</MenuItem>
                 </Select>
