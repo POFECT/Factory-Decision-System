@@ -29,15 +29,15 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-
-import { GridToolbar } from "@mui/x-data-grid";
 import {
   DataGrid,
   GridCell,
   useGridApiContext,
   GridCellEditStopReasons,
 } from "@mui/x-data-grid";
-import ModalTest from "../../views/capacity/modal-test";
+
+import { Report } from "src/notifix/notiflix-report-aio";
+
 import React, { useEffect, useState } from "react";
 import CapacityStandardApi from "src/api/CapacityApi";
 import MyD3Heatmap from "../../views/capacity/d3-heat";
@@ -84,6 +84,7 @@ function MyCell(props) {
 }
 
 const CapacityMgt = () => {
+
   // 능력
   const [capacity, setCapacity] = useState([]);
   const [labels, setLabels] = useState([]);
@@ -134,7 +135,11 @@ const CapacityMgt = () => {
   };
 
   const handleAccept = () => {
-    CapacityStandardApi.createCapacity(weekList.select)
+    const capacityData = {
+      ordRcpTapWekCd: weekList.select
+    };
+
+    CapacityStandardApi.createCapacity(capacityData)
       .then((response) => {
         CapacityStandardApi.getCapacityListByWeek(
           weekList.select,
@@ -480,29 +485,33 @@ const CapacityMgt = () => {
 
       {/* alert */}
       {showAlert && (
-        <Dialog
-          open={capacity.length == 0}
-          onClose={handleCloseAlert}
-          maxWidth="sm"
-          fullWidth
-        >
-          <DialogTitle>투입 능력 관리</DialogTitle>
-          <DialogContent>
-            <Alert severity="info">
-              {`현재 ${weekList.select} 출강주의 투입 능력 관리 데이터가 없습니다.`}
-              <br />
-              데이터를 추가 하시겠습니까?
-            </Alert>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleAccept} color="primary">
-              Accept
-            </Button>
-            <Button onClick={handleCloseAlert} color="primary">
-              Close
-            </Button>
-          </DialogActions>
-        </Dialog>
+        Report.warning(
+        " ",
+        "<div style='text-align: center;'>" +
+          "현재 [" + weekList.select + "] 출강 주의 " +
+          "<br />" + "투입 능력 관리 데이터가 없습니다." +
+          "<br />" +
+          "<br />" +
+
+          "데이터를 추가 하시겠습니까?" +
+        "</div>",
+        "확인",
+          () => {
+            handleAccept();
+          },
+          "취소",
+          () => {
+            handleCloseAlert();
+          },
+          {
+            backOverlayClickToClose: true,
+            cssAnimationStyle: "zoom",
+                cssAnimationDuration: 400,
+
+
+          }
+        )
+
       )}
     </>
   );

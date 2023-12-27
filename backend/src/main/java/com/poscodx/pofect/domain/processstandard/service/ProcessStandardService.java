@@ -17,7 +17,4 @@ public interface ProcessStandardService {
 
     ProcessStandard insert(ProcessStandardDto insertList);
 
-
-
-//    GrantCapacityDto getById(Long id);
 }

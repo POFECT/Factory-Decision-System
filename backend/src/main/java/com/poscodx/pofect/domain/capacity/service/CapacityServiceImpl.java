@@ -116,15 +116,16 @@ public class CapacityServiceImpl implements CapacityService {
 
     @Transactional
     @Override
-    public void insert(String week) {
+    public void insert(CapacityInfoDto.InsertCapacityDto insertDto) {
+
         // 데이터 삽입하기 전 중복 체크
-        if (capacityRepository.existsByOrdRcpTapWekCd(week)) {
+        if (capacityRepository.existsByOrdRcpTapWekCd(insertDto.getOrdRcpTapWekCd())) {
             // 이미 week 데이터가 존재하면 예외
             throw new CustomException(ErrorCode.BAD_REQUEST);
         }
 
         // 중복이 없으면 insert
-        capacityRepository.insertIntoCapacityInfo(week);
+        capacityRepository.insertIntoCapacityInfo(insertDto.getOrdRcpTapWekCd());
     }
 
     @Override
