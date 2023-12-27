@@ -1,17 +1,18 @@
 package com.poscodx.pofect.domain.sizestandard.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.poscodx.pofect.common.dto.ResponseDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.main.service.FactoryOrderInfoService;
-import com.poscodx.pofect.domain.main.service.FactoryOrderInfoServiceImpl;
-import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
-import com.poscodx.pofect.domain.processstandard.service.ProcessStandardService;
 import com.poscodx.pofect.domain.sizestandard.dto.*;
 import com.poscodx.pofect.domain.sizestandard.entity.FactorySizeStandard;
 import com.poscodx.pofect.domain.sizestandard.repository.SizeStandardRepository;
+import com.poscodx.pofect.domain.sizestandard.util.RestTemplateTest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class SizeStandardServiceImpl implements SizeStandardService {
     private final SizeStandardRepository repository;
     private final FactoryOrderInfoService factoryOrderInfoService;
-
+    private final RestTemplateTest restTemplateTest;
 
     @Override
     @Transactional(readOnly = true)
@@ -136,6 +137,27 @@ public class SizeStandardServiceImpl implements SizeStandardService {
 
         return getSizeStandardSetDtos(result, hrProdThkAim, hrProdWthAim, orderLength, hrRollUnitWgtMax).stream()
                 .sorted(Comparator.comparing(SizeStandardSetDto::getProcessCD)).toList();
+    }
+
+    @Override
+    public void testRestTemplate(HttpServletRequest request) throws Exception {
+        ResponseDto responseDto = restTemplateTest.requestFato(request);
+        System.out.println(responseDto.getResponse().toString().replaceAll("[{}]", ""));
+        String jsonString = responseDto.getResponse().toString().substring(1, responseDto.getResponse().toString().length() - 1);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String[] keyValuePairs = jsonString.split(", ");
+
+        // Map에 키-값 쌍 추가
+        Map<String, String> map = new HashMap<>();
+        for (String pair : keyValuePairs) {
+            String[] entry = pair.split("=");
+            map.put(entry[0], entry[1]);
+        }
+
+        FactoryOrderInfoResDto dto = objectMapper.convertValue(map, FactoryOrderInfoResDto.class);
+//        objectMapper.readValue(responseDto.getResponse(), FactoryOrderInfoResDto.class);
+        System.out.println("가능? : " + dto.getId());
     }
 
     private static List<SizeStandardSetDto> getSizeStandardSetDtos(Map<String, List<SizeStandardResDto>> result, Double hrProdThkAim, Double hrProdWthAim, String orderLength, Double hrRollUnitWgtMax) {

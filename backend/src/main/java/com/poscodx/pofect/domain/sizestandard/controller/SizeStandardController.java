@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,8 +54,10 @@ public class SizeStandardController {
     @GetMapping("/design")
     @ApiOperation(value = "사이즈 기준 예비 설계", notes = "두께, 폭, 길이, 단중을 받아 사이즈 기준을 설계한다.")
     public ResponseEntity<ResponseDto> designSizeStandard(
-            SizeDesignReqDto dto
-        ) {
+            SizeDesignReqDto dto,
+            HttpServletRequest request
+        ) throws Exception {
+//        sizeStandardService.testRestTemplate(request);
         List<SizeStandardSetDto> setDto = sizeStandardService.designSizeStandard(dto);
         return new ResponseEntity<>(new ResponseDto(setDto), HttpStatus.OK);
     }
