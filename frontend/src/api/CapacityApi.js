@@ -47,7 +47,7 @@ updateSave: async (capacityUpdateList, callback) => {
   
 createCapacity: async (week, callback) => {
     await axiosApi()
-      .post(`/capacity/${week}`)
+      .post(`/capacity`, week)
       .then((response) => {
         console.log("Insert successful:", response.data);
         callback && callback(response.data);

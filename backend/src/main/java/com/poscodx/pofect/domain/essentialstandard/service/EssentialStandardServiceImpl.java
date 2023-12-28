@@ -55,6 +55,7 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
                 // 총 10번의 연산
                 for (int j = 0; j < 10; j++) {
                     // 여기서 기준 1번부터 10번까지 통과 여부 확인
+                    // 품종
                     if (j == 0) {
                         if (filterStandard.getConCalcOpxa01() == null) {
                         } else {
@@ -63,10 +64,8 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
                                 break;
                             }
                         }
-//                        System.out.println("-------------------------01");
-//                        System.out.println(filterStandard.getSeq());
                     }
-                    // 테스트로 FZ OR null 패스 상태
+                    // 품명
                     if (j == 1) {
                         if (filterStandard.getConCalcOpxa02() == null) {
                         } else if (filterStandard.getConCalcOpxa02().equals("!=")) {
@@ -82,10 +81,8 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
                                 break;
                             }
                         }
-//                        System.out.println("-------------------------02");
-//                        System.out.println(filterStandard.getSeq());
-
                     }
+                    // 고객사코드
                     if (j == 2) {
                         if (filterStandard.getConCalcOpxa03() == null) {
                         } else {
@@ -94,12 +91,8 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
                                 break;
                             }
                         }
-//                        System.out.println("-------------------------03");
-//                        System.out.println(filterStandard.getSeq());
-//                        System.out.println(filterStandard.getCustomerNumber());
-//                        System.out.println(factoryOrderInfoResDto.getCustomerNumber());
-
                     }
+                    // 주문용도지정코드
                     if (j == 3) {
                         if (filterStandard.getConCalcOpxa04() == null) {
                             System.out.println(filterStandard.getOrderUsageCdN());
@@ -141,11 +134,8 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
                                 }
                             }
                         }
-//                        System.out.println("-------------------------04");
-//                        System.out.println(filterStandard.getSeq());
-//                        System.out.println("연산자 : " + filterStandard.getConCalcOpxa04());
-//                        System.out.println("부호 : " + filterStandard.getOrderUsageCdN());
                     }
+                    // 제품두께
                     if (j == 4) {
                             if (filterStandard.getConCalcOpxa05() == null) {
                             } else {
@@ -185,6 +175,7 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
 //                            System.out.println("비교값 : " + factoryOrderInfoResDto.getOrderThick());
 //                            System.out.println("최대값 : " + filterStandard.getOrderThickMax());
                         }
+                    // 제품주문폭
                     if (j == 5) {
                         if (filterStandard.getConCalcOpxa06() == null) {
                         } else {
@@ -246,13 +237,168 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
 //                        System.out.println("비교값 : " + factoryOrderInfoResDto.getOrderWidth());
 //                        System.out.println("최대값 : " + filterStandard.getOrderWidthMax());
                     }
+                    // 제품규격약효
                     if (j == 6) {
+                        if (filterStandard.getConCalcOpxa07() == null) {
+                            System.out.println(filterStandard.getSpecificationCdN());
+                        } else {
+                            // 여기서 = 이 들어오는데, 퍼센트 연산자가 앞에 있는지 뒤에 있는지 앞뒤 다 있는지 세번 비교해서 각각 다르게
+                            // 앞 뒤 다 %가 있는 경우
+                            if (filterStandard.getSpecificationCdN().startsWith("%") && filterStandard.getSpecificationCdN().endsWith("%")) {
+                                System.out.println("여기 걸리고");
+                                if (!filterStandard.getSpecificationCdN().substring(1, filterStandard.getSpecificationCdN().length() - 1).equals(factoryOrderInfoResDto.getSpecificationCdN())) {
+                                    System.out.println("여기 안걸리고");
+                                    System.out.println(filterStandard.getSpecificationCdN().substring(1, filterStandard.getSpecificationCdN().length() - 1));
+                                    System.out.println(factoryOrderInfoResDto.getSpecificationCdN());
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                            // "%"로 시작하는 경우
+                            // 맨뒤가 이걸로 끝나는지
+                            else if (filterStandard.getSpecificationCdN().startsWith("%")) {
+                                if (!factoryOrderInfoResDto.getSpecificationCdN().endsWith(filterStandard.getSpecificationCdN().substring(1))) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                            // "%"로 끝나는 경우
+                            // 맨앞이 이걸로 시작하는지
+                            else if (filterStandard.getSpecificationCdN().endsWith("%")) {
+                                if (!factoryOrderInfoResDto.getSpecificationCdN().startsWith(filterStandard.getSpecificationCdN().substring(0, filterStandard.getSpecificationCdN().length() - 1))) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                            // %가 없는 경우
+                            // 완전히 일치하지 않으면
+                            else {
+                                if (!factoryOrderInfoResDto.getSpecificationCdN().equals(filterStandard.getSpecificationCdN())) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
                         }
+                    }
+                    // 판매고객사지역대분류구분
                     if (j == 7) {
+                        if (filterStandard.getConCalcOpxa08() == null) {
+                            System.out.println(filterStandard.getSalCusLocLClsTp());
+                        } else {
+                            // 여기서 = 이 들어오는데, 퍼센트 연산자가 앞에 있는지 뒤에 있는지 앞뒤 다 있는지 세번 비교해서 각각 다르게
+                            // 앞 뒤 다 %가 있는 경우
+                            if (filterStandard.getSalCusLocLClsTp().startsWith("%") && filterStandard.getSalCusLocLClsTp().endsWith("%")) {
+                                System.out.println("여기 걸리고");
+                                if (!filterStandard.getSalCusLocLClsTp().substring(1, filterStandard.getSalCusLocLClsTp().length() - 1).equals(factoryOrderInfoResDto.getSalCusLocLClsTp())) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                            // "%"로 시작하는 경우
+                            // 맨뒤가 이걸로 끝나는지
+                            else if (filterStandard.getSalCusLocLClsTp().startsWith("%")) {
+                                if (!factoryOrderInfoResDto.getSalCusLocLClsTp().endsWith(filterStandard.getSalCusLocLClsTp().substring(1))) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                            // "%"로 끝나는 경우
+                            // 맨앞이 이걸로 시작하는지
+                            else if (filterStandard.getSalCusLocLClsTp().endsWith("%")) {
+                                if (!factoryOrderInfoResDto.getSalCusLocLClsTp().startsWith(filterStandard.getSalCusLocLClsTp().substring(0, filterStandard.getSalCusLocLClsTp().length() - 1))) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                            // %가 없는 경우
+                            // 완전히 일치하지 않으면
+                            else {
+                                if (!factoryOrderInfoResDto.getSalCusLocLClsTp().equals(filterStandard.getSalCusLocLClsTp())) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
                         }
+                    }
+                    // 출강목표번호
                     if (j == 8) {
+                        if (filterStandard.getConCalcOpxa09() == null) {
+                            System.out.println(filterStandard.getSmSteelGrdN());
+                        } else {
+                            // 여기서 = 이 들어오는데, 퍼센트 연산자가 앞에 있는지 뒤에 있는지 앞뒤 다 있는지 세번 비교해서 각각 다르게
+                            // 앞 뒤 다 %가 있는 경우
+                            if (filterStandard.getSmSteelGrdN().startsWith("%") && filterStandard.getSmSteelGrdN().endsWith("%")) {
+                                System.out.println("여기 걸리고");
+                                if (!filterStandard.getSmSteelGrdN().substring(1, filterStandard.getSmSteelGrdN().length() - 1).equals(factoryOrderInfoResDto.getSmSteelGrdN())) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                            // "%"로 시작하는 경우
+                            // 맨뒤가 이걸로 끝나는지
+                            else if (filterStandard.getSmSteelGrdN().startsWith("%")) {
+                                if (!factoryOrderInfoResDto.getSmSteelGrdN().endsWith(filterStandard.getSmSteelGrdN().substring(1))) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                            // "%"로 끝나는 경우
+                            // 맨앞이 이걸로 시작하는지
+                            else if (filterStandard.getSmSteelGrdN().endsWith("%")) {
+                                if (!factoryOrderInfoResDto.getSmSteelGrdN().startsWith(filterStandard.getSmSteelGrdN().substring(0, filterStandard.getSmSteelGrdN().length() - 1))) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                            // %가 없는 경우
+                            // 완전히 일치하지 않으면
+                            else {
+                                if (!factoryOrderInfoResDto.getSmSteelGrdN().equals(filterStandard.getSmSteelGrdN())) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
                         }
+                    }
+                    // 주문제품후처리방법지정코드
                     if (j == 9) {
+                        if (filterStandard.getConCalcOpxa10() == null) {
+                            System.out.println(filterStandard.getPostTreatmentMethodCdN());
+                        } else {
+                            // 여기서 = 이 들어오는데, 퍼센트 연산자가 앞에 있는지 뒤에 있는지 앞뒤 다 있는지 세번 비교해서 각각 다르게
+                            // 앞 뒤 다 %가 있는 경우
+                            if (filterStandard.getPostTreatmentMethodCdN().startsWith("%") && filterStandard.getPostTreatmentMethodCdN().endsWith("%")) {
+                                System.out.println("여기 걸리고");
+                                if (!filterStandard.getPostTreatmentMethodCdN().substring(1, filterStandard.getPostTreatmentMethodCdN().length() - 1).equals(factoryOrderInfoResDto.getPostTreatmentMethodCdN())) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                            // "%"로 시작하는 경우
+                            // 맨뒤가 이걸로 끝나는지
+                            else if (filterStandard.getPostTreatmentMethodCdN().startsWith("%")) {
+                                if (!factoryOrderInfoResDto.getPostTreatmentMethodCdN().endsWith(filterStandard.getPostTreatmentMethodCdN().substring(1))) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                            // "%"로 끝나는 경우
+                            // 맨앞이 이걸로 시작하는지
+                            else if (filterStandard.getPostTreatmentMethodCdN().endsWith("%")) {
+                                if (!factoryOrderInfoResDto.getPostTreatmentMethodCdN().startsWith(filterStandard.getPostTreatmentMethodCdN().substring(0, filterStandard.getPostTreatmentMethodCdN().length() - 1))) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                            // %가 없는 경우
+                            // 완전히 일치하지 않으면
+                            else {
+                                if (!factoryOrderInfoResDto.getPostTreatmentMethodCdN().equals(filterStandard.getPostTreatmentMethodCdN())) {
+                                    isChecked = false;
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
                 if(isChecked){

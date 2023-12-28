@@ -15,9 +15,13 @@ import java.util.List;
 public class CapacityInfoDto {
 //Insert TBL
 
-    public static class CombinedResDto {
-        private String processCd;
-        List<CombinedCapacityDto> list;
+    @Builder
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class InsertCapacityDto {
+       private String ordRcpTapWekCd;
     }
 
     @Builder
