@@ -21,6 +21,8 @@ import SizeStandardApi from "/src/api/SizeStandardApi";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
 import SizeDesignModal from "./size-design-modal";
+import { Report } from "src/notifix/notiflix-report-aio";
+import { Notify } from "src/notifix/notiflix-notify-aio";
 
 function MyCell(props) {
   let style = {
@@ -160,18 +162,43 @@ const Standard = () => {
       }
     });
 
-    if (updateFlag) {
-      console.log(badDatas);
-      alert(result);
-      // setBadDatas([]);
+    Report.warning(
+      "",
+      "사이즈 기준을 저장하시겠습니까",
+      "확인",
+      () => {
+        if (updateFlag) {
+          // Report.warning(
+          //   "",
+          //   result,
+          //   "확인",
+          //   {
+          //     backOverlayClickToClose: true,
+          //   },
+          //   "취소",
+          //   {
+          //     backOverlayClickToClose: true,
+          //   }
+          // )
+          // alert(result);
+          // setBadDatas([]);
+          Notify.failure("데이터를 확인해주세요.");
 
-      // getSizeStadards();
-    } else if (!updateFlag) {
-      await SizeStandardApi.updateSize(sizeStandardList, (data) => {
-        alert("저장되었습니다.");
-        getSizeStadards();
-      });
-    }
+          // getSizeStadards();
+        } else if (!updateFlag) {
+          SizeStandardApi.updateSize(sizeStandardList, (data) => {
+            Notify.success("저장되었습니다.");
+            getSizeStadards();
+          });
+        }
+      },
+      "취소",
+      {
+        backOverlayClickToClose: true,
+      }
+    );
+
+
   };
 
   const columns = [

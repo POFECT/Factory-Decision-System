@@ -494,52 +494,8 @@ const Lot = () => {
       }
     }, 0);
 
-<<<<<<< HEAD
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                }}
-            >
-                <div style={{ display: "flex", alignItems: "center" }}>
-                    <input
-                        type="checkbox"
-                        checked={isChecked}
-                        defaultChecked={true}
-                        onChange={handleCheckboxChange}
-                    />
-                    <label style={{ fontSize: "16px", paddingLeft: 5 }}>
-                        기투입 포함
-                    </label>
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            paddingLeft: 30,
-                            paddingRight: 10,
-                        }}
-                    >
-                        강종별
-                    </div>
-                    <div>
-                        <SelectColumn
-                            styles={customStyles}
-                            closeMenuOnSelect={false}
-                            components={makeAnimated}
-                            isMulti
-                            options={testList}
-                            onChange={(e) => {
-                                setSmList((prev) => {
-                                    const selectSm = e.map((item) => { return item.value })
-                                    return { ...prev, selectSm };
-                                });
-                            }}
-=======
     const width_9702_sum = lotData.reduce((total, row) => {
       const ageValue = Number(row.width_9702);
->>>>>>> 6b0847205b2292db1ab04c9aceca6f2fa05fdb3e
 
       if (!isNaN(ageValue)) {
         return total + ageValue;
