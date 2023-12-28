@@ -1,5 +1,4 @@
 "use strict";
-// import { useState, useMemo, useEffect } from "react";
 import { useCallback, useState, useMemo, StrictMode, useEffect } from "react";
 
 import "react-datasheet-grid/dist/style.css";
@@ -22,6 +21,8 @@ import SizeStandardApi from "/src/api/SizeStandardApi";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
 import SizeDesignModal from "./size-design-modal";
+import { Report } from "src/notifix/notiflix-report-aio";
+import { Notify } from "src/notifix/notiflix-notify-aio";
 
 function MyCell(props) {
   let style = {
@@ -61,6 +62,7 @@ const Standard = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const [editedCellValue, setEditedCellValue] = useState("");
   const [sizeDesign, setSizeDesign] = useState(false);
+  const [badDatas, setBadDatas] = useState([]);
 
   const handleCellEditCommit = (params) => {
     const updatedList = sizeStandardList.map((item) =>
@@ -79,7 +81,6 @@ const Standard = () => {
       const resData = data.response;
 
       const resultData = resData.map((item) => {
-        console.log(item.id);
         if (item.processCd === "10") {
           return { ...item, processCd: "제강" };
         } else if (item.processCd === "20") {
@@ -103,15 +104,12 @@ const Standard = () => {
 
       setSizeStandardList(resultData);
 
-      // if (sizeStandardList.length != 0) {
-      //   setSizeStandardList(sizeStandardList[0].id);
-      // }
     });
   };
 
   const updateSizeStandard = async () => {
     const updateFlag = false;
-    let result = "다음 데이터를 확인해주세요.\n\n";
+    const result = "다음 데이터를 확인해주세요.\n\n";
 
     sizeStandardList.map((item) => {
       if (
@@ -119,16 +117,32 @@ const Standard = () => {
         item.orderThickMax < 0 ||
         item.orderThickMin > item.orderThickMax
       ) {
+        const badData = [{
+          id: item.id,
+          min: "orderThickMin",
+          max: "orderThickMax"
+        }]
+        console.log(badData);
         result += item.processCd + " " + item.firmPsFacTp + "공장 두께\n";
         updateFlag = true;
+        setBadDatas(prevData => [...prevData, badData]);
+
       }
       if (
         item.orderWidthMin < 0 ||
         item.orderWidthMax < 0 ||
         item.orderWidthMin > item.orderWidthMax
       ) {
+        const badData = [{
+          id: item.id,
+          min: "orderWidthMin",
+          max: "orderWidthMax"
+        }]
+        console.log(badData);
         result += item.processCd + " " + item.firmPsFacTp + "공장 폭\n";
         updateFlag = true;
+        setBadDatas(prevData => [...prevData, badData]);
+
       }
       if (
         item.orderLengthMin < 0 ||
@@ -148,15 +162,43 @@ const Standard = () => {
       }
     });
 
-    if (updateFlag) {
-      alert(result);
-      // getSizeStadards();
-    } else if (!updateFlag) {
-      await SizeStandardApi.updateSize(sizeStandardList, (data) => {
-        alert("저장되었습니다.");
-        getSizeStadards();
-      });
-    }
+    Report.warning(
+      "",
+      "사이즈 기준을 저장하시겠습니까",
+      "확인",
+      () => {
+        if (updateFlag) {
+          // Report.warning(
+          //   "",
+          //   result,
+          //   "확인",
+          //   {
+          //     backOverlayClickToClose: true,
+          //   },
+          //   "취소",
+          //   {
+          //     backOverlayClickToClose: true,
+          //   }
+          // )
+          // alert(result);
+          // setBadDatas([]);
+          Notify.failure("데이터를 확인해주세요.");
+
+          // getSizeStadards();
+        } else if (!updateFlag) {
+          SizeStandardApi.updateSize(sizeStandardList, (data) => {
+            Notify.success("저장되었습니다.");
+            getSizeStadards();
+          });
+        }
+      },
+      "취소",
+      {
+        backOverlayClickToClose: true,
+      }
+    );
+
+
   };
 
   const columns = [
@@ -361,9 +403,6 @@ const Standard = () => {
               id="demo-multiple-name"
               defaultValue="T"
               input={<OutlinedInput label="구분" />}
-              onChange={(e) => {
-                console.log(e);
-              }}
               style={{ height: 40 }}
             >
               <MenuItem value="T">포항</MenuItem>
@@ -404,7 +443,6 @@ const Standard = () => {
             size="small"
             type="submit"
             variant="contained"
-            // onClick={exportToExcel}
             style={{ backgroundColor: "darkgreen" }}
             onClick={exportToExcelSize}
           >
@@ -419,23 +457,23 @@ const Standard = () => {
             height: 600,
             width: "100%",
             "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
-              {
-                borderBottom: "1px solid rgba(225, 234, 239, 1)",
-                borderRight: "1px solid rgba(225, 234, 239, 1)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "gray",
-              },
+            {
+              borderBottom: "1px solid rgba(225, 234, 239, 1)",
+              borderRight: "1px solid rgba(225, 234, 239, 1)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "gray",
+            },
             "& .custom-data-grid .MuiDataGrid-columnHeader": {
               cursor: "pointer",
               borderBottom: "1px solid rgba(225, 234, 239, 1)",
               borderRight: "1px solid rgba(225, 234, 239, 1)",
             },
             "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
-              {
-                borderBottomStyle: "none",
-              },
+            {
+              borderBottomStyle: "none",
+            },
             "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
               backgroundColor: "#F5F9FF",
             },
@@ -447,19 +485,10 @@ const Standard = () => {
             disableRowSelectionOnClick
             rows={sizeStandardList}
             columns={columns}
-            // onCellEditStart={handleCellEditStart}
-            // onCellEditStop={handleCellEditCommit}
-
             processRowUpdate={(newVal) => {
               handleCellEditCommit(newVal);
               return newVal;
             }}
-            //  onCellEditStop={handleCellEditCommit}
-            // onCellClick={(e) => {
-            //   console.log(e.field);
-            //   console.log(e.id);
-            //   console.log(e.formattedValue);
-            // }}
             columnGroupingModel={columnGroupingModel}
             slots={{
               cell: MyCell,
@@ -468,7 +497,6 @@ const Standard = () => {
             disableColumnMenu
             hideFooterPagination={true}
             hideFooter={true}
-            // rowHeight={40}
           />
         </Box>
       </Card>

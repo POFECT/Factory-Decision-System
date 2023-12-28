@@ -8,6 +8,7 @@ import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardSetDto;
 import com.poscodx.pofect.domain.sizestandard.entity.FactorySizeStandard;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,5 +20,8 @@ public interface SizeStandardService {
     void updateSizeStandard(List<SizeStandardReqDto> dto);
 
     List<SizeStandardSetDto> designSizeStandard(SizeDesignReqDto dto);
+
+
+    void testRestTemplate(HttpServletRequest request) throws Exception;
 }
 
