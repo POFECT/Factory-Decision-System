@@ -14,12 +14,18 @@ spring:
       database: mysql
       ddl-auto: update  # create
     show-sql: 'true'
-  # DB
+  # DB - MySQL
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${mysql.url}
     username: ${mysql.username}
     password: ${mysql.password}
+  # DB - MongoDB
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: pofect
 
 
 # 서버
