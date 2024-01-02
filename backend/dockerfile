@@ -1,6 +1,4 @@
-# syntax=docker/dockerfile:1.0
-FROM docker.io/library/openjdk:17-oracle@sha256:83ffa182a7cfc8313583fe1cc42172a48a021f368a1ff11fe0d957c3b3b8a620
-
+FROM openjdk:17-oracle
 EXPOSE 8080
 ARG JAR_FILE=build/libs/pofect-0.0.1-SNAPSHOT.jar
 COPY ${JAR_FILE} app.jar
