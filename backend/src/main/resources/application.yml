@@ -23,9 +23,9 @@ spring:
   # DB - MongoDB
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      database: pofect
+      host: ${mongo.host}
+      port: ${mongo.port}
+      database: ${mongo.database}
 
 
 # 서버
