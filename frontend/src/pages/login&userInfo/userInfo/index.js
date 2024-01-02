@@ -23,7 +23,7 @@ import Close from 'mdi-material-ui/Close'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
-  height: 120,
+  height: 153,
   marginRight: theme.spacing(6.25),
   borderRadius: theme.shape.borderRadius
 }))
@@ -48,7 +48,7 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 const TabAccount = () => {
   // ** State
   const [openAlert, setOpenAlert] = useState(true)
-  const [imgSrc, setImgSrc] = useState('/images/login/upload-image-transparent.png')
+  const [imgSrc, setImgSrc] = useState('/images/mypage/profile_ract.png')
 
   const onChange = file => {
     const reader = new FileReader()
@@ -77,7 +77,7 @@ const TabAccount = () => {
                     id='account-settings-upload-image'
                   />
                 </ButtonStyled>
-                <ResetButtonStyled color='error' variant='outlined' onClick={() => setImgSrc('/images/login/upload-image-transparent.png')}>
+                <ResetButtonStyled color='error' variant='outlined' onClick={() => setImgSrc('/images/mypage/profile_ract.png')}>
                   Reset
                 </ResetButtonStyled>
                 <Typography variant='body2' sx={{ marginTop: 5 }}>
