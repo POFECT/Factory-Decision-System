@@ -1,4 +1,4 @@
-#FROM openjdk:17-oracle
+# syntax=docker/dockerfile:1.0
 FROM docker.io/library/openjdk:17-oracle@sha256:83ffa182a7cfc8313583fe1cc42172a48a021f368a1ff11fe0d957c3b3b8a620
 
 EXPOSE 8080
