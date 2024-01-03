@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak";
-import jwt from "jsonwebtoken";
 
 export const authOptions = {
   providers: [
