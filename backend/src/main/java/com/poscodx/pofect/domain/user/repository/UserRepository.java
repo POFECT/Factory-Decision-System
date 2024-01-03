@@ -1,2 +1,4 @@
-package com.poscodx.pofect.domain.user.repository;public class UserRepository {
+package com.poscodx.pofect.domain.user.repository;
+public class UserRepository {
+
 }
