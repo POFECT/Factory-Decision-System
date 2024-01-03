@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // ** Next Imports
 import Link from "next/link";
@@ -38,6 +38,7 @@ import BlankLayout from "src/@core/layouts/BlankLayout";
 
 // ** Demo Imports
 import FooterIllustrationsV1 from "src/views/pages/auth/FooterIllustration";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -80,6 +81,14 @@ const LoginPage = () => {
     event.preventDefault();
   };
 
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      console.log(session);
+      console.log("accessToken", session.accessToken);
+    }
+  });
   return (
     <Box className="content-center">
       <Card sx={{ zIndex: 1 }}>
@@ -231,14 +240,18 @@ const LoginPage = () => {
                 <FormControlLabel control={<Checkbox />} label="Remember Me" />
               </Box>
             }
-            <Button
-              size="large"
-              variant="contained"
-              sx={{ marginBottom: 7, width: "100%" }}
-              onClick={() => router.push("/main-capacity/")}
-            >
-              Login
-            </Button>
+            {session ? (
+              <>
+                Signed in as {session.user.email} <br />
+                <button onClick={() => signOut()}>Sign out</button>
+              </>
+            ) : (
+              <>
+                Not signed in <br />
+                <button onClick={() => signIn()}>Sign in</button>
+              </>
+            )}
+
             <Box
               sx={{
                 display: "flex",
