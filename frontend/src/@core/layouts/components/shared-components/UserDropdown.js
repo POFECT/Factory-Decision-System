@@ -84,7 +84,7 @@ const UserDropdown = () => {
           alt='신유경'
           onClick={handleDropdownOpen}
           sx={{ width: 40, height: 40 }}
-          src='/images/mypage/profile_ract.png'
+          src='/images/mypage/profile_square.png'
         />
       </Badge>
       <Menu
@@ -102,7 +102,7 @@ const UserDropdown = () => {
               badgeContent={<BadgeContentSpan />}
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-              <Avatar alt='신유경' src='/images/mypage/profile_ract.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
+              <Avatar alt='신유경' src='/images/mypage/profile_square.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
               <Typography sx={{ fontWeight: 600 }}>신유경</Typography>
