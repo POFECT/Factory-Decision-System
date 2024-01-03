@@ -23,4 +23,7 @@ public interface FactoryOrderInfoRepository extends JpaRepository<FactoryOrderIn
             "FROM factory_order_info " +
             "GROUP BY ord_pdt_itp_cd_n", nativeQuery = true)
     List<Object[]> getOrderInquiry();
+
+
+    FactoryOrderInfo findByOrderHeadLineNo(String orderHeadLineNo);
 }
