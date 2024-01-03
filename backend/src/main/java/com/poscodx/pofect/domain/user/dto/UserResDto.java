@@ -4,7 +4,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-public interface UserResDto2 {
+public interface UserResDto {
     String getUserId();
 
     String getEMailAddr();
