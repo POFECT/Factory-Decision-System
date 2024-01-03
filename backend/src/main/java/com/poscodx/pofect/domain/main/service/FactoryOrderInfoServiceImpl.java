@@ -479,4 +479,12 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         }
         return sizeStandardSetDtoList;
     }
+
+    //Mobile API
+    @Override
+    public FactoryOrderInfoResDto getOrderListByOrdNo(String orderHeadLineNo) {
+        return FactoryOrderInfoResDto.toDto(factoryOrderInfoRepository.findByOrderHeadLineNo(orderHeadLineNo));
+
+    }
+
 }
