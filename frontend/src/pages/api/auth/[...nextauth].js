@@ -5,8 +5,8 @@ export const authOptions = {
   providers: [
     KeycloakProvider({
       clientId: "pofect",
-      clientSecret: "i5ReczfUTmLra7BZXhwTSrE9u2FRkHJy",
-      issuer: "http://localhost:5555/realms/poscodx2023-realm",
+      clientSecret: "lRu2t5FaIGkbSWc939JxC9yblwbz3qQj",
+      issuer: "http://localhost:5555/realms/pofect-realm",
     }),
   ],
   callbacks: {
