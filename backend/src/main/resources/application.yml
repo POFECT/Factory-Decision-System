@@ -23,9 +23,10 @@ spring:
   # DB - MongoDB
   data:
     mongodb:
-      host: ${mongo.host}
-      port: ${mongo.port}
-      database: ${mongo.database}
+      uri: ${mongo.uri}
+#      host: ${mongo.host}
+#      port: ${mongo.port}
+#      database: ${mongo.database}
 
 
 # 서버

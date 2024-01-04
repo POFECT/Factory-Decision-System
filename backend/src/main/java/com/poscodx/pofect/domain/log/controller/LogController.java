@@ -1,21 +1,15 @@
 package com.poscodx.pofect.domain.log.controller;
 
 import com.poscodx.pofect.common.dto.ResponseDto;
-import com.poscodx.pofect.domain.log.entity.LogDoc;
+import com.poscodx.pofect.domain.log.document.LogDoc;
 import com.poscodx.pofect.domain.log.service.LogService;
-import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
-import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Api(value = "Log API", tags = {"로그"})
@@ -31,6 +25,32 @@ public class LogController {
     public ResponseEntity<ResponseDto> getLogList() {
         List<LogDoc> result = logService.getList();
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+    }
+
+    @PostMapping("/insert/possible")
+    @ApiOperation(value = "가통 로그 데이터 저장", notes = "가통 로그 데이터를 저장한다.")
+    public ResponseEntity<ResponseDto> insertLogPossible(@RequestBody LogDoc logDoc) {
+        LogDoc log = logService.insertPossible(logDoc);
+
+        if(log != null) {
+            return new ResponseEntity<>(new ResponseDto(log), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(new ResponseDto("log create fail"), HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @PostMapping("/insert/test")
+    @ApiOperation(value = "가통 로그 데이터 저장", notes = "가통 로그 데이터를 저장한다.")
+    public ResponseEntity<ResponseDto> insertLogTest() {
+        LogDoc log = logService.insertTest();
+
+        if(log != null) {
+            return new ResponseEntity<>(new ResponseDto(log), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(new ResponseDto("log create fail"), HttpStatus.FORBIDDEN);
+        }
     }
 
 }

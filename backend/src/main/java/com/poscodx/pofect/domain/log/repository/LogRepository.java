@@ -1,6 +1,6 @@
 package com.poscodx.pofect.domain.log.repository;
 
-import com.poscodx.pofect.domain.log.entity.LogDoc;
+import com.poscodx.pofect.domain.log.document.LogDoc;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
