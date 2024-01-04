@@ -93,6 +93,8 @@ const Lot = () => {
 
       const resultData = resData.map((item, index) => {
         const newItem = { ...item, id: index + 1 };
+        const sum = 0;
+        const sum2 = 0;
         if (item && item.faConfirmFlag === "E") {
           const sumStand = 0;
           newItem = {
@@ -135,8 +137,9 @@ const Lot = () => {
           return { ...newItem, sum_stand: sumStand == 0 ? "" : sumStand };
         } else if (item && item.faConfirmFlag === "F") {
           newItem = { ...newItem, faConfirmFlag: "기투입" };
-          const sum = 0;
-          const sum2 = 0;
+          // const sum = 0;
+          // const sum2 = 0;
+
           if (item && item.widthGroups && item.widthGroups.width_9701) {
             newItem = { ...newItem, width_9701: item.widthGroups.width_9701 };
             sum += item.widthGroups.width_9701;
@@ -175,6 +178,7 @@ const Lot = () => {
             };
             sum2 += item.widthGroups.width_over_15702;
           }
+
         }
         return {
           ...newItem,
