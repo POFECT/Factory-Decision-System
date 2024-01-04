@@ -5,6 +5,12 @@ mysql:
   username: pofect
   password: pofect1!
 
+# RDS - MySQL
+#mysql:
+#  url: jdbc:mysql://pofect-database.c4jotwudvoiz.ap-northeast-2.rds.amazonaws.com:3306/pofect?characterEncoding=UTF-8&serverTimezone=UTC
+#  username: pofect
+#  password: 2wh1234!!
+
 # MongoDB
 mongo:
   # local
@@ -13,9 +19,3 @@ mongo:
   database: pofect
   # Atlas
   uri: mongodb+srv://pofect:pofect1!@pofect-mongodb.0tggaus.mongodb.net/pofect?retryWrites=true&w=majority
-
-# EC2 Server
-#mysql:
-#  url: jdbc:mysql://pofect-database.c4jotwudvoiz.ap-northeast-2.rds.amazonaws.com:3306/pofect?characterEncoding=UTF-8&serverTimezone=UTC
-#  username: pofect
-#  password: 2wh1234!!
