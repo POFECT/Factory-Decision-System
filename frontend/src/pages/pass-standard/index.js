@@ -14,6 +14,7 @@ import { Grid, Typography,
           InputLabel, OutlinedInput,
           Card, Box} from "@mui/material";
 import FactoryStandardApi from "src/api/FactoryStandardApi";
+import { useSession } from "next-auth/react";
 
 
 function MyCell(props) {
@@ -49,6 +50,7 @@ let possibleBtiPosbPsFacTpValues=null;
 
 const Capacity = () => {
   /* Data */
+  const { data: session } = useSession();
   const [possibleList,setPossibleList]=useState([]);//가통리스트
   const [confirmList,setConfirmList]=useState([]);//확통리스트
   const [millCd,setMillCd]=useState([]);//소구분
@@ -73,24 +75,30 @@ const Capacity = () => {
     setOpen(check)
   }
   useEffect(() => {
-    FactoryStandardApi.getPossibleList((data) => {
-      const dataMap = data.response.reduce((list, { btiPosbPsFacTp, processCd, feasibleRoutingGroup }) => {
-        list[btiPosbPsFacTp] = list[btiPosbPsFacTp]||{};
-        list[btiPosbPsFacTp][processCd] = feasibleRoutingGroup;
-        return list;
-      }, {});
+    if (session) {
+      // FactoryStandardApi.getPossibleList(session.accessToken, (data) => {
+      //   // Handle the data
+      // });
+      FactoryStandardApi.getPossibleList(session.accessToken,(data) => {
+        const dataMap = data.response.reduce((list, { btiPosbPsFacTp, processCd, feasibleRoutingGroup }) => {
+          list[btiPosbPsFacTp] = list[btiPosbPsFacTp]||{};
+          list[btiPosbPsFacTp][processCd] = feasibleRoutingGroup;
+          return list;
+        }, {});
+  
+        possibleBtiPosbPsFacTpValues = Array.from(
+          { length: Math.max(...Object.keys(dataMap).map(Number)) },
+          (_, index) => String(index + 1).padStart(2, '0')
+        );
+  
+        const transformData = possibleBtiPosbPsFacTpValues.map((code) => ({
+          ...(dataMap[code] || ''), //code값이 빈 경우에도 나오게하기
+          id: code,
+        }));
+        setPossibleList(transformData);
+      }, []);
+    }
 
-      possibleBtiPosbPsFacTpValues = Array.from(
-        { length: Math.max(...Object.keys(dataMap).map(Number)) },
-        (_, index) => String(index + 1).padStart(2, '0')
-      );
-
-      const transformData = possibleBtiPosbPsFacTpValues.map((code) => ({
-        ...(dataMap[code] || ''), //code값이 빈 경우에도 나오게하기
-        id: code,
-      }));
-      setPossibleList(transformData);
-    }, []);
 
     FactoryStandardApi.getCommonList((data) => {
       const dataMap = data.response.reduce((list, { cdExpl,firmPsFacTp, id,lastUpdate, processCd }) => {

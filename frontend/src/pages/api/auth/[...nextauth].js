@@ -23,10 +23,21 @@ export const authOptions = {
       return token;
     },
     async session({ session, token }) {
-      // Add the Refresh Token to the session object
       session.accessToken = token.accessToken;
       console.log(session);
       return session;
+    },
+  },
+  pages: {
+    async api({
+      req,
+      res,
+    }) {
+      //Token Session검사를 진행하지 않는 API 따로 작성
+      if (req.url === "/api/factory-standard/hello") { //테스트용 hello (삭제예정)
+        return NextAuth(req, res);
+      }
+      return NextAuth(req, res);
     },
   },
 };

@@ -14,7 +14,7 @@ module.exports = {
         __dirname,
         "./node_modules/apexcharts-clevision"
       ),
-    };
+    }; 
 
     return config;
   },

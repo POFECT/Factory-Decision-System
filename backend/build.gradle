@@ -22,6 +22,10 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	set('springCloudVersion', "2021.0.8")
+}
+
 dependencies {
 
 	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
@@ -38,6 +42,16 @@ dependencies {
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'  //swagger
+
+	//MSA
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    //Spring Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation 'com.jayway.jsonpath:json-path'
+
 
 }
 
@@ -71,4 +85,10 @@ configurations {
 // querydsl 컴파일 시 사용할 옵션 설정
 compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }

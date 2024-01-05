@@ -1,5 +1,6 @@
 import axios from "axios";
-const DEV = "http://localhost:8080/api";
+
+const DEV = "http://localhost:8888/service-pofect/api";
 const HOST = "https://52.79.114.216:8080/api/";
 
 function axiosApi() {

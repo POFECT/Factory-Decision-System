@@ -1,16 +1,32 @@
 import { axiosApi } from "./api";
-
+import { useSession } from "next-auth/react";
+import AuthApi from "./AuthApi"
 const FactoryStandardApi={
-  getPossibleList:async(callback)=>{
-    await axiosApi().get("/factory-standard/getPossibleCodes")
-    .then((response)=>{
+  // getPossibleList:async(callback)=>{
+  //   await axiosApi().get("/factory-standard/getPossibleCodes")
+  //   .then((response)=>{
+  //     callback && callback(response.data);
+  //   })
+  //   .catch((error)=>{
+  //     console.log(error);
+  //   })
+  //   .finally(()=>{});
+  // },
+  getPossibleList: async (accessToken, callback) => {
+    try {
+      const response = await axiosApi().get("/factory-standard/getPossibleCodes", {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      });
+  
       callback && callback(response.data);
-    })
-    .catch((error)=>{
+    } catch (error) {
       console.log(error);
-    })
-    .finally(()=>{});
+    }
   },
+  
+  
   getPossiblePopper:async(processCD,callback)=>{
     await axiosApi()
     .get(`/factory-standard/confirmfactory/${processCD}`)
