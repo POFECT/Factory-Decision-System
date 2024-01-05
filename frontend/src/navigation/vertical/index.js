@@ -5,6 +5,7 @@ import CropRotateIcon from "@mui/icons-material/CropRotate";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import LanIcon from "@mui/icons-material/Lan";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
+import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 const navigation = () => {
   return [
     {
@@ -57,6 +58,11 @@ const navigation = () => {
       icon: LanIcon,
       title: "출강 Lot 집약",
       path: "/lot",
+    },
+    {
+      icon: PsychologyAltIcon,
+      title: "출강 Lot 투입 예측",
+      path: "/lot-regression",
     },
   ];
 };
