@@ -31,6 +31,10 @@ import InsertFormComponent from '../../views/pass-standard/pass-modal-insert';
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
 
+//Alert
+import { Report } from "src/notifix/notiflix-report-aio";
+
+
 function MyCell(props) {
   let style = {
     minWidth: props.width,
@@ -71,13 +75,26 @@ const PassModal = ({ open, handleClose }) => {
     select: "ALL",
   });
 
+
+  // Alert
+  const [showAlert, setShowAlert] = useState(false);
+  const handleCloseAlert = () => {
+    setShowAlert(false);
+  };
+
   //insert
   const [insertMode, setInsertMode] = useState(false);
 
-  const handleInsert = () => {
-  
-  setInsertMode(!insertMode);
-    };
+  const [openPassStandard, setOpenPassStandard] = useState(false);
+
+  const passClick = () => {
+    setOpenPassStandard(true);
+  };
+
+  const passClose = () => {
+    setOpenPassStandard(false);
+  };
+
 
   const handleInsertSave = (newRecordData) => {
     console.log("!!!!!!!", passStandard);
@@ -94,7 +111,7 @@ const PassModal = ({ open, handleClose }) => {
     gcsCompCode: "01",
     ordPdtItdsCdN,
     millCd,
-    
+
   };
    selectedColumns.forEach((columnName) => {
     newPassStandard[columnName] = "*";
@@ -102,16 +119,13 @@ const PassModal = ({ open, handleClose }) => {
 
   console.log("New Pass Standard:", newPassStandard);
   PassStandardApi.insertSave(newPassStandard, (data) => {
-        alert("저장되었습니다.");
+        // alert("저장되었습니다.");
+    setShowAlert(true);
 
-      });   
-    setInsertMode(false);
+      });
   };
 
-  
-  const handleInsertCancel = () => {
-  setInsertMode(false);
-  };
+
 
   //Update
   const handleCellEditCommit = (params) => {
@@ -127,16 +141,6 @@ const PassModal = ({ open, handleClose }) => {
 
   useEffect(() => {
 
-    handleInsertCancel();
-    handleSearch();
-
-
-  }, []);
-
-  const handleSearch = () => {
-
-    setInsertMode(false);
-
     PassStandardApi.getList((data) => {
       setPassStandard(data.response);
     });
@@ -147,6 +151,14 @@ const PassModal = ({ open, handleClose }) => {
         return { ...prev, list };
       })
     });
+
+    handleSearch();
+
+
+  }, []);
+
+  const handleSearch = () => {
+
     console.log("Selected item:", codeNameList.select);
 
     if (codeNameList.select === "ALL") {
@@ -206,6 +218,7 @@ const PassModal = ({ open, handleClose }) => {
 
     } else if (!updateFlag) {
       await PassStandardApi.updateSave(passStandard, (data) => {
+
         alert("저장되었습니다.");
         handleSearch();
       });
@@ -227,7 +240,8 @@ const PassModal = ({ open, handleClose }) => {
     FileSaver.saveAs(data, "경유 공정 기준" + fileExtension);
   };
 
-  return (
+
+   return (
     <Dialog open={open} onClose={handleClose} sx={{ width: '100%' }} maxWidth="xl">
       <div style={{ maxWidth: '1200px' }}>
         <DialogTitle>
@@ -238,215 +252,247 @@ const PassModal = ({ open, handleClose }) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {/* ./pass-standard/index.js 파일 내용 또는 원하는 모달 내용을 여기에 추가 */}
-               {insertMode ? (<></>
+            {/* ./pass-standard/index.js 파일 내용 또는 원하는 모달 내용을 여기에  */}
+            {insertMode ? (<></>
 
-                ) : (
-                  
-            <divdafdsfads
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "20px",
-              }}
-            >
-              <div>
-                <FormControl
-                  sx={{ m: 1 }}
-                  style={{
-                    paddingTop: 10,
-                    paddingBottom: 20,
-                    marginRight: 10,
-                  }}>
-                  <InputLabel id="label1" style={{ paddingTop: 10 }}>
-                    구분
-                  </InputLabel>
-                  <Select
-                    labelId="분류"
-                    id="demo-multiple-name"
-                    defaultValue="T"
-                    input={<OutlinedInput label="구분" />}
-                    onChange={(e) => {
-                      console.log(e);
+            ) : (
+
+                <divdafdsfads
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "20px",
                     }}
-                    style={{ height: 40 }}
-                  >
-                    <MenuItem value="T">포항</MenuItem>
-                    {/* <MenuItem value="K">광양</MenuItem> */}
-                  </Select>
-                </FormControl>
-                <FormControl
-                  sx={{ m: 1 }}
-                  style={{
-                    paddingTop: 10,
-                    paddingBottom: 20,
-                    marginRight: 10,
-                  }}
                 >
-                  <InputLabel id="label2" style={{ paddingTop: 10 }}>
-                    품종
-                  </InputLabel>
+                  <div>
+                    <FormControl
+                        sx={{ m: 1 }}
+                        style={{
+                          paddingTop: 10,
+                          paddingBottom: 20,
+                          marginRight: 10,
+                        }}>
+                      <InputLabel id="label1" style={{ paddingTop: 10 }}>
+                        구분
+                      </InputLabel>
+                      <Select
+                          labelId="분류"
+                          id="demo-multiple-name"
+                          defaultValue="T"
+                          input={<OutlinedInput label="구분" />}
+                          onChange={(e) => {
+                            console.log(e);
+                          }}
+                          style={{ height: 40 }}
+                      >
+                        <MenuItem value="T">포항</MenuItem>
+                        {/* <MenuItem value="K">광양</MenuItem> */}
+                      </Select>
+                    </FormControl>
+                    <FormControl
+                        sx={{ m: 1 }}
+                        style={{
+                          paddingTop: 10,
+                          paddingBottom: 20,
+                          marginRight: 10,
+                        }}
+                    >
+                      <InputLabel id="label2" style={{ paddingTop: 10 }}>
+                        품종
+                      </InputLabel>
 
-                  <Select
-                    labelId="분류"
-                    id="demo-multiple-name"
-                    defaultValue="ALL"
-                    input={<OutlinedInput label="품종" />}
-                    onChange={(e) => {
-                      setCodeNameList(
-                        Object.assign({}, codeNameList, {
-                          select: e.target.value,
-                        })
-                      );
-                    }}
-                    style={{ height: 40 }}
-                  >
-                    <MenuItem value="ALL">ALL</MenuItem>
-                    {codeNameList.list.map((code, idx) => (
-                      <MenuItem key={idx} value={code.cdNm}>
-                        {code.cdNm}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-              <div>
-             
+                      <Select
+                          labelId="분류"
+                          id="demo-multiple-name"
+                          defaultValue="ALL"
+                          input={<OutlinedInput label="품종" />}
+                          onChange={(e) => {
+                            setCodeNameList(
+                                Object.assign({}, codeNameList, {
+                                  select: e.target.value,
+                                })
+                            );
+                          }}
+                          style={{ height: 40 }}
+                      >
+                        <MenuItem value="ALL">ALL</MenuItem>
+                        {codeNameList.list.map((code, idx) => (
+                            <MenuItem key={idx} value={code.cdNm}>
+                              {code.cdNm}
+                            </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
+                  <div>
+
                     <Button size="small" type="submit" variant="contained" onClick={handleSearch} style={{ backgroundColor: "#E29E21" }}>
                       조회
                     </Button>
                     <Button
-                      size="small"
-                      type="submit"
-                      variant="contained"
-                      onClick={handleInsert}
-                      style={{ backgroundColor: "#0A5380" }}
+                        size="small"
+                        type="submit"
+                        variant="contained"
+                        onClick={passClick}
+                        style={{ backgroundColor: "#0A5380" }}
                     >
                       추가
                     </Button>
+                    <InsertFormComponent open={openPassStandard} handleClose={passClose} onSave={handleInsertSave} columns={columns} codeNameList={codeNameList}/>
+
                     <Button
-                      size="small"
-                      type="submit"
-                      variant="contained"
-                      onClick={updatePass}
-                      style={{ backgroundColor: "#0A5380" }}
+                        size="small"
+                        type="submit"
+                        variant="contained"
+                        onClick={updatePass}
+                        style={{ backgroundColor: "#0A5380" }}
                     >
                       저장
                     </Button>
                     <Button
-                      size="small"
-                      type="submit"
-                      variant="contained"
-                      onClick={exportToExcel}
-                      style={{ backgroundColor: "darkgreen" }}
+                        size="small"
+                        type="submit"
+                        variant="contained"
+                        onClick={exportToExcel}
+                        style={{ backgroundColor: "darkgreen" }}
                     >
                       Excel
                     </Button>
-               
-              </div>
 
-            </divdafdsfads>
+                  </div>
+
+                </divdafdsfads>
             )}
 
-          {insertMode ? (
-                  
-<Grid item xs={4} sx={{ paddingBottom: 1 , paddingTop:3, paddingLeft:3 }}>
-                        <Typography variant="h5" > 데이터 추가 </Typography>
-                    </ Grid>
-                    
-                    )
-                      :(<></>)}
+            {insertMode ? (
 
-                      
+                    <Grid item xs={4} sx={{ paddingBottom: 1 , paddingTop:3, paddingLeft:3 }}>
+                      <Typography variant="h5" > 데이터 추가 </Typography>
+                    </ Grid>
+
+                )
+                :(<></>)}
+
+
             <div style={{ height: 400, display: "flex", justifyContent: "center", marginTop: 30, }}>
 
               <Card
-                elevation={3}
-                style={{
-                  flexBasis: "85",
-                  marginRight: "16px ",
-                  padding: "20px",
-                  height: "100%",
+                  elevation={3}
+                  style={{
+                    flexBasis: "85",
+                    marginRight: "16px ",
+                    padding: "20px",
+                    height: "100%",
 
-                }}
+                  }}
               >
                 <Box
-                  sx={{
-                    height: "100%",
-                    width: "100%",
-                    marginBottom: "20px",
-                    "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
-                    {
-                      borderBottom: "1px solid rgba(225, 234, 239, 1)",
-                      borderRight: "1px solid rgba(225, 234, 239, 1)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    },
-                    "& .custom-data-grid .MuiDataGrid-columnHeader": {
-                      cursor: "pointer",
-                      borderBottom: "1px solid rgba(225, 234, 239, 1)",
-                      borderRight: "1px solid rgba(225, 234, 239, 1)",
-                    },
-                    "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
-                    {
-                      borderBottomStyle: "none",
-                    },
+                    sx={{
+                      height: "100%",
+                      width: "100%",
+                      marginBottom: "20px",
+                      "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
+                          {
+                            borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                            borderRight: "1px solid rgba(225, 234, 239, 1)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          },
+                      "& .custom-data-grid .MuiDataGrid-columnHeader": {
+                        cursor: "pointer",
+                        borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                        borderRight: "1px solid rgba(225, 234, 239, 1)",
+                      },
+                      "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
+                          {
+                            borderBottomStyle: "none",
+                          },
 
-                    "& .custom-data-grid .MuiDataGrid-root": {
-                      paddingBottom: "0px",
-                    }, "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
-                      backgroundColor: "#F5F9FF",
-                    },
-                  }}
+                      "& .custom-data-grid .MuiDataGrid-root": {
+                        paddingBottom: "0px",
+                      }, "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
+                        backgroundColor: "#F5F9FF",
+                      },
+                    }}
                 >
 
 
                   {insertMode ? (
-                   
-                  <InsertFormComponent onSave={handleInsertSave} onCancel={handleInsertCancel} columns={columns} codeNameList={codeNameList}/>
-                  
-                   ) : (
-                  <DataGrid
-                    className="custom-data-grid"
-                    disableRowSelectionOnClick
-                    rows={passStandard}
-                    columns={columns}
-                    processRowUpdate={(newVal) => {
-                      handleCellEditCommit(newVal)
-                      return newVal;
-                    }}
-                    components={{
-                      // Toolbar: GridToolbar,
-                      Cell: MyCell,
-                    }}
-                    rowHeight={31}
-                  />
+
+                      <InsertFormComponent onSave={handleInsertSave} handleClose={passClose} columns={columns} codeNameList={codeNameList}/>
+
+                  ) : (
+                      <DataGrid
+                          className="custom-data-grid"
+                          disableRowSelectionOnClick
+                          rows={passStandard}
+                          columns={columns}
+                          processRowUpdate={(newVal) => {
+                            handleCellEditCommit(newVal)
+                            return newVal;
+                          }}
+                          components={{
+                            // Toolbar: GridToolbar,
+                            Cell: MyCell,
+                          }}
+                          rowHeight={31}
+                      />
 
 
-                   )}
+                  )}
                 </Box>
               </Card>
             </div>
           </DialogContentText>
         </DialogContent>
- {insertMode ? (<><Grid item xs={4} sx={{ paddingBottom: 1 , paddingTop:3, paddingLeft:3 }}>
-                    </ Grid></>)
-                      :(<>        
-                      <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            닫기
-          </Button>
-        </DialogActions>
-        </>)}
+        {insertMode ? (<><Grid item xs={4} sx={{ paddingBottom: 1 , paddingTop:3, paddingLeft:3 }}>
+            </ Grid></>)
+            :(<>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  닫기
+                </Button>
+              </DialogActions>
+            </>)}
+
+        {/* alert */}
+        {showAlert && (
+            Report.warning(
+                " ",
+                "<div style='text-align: center;'>" +
+                " 출강 주의 " +
+                "<br />" + "투입 능력 관리 데이터가 없습니다." +
+                "<br />" +
+                "<br />" +
+
+                "데이터를 추가 하시겠습니까?" +
+                "</div>",
+                "확인",
+                () => {
+                  handleAccept();
+                },
+                "취소",
+                () => {
+                  handleCloseAlert();
+                },
+                {
+                  backOverlayClickToClose: true,
+                  cssAnimationStyle: "zoom",
+                  cssAnimationDuration: 400,
 
 
+                }
+            )
+
+        )}
 
       </div>
-    </Dialog>
-  );
-};
 
-export default PassModal;
+    </Dialog>
+   );
+  };
+
+  export default PassModal;

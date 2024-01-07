@@ -28,7 +28,8 @@ public interface ProcessStandardRepository extends JpaRepository<ProcessStandard
             "    CASE WHEN p.availablePassFacCdN8 = '*' THEN '1' ELSE '0' END" +
             "  ) " +
             "FROM ProcessStandard p " +
-            "WHERE p.ordPdtItdsCdN = :ordPdtItdsCdN")
+            "WHERE p.ordPdtItdsCdN = :ordPdtItdsCdN " +
+            "ORDER BY p.ordPdtItdsCdN")
     String findByOrdPdtItdsCdN(@Param("ordPdtItdsCdN") String ordPdtItdsCdN);
 
     List<ProcessStandard> findByOrdPdtItdsCdNLike(String ordPdtItpCdN);

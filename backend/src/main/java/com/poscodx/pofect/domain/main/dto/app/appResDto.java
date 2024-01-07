@@ -5,7 +5,6 @@ package com.poscodx.pofect.domain.main.dto.app;
 // 1) JPQL 2) iterface 3) JPQL Constructor Expressions ?? 4) Object[]
 
 public interface appResDto {
-     String getOrdThwTapYrCd();  // 출강 해당 년도
-     String getOrdThwTapMDCd();  // 출강 해당 월일
+     String getOrdThwTapYMDCd();  // 출강 해당 년월일
      Long getOrdCnt();  // 주문 개수
 }
