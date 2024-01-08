@@ -1,9 +1,12 @@
 package com.poscodx.pofect.domain.main.repository;
 
+import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
+import com.poscodx.pofect.domain.main.dto.app.appResDto;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 import com.poscodx.pofect.domain.main.repository.querydsl.FactoryOrderInfoCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,4 +29,14 @@ public interface FactoryOrderInfoRepository extends JpaRepository<FactoryOrderIn
 
 
     FactoryOrderInfo findByOrderHeadLineNo(String orderHeadLineNo);
+
+    // 실수.... -> getOrd로 들고옴
+    @Query(value = "SELECT f.ORD_THW_TAP_WEK_CD as ordThwTapYMDCd, COUNT(f.id) as ordCnt " +
+            "FROM factory_order_info f " +
+            "WHERE f.ORD_THW_TAP_WEK_CD >= DATE_SUB(LAST_DAY(now()), INTERVAL 6 MONTH) + INTERVAL 1 DAY " +
+            "  AND f.ORD_THW_TAP_WEK_CD <= LAST_DAY(CURDATE()) " +
+            "GROUP BY f.ORD_THW_TAP_WEK_CD " +
+            "ORDER BY f.ORD_THW_TAP_WEK_CD DESC " +
+            "LIMIT 5", nativeQuery = true)
+    List<appResDto> getRecentOrders();
 }

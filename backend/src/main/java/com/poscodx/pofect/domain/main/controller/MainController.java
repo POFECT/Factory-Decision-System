@@ -3,6 +3,7 @@ package com.poscodx.pofect.domain.main.controller;
 import com.poscodx.pofect.common.dto.ResponseDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
+import com.poscodx.pofect.domain.main.dto.app.appResDto;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 import com.poscodx.pofect.domain.main.service.FactoryOrderInfoService;
 import io.swagger.annotations.Api;
@@ -139,4 +140,14 @@ public class MainController {
         FactoryOrderInfoResDto rs = factoryOrderInfoService.getOrderListByOrdNo(orderHeadLineNo);
         return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
     }
+
+    // Mobile API
+    @GetMapping("/app/orderCntByMM")
+    @ApiOperation(value = "출강달 별 주문 수", notes = "출강달로 주문 수 조회")
+    public ResponseEntity<ResponseDto> getOrderCntByMD() {
+        List<appResDto> rs = factoryOrderInfoService.getOrderCntByMD();
+        return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
+    }
+
+
 }
