@@ -4,6 +4,7 @@ import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
 import com.poscodx.pofect.domain.processstandard.entity.ProcessStandard;
 import com.poscodx.pofect.domain.processstandard.repository.ProcessStandardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +19,11 @@ public class ProcessStandardServiceImpl implements ProcessStandardService {
 
     @Override
     public List<ProcessStandardDto> getList() {
-        return processStandardRepository.findAll().stream()
+        return processStandardRepository.findAll(Sort.by(Sort.Direction.ASC, "ordPdtItdsCdN"))
+                .stream()
                 .map(ProcessStandardDto::toDto)
                 .collect(Collectors.toList());
     }
-
     @Override
     public String getByOrdPdtItdsCdN(String ordPdtItdsCdN) {
         String processCdList = processStandardRepository.findByOrdPdtItdsCdN(ordPdtItdsCdN);
