@@ -72,9 +72,9 @@ public class MainController {
         int successCnt = 0;
         int failCnt = 0;
 
-        for(Long id : idList) {
+        for (Long id : idList) {
             boolean success = factoryOrderInfoService.possibleFactory(id);
-            if(success) successCnt++;
+            if (success) successCnt++;
             else failCnt++;
         }
 
@@ -89,9 +89,9 @@ public class MainController {
         int successCnt = 0;
         int failCnt = 0;
 
-        for(Long id : idList) {
+        for (Long id : idList) {
             boolean success = factoryOrderInfoService.confirmFactory(id);
-            if(success) successCnt++;
+            if (success) successCnt++;
             else failCnt++;
         }
 
@@ -112,10 +112,9 @@ public class MainController {
     public ResponseEntity<ResponseDto> createOrder(@RequestBody FactoryOrderInfoReqDto factoryOrderInfoReqDto) {
         FactoryOrderInfo factoryOrderInfo = factoryOrderInfoService.insertOrder(factoryOrderInfoReqDto);
 
-        if(factoryOrderInfo != null) {
+        if (factoryOrderInfo != null) {
             return new ResponseEntity<>(new ResponseDto(factoryOrderInfo), HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity<>(new ResponseDto("order create fail"), HttpStatus.FORBIDDEN);
         }
     }
@@ -125,13 +124,18 @@ public class MainController {
     public ResponseEntity<ResponseDto> deleteOrder(@PathVariable Long id) {
         Boolean result = factoryOrderInfoService.deleteOrder(id);
 
-        if(result) {
+        if (result) {
             return new ResponseEntity<>(new ResponseDto("success"), HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity<>(new ResponseDto("order delete fail"), HttpStatus.FORBIDDEN);
         }
     }
 
-
+    // Mobile API
+    @GetMapping("/app/{orderHeadLineNo}")
+    @ApiOperation(value = "주문 번호로 검색", notes = "주문 번호로 주문 데이터 조회")
+    public ResponseEntity<ResponseDto> getOrderListByOrdNo(@PathVariable String orderHeadLineNo) {
+        FactoryOrderInfoResDto rs = factoryOrderInfoService.getOrderListByOrdNo(orderHeadLineNo);
+        return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
+    }
 }

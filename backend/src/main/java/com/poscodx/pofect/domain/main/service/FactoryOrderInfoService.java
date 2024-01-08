@@ -32,4 +32,6 @@ public interface FactoryOrderInfoService {
     Boolean confirmFactory(Long id);
 
     void updateFactory(FactoryOrderInfoReqDto.updateFactoryDto reqDto);
+
+    FactoryOrderInfoResDto getOrderListByOrdNo(String orderHeadLineNo);
 }
