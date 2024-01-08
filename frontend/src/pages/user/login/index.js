@@ -61,7 +61,6 @@ const LoginPage = () => {
   // ** Hook
   const theme = useTheme();
   const router = useRouter();
-
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -74,7 +73,14 @@ const LoginPage = () => {
     event.preventDefault();
   };
 
-  const { data: session } = useSession();
+  const { data: session,status } = useSession();
+  useEffect(() => {
+    // 로그인이 완료된 경우
+    if (status === 'authenticated') {
+      // 원하는 페이지로 리다이렉션
+      router.push('/');
+    }
+  }, [status]);
 
   useEffect(() => {
     if (session) {
@@ -192,48 +198,6 @@ const LoginPage = () => {
             autoComplete="off"
             onSubmit={(e) => e.preventDefault()}
           >
-            <TextField
-              autoFocus
-              fullWidth
-              id="email"
-              label="Email"
-              sx={{ marginBottom: 4 }}
-            />
-            <FormControl fullWidth>
-              <InputLabel htmlFor="auth-login-password">Password</InputLabel>
-              <OutlinedInput
-                label="Password"
-                value={values.password}
-                id="auth-login-password"
-                onChange={handleChange("password")}
-                type={values.showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      edge="end"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      aria-label="toggle password visibility"
-                    >
-                      {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-            {
-              <Box
-                sx={{
-                  mb: 4,
-                  display: "flex",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                  justifyContent: "space-between",
-                }}
-              >
-                <FormControlLabel control={<Checkbox />} label="Remember Me" />
-              </Box>
-            }
 
             {session ? (
               <Button
@@ -249,7 +213,7 @@ const LoginPage = () => {
                 size="large"
                 variant="contained"
                 sx={{ marginBottom: 7, width: "100%" }}
-                onClick={() =>signIn()}
+                onClick={()=>signIn()}
                 >
                 Sign In
               </Button>
@@ -264,10 +228,10 @@ const LoginPage = () => {
               }}
             >
               <Typography variant="body2">
-                신규회원 및 비밀번호 문의는
+                신규회원가입 및 비밀번호 문의는
               </Typography>
               <Typography variant="body2">
-                공장 결정 시스템 관리자 (pofect@poscodx.com)
+                공장 결정 시스템 관리자 (pofect@gmail.com)
               </Typography>
             </Box>
           </form>

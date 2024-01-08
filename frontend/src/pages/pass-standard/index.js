@@ -13,8 +13,9 @@ import { Grid, Typography,
           Button, Select, MenuItem, FormControl, 
           InputLabel, OutlinedInput,
           Card, Box} from "@mui/material";
-import FactoryStandardApi from "src/api/FactoryStandardApi";
 import { useSession } from "next-auth/react";
+import { Router, useRouter } from "next/router";
+import PassStandardApi from "src/api/PassStandardApi";
 
 
 function MyCell(props) {
@@ -48,9 +49,10 @@ function MyCell(props) {
 let confirmListforExcel=null;
 let possibleBtiPosbPsFacTpValues=null;
 
-const Capacity = () => {
+const PassStandard = () => {
   /* Data */
   const { data: session } = useSession();
+  const router = useRouter()
   const [possibleList,setPossibleList]=useState([]);//가통리스트
   const [confirmList,setConfirmList]=useState([]);//확통리스트
   const [millCd,setMillCd]=useState([]);//소구분
@@ -76,10 +78,7 @@ const Capacity = () => {
   }
   useEffect(() => {
     if (session) {
-      // FactoryStandardApi.getPossibleList(session.accessToken, (data) => {
-      //   // Handle the data
-      // });
-      FactoryStandardApi.getPossibleList(session.accessToken,(data) => {
+      PassStandardApi.getPossibleList((data) => {
         const dataMap = data.response.reduce((list, { btiPosbPsFacTp, processCd, feasibleRoutingGroup }) => {
           list[btiPosbPsFacTp] = list[btiPosbPsFacTp]||{};
           list[btiPosbPsFacTp][processCd] = feasibleRoutingGroup;
@@ -97,10 +96,10 @@ const Capacity = () => {
         }));
         setPossibleList(transformData);
       }, []);
-    }
+    
 
 
-    FactoryStandardApi.getCommonList((data) => {
+      PassStandardApi.getCommonList((data) => {
       const dataMap = data.response.reduce((list, { cdExpl,firmPsFacTp, id,lastUpdate, processCd }) => {
         list[firmPsFacTp] = list[firmPsFacTp] || {};
         list[firmPsFacTp][processCd] = cdExpl;
@@ -113,7 +112,10 @@ const Capacity = () => {
       }));
       confirmListforExcel=transformData;
       setConfirmList(transformData);
-    }, []);
+    }, []);}
+    else{
+      router.push("/user/login")
+    }
   },[test]);
   //가통 컬럼
   const possibleColumns = [
@@ -381,4 +383,4 @@ const Capacity = () => {
   );
 };
 
-export default Capacity;
+export default PassStandard;

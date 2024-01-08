@@ -24,7 +24,7 @@ import "react-datasheet-grid/dist/style.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
-import PassStandardApi from "src/api/PassStandardApi";
+import ProcessStandardApi from "src/api/ProcessStandardApi";
 import InsertFormComponent from '../../views/pass-standard/pass-modal-insert';
 
 //excel
@@ -101,7 +101,7 @@ const PassModal = ({ open, handleClose }) => {
   });
 
   console.log("New Pass Standard:", newPassStandard);
-  PassStandardApi.insertSave(newPassStandard, (data) => {
+  ProcessStandardApi.insertSave(newPassStandard, (data) => {
         alert("저장되었습니다.");
 
       });   
@@ -137,11 +137,11 @@ const PassModal = ({ open, handleClose }) => {
 
     setInsertMode(false);
 
-    PassStandardApi.getList((data) => {
+    ProcessStandardApi.getList((data) => {
       setPassStandard(data.response);
     });
 
-    PassStandardApi.getCodeNameList((data) => {
+    ProcessStandardApi.getCodeNameList((data) => {
       const list = data.response;
       setCodeNameList((prev) => {
         return { ...prev, list };
@@ -150,11 +150,11 @@ const PassModal = ({ open, handleClose }) => {
     console.log("Selected item:", codeNameList.select);
 
     if (codeNameList.select === "ALL") {
-      PassStandardApi.getList((data) => {
+      ProcessStandardApi.getList((data) => {
         setPassStandard(data.response);
       });
     } else {
-      PassStandardApi.getListByItem(codeNameList.select, (data) => {
+      ProcessStandardApi.getListByItem(codeNameList.select, (data) => {
         setPassStandard(data.response);
       });
     }
@@ -205,7 +205,7 @@ const PassModal = ({ open, handleClose }) => {
       handleSearch();
 
     } else if (!updateFlag) {
-      await PassStandardApi.updateSave(passStandard, (data) => {
+      await ProcessStandardApi.updateSave(passStandard, (data) => {
         alert("저장되었습니다.");
         handleSearch();
       });

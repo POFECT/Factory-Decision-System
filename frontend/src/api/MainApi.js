@@ -1,8 +1,9 @@
+import Api from "./api";
 import { axiosApi } from "./api";
 
 const MainApi = {
   getOrderList: async (kind, week, osMainStatusCd, faConfirmFlag, callback) => {
-    await axiosApi()
+    await Api
       .get(
         `/main?faConfirmFlag=${faConfirmFlag}&osMainStatusCd=${osMainStatusCd}`,
         {
@@ -22,7 +23,7 @@ const MainApi = {
   },
 
   getOrder: async (no, callback) => {
-    await axiosApi()
+    await Api
       .get(`/main/${no}`)
       .then((response) => {
         callback && callback(response.data);
@@ -34,7 +35,7 @@ const MainApi = {
   },
 
   getCodeNameList: async (callback) => {
-    await axiosApi()
+    await Api
       .get("/etc/business")
       .then((response) => {
         callback && callback(response.data);
@@ -46,7 +47,7 @@ const MainApi = {
   },
 
   getWeekList: async (statusCd, confirmFlag, callback) => {
-    await axiosApi()
+    await Api
       .get(`/main/week?faConfirmFlag=${confirmFlag}&osMainStatusCd=${statusCd}`)
       .then((response) => {
         callback && callback(response.data);
@@ -58,7 +59,7 @@ const MainApi = {
   },
 
   getFaCapacityList: async (no, week, callback) => {
-    await axiosApi()
+    await Api
       .get(`/capacity/factory/${no}/${week}`)
       .then((response) => {
         callback && callback(response.data);
@@ -69,7 +70,7 @@ const MainApi = {
   },
 
   updateFlag: async (flag, orderIds, callback) => {
-    await axiosApi()
+    await Api
       .patch("/main/flag/update", {
         value: flag,
         ids: orderIds,
@@ -83,7 +84,7 @@ const MainApi = {
   },
 
   updateStatus: async (status, orderIds, callback) => {
-    await axiosApi()
+    await Api
       .patch("/main/status/update", {
         value: status,
         ids: orderIds,
@@ -97,7 +98,7 @@ const MainApi = {
   },
 
   possibleDecision: async (orderIds, callback) => {
-    await axiosApi()
+    await Api
       .patch("/main/possible", orderIds)
       .then((response) => {
         callback && callback(response.data);
@@ -108,7 +109,7 @@ const MainApi = {
   },
 
   confirmDecision: async (orderIds, callback) => {
-    await axiosApi()
+    await Api
       .patch("/main/confirm", orderIds)
       .then((response) => {
         callback && callback(response.data);
@@ -119,7 +120,7 @@ const MainApi = {
   },
 
   changeFactory: async (dto, callback) => {
-    await axiosApi()
+    await Api
       .patch("/main/factory/update", dto)
       .then((response) => {
         callback && callback(response.data);
@@ -130,7 +131,7 @@ const MainApi = {
   },
 
   checkWeekListCapacity: async (weekList, callback) => {
-    await axiosApi()
+    await Api
       .get(`/capacity/weeklist?weekList=${weekList}`)
       .then((response) => {
         callback && callback(response.data);

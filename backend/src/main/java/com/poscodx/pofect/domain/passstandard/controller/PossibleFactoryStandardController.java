@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(value = "PossibleStandard API", tags = {"가통확통기준 / 가통조회 "})
-@RequestMapping("/factory-standard")
+@RequestMapping("/pass-standard")
 @RestController
 @RequiredArgsConstructor
 public class PossibleFactoryStandardController {
@@ -31,11 +31,6 @@ public class PossibleFactoryStandardController {
     public ResponseEntity<ResponseDto> getGridData(){
         List<PossibleFactoryStandardResDto> result = possibleFactoryStandardService.getGridData();
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
-    }
-
-    @GetMapping("/hello")
-    public ResponseEntity<ResponseDto> hello(){
-        return new ResponseEntity<>(new ResponseDto("hello"), HttpStatus.OK);
     }
 
     @PostMapping("/possibleToConfirm")

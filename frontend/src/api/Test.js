@@ -4,7 +4,6 @@ const TestApi = {
   TestApi: async ( callback) => {
     try {
       const response = await axiosApi().get("/factory-standard/hello", {
-   
       });
   
       callback && callback(response.data);

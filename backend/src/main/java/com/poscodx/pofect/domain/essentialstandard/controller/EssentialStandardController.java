@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(value = "EssentialStandard API", tags = {"필수재기준"})
-@CrossOrigin("*")
 @RequestMapping()
 @RestController
 @RequiredArgsConstructor

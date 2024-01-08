@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(value = "ETC API", tags = {"Main 공정코드 관리 / 품종별 담당자 관리 / 업무기준코드 정보"})
-@CrossOrigin("*")
 @RequestMapping("/etc")
 @RestController
 @RequiredArgsConstructor

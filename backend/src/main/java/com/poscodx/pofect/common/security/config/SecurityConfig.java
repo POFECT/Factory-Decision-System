@@ -54,18 +54,22 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
                     //acl (Access Control List)
                     authorizationManagerRequestMatcherRegistry
-                            // .requestMatchers(new RegexRequestMatcher("^.*swagger.*$", null)).permitAll()
                             // .requestMatchers(new RegexRequestMatcher("^/v3/api\\-docs.*$", null)).permitAll()
                             .requestMatchers(new RegexRequestMatcher("^(.*swagger.*)|(/v3/api\\-docs.*)$", null)).permitAll()
                             .requestMatchers(new AntPathRequestMatcher("/user/login/**",null)).permitAll()
-                            //.requestMatchers(new RegexRequestMatcher("^/swagger-resources/.*$", null)).permitAll()
-                            .requestMatchers(new AntPathRequestMatcher("/factory-standard/hello", null)).permitAll()
-                            /*.requestMatchers(new AntPathRequestMatcher("/", "GET")).hasRole("READ")
-                            .requestMatchers(new RegexRequestMatcher("^\\/(?:[^\\/]+\\/)*\\*\\*\\/$", "POST")).hasRole("WRITE")
-                            .requestMatchers(new RegexRequestMatcher("^\\/(?:[^\\/]+\\/)*\\*\\*\\/$", "PUT")).hasRole("WRITE")
-                            .requestMatchers(new RegexRequestMatcher("^\\/(?:[^\\/]+\\/)*\\*\\*\\/$", "PATCH")).hasRole("WRITE")
-                            .requestMatchers(new RegexRequestMatcher("^\\/(?:[^\\/]+\\/)*\\*\\*\\/$", "DELETE")).hasRole("WRITE")
-                            */.anyRequest().denyAll();
+                            .requestMatchers(new AntPathRequestMatcher("/input-status", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/order-inquiry", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/pass-standard/**", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/main-capacity/**", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/main-confirm/**", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/capacity/**", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/size-standard/**", null)).permitAll()
+                            .requestMatchers(new RegexRequestMatcher(".*essential-standard.*", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/etc/**", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/main/**", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/process-standard/**", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/lot/**", null)).permitAll()
+                            .anyRequest().denyAll();
                 });
 
         http

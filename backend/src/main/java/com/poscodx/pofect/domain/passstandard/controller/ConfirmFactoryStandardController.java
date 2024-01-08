@@ -16,8 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Api(value = "ConfirmStandard API", tags = {"가통확통기준 / 확통전체조회 "})
-@CrossOrigin("*")
-@RequestMapping("/factory-standard")
+@RequestMapping("/pass-standard")
 @RestController
 @RequiredArgsConstructor
 public class ConfirmFactoryStandardController {

@@ -20,6 +20,7 @@ import Button from '@mui/material/Button'
 
 // ** Icons Imports
 import Close from 'mdi-material-ui/Close'
+import withAuth from 'src/pages/api/auth/withAuth'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 123,
@@ -163,4 +164,4 @@ const TabAccount = () => {
   )
 }
 
-export default TabAccount
+export default withAuth(TabAccount,{ userData: true });

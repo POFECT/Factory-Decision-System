@@ -1,9 +1,10 @@
+import Api from "./api";
 import { axiosApi } from "./api";
 
 const LotApi = {
     getList:async(week, isChecked, ordPdtItpCdNString, smString, callback)=>{
 
-      await axiosApi().get(`/lot?isChecked=${isChecked}`,
+      await Api.get(`/lot?isChecked=${isChecked}`,
       {
         params: {
           ordThwTapWekCd: week != null ? week : undefined,
