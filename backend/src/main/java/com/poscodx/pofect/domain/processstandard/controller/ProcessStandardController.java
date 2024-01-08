@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(value = "PassProcessStandard API", tags = {"경유공정기준"})
-@CrossOrigin("*")
-@RequestMapping("/pass-standard")
+@RequestMapping("/process-standard")
 @RestController
 @RequiredArgsConstructor
 public class ProcessStandardController {

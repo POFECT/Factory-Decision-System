@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 @Api(value = "SizeStandard API", tags = {"공정 공장 별 사이즈 기준"})
-@CrossOrigin("*")
 @RequestMapping("/size-standard")
 @RestController
 @RequiredArgsConstructor

@@ -20,8 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(value = "PossibleStandard API", tags = {"가통확통기준 / 가통조회 "})
-@CrossOrigin("*")
-@RequestMapping("/factory-standard")
+@RequestMapping("/pass-standard")
 @RestController
 @RequiredArgsConstructor
 public class PossibleFactoryStandardController {

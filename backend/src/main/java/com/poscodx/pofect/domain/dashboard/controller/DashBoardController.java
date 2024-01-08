@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 @Api(value = "DashBoard API", tags = {"대시보드"})
-@CrossOrigin("*")
 @RequestMapping()
 @RestController
 @RequiredArgsConstructor
