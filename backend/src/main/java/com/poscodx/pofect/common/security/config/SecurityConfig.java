@@ -69,9 +69,10 @@ public class SecurityConfig {
                             .requestMatchers(new AntPathRequestMatcher("/main/**", null)).permitAll()
                             .requestMatchers(new AntPathRequestMatcher("/process-standard/**", null)).permitAll()
                             .requestMatchers(new AntPathRequestMatcher("/lot/**", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/lot-regression/**", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/log/**", null)).permitAll()
                             .anyRequest().denyAll();
                 });
-
         http
                 .oauth2ResourceServer(oauth2 -> {
                     oauth2
