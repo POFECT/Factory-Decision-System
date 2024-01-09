@@ -1,17 +1,21 @@
 import { axiosApi } from "./api";
 
 const MainApi = {
-  getOrderList: async (kind, week, osMainStatusCd, faConfirmFlag, callback) => {
+  getOrderList: async (kind, week, status, flag, callback) => {
+    const params = {
+      ordPdtItpCdN: kind || undefined,
+      ordThwTapWekCd: week || undefined,
+      osMainStatusCd: status || undefined,
+      faConfirmFlag: flag || undefined,
+    };
+
+    // 배열인 경우 직접 쿼리 스트링 생성
+    if (Array.isArray(flag)) {
+      params.faConfirmFlag = flag.join(",");
+    }
+
     await axiosApi()
-      .get(
-        `/main?faConfirmFlag=${faConfirmFlag}&osMainStatusCd=${osMainStatusCd}`,
-        {
-          params: {
-            ordPdtItpCdN: kind != null ? kind : undefined,
-            ordThwTapWekCd: week != null ? week : undefined,
-          },
-        }
-      )
+      .get(`/main?`, { params })
       .then((response) => {
         callback && callback(response.data);
       })
@@ -100,6 +104,7 @@ const MainApi = {
     await axiosApi()
       .patch("/main/possible", orderIds)
       .then((response) => {
+        console.log(response);
         callback && callback(response.data);
       })
       .catch((error) => {
