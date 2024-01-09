@@ -7,7 +7,7 @@ import java.util.List;
 public interface LogService {
     List<LogDoc> getList();
 
-    LogDoc insertPossible(LogDoc logDoc);
+    LogDoc insertLog(LogDoc logDoc);
 
-    public LogDoc insertTest();
+    List<LogDoc> getLogsById(Long id);
 }

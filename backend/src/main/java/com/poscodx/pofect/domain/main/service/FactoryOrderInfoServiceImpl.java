@@ -5,6 +5,8 @@ import com.poscodx.pofect.domain.capacity.dto.CapacityInfoDto;
 import com.poscodx.pofect.domain.capacity.service.CapacityService;
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardBtiPosReqDto;
 import com.poscodx.pofect.domain.essentialstandard.service.EssentialStandardService;
+import com.poscodx.pofect.domain.log.document.CapacityData;
+import com.poscodx.pofect.domain.log.document.ConfirmData;
 import com.poscodx.pofect.domain.log.document.LogDoc;
 import com.poscodx.pofect.domain.log.document.PossibleData;
 import com.poscodx.pofect.domain.log.service.LogService;
@@ -25,7 +27,6 @@ import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardResDto;
 import com.poscodx.pofect.domain.sizestandard.dto.SizeStandardSetDto;
 import com.poscodx.pofect.domain.sizestandard.repository.SizeStandardRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -103,6 +104,19 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
     @Transactional
     @Override
     public Long updateOrderFlag(FactoryOrderInfoReqDto.updateCodeDto reqDto) {
+        /** 로그 생성 */
+        for (Long id : reqDto.getIds()) {
+            FactoryOrderInfo order = factoryOrderInfoRepository.findById(id)
+                    .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+
+            LogDoc logDoc = LogDoc.builder()
+                    .orderId(order.getId())
+                    .flag(reqDto.getValue())
+                    .build();
+
+            logService.insertLog(logDoc);
+        }
+
         return factoryOrderInfoRepository.updateFlag(reqDto);
     }
 
@@ -314,16 +328,13 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                         .build();
 
                 LogDoc logDoc = LogDoc.builder()
-                        .ordThwTapWekCd(order.getOrdThwTapWekCd())
-                        .orderLineQty(order.getOrderLineQty())
-                        .orderHeadLineNo(order.getOrderHeadLineNo())
-                        .ordPdtItdsCdN(order.getOrdPdtItdsCdN())
+                        .orderId(order.getId())
                         .flag(logFlag)
                         .possibleData(possibleData)
                         .etc(etc)
                         .build();
 
-                logService.insertPossible(logDoc);
+                logService.insertLog(logDoc);
             }
             else {
                 PossibleData possibleData = PossibleData.builder()
@@ -334,16 +345,13 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                         .build();
 
                 LogDoc logDoc = LogDoc.builder()
-                        .ordThwTapWekCd(order.getOrdThwTapWekCd())
-                        .orderLineQty(order.getOrderLineQty())
-                        .orderHeadLineNo(order.getOrderHeadLineNo())
-                        .ordPdtItdsCdN(order.getOrdPdtItdsCdN())
+                        .orderId(order.getId())
                         .flag(logFlag)
                         .possibleData(possibleData)
                         .etc(etc)
                         .build();
 
-                logService.insertPossible(logDoc);
+                logService.insertLog(logDoc);
             }
         }
 
@@ -356,6 +364,12 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
     public Boolean confirmFactory(Long id) {
         FactoryOrderInfo order = factoryOrderInfoRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+
+        /** 로그 데이터 */
+        ArrayList<CapacityData> logList = new ArrayList<>();
+        String etc = "";
+        if("D".equals(order.getFaConfirmFlag())) etc = "최초 설계";
+        else etc = "재설계";
 
         String possibleCode = order.getPosbPassFacCdN();
         StringBuilder confirmCode = new StringBuilder();
@@ -410,6 +424,15 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
                 // 잔여량 max인 공장의 공장번호 확통코드에 등록
                 confirmCode.append(factoryCapacity.get(maxIdx).getFirmPsFacTp());
+
+                // 로그 데이터 - 공장 상세 설계 내역
+                CapacityData capacityData = CapacityData.builder()
+                        .processCd(factoryCapacity.get(maxIdx).getProcessCd())
+                        .factory(factoryCapacity.get(maxIdx).getFactoryName())
+                        .capacityQty(factoryCapacity.get(maxIdx).getFaAdjustmentWgt()-factoryCapacity.get(maxIdx).getProgressQty())
+                        .build();
+
+                logList.add(capacityData);
             }
         }
 
@@ -418,6 +441,22 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
         // 확통코드 업데이트
         order.changeCfirmPassOpCd(confirmCode.toString());
+
+        // 로깅
+        ConfirmData confirmData = ConfirmData.builder()
+                .code(confirmCode.toString())
+                .capacityData(logList)
+                .build();
+
+        LogDoc logDoc = LogDoc.builder()
+                .orderId(id)
+                .flag("E")
+                .etc(etc)
+                .orderLineQty(order.getOrderLineQty())
+                .confirmData(confirmData)
+                .build();
+
+        logService.insertLog(logDoc);
 
         return ("E".equals(order.getFaConfirmFlag()));
     }

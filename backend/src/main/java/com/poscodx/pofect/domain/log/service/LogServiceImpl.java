@@ -18,22 +18,15 @@ public class LogServiceImpl implements LogService{
     }
 
     @Override
-    public LogDoc insertPossible(LogDoc logDoc) {
+    public LogDoc insertLog(LogDoc logDoc) {
         return logRepository.save(logDoc);
     }
 
     @Override
-    public LogDoc insertTest() {
-        LogDoc logDoc = LogDoc.builder()
-                .etc("최초")
-                .flag("C")
-                .ordPdtItdsCdN("FDS")
-                .orderLineQty(25000)
-                .orderHeadLineNo("0S12345")
-                .ordThwTapWekCd("20230711")
-                .build();
-        return logRepository.save(logDoc);
+    public List<LogDoc> getLogsById(Long id) {
+        return logRepository.findAllByOrderIdOrderByFlagAscUpdateDateDesc(id);
     }
+
 }
 
 /*

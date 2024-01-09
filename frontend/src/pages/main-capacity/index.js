@@ -163,7 +163,7 @@ const MainCapacity = () => {
 
     // 가통 설계 start
     const res = {};
-    MainApi.possibleDecision(selectedIdList, (data) => {
+    await MainApi.possibleDecision(selectedIdList, (data) => {
       res = data.response;
     });
 

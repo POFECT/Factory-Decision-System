@@ -34,6 +34,9 @@ public class LogDoc {
 
     private String flag;  // 플래그
 
+    @Field(name = "order_id")
+    private Long orderId;  // 주문 PK
+
     @Field(name = "order_head_line_no")
     private String orderHeadLineNo;  // 주문번호
 
