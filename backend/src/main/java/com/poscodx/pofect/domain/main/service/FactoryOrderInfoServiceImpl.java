@@ -5,6 +5,9 @@ import com.poscodx.pofect.domain.capacity.dto.CapacityInfoDto;
 import com.poscodx.pofect.domain.capacity.service.CapacityService;
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardBtiPosReqDto;
 import com.poscodx.pofect.domain.essentialstandard.service.EssentialStandardService;
+import com.poscodx.pofect.domain.log.document.LogDoc;
+import com.poscodx.pofect.domain.log.document.PossibleData;
+import com.poscodx.pofect.domain.log.service.LogService;
 import com.poscodx.pofect.domain.lot.dto.LotSearchDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
@@ -40,6 +43,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
     private final CapacityService capacityService;
     private final ConfirmFactoryStandardService confirmFactoryStandardService;
     private final ConfirmFactoryStandardController confirmFactoryStandardController;
+    private final LogService logService;
 //    private final SizeStandardService sizeStandardService;
 
     // 없어질 예정
@@ -121,6 +125,12 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         FactoryOrderInfo order = factoryOrderInfoRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
 
+        // 재설계인지 판단 - 로그 데이터
+        String etc = "";
+        String logFlag = "";
+        if("A".equals(order.getFaConfirmFlag())) etc = "최초 설계";
+        else etc = "재설계";
+
         /** 경유공정 설계 */
         String passResult = processStandardService.getByOrdPdtItdsCdN(order.getOrdPdtItdsCdN());
 
@@ -190,7 +200,8 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
             }
             order.changePosbPassFacSize(sizeStr.toString());
 
-//            System.out.println("size");
+//            System.out.println("@@@!size");
+//            System.out.println(sizeResult);
 //            for(SizeStandardSetDto s: sizeResult) {
 //                System.out.print(s.getProcessCD()+" : ");
 //                for(String g : s.getFirmPsFacTpList()) {
@@ -222,22 +233,23 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                     }
 
                     // PP 에러코드 실험
-                    if(j == 20) {
-                        size.getFirmPsFacTpList().add("3");
-                    }
+//                    if(j == 20) {
+//                        size.getFirmPsFacTpList().add("3");
+//                    }
 
                     // 필수재 X, 사이즈 X -> FF
-                    if(essential.getFirmPsFacTpList() == null && size.getFirmPsFacTpList().isEmpty()) {
+                    if((essential == null || essential.getFirmPsFacTpList() == null)
+                            && (size == null || size.getFirmPsFacTpList().isEmpty())) {
                         possibleCode.append("FF");
                         continue;
                     }
                     // 필수재 X, 사이즈 O -> FP
-                    if(essential.getFirmPsFacTpList() == null) {
+                    if(essential == null || essential.getFirmPsFacTpList() == null) {
                         possibleCode.append("FP");
                         continue;
                     }
                     // 필수재 O, 사이즈 X -> PF
-                    if(size.getFirmPsFacTpList().isEmpty()) {
+                    if(size == null || size.getFirmPsFacTpList().isEmpty()) {
                         possibleCode.append("PF");
                         continue;
                     }
@@ -285,9 +297,54 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
             // 에러코드 포함 - FLAG : C
             if(possibleCode.toString().contains("F") || possibleCode.toString().contains("P") || possibleCode.toString().contains("C")) {
                 order.changeFlag("C");
+                logFlag = "C";
             }
             // 설계 성공 - FLAG : B
-            else order.changeFlag("B");
+            else {
+                order.changeFlag("B");
+                logFlag = "B";
+            }
+
+
+            /** 로그 데이터 insert */
+            // 경유 공정 못탈 때
+            if("00000000".equals(passResult)) {
+                PossibleData possibleData = PossibleData.builder()
+                        .passResult(passResult)
+                        .build();
+
+                LogDoc logDoc = LogDoc.builder()
+                        .ordThwTapWekCd(order.getOrdThwTapWekCd())
+                        .orderLineQty(order.getOrderLineQty())
+                        .orderHeadLineNo(order.getOrderHeadLineNo())
+                        .ordPdtItdsCdN(order.getOrdPdtItdsCdN())
+                        .flag(logFlag)
+                        .possibleData(possibleData)
+                        .etc(etc)
+                        .build();
+
+                logService.insertPossible(logDoc);
+            }
+            else {
+                PossibleData possibleData = PossibleData.builder()
+                        .passResult(passResult)
+                        .essentialResult(essentialStr.toString())
+                        .sizeResult(sizeStr.toString())
+                        .code(possibleCode.toString())
+                        .build();
+
+                LogDoc logDoc = LogDoc.builder()
+                        .ordThwTapWekCd(order.getOrdThwTapWekCd())
+                        .orderLineQty(order.getOrderLineQty())
+                        .orderHeadLineNo(order.getOrderHeadLineNo())
+                        .ordPdtItdsCdN(order.getOrdPdtItdsCdN())
+                        .flag(logFlag)
+                        .possibleData(possibleData)
+                        .etc(etc)
+                        .build();
+
+                logService.insertPossible(logDoc);
+            }
         }
 
         return (!"C".equals(order.getFaConfirmFlag()));

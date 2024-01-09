@@ -1,6 +1,7 @@
 package com.poscodx.pofect.domain.log.document;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +24,11 @@ public class LogDoc {
     @Id
     private String _id;
 
+    @Field(name = "USER_ID")
+    private String userId;  // 사용자 ID
+
     @CreatedDate
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     @Field(name = "update_date")
     private LocalDateTime updateDate;  // 수정 날짜
 
