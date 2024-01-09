@@ -313,7 +313,7 @@ const PassModal = ({ open, handleClose }) => {
                 </FormControl>
               </div>
               <div>
-             
+            
                     <Button size="small" type="submit" variant="contained" onClick={handleSearch} style={{ backgroundColor: "#E29E21" }}>
                       조회
                     </Button>
@@ -344,7 +344,7 @@ const PassModal = ({ open, handleClose }) => {
                     >
                       Excel
                     </Button>
-               
+              
               </div>
 
             </divdafdsfads>
