@@ -4,6 +4,7 @@ import com.poscodx.pofect.domain.lot.dto.LotResDto;
 import com.poscodx.pofect.domain.lot.dto.LotSearchDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
+import com.poscodx.pofect.domain.main.dto.app.appResDto;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 
 import java.util.List;
@@ -34,4 +35,6 @@ public interface FactoryOrderInfoService {
     void updateFactory(FactoryOrderInfoReqDto.updateFactoryDto reqDto);
 
     FactoryOrderInfoResDto getOrderListByOrdNo(String orderHeadLineNo);
+
+    List<appResDto> getOrderCntByMD();
 }
