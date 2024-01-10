@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, Fragment, useEffect } from "react";
+import { useState, Fragment } from "react";
 
 // ** MUI Imports
 import Box from "@mui/material/Box";
@@ -18,7 +18,6 @@ import BellOutline from "mdi-material-ui/BellOutline";
 
 // ** Third Party Components
 import PerfectScrollbarComponent from "react-perfect-scrollbar";
-import axios from "axios";
 
 // ** Styled Menu component
 const Menu = styled(MuiMenu)(({ theme }) => ({
@@ -83,7 +82,6 @@ const MenuItemSubtitle = styled(Typography)({
 const NotificationDropdown = () => {
   // ** States
   const [anchorEl, setAnchorEl] = useState(null);
-  const [notifications, setNotifications] = useState([]); // 새로운 상태 추가
 
   // ** Hook
   const hidden = useMediaQuery((theme) => theme.breakpoints.down("lg"));
@@ -95,28 +93,7 @@ const NotificationDropdown = () => {
   const handleDropdownClose = () => {
     setAnchorEl(null);
   };
-  useEffect(() => {
-    const eventSource = new EventSource('http://localhost:8080/api/alertsd/events');
-    // 이벤트 핸들러 등록
-    eventSource.onmessage = (event) => {
-      const eventData = JSON.parse(event.data);
-      console.log('Received SSE Event:', eventData);
-      // 새로운 알람을 상태에 추가
-      setNotifications((prevNotifications) => [
-        ...prevNotifications,
-        eventData,
-      ]);
-    };
 
-    // 에러 핸들러 등록
-    eventSource.onerror = (error) => {
-      console.error('Error with SSE:', error);
-    };
-
-    return () => {
-      eventSource.close();
-    };
-  }, []);
   const ScrollWrapper = ({ children }) => {
     if (hidden) {
       return (
@@ -177,8 +154,9 @@ const NotificationDropdown = () => {
           </Box>
         </MenuItem>
         <ScrollWrapper>
-        <MenuItem onClick={handleDropdownClose}>
+          <MenuItem onClick={handleDropdownClose}>
             <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+              <Avatar alt="Flora" src="/images/avatars/4.png" />
               <Box
                 sx={{
                   mx: 4,
@@ -188,13 +166,133 @@ const NotificationDropdown = () => {
                   flexDirection: "column",
                 }}
               >
-                <MenuItemTitle>알람테스트</MenuItemTitle>
+                <MenuItemTitle>Congratulation Flora! 🎉</MenuItemTitle>
                 <MenuItemSubtitle variant="body2">
-                  알람어쩌고
+                  Won the monthly best seller badge
                 </MenuItemSubtitle>
               </Box>
               <Typography variant="caption" sx={{ color: "text.disabled" }}>
                 Today
+              </Typography>
+            </Box>
+          </MenuItem>
+          <MenuItem onClick={handleDropdownClose}>
+            <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+              <Avatar
+                sx={{ color: "common.white", backgroundColor: "primary.main" }}
+              >
+                VU
+              </Avatar>
+              <Box
+                sx={{
+                  mx: 4,
+                  flex: "1 1",
+                  display: "flex",
+                  overflow: "hidden",
+                  flexDirection: "column",
+                }}
+              >
+                <MenuItemTitle>New user registered.</MenuItemTitle>
+                <MenuItemSubtitle variant="body2">5 hours ago</MenuItemSubtitle>
+              </Box>
+              <Typography variant="caption" sx={{ color: "text.disabled" }}>
+                Yesterday
+              </Typography>
+            </Box>
+          </MenuItem>
+          <MenuItem onClick={handleDropdownClose}>
+            <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+              <Avatar alt="message" src="/images/avatars/5.png" />
+              <Box
+                sx={{
+                  mx: 4,
+                  flex: "1 1",
+                  display: "flex",
+                  overflow: "hidden",
+                  flexDirection: "column",
+                }}
+              >
+                <MenuItemTitle>New message received 👋🏻</MenuItemTitle>
+                <MenuItemSubtitle variant="body2">
+                  You have 10 unread messages
+                </MenuItemSubtitle>
+              </Box>
+              <Typography variant="caption" sx={{ color: "text.disabled" }}>
+                11 Aug
+              </Typography>
+            </Box>
+          </MenuItem>
+          <MenuItem onClick={handleDropdownClose}>
+            <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+              <img
+                width={38}
+                height={38}
+                alt="paypal"
+                src="/images/misc/paypal.png"
+              />
+              <Box
+                sx={{
+                  mx: 4,
+                  flex: "1 1",
+                  display: "flex",
+                  overflow: "hidden",
+                  flexDirection: "column",
+                }}
+              >
+                <MenuItemTitle>Paypal</MenuItemTitle>
+                <MenuItemSubtitle variant="body2">
+                  Received Payment
+                </MenuItemSubtitle>
+              </Box>
+              <Typography variant="caption" sx={{ color: "text.disabled" }}>
+                25 May
+              </Typography>
+            </Box>
+          </MenuItem>
+          <MenuItem onClick={handleDropdownClose}>
+            <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+              <Avatar alt="order" src="/images/avatars/3.png" />
+              <Box
+                sx={{
+                  mx: 4,
+                  flex: "1 1",
+                  display: "flex",
+                  overflow: "hidden",
+                  flexDirection: "column",
+                }}
+              >
+                <MenuItemTitle>Revised Order 📦</MenuItemTitle>
+                <MenuItemSubtitle variant="body2">
+                  New order revised from john
+                </MenuItemSubtitle>
+              </Box>
+              <Typography variant="caption" sx={{ color: "text.disabled" }}>
+                19 Mar
+              </Typography>
+            </Box>
+          </MenuItem>
+          <MenuItem onClick={handleDropdownClose}>
+            <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+              <img
+                width={38}
+                height={38}
+                alt="chart"
+                src="/images/misc/chart.png"
+              />
+              <Box
+                sx={{
+                  mx: 4,
+                  flex: "1 1",
+                  display: "flex",
+                  overflow: "hidden",
+                  flexDirection: "column",
+                }}
+              >
+                <MenuItemTitle>Finance report has been generated</MenuItemTitle>
+                <MenuItemSubtitle variant="body2">25 hrs ago</MenuItemSubtitle>
+              </Box>
+              <Typography variant="caption" sx={{ color: "text.disabled" }}>
+                27 Dec
               </Typography>
             </Box>
           </MenuItem>

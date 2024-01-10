@@ -83,7 +83,7 @@ const PassModal = ({ open, handleClose }) => {
 
     console.log("$#$#$##$", newRecordData);
 
-     const maxId = passStandard.reduce((max, record) => (record.id > max ? record.id : max), 0);
+    const maxId = passStandard.reduce((max, record) => (record.id > max ? record.id : max), 0);
     const newId = maxId + 1;
 
     const { ordPdtItdsCdN, millCd, selectedColumns } = newRecordData;
@@ -95,7 +95,7 @@ const PassModal = ({ open, handleClose }) => {
     millCd,
     
   };
-   selectedColumns.forEach((columnName) => {
+  selectedColumns.forEach((columnName) => {
     newPassStandard[columnName] = "*";
   });
 

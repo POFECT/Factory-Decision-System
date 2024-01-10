@@ -44,6 +44,7 @@ import java.util.stream.Stream;
 @SpringBootConfiguration
 @EnableWebSecurity
 public class SecurityConfig {
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http, Converter<Jwt, JwtAuthenticationToken> jwtAuthenticationConverter, AccessDeniedHandler accessDeniedHandler, AuthenticationEntryPoint authenticationEntryPoint) throws Exception {
         http
@@ -57,8 +58,8 @@ public class SecurityConfig {
                             // .requestMatchers(new RegexRequestMatcher("^/v3/api\\-docs.*$", null)).permitAll()
                             .requestMatchers(new RegexRequestMatcher("^(.*swagger.*)|(/v3/api\\-docs.*)$", null)).permitAll()
                             .requestMatchers(new AntPathRequestMatcher("/user/login/**",null)).permitAll()
-                            .requestMatchers(new AntPathRequestMatcher("/input-status", null)).permitAll()
-                            .requestMatchers(new AntPathRequestMatcher("/order-inquiry", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/input-status/**", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/order-inquiry/**", null)).permitAll()
                             .requestMatchers(new AntPathRequestMatcher("/pass-standard/**", null)).permitAll()
                             .requestMatchers(new AntPathRequestMatcher("/main-capacity/**", null)).permitAll()
                             .requestMatchers(new AntPathRequestMatcher("/main-confirm/**", null)).permitAll()
@@ -71,6 +72,7 @@ public class SecurityConfig {
                             .requestMatchers(new AntPathRequestMatcher("/lot/**", null)).permitAll()
                             .requestMatchers(new AntPathRequestMatcher("/lot-regression/**", null)).permitAll()
                             .requestMatchers(new AntPathRequestMatcher("/log/**", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/alert/**", null)).permitAll()
                             .anyRequest().denyAll();
                 });
         http

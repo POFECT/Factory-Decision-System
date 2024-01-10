@@ -1,5 +1,4 @@
 import Api from "./api";
-import { axiosApi } from "./api";
 
 const CacpacityApi = {
 
