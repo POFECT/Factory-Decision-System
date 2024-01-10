@@ -2,6 +2,7 @@ package com.poscodx.pofect.domain.passstandard.service;
 
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardBtiPosReqDto;
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardResDto;
+import com.poscodx.pofect.domain.etc.controller.SseController;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleChangeReqDto;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleChangeResultResDto;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleFactoryStandardResDto;
@@ -9,6 +10,7 @@ import com.poscodx.pofect.domain.passstandard.dto.PossibleToConfirmResDto;
 import com.poscodx.pofect.domain.passstandard.entity.PossibleFactoryStandard;
 import com.poscodx.pofect.domain.passstandard.repository.PossibleFactoryStandardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,6 +23,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStandardService {
+    @Autowired
+    private SseController sseController;
 
     private final PossibleFactoryStandardRepository possibleFactoryStandardRepository;
     @Override

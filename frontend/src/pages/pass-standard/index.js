@@ -77,7 +77,6 @@ const PassStandard = () => {
     setOpen(check)
   }
   useEffect(() => {
-    if (session) {
       PassStandardApi.getPossibleList((data) => {
         const dataMap = data.response.reduce((list, { btiPosbPsFacTp, processCd, feasibleRoutingGroup }) => {
           list[btiPosbPsFacTp] = list[btiPosbPsFacTp]||{};
@@ -112,10 +111,7 @@ const PassStandard = () => {
       }));
       confirmListforExcel=transformData;
       setConfirmList(transformData);
-    }, []);}
-    else{
-      router.push("/user/login")
-    }
+    }, []);
   },[test]);
   //가통 컬럼
   const possibleColumns = [
