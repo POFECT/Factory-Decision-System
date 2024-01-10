@@ -22,30 +22,53 @@ import Image from "next/image";
 import { useState } from "react";
 import HelpIcon from "@mui/icons-material/Help";
 import { Notify } from "src/notifix/notiflix-notify-aio";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 
 const EssentialModal = ({ open, handleClose }) => {
   const [regressionData, setRegressionData] = useState(0);
-
   const [objectData, setObjectData] = useState({
     x0: "A002007FFBF201",
     x1: 970,
     x2: 1,
     x3: 10000,
   });
-
+  const [remainData, setRemainData] = useState(0);
+  const [modalState, setModalState] = useState(false);
+  const modalOpen = () => setModalState(true);
+  const modalClose = () => setModalState(false);
   const axios = require("axios");
+
   const regressionClick = () => {
     const inputValue = Number(objectData.x3);
     if (!isNaN(inputValue) && inputValue >= 10000 && inputValue <= 1000000) {
       const apiUrl = "http://localhost:4000/predict";
-      axios.get(apiUrl, { params: objectData }).then((response) => {
-        console.log("Response:", response.data.prediction);
-        setRegressionData(response.data.prediction);
-      });
+      modalOpen();
+      setTimeout(() => {
+        modalClose();
+        axios.get(apiUrl, { params: objectData }).then((response) => {
+          console.log("Response:", response.data.prediction);
+          setRegressionData(response.data.prediction);
+          setRemainData(objectData.x3 - response.data.prediction);
+          Notify.success("출강 LOT 투입을 예측하였습니다.", {
+            showOnlyTheLastOne: false,
+          });
+        });
+      }, 3000);
     } else {
       Notify.failure("투입량은 10000이상 1,000,000이하");
     }
     console.log(objectData);
+  };
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 500,
+    height: 300,
+    bgcolor: "background.paper", //"#7A7A7D",
+    boxShadow: 24,
   };
   const x0Click = (event) => {
     setObjectData((prev) => ({ ...prev, x0: event.target.value }));
@@ -60,6 +83,7 @@ const EssentialModal = ({ open, handleClose }) => {
   const x3Click = (event) => {
     setObjectData((prev) => ({ ...prev, x3: event.target.value }));
   };
+
   return (
     <Dialog
       open={open}
@@ -194,9 +218,15 @@ const EssentialModal = ({ open, handleClose }) => {
                 width={200}
                 height={200}
               />
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", fontSize: "18px" }}>
                 출강 LOT 투입 예측량 :
-                <div style={{ color: "red" }}>{regressionData}</div>
+                <div style={{ color: "red" }}>{regressionData.toFixed(2)}</div>
+                (ton)
+              </div>
+              <div style={{ display: "flex", fontSize: "18px" }}>
+                출강 LOT 투입 대기예측량 :
+                <div style={{ color: "blue" }}>{remainData.toFixed(2)}</div>
+                (ton)
               </div>
             </Card>
           </div>
@@ -220,10 +250,32 @@ const EssentialModal = ({ open, handleClose }) => {
             style={{ backgroundColor: "#0A5380" }}
             onClick={() => {
               handleClose();
+              setObjectData({
+                x0: "A002007FFBF201",
+                x1: 970,
+                x2: 1,
+                x3: 10000,
+              });
+              setRegressionData(0);
+              setRemainData(0);
             }}
           >
             닫기
           </Button>
+          <Modal
+            open={modalState}
+            onClose={modalClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <img
+                src="/images/test6.gif"
+                alt="GIF"
+                style={{ width: "100%" }}
+              />
+            </Box>
+          </Modal>
         </DialogActions>
       </div>
     </Dialog>
