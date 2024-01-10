@@ -28,7 +28,7 @@ public class LogDoc {
     private String userId;  // 사용자 ID
 
     @CreatedDate
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss", timezone = "Asia/Seoul")
     @Field(name = "update_date")
     private LocalDateTime updateDate;  // 수정 날짜
 

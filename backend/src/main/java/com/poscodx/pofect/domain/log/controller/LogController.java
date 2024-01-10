@@ -16,6 +16,7 @@ import java.util.List;
 @RequestMapping("/log")
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class LogController {
     private final LogService logService;
 

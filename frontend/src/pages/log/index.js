@@ -25,8 +25,6 @@ import {
 import { Report } from "src/notifix/notiflix-report-aio";
 
 import React, { useEffect, useState } from "react";
-import CapacityStandardApi from "src/api/CapacityApi";
-import MyD3Heatmap from "../../views/capacity/d3-heat";
 
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -35,8 +33,10 @@ import StepContent from "@mui/material/StepContent";
 import Paper from "@mui/material/Paper";
 
 import MainApi from "src/api/MainApi";
+import LogApi from "src/api/LogApi";
 import OrderList from "src/views/log/order-list";
 import OrderDataGrid from "src/views/log/order-data-grid";
+import UserLayout from "./../../layouts/UserLayout";
 
 const Log = () => {
   // 주문
@@ -45,11 +45,13 @@ const Log = () => {
     order: {},
   });
 
-  // Flag
-  // const [flag, setFlag] = useState(["A", "B", "C", "D", "E", "F"]);
+  // 로그
+  const [logList, setLogList] = useState([
+    {
+      updateDate: "",
+    },
+  ]);
 
-  // 능력
-  const [capacity, setCapacity] = useState([]);
   const [labels, setLabels] = useState([]);
 
   // 출강주
@@ -61,48 +63,30 @@ const Log = () => {
   // Alert
   const [showAlert, setShowAlert] = useState(false);
 
-  const steps = [
+  const [steps, setSteps] = useState([
     {
       label: "주문 완료",
-      description: `A로그 - 날짜`,
+      description: [],
     },
     {
       label: "가능통과공장 설계",
-      description:
-        "An ad group contains one or more ads which target a shared set of keywords.",
+      description: [],
     },
     {
       label: "가능통과공장 확정",
-      description: `Try out different ad text to see what brings in the most customers,
-                and learn how to enhance your ads using features like ad extensions.
-                If you run into any problems with your ads, find out how to tell if
-                they're running and how to resolve approval issues.`,
+      description: [],
     },
     {
       label: "공장 결정",
-      description:
-        "An ad group contains one or more ads which target a shared set of keywords.",
+      description: [],
     },
     {
       label: "제조 투입",
-      description:
-        "An ad group contains one or more ads which target a shared set of keywords.",
+      description: [],
     },
-  ];
+  ]);
 
   const [activeStep, setActiveStep] = useState(0);
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
 
   const getOrders = (kind, week, status, flag) => {
     if (kind == 0) kind = null;
@@ -118,7 +102,6 @@ const Log = () => {
   };
 
   const changeSelectedOrder = (row) => {
-    // console.log(row);
     setOrderList(
       Object.assign({}, orderList, {
         order: row,
@@ -126,24 +109,68 @@ const Log = () => {
     );
   };
 
-  useEffect(() => {
+  /** 선택 주문 로그 데이터 수신 */
+  const getLogs = async () => {
+    await LogApi.getLogList(orderList.order.id, (data) => {
+      const list = data.response;
+      setLogList((prev) => {
+        return { ...prev, list };
+      });
+      console.log(list);
+
+      updateStepContents(list);
+    });
+  };
+
+  // stepper 로그 내용 업데이트
+  const updateStepContents = (list) => {
+    const updatedSteps = [...steps]; // 복제하여 새로운 배열 생성
+
+    for (const obj of list) {
+      // 주문 완료
+      if (obj.flag == "A") {
+        updatedSteps[0].description.push(`(${obj.updateDate}) - user`);
+      }
+      // 가통 설계
+      else if (obj.flag == "B" || obj.flag == "C") {
+        updatedSteps[1].description.push(
+          `(${obj.updateDate} - ${obj.etc})\n결과: ${obj.possibleData.code} - user`
+        );
+      }
+      // 가통 확정
+      else if (obj.flag == "D") {
+        updatedSteps[2].description.push(`(${obj.updateDate}) - user`);
+      }
+      // 제조 투입
+      else if (obj.flag == "F") {
+        updatedSteps[4].description.push(`(${obj.updateDate}) - user`);
+      }
+    }
+
+    setSteps(updatedSteps); // 업데이트된 배열을 상태로 설정
+  };
+
+  useEffect(async () => {
     getOrders(null, null, null, null);
   }, []);
 
   useEffect(() => {
-    if (orderList.order.faConfirmFlag == "A") {
+    /** stepper 단계 설정 */
+    const flag = orderList.order.faConfirmFlag;
+    if (flag == "A") {
       setActiveStep((prevActiveStep) => 1);
-    } else if (
-      orderList.order.faConfirmFlag == "B" ||
-      orderList.order.faConfirmFlag == "C"
-    ) {
+    } else if (flag == "B" || flag == "C") {
       setActiveStep((prevActiveStep) => 2);
-    } else if (orderList.order.faConfirmFlag == "D") {
+    } else if (flag == "D") {
       setActiveStep((prevActiveStep) => 3);
-    } else if (orderList.order.faConfirmFlag == "E") {
+    } else if (flag == "E") {
       setActiveStep((prevActiveStep) => 4);
-    } else if (orderList.order.faConfirmFlag == "F") {
+    } else if (flag == "F") {
       setActiveStep((prevActiveStep) => 5);
+    }
+
+    if (orderList.order.id != undefined) {
+      getLogs();
     }
   }, [orderList.order]);
 
@@ -207,6 +234,7 @@ const Log = () => {
             flexBasis: "50%",
             marginRight: "16px",
             padding: "16px",
+            height: "750px",
           }}
         >
           <Grid
@@ -219,52 +247,70 @@ const Log = () => {
 
           <Box
             sx={{
-              height: "100",
+              overflow: "auto",
+              height: "85%",
               width: "94.5%",
               marginBottom: "20px",
               marginLeft: "30px",
             }}
           >
-            <Box sx={{ maxWidth: 400 }}>
-              <Stepper
-                activeStep={activeStep}
-                orientation="vertical"
-                // nonLinear={true}
-              >
-                {steps.map((step, index) => (
-                  <Step
-                    active={index < activeStep ? true : false}
-                    key={step.label}
-                    // completed={false}
+            {/* <Box sx={{ maxWidth: 400 }}> */}
+            <Stepper
+              activeStep={activeStep}
+              orientation="vertical"
+              // nonLinear={true}
+            >
+              {steps.map((step, index) => (
+                <Step
+                  active={index < activeStep ? true : false}
+                  key={step.label}
+                  // completed={false}
+                >
+                  <StepLabel
+                    sx={{
+                      ".css-1xot491-MuiStepLabel-label.Mui-completed, .css-1xot491-MuiStepLabel-label":
+                        {
+                          fontSize: "20px",
+                        },
+                    }}
                   >
-                    <StepLabel
-                      sx={{
-                        ".css-1xot491-MuiStepLabel-label.Mui-completed, .css-1xot491-MuiStepLabel-label":
-                          {
-                            fontSize: "20px",
-                          },
-                      }}
-                    >
-                      {step.label}
-                    </StepLabel>
-                    <StepContent>
-                      <Typography>{step.description}</Typography>
-                      <Box sx={{ mb: 2 }}></Box>
-                    </StepContent>
-                  </Step>
-                ))}
-              </Stepper>
-              {activeStep === steps.length && (
-                <Paper square elevation={0} sx={{ p: 3 }}>
-                  <Typography>
-                    All steps completed - you&apos;re finished
-                  </Typography>
-                  {/* <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+                    {step.label}
+                  </StepLabel>
+                  <StepContent>
+                    {step.description.map((des, index) => (
+                      <li
+                        key={index}
+                        style={{
+                          textIndent: "-30px",
+                          paddingLeft: "30px",
+                        }}
+                      >
+                        {des.split("\n").map((line) => {
+                          return (
+                            <>
+                              {line}
+                              <br />
+                            </>
+                          );
+                        })}
+                      </li>
+                    ))}
+                    {/* <Box sx={{ mb: 2 }}></Box> */}
+                  </StepContent>
+                </Step>
+              ))}
+            </Stepper>
+            {activeStep === steps.length && (
+              <Paper square elevation={0} sx={{ p: 3 }}>
+                <Typography>
+                  All steps completed - you&apos;re finished
+                </Typography>
+                {/* <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
                     Reset
                   </Button> */}
-                </Paper>
-              )}
-            </Box>
+              </Paper>
+            )}
+            {/* </Box> */}
           </Box>
         </Card>
         <Card

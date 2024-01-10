@@ -471,9 +471,10 @@ const OrderDataGrid = (props) => {
         <Table>
           <TableHead>
             <TableRow>
-              {columns.map((o) => {
+              {columns.map((o, idx) => {
                 return (
                   <TableCell
+                    key={idx}
                     align="center"
                     style={{
                       width: 200,
