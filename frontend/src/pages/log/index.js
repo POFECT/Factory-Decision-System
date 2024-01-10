@@ -116,7 +116,6 @@ const Log = () => {
       setLogList((prev) => {
         return { ...prev, list };
       });
-      console.log(list);
 
       updateStepContents(list);
     });
@@ -125,6 +124,11 @@ const Log = () => {
   // stepper 로그 내용 업데이트
   const updateStepContents = (list) => {
     const updatedSteps = [...steps]; // 복제하여 새로운 배열 생성
+    updatedSteps[0].description = [];
+    updatedSteps[1].description = [];
+    updatedSteps[2].description = [];
+    updatedSteps[3].description = [];
+    updatedSteps[4].description = [];
 
     for (const obj of list) {
       // 주문 완료
@@ -134,12 +138,18 @@ const Log = () => {
       // 가통 설계
       else if (obj.flag == "B" || obj.flag == "C") {
         updatedSteps[1].description.push(
-          `(${obj.updateDate} - ${obj.etc})\n결과: ${obj.possibleData.code} - user`
+          `(${obj.updateDate} - ${obj.etc}) - user\n결과: ${obj.possibleData.code}`
         );
       }
       // 가통 확정
       else if (obj.flag == "D") {
         updatedSteps[2].description.push(`(${obj.updateDate}) - user`);
+      }
+      // 공장 결정 / 공장 변경
+      else if (obj.flag == "E") {
+        updatedSteps[3].description.push(
+          `(${obj.updateDate} - ${obj.etc}) - user\n결과: ${obj.confirmData.code}`
+        );
       }
       // 제조 투입
       else if (obj.flag == "F") {
@@ -249,7 +259,7 @@ const Log = () => {
             sx={{
               overflow: "auto",
               height: "85%",
-              width: "94.5%",
+              // width: "94.5%",
               marginBottom: "20px",
               marginLeft: "30px",
             }}
