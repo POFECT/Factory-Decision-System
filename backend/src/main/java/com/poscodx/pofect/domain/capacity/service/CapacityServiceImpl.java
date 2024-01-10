@@ -8,6 +8,7 @@ import com.poscodx.pofect.domain.capacity.dto.CombinedCapacityDto;
 import com.poscodx.pofect.domain.capacity.entity.CapacityInfo;
 import com.poscodx.pofect.domain.capacity.dto.CombinedCapacityRowSpanDto;
 import com.poscodx.pofect.domain.capacity.repository.CapacityRepository;
+import com.poscodx.pofect.domain.log.document.CapacityData;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 import com.poscodx.pofect.domain.passstandard.service.ConfirmFactoryStandardService;
 import lombok.RequiredArgsConstructor;
@@ -223,6 +224,33 @@ public class CapacityServiceImpl implements CapacityService {
             if(list.isEmpty()) {
                 result.add(week);
             }
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<CapacityData> getByCfirmcodeAndWeek(String confirmCode, String week) {
+        List<CapacityData> result = new ArrayList<>();
+
+        for (int i = 0, j = 10; i < confirmCode.length(); i++, j += 10) {
+            char c = confirmCode.charAt(i);
+            if(c == ' ') continue;
+
+            CapacityInfo capacityInfo = capacityRepository
+                    .findByProcessCdAndFirmPsFacTpAndAndOrdRcpTapWekCd(Integer.toString(j), Character.toString(c), week)
+                    .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+
+            // 공장 이름 GET 후 매핑
+            String factoryName = confirmFactoryStandardService.getFactoryName(capacityInfo.getProcessCd(), capacityInfo.getFirmPsFacTp());
+
+            CapacityData capacityData = CapacityData.builder()
+                    .processCd(Integer.toString(j))
+                    .factory(factoryName)
+                    .capacityQty(capacityInfo.getFaAdjustmentWgt()-capacityInfo.getProgressQty())
+                    .build();
+
+            result.add(capacityData);
         }
 
         return result;

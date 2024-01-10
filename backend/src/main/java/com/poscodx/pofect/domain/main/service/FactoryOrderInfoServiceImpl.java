@@ -366,7 +366,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
 
         /** 로그 데이터 */
-        ArrayList<CapacityData> logList = new ArrayList<>();
+        List<CapacityData> logList = new ArrayList<>();
         String etc = "";
         if("D".equals(order.getFaConfirmFlag())) etc = "최초 설계";
         else etc = "재설계";
@@ -481,6 +481,25 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         cfirmCode.append(order.getCfirmPassOpCd());
         cfirmCode.setCharAt((Integer.parseInt(reqDto.getProcessCd())/10)-1, reqDto.getNextFactory().charAt(0));
         order.changeCfirmPassOpCd(cfirmCode.toString());
+
+        /** 로깅 - 공장 상세 설계 내역 */
+        // 확통코드, 출강주로 공정, 공장, 능력치 리스트 데이터 받아옴
+        List<CapacityData> capacityList = capacityService.getByCfirmcodeAndWeek(cfirmCode.toString(), order.getOrdThwTapWekCd());
+
+        ConfirmData confirmData = ConfirmData.builder()
+                .code(cfirmCode.toString())
+                .capacityData(capacityList)
+                .build();
+
+        LogDoc logDoc = LogDoc.builder()
+                .orderId(order.getId())
+                .flag("E")
+                .etc("공장 변경")
+                .confirmData(confirmData)
+                .orderLineQty(order.getOrderLineQty())
+                .build();
+
+        logService.insertLog(logDoc);
     }
 
 

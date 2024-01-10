@@ -3,7 +3,7 @@ package com.poscodx.pofect.domain.log.document;
 import lombok.*;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -15,6 +15,6 @@ public class ConfirmData {
 
     private String code;
 
-    private ArrayList<CapacityData> capacityData;
+    private List<CapacityData> capacityData;
 
 }
