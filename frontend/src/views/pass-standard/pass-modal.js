@@ -1,4 +1,3 @@
-// pass-standard/pass-modal.js
 import React, { useEffect, useState } from 'react';
 import {
   Box,
@@ -240,8 +239,7 @@ const PassModal = ({ open, handleClose }) => {
         <DialogContent>
           <DialogContentText>
             {/* ./pass-standard/index.js 파일 내용 또는 원하는 모달 내용을 여기에 추가 */}
-               {insertMode ? (<></>
-
+              {insertMode ? (<></>
                 ) : (
                   
             <divdafdsfads
