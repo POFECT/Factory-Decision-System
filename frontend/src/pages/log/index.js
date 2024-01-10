@@ -138,7 +138,7 @@ const Log = () => {
       // 가통 설계
       else if (obj.flag == "B" || obj.flag == "C") {
         updatedSteps[1].description.push(
-          `(${obj.updateDate} - ${obj.etc}) - user\n결과: ${obj.possibleData.code}`
+          `[${obj.etc}] 결과: ${obj.possibleData.code}\n(${obj.updateDate} - user)`
         );
       }
       // 가통 확정
@@ -148,7 +148,8 @@ const Log = () => {
       // 공장 결정 / 공장 변경
       else if (obj.flag == "E") {
         updatedSteps[3].description.push(
-          `(${obj.updateDate} - ${obj.etc}) - user\n결과: ${obj.confirmData.code}`
+          `[${obj.etc}] 결과: ${obj.confirmData.code}\n(${obj.updateDate} - user)`
+          // `(${obj.updateDate} - ${obj.etc}) - user\n결과: ${obj.confirmData.code}`
         );
       }
       // 제조 투입
@@ -286,13 +287,20 @@ const Log = () => {
                   >
                     {step.label}
                   </StepLabel>
-                  <StepContent>
+                  <StepContent
+                    sx={{
+                      ".css-1rw7nzj-MuiCollapse-root-MuiStepContent-transition":
+                        {
+                          color: "#6b6a6a",
+                        },
+                    }}
+                  >
                     {step.description.map((des, index) => (
                       <li
                         key={index}
                         style={{
-                          textIndent: "-30px",
-                          paddingLeft: "30px",
+                          textIndent: "-25px",
+                          paddingLeft: "25px",
                         }}
                       >
                         {des.split("\n").map((line) => {
