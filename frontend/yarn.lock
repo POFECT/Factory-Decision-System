@@ -7147,6 +7147,18 @@ react-chartjs-2@^5.2.0:
   resolved "https://registry.npmjs.org/react-chartjs-2/-/react-chartjs-2-5.2.0.tgz"
   integrity sha512-98iN5aguJyVSxp5U3CblRLH67J8gkfyGNbiK3c+l1QI/G4irHMPQw44aEPmjVag+YKTyQ260NcF82GTQ3bdscA==
 
+react-chatbot-kit@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.npmjs.org/react-chatbot-kit/-/react-chatbot-kit-2.2.2.tgz"
+  integrity sha512-8p/i0KkzkhoyG2XsL6Pb6f72k9j7GYNAc5SOa4f9OZwbCD3Q34uEruNPc06qa1wZHKfT6aFna19PA2plFuO2NA==
+  dependencies:
+    react-conditionally-render "^1.0.2"
+
+react-conditionally-render@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/react-conditionally-render/-/react-conditionally-render-1.0.2.tgz"
+  integrity sha512-CtjIgaLHVDSgHis3gv/PT/8EnD6GPUL8PrhUjh7DP6S5Y3p56dGu7y2nVg6pYv1kv+fGznRhRmX3assr/vRw3A==
+
 react-datasheet-grid@^4.11.2:
   version "4.11.2"
   resolved "https://registry.npmjs.org/react-datasheet-grid/-/react-datasheet-grid-4.11.2.tgz"
@@ -7694,6 +7706,11 @@ regjsparser@^0.9.1:
   integrity sha512-dQUtn90WanSNl+7mQKcXAgZxvUe7Z0SqXlgzv0za4LwiUhyzBC58yQO3liFoUgu8GiJVInAhJjkj1N0EtQ5nkQ==
   dependencies:
     jsesc "~0.5.0"
+
+remixicon@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.npmjs.org/remixicon/-/remixicon-4.0.1.tgz"
+  integrity sha512-Apa13Q01mFIuQEMvSVni8NnF9cV0vud9YXb2prQ+g3jmWpxKoFCL+yIiQ+9JCeLptdGKyoqVjCYOwwBQVHdciQ==
 
 require-directory@^2.1.1:
   version "2.1.1"
