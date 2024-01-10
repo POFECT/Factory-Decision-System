@@ -59,11 +59,6 @@ const navigation = () => {
       title: "출강 Lot 집약",
       path: "/lot",
     },
-    {
-      icon: PsychologyAltIcon,
-      title: "출강 Lot 투입 예측",
-      path: "/lot-regression",
-    },
   ];
 };
 
