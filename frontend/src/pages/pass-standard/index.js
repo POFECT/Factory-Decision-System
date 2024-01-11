@@ -46,13 +46,10 @@ function MyCell(props) {
   }
   return <GridCell {...props} style={style} />;
 }
-let confirmListforExcel=null;
 let possibleBtiPosbPsFacTpValues=null;
 
 const PassStandard = () => {
   /* Data */
-  const { data: session } = useSession();
-  const router = useRouter()
   const [possibleList,setPossibleList]=useState([]);//가통리스트
   const [confirmList,setConfirmList]=useState([]);//확통리스트
   const [millCd,setMillCd]=useState([]);//소구분
@@ -160,7 +157,7 @@ const PassStandard = () => {
     setAnchorEl(e.currentTarget);
     setOpen((previousOpen)=>!previousOpen);
 
-    if(pPopupProcessCd==='code'){
+    if(pPopupProcessCd==='id'){
       setOpen(false);
     }
   }
