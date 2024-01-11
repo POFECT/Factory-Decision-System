@@ -13,8 +13,6 @@ import { Grid, Typography,
           Button, Select, MenuItem, FormControl, 
           InputLabel, OutlinedInput,
           Card, Box} from "@mui/material";
-import { useSession } from "next-auth/react";
-import { Router, useRouter } from "next/router";
 import PassStandardApi from "src/api/PassStandardApi";
 
 
@@ -44,6 +42,7 @@ function MyCell(props) {
       zIndex: 1,
     };
   }
+  let confirmListforExcel=null;
   return <GridCell {...props} style={style} />;
 }
 let possibleBtiPosbPsFacTpValues=null;
@@ -106,7 +105,6 @@ const PassStandard = () => {
         id: code,
         ...processCd,
       }));
-      confirmListforExcel=transformData;
       setConfirmList(transformData);
     }, []);
   },[test]);
