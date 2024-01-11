@@ -4,9 +4,9 @@ import { Grid, Typography, Button, Select, MenuItem, FormControl,
   InputLabel, OutlinedInput, accordionActionsClasses, Card,Box,
   Table, TableBody, TableCell, TableContainer, TableRow, TableHead, Checkbox } 
 from "@mui/material";
-import FactoryStandardApi from 'src/api/FactoryStandardApi';
 import { CheckNetworkOutline } from 'mdi-material-ui';
 import { Notify } from "src/notifix/notiflix-notify-aio";
+import PassStandardApi from 'src/api/PassStandardApi';
 
 const possibleDetail =({a,openFun,checkNone,test})=>{
   let processName=null;
@@ -37,7 +37,7 @@ const checking = ()=>{
   checkNone(!test)
 }
   useEffect(() => {
-    FactoryStandardApi.getPossiblePopper(a.processCd, (data) => {
+    PassStandardApi.getPossiblePopper(a.processCd, (data) => {
       setProcessFactoryList(data.response);//Table에 보여줄 리스트 세팅
       //processFacNum값이 초기 세팅된 값이므로 setCheckedItemList에 세팅
       setCheckedItemList(a.processFacNum.map(String));
@@ -72,7 +72,7 @@ const checking = ()=>{
     console.log("저장할 체크된 번호 리스트", checkedItemList);
     console.log("저장할 설명 리스트", checkedExplList.sort().join(','));
     const saveResult = "";
-    const res = await FactoryStandardApi.updatePossibleFactory(
+    const res = await PassStandardApi.updatePossibleFactory(
       a.btiPosbPsFacTp,
       a.processCd,
       checkedList,

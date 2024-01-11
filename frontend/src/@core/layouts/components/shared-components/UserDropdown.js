@@ -13,6 +13,8 @@ import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
+import { useSession,signOut } from "next-auth/react";
+import { useEffect } from "react";
 
 // ** Icons Imports
 import CogOutline from 'mdi-material-ui/CogOutline'
@@ -22,6 +24,8 @@ import LogoutVariant from 'mdi-material-ui/LogoutVariant'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
+import withAuth from 'src/pages/api/auth/withAuth'
+
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
@@ -32,25 +36,26 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
   boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
 }))
 
-const UserDropdown = () => {
+const UserDropdown = ({ userData }) => {
   // ** States
-  const [anchorEl, setAnchorEl] = useState(null)
-
-  // ** Hooks
-  const router = useRouter()
-
+  const [anchorEl, setAnchorEl] = useState(null);
+  const router = useRouter();
   const handleDropdownOpen = event => {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleDropdownClose = url => {
-    if (url) {
-      router.push(url)
+  const handleDropdownClose = async (url) => {
+    if (url === '/user/login') {
+      await signOut(); 
     }
-    setAnchorEl(null)
-  }
+  
+    if (url) {
+      router.push(url);
+    }
+    setAnchorEl(null);
+  };
   const handleUserInfo=url=>{
-    const destination = '/login&userInfo/userInfo/';
+    const destination = '/user/mypage/';
     if (url) {
       router.push(destination)
     }
@@ -81,7 +86,7 @@ const UserDropdown = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
         <Avatar
-          alt='신유경'
+          alt='Profile_image'
           onClick={handleDropdownOpen}
           sx={{ width: 40, height: 40 }}
           src='/images/mypage/profile_square.png'
@@ -91,7 +96,7 @@ const UserDropdown = () => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={() => handleDropdownClose()}
-        sx={{ '& .MuiMenu-paper': { width: 230, marginTop: 4 } }}
+        sx={{ '& .MuiMenu-paper': { width: "inherit", marginTop: 4 } }}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
@@ -102,12 +107,12 @@ const UserDropdown = () => {
               badgeContent={<BadgeContentSpan />}
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-              <Avatar alt='신유경' src='/images/mypage/profile_square.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
+              <Avatar alt='Profile_image' src='/images/mypage/profile_square.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>신유경</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{userData.name}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                Admin
+                {userData.email}
               </Typography>
             </Box>
           </Box>
@@ -119,38 +124,19 @@ const UserDropdown = () => {
             회원정보
           </Box>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <EmailOutline sx={{ marginRight: 2 }} />
-            Inbox
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <MessageOutline sx={{ marginRight: 2 }} />
             Chat
           </Box>
         </MenuItem>
-        <Divider />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        <Divider /> */}
+        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <CogOutline sx={{ marginRight: 2 }} />
             Settings
           </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <CurrencyUsd sx={{ marginRight: 2 }} />
-            Pricing
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <HelpCircleOutline sx={{ marginRight: 2 }} />
-            FAQ
-          </Box>
-        </MenuItem>
-        <Divider />
+        </MenuItem> */}
         <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/user/login')}>
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
           Logout
@@ -160,4 +146,4 @@ const UserDropdown = () => {
   )
 }
 
-export default UserDropdown
+export default withAuth(UserDropdown,{ userData: true });

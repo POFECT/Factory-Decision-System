@@ -1,8 +1,10 @@
 import { axiosApi } from "./api";
-
-const PassStandardApi = {
-  getList:async(callback)=>{
-    await axiosApi().get("/pass-standard")
+import { useSession } from "next-auth/react";
+import Api from "./api";
+const PassStandardApi={
+  
+  getPossibleList:async(callback)=>{
+    await Api.get("/pass-standard/getPossibleCodes")
     .then((response)=>{
       callback && callback(response.data);
     })
@@ -11,55 +13,56 @@ const PassStandardApi = {
     })
     .finally(()=>{});
   },
-
-  getListByItem: async (item, callback) => {
-    await axiosApi()
-      .get(`/pass-standard/item/${item != null ? item : ''}`)
-      .then((response) => {
-        console.log("Selected item:", item);
-        callback && callback(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => { });
+  // getPossibleList: async (accessToken, callback) => {
+  //   try {
+  //     const response = await Api.get("/pass-standard/getPossibleCodes", {
+  //       headers: {
+  //         'Authorization': `Bearer ${accessToken}`
+  //       }
+  //     }).then((response)=>{
+  //       callback && callback(response.data);
+  //     }).catch ((error)=>{
+  //     console.log(error);
+  //   })
+  //   .finally(()=>{});
+  // }catch{(error)=>{
+  //   console.log(error);
+  // }}},
+  getPossiblePopper:async(processCD,callback)=>{
+    await Api
+    .get(`/pass-standard/confirmfactory/${processCD}`)
+    .then((response)=>{
+      callback && callback(response.data);
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
+    .finally(()=>{});
   },
-  updateSave: async (passUpdateList, callback) => {
-    await axiosApi()
-      .patch("/pass-standard/update", passUpdateList)
-      .then((response) => {
-        console.log("Update successful:", response.data);
-        callback && callback(response.data);
-      })
-      .catch((error) => {
-        console.log("Error during update:", error);
-      });
+  getCommonList:async(callback)=>{
+    await Api.get("/pass-standard/getConfirmCodes")
+    .then((response)=>{
+      callback && callback(response.data);
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
+    .finally(()=>{});
   },
-
-  insertSave: async (passInsertList, callback) => {
-    await axiosApi()
-      .post("/pass-standard", passInsertList)
-      .then((response) => {
-        console.log("Update successful:", response.data);
-        callback && callback(response.data);
-      })
-      .catch((error) => {
-        console.log("Error during update:", error);
-      });
+  updatePossibleFactory:async(btiPosbPsFacTp,processCd,checkedList,checkedExpl, callback)=>{
+    await Api.patch("/pass-standard/updatePossibleFactory",{
+      btiPosbPsFacTp:btiPosbPsFacTp,
+      processCd:processCd,
+      checkedList:checkedList,
+      checkedExpl:checkedExpl
+    })
+    .then((res) => {
+      callback && callback(res.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   },
-
-  getCodeNameList: async (callback) => {
-    await axiosApi()
-      .get("/etc/business")
-      .then((response) => {
-        callback && callback(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => { });
-  },
-
 }
 
 export default PassStandardApi;

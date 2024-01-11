@@ -17,7 +17,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Api(value = "Main API", tags = {"공장결정Main / 에러주문 "})
-@CrossOrigin("*")
 @RequestMapping("/main")
 @RestController
 @RequiredArgsConstructor

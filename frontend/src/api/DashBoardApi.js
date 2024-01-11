@@ -1,8 +1,9 @@
+import Api from "./api";
 import { axiosApi } from "./api";
 
 const DashBoardApi = {
   getDashBoardInputStatus: async (callback) => {
-    await axiosApi()
+    await Api
       .get("/input-status")
       .then((response) => {
         callback && callback(response.data);
@@ -13,7 +14,7 @@ const DashBoardApi = {
       .finally(() => {});
   },
   getDashBoardOrderInquiry: async (callback) => {
-    await axiosApi()
+    await Api
       .get("/order-inquiry")
       .then((response) => {
         callback && callback(response.data);

@@ -1,9 +1,9 @@
-import { axiosApi } from "./api";
+import Api from "./api";
 
 const CacpacityApi = {
 
   getCapacityListByWeek: async (week, callback) => {
-    await axiosApi()
+    await Api
       .get(`/capacity/combined-capacity-rowspan/${week != null ? week : ''}`)
       .then((response) => {
         console.log("Selected week:", week);
@@ -17,7 +17,7 @@ const CacpacityApi = {
 
 
 updateSave: async (capacityUpdateList, callback) => {
-   await axiosApi()
+   await Api
     .patch("/capacity/update", capacityUpdateList)
     .then((response) => {
       console.log("Update successful:", response.data);
@@ -31,7 +31,7 @@ updateSave: async (capacityUpdateList, callback) => {
 
 
     getWeek: async (statusCd, confirmFlag, callback) => {
-    await axiosApi()
+    await Api
       .get(`/main/week?`, {
         faConfirmFlag: confirmFlag,
         osMainStatusCd: statusCd,
@@ -46,7 +46,7 @@ updateSave: async (capacityUpdateList, callback) => {
   },
   
 createCapacity: async (week, callback) => {
-    await axiosApi()
+    await Api
       .post(`/capacity`, week)
       .then((response) => {
         console.log("Insert successful:", response.data);

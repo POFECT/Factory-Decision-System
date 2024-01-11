@@ -16,7 +16,7 @@ import {
   DialogContent,
   DialogContentText,
 } from '@mui/material';
-import PassStandardApi from "../../api/PassStandardApi";
+import PassStandardApi from "../../api/ProcessStandardApi";
 
 const InsertFormComponent = ({ open, onSave, handleClose, columns, codeNameList, existingOrdPdtItdsCdNList }) => {
   const [selectedColumns, setSelectedColumns] = useState([]);

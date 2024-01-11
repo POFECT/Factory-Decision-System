@@ -24,7 +24,7 @@ import "react-datasheet-grid/dist/style.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
-import PassStandardApi from "src/api/PassStandardApi";
+import PassStandardApi from "src/api/ProcessStandardApi";
 import InsertFormComponent from '../../views/pass-standard/pass-modal-insert';
 
 //excel
