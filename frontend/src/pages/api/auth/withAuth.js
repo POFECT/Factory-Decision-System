@@ -1,3 +1,4 @@
+import { Null } from 'mdi-material-ui';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect,useState } from 'react';
@@ -27,7 +28,9 @@ const withAuth = (WrappedComponent, options = {}) => {
     }, [session, status, router]);
 
     // 로그인 상태가 확인되면 원래의 컴포넌트를 렌더링합니다.
-    return <WrappedComponent {...props} {...(options.userData && { userData })} />;
+    return (status === "authenticated" && session) ?
+        <WrappedComponent {...props} {...(options.userData && { userData })} />:
+        <div></div>;
   };
 };
 
