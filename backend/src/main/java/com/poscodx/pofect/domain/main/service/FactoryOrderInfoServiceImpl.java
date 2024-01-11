@@ -429,7 +429,8 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
                 CapacityData capacityData = CapacityData.builder()
                         .processCd(factoryCapacity.get(maxIdx).getProcessCd())
                         .factory(factoryCapacity.get(maxIdx).getFactoryName())
-                        .capacityQty(factoryCapacity.get(maxIdx).getFaAdjustmentWgt()-factoryCapacity.get(maxIdx).getProgressQty())
+                        .capacityQty(factoryCapacity.get(maxIdx).getFaAdjustmentWgt()
+                                -(factoryCapacity.get(maxIdx).getProgressQty()+order.getOrderLineQty()))
                         .build();
 
                 logList.add(capacityData);
@@ -450,6 +451,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
         LogDoc logDoc = LogDoc.builder()
                 .orderId(id)
+                .orderHeadLineNo(order.getOrderHeadLineNo())
                 .flag("E")
                 .etc(etc)
                 .orderLineQty(order.getOrderLineQty())
@@ -493,6 +495,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
         LogDoc logDoc = LogDoc.builder()
                 .orderId(order.getId())
+                .orderHeadLineNo(order.getOrderHeadLineNo())
                 .flag("E")
                 .etc("공장 변경")
                 .confirmData(confirmData)

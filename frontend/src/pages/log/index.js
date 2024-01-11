@@ -37,6 +37,7 @@ import LogApi from "src/api/LogApi";
 import OrderList from "src/views/log/order-list";
 import OrderDataGrid from "src/views/log/order-data-grid";
 import UserLayout from "./../../layouts/UserLayout";
+import ConfirmModal from "src/views/log/confirm-modal";
 
 const Log = () => {
   // 주문
@@ -46,22 +47,15 @@ const Log = () => {
   });
 
   // 로그
-  const [logList, setLogList] = useState([
-    {
-      updateDate: "",
-    },
-  ]);
+  const [logList, setLogList] = useState([]);
 
-  const [labels, setLabels] = useState([]);
+  const [confirmList, setConfirmList] = useState([]);
 
-  // 출강주
-  const [weekList, setWeekList] = useState({
-    list: [],
-    select: "",
-  });
-
-  // Alert
-  const [showAlert, setShowAlert] = useState(false);
+  // 확통 상세 Modal
+  const [openModal, setOpenModal] = useState(false);
+  const closeModal = () => {
+    setOpenModal(false);
+  };
 
   const [steps, setSteps] = useState([
     {
@@ -118,6 +112,12 @@ const Log = () => {
       });
 
       updateStepContents(list);
+
+      const confirm = list.filter((item) => {
+        return item.flag == "E";
+      });
+      console.log(confirm);
+      setConfirmList(confirm);
     });
   };
 
@@ -253,7 +253,10 @@ const Log = () => {
             xs={4}
             sx={{ paddingBottom: 5, paddingTop: 3, paddingLeft: 3 }}
           >
-            <Typography variant="h5">진행 단계</Typography>
+            <Typography variant="h5">
+              진행 단계 ({orderList.order.ordPdtItdsCdN}-
+              {orderList.order.orderHeadLineNo})
+            </Typography>
           </Grid>
 
           <Box
@@ -265,6 +268,11 @@ const Log = () => {
               marginLeft: "30px",
             }}
           >
+            <ConfirmModal
+              open={openModal}
+              handleClose={closeModal}
+              confirmList={confirmList}
+            />
             {/* <Box sx={{ maxWidth: 400 }}> */}
             <Stepper
               activeStep={activeStep}
@@ -295,6 +303,14 @@ const Log = () => {
                         },
                     }}
                   >
+                    {step.label == "공장 결정" ? (
+                      <Button
+                        style={{ marginTop: -10 }}
+                        onClick={() => setOpenModal(true)}
+                      >
+                        상세 내역 조회
+                      </Button>
+                    ) : null}
                     {step.description.map((des, index) => (
                       <li
                         key={index}

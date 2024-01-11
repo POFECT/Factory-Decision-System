@@ -10,7 +10,6 @@ import {
   TableBody,
   TablePagination,
   Box,
-  IconButton,
   TextField,
   InputAdornment,
 } from "@mui/material";
@@ -49,8 +48,6 @@ const OrderList = (props) => {
 
   return (
     <>
-      {/* <Card> */}
-      {/* <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "20px" }}> */}
       <Box
         className="actions-left"
         sx={{ mr: 2, display: "flex", alignItems: "center", marginTop: "15px" }}
@@ -122,24 +119,6 @@ const OrderList = (props) => {
         onRowsPerPageChange={handleChangeRowsPerPage}
         style={{ marginTop: 15 }}
       />
-      {/* </Paper> */}
-
-      {/* <TableContainer style={{ marginTop: 15, height: 350 }}>
-        <Table aria-label="spanning table">
-          <TableBody>
-            {props.order.list.map((o) => {
-              return (
-                <TableRow key={o.id}>
-                  <TableCell align="center">{o.orderHeadLineNo}</TableCell>
-                  <TableCell align="center">{o.ordPdtItdsCdN}</TableCell>
-                  <TableCell align="center">{o.ordThwTapWekCd}</TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer> */}
-      {/* </Card> */}
     </>
   );
 };
