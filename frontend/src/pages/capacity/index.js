@@ -156,25 +156,22 @@ const CapacityMgt = () => {
 
   const handleSearch = async () => {
     console.log("Selected week:", weekList.select);
+    capacityApi();
 
-    const data = await new Promise((resolve, reject) => {
-      CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
-        resolve(data);
-      });
-    });
-
-    setCapacity(data.response);
-
-    if (capacity.length === 0) {
-      setShowAlert(true);
-      // alert("데이터가 없으므로 데이터를 생성하겠습니다.");
-    } else {
-      CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
-        setCapacity(data.response);
-      });
-    }
+    // if (capacity.length === 0) {
+    //   setShowAlert(true);
+    //   // alert("데이터가 없으므로 데이터를 생성하겠습니다.");
+    // } else {
+    //   CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
+    //     setCapacity(data.response);
+    //   });
+    // }
   };
 
+  const handleInsert=() =>{
+
+    setShowAlert(true);
+  }
   //   console.log(" weeklist:", weekList);
 
   //컬럼
@@ -338,6 +335,16 @@ const CapacityMgt = () => {
           </FormControl>
         </div>
         <div>
+          {capacity.length === 0 ?(
+            <Button
+              size="small"
+              type="submit"
+              variant="contained"
+              onClick={handleInsert}
+              style={{backgroundColor: "#0A5380"}}
+          >
+            추가
+          </Button>):(<></>)}
           <Button
             size="small"
             type="submit"

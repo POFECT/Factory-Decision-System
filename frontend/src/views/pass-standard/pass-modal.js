@@ -119,11 +119,14 @@ const PassModal = ({ open, handleClose }) => {
 
   console.log("New Pass Standard:", newPassStandard);
   PassStandardApi.insertSave(newPassStandard, (data) => {
-        // alert("저장되었습니다.");
-    setShowAlert(true);
+        alert("저장되었습니다.");
+    // setShowAlert(true);
 
       });
   };
+
+  const [existingOrdPdtItdsCdNList, setExistingOrdPdtItdsCdNList] = useState([]);
+
 
 
 
@@ -163,7 +166,11 @@ const PassModal = ({ open, handleClose }) => {
 
     if (codeNameList.select === "ALL") {
       PassStandardApi.getList((data) => {
-        setPassStandard(data.response);
+        const passStandardList = data.response;
+        setPassStandard(passStandardList);
+        const ordPdtItdsCdNList = passStandardList.map((item) => item.ordPdtItdsCdN);
+        setExistingOrdPdtItdsCdNList(ordPdtItdsCdNList);
+
       });
     } else {
       PassStandardApi.getListByItem(codeNameList.select, (data) => {
@@ -340,7 +347,7 @@ const PassModal = ({ open, handleClose }) => {
                     >
                       추가
                     </Button>
-                    <InsertFormComponent open={openPassStandard} handleClose={passClose} onSave={handleInsertSave} columns={columns} codeNameList={codeNameList}/>
+                    <InsertFormComponent open={openPassStandard} handleClose={passClose} onSave={handleInsertSave} columns={columns} codeNameList={codeNameList} existingOrdPdtItdsCdNList={existingOrdPdtItdsCdNList}/>
 
                     <Button
                         size="small"
