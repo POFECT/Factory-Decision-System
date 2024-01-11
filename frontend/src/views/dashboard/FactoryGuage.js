@@ -11,24 +11,26 @@ const FactoryGuage = () => {
   const [firstFac, setFirstFac] = useState({
     planQty: 1,
     progressQty: 0,
+    check: false,
   });
   const [secondFac, setSecondFac] = useState({
     planQty: 1,
     progressQty: 0,
+    check: false,
   });
   const [thirdFac, setThirdFac] = useState({
     planQty: 1,
     progressQty: 0,
+    check: false,
   });
 
   const reset = () => {
-    setFirstFac({ planQty: 1, progressQty: 0 });
-    setSecondFac({ planQty: 1, progressQty: 0 });
-    setThirdFac({ planQty: 1, progressQty: 0 });
+    setFirstFac({ planQty: 1, progressQty: 0, check: false });
+    setSecondFac({ planQty: 1, progressQty: 0, check: false });
+    setThirdFac({ planQty: 1, progressQty: 0, check: false });
   };
   const handleChange = (event, newValue) => {
     reset();
-    // newValue 0,1,2,3,4,5,6,7,8
     if (newValue === 0) {
       const filterCapacity = capacity.filter((c) => {
         return c.processCd === "10";
@@ -38,18 +40,21 @@ const FactoryGuage = () => {
           setFirstFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "2") {
           setSecondFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "3") {
           setThirdFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
       });
@@ -63,18 +68,21 @@ const FactoryGuage = () => {
           setFirstFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "2") {
           setSecondFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "3") {
           setThirdFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
       });
@@ -88,18 +96,21 @@ const FactoryGuage = () => {
           setFirstFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "2") {
           setSecondFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "3") {
           setThirdFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
       });
@@ -113,18 +124,21 @@ const FactoryGuage = () => {
           setFirstFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "2") {
           setSecondFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "3") {
           setThirdFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
       });
@@ -138,18 +152,21 @@ const FactoryGuage = () => {
           setFirstFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "2") {
           setSecondFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "3") {
           setThirdFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
       });
@@ -163,18 +180,21 @@ const FactoryGuage = () => {
           setFirstFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "2") {
           setSecondFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "3") {
           setThirdFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
       });
@@ -188,18 +208,21 @@ const FactoryGuage = () => {
           setFirstFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "2") {
           setSecondFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "3") {
           setThirdFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
       });
@@ -213,18 +236,21 @@ const FactoryGuage = () => {
           setFirstFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "2") {
           setSecondFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "3") {
           setThirdFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
       });
@@ -235,7 +261,6 @@ const FactoryGuage = () => {
   useEffect(() => {
     CapacityStandardApi.getCapacityListByWeek(20240123, (data) => {
       setCapacity(data.response);
-      console.log(data.response);
 
       const filterCapacity = data.response.filter((c) => c.processCd === "10");
 
@@ -244,12 +269,14 @@ const FactoryGuage = () => {
           setFirstFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
         if (filter.firmPsFacTp === "2") {
           setSecondFac({
             planQty: filter.planQty,
             progressQty: filter.progressQty,
+            check: true,
           });
         }
       });
@@ -291,38 +318,52 @@ const FactoryGuage = () => {
       <div
         style={{
           display: "flex",
-          width: "100%",
           justifyContent: "center",
-          height: "100%",
+          marginTop: "30px",
         }}
       >
-        <GaugeChart
-          id="1"
-          nrOfLevels={10}
-          arcPadding={0.1}
-          cornerRadius={3}
-          percent={firstFac.progressQty / firstFac.planQty}
-          textColor={"black"}
-          style={{ width: "30%", height: "30%" }}
-        />
-        <GaugeChart
-          id="2"
-          nrOfLevels={10}
-          arcPadding={0.1}
-          cornerRadius={3}
-          percent={secondFac.progressQty / secondFac.planQty}
-          textColor={"black"}
-          style={{ width: "30%", height: "30%" }}
-        />
-        <GaugeChart
-          id="3"
-          nrOfLevels={10}
-          arcPadding={0.1}
-          cornerRadius={3}
-          percent={thirdFac.progressQty / thirdFac.planQty}
-          textColor={"black"}
-          style={{ width: "30%", height: "30%" }}
-        />
+        {firstFac.check ? (
+          <div>
+            <GaugeChart
+              id="1"
+              nrOfLevels={10}
+              arcPadding={0.1}
+              cornerRadius={3}
+              percent={firstFac.progressQty / firstFac.planQty}
+              textColor={"black"}
+              style={{ width: "250px" }}
+            />
+            <p style={{ textAlign: "center", marginBottom: "0px" }}>1공장</p>
+          </div>
+        ) : null}
+        {secondFac.check ? (
+          <div>
+            <GaugeChart
+              id="2"
+              nrOfLevels={10}
+              arcPadding={0.1}
+              cornerRadius={3}
+              percent={secondFac.progressQty / secondFac.planQty}
+              textColor={"black"}
+              style={{ width: "250px" }}
+            />
+            <p style={{ textAlign: "center", marginBottom: "0px" }}>2공장</p>
+          </div>
+        ) : null}
+        {thirdFac.check ? (
+          <div>
+            <GaugeChart
+              id="3"
+              nrOfLevels={10}
+              arcPadding={0.1}
+              cornerRadius={3}
+              percent={thirdFac.progressQty / thirdFac.planQty}
+              textColor={"black"}
+              style={{ width: "250px" }}
+            />
+            <p style={{ textAlign: "center", marginBottom: "0px" }}>3공장</p>
+          </div>
+        ) : null}
       </div>
     </Paper>
   );
