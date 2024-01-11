@@ -11,6 +11,7 @@ import {
   TextField,
   Tooltip,
   IconButton,
+  Backdrop,
 } from "@mui/material";
 import {
   Dialog,
@@ -36,25 +37,35 @@ const EssentialModal = ({ open, handleClose }) => {
   const [remainData, setRemainData] = useState(0);
   const [modalState, setModalState] = useState(false);
   const modalOpen = () => setModalState(true);
-  const modalClose = () => setModalState(false);
+  const modalClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setModalState(false);
+    }
+  };
   const axios = require("axios");
+  const [clearTimeoutId, setClearTimeoutId] = useState(null);
 
   const regressionClick = () => {
     const inputValue = Number(objectData.x3);
     if (!isNaN(inputValue) && inputValue >= 10000 && inputValue <= 1000000) {
       const apiUrl = "http://localhost:4000/predict";
       modalOpen();
-      setTimeout(() => {
+      // 기존의 setTimeout 제거
+      if (clearTimeoutId) {
+        clearTimeout(clearTimeoutId);
+        setClearTimeoutId(null);
+      }
+      const newTimeoutId = setTimeout(() => {
         modalClose();
         axios.get(apiUrl, { params: objectData }).then((response) => {
-          console.log("Response:", response.data.prediction);
           setRegressionData(response.data.prediction);
           setRemainData(objectData.x3 - response.data.prediction);
-          Notify.success("출강 LOT 투입을 예측하였습니다.", {
+          Notify.success("출강 LOT 투입량을 예측하였습니다.", {
             showOnlyTheLastOne: false,
           });
         });
-      }, 3000);
+      }, 4000);
+      setClearTimeoutId(newTimeoutId);
     } else {
       Notify.failure("투입량은 10000이상 1,000,000이하");
     }
@@ -65,10 +76,12 @@ const EssentialModal = ({ open, handleClose }) => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 500,
-    height: 300,
+    width: 600,
+    height: 400,
     bgcolor: "background.paper", //"#7A7A7D",
     boxShadow: 24,
+    p: 2,
+    borderRadius: "10px",
   };
   const x0Click = (event) => {
     setObjectData((prev) => ({ ...prev, x0: event.target.value }));
@@ -267,12 +280,16 @@ const EssentialModal = ({ open, handleClose }) => {
             onClose={modalClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              style: { backdropFilter: "blur(0)" },
+            }}
           >
             <Box sx={style}>
               <img
-                src="/images/test6.gif"
+                src="/images/test2.gif"
                 alt="GIF"
-                style={{ width: "100%" }}
+                style={{ width: "100%", height: "100%" }}
               />
             </Box>
           </Modal>
