@@ -38,6 +38,7 @@ import OrderList from "src/views/log/order-list";
 import OrderDataGrid from "src/views/log/order-data-grid";
 import UserLayout from "./../../layouts/UserLayout";
 import ConfirmModal from "src/views/log/confirm-modal";
+import PossibleModal from "src/views/log/possible-modal";
 
 const Log = () => {
   // 주문
@@ -49,12 +50,18 @@ const Log = () => {
   // 로그
   const [logList, setLogList] = useState([]);
 
+  // 상세 Modal
+  const [possibleList, setPossibleList] = useState([]);
   const [confirmList, setConfirmList] = useState([]);
 
-  // 확통 상세 Modal
-  const [openModal, setOpenModal] = useState(false);
-  const closeModal = () => {
-    setOpenModal(false);
+  const [possibleModal, setPossibleModal] = useState(false);
+  const closePossibleModal = () => {
+    setPossibleModal(false);
+  };
+
+  const [confirmModal, setConfirmModal] = useState(false);
+  const closeConfirmModal = () => {
+    setConfirmModal(false);
   };
 
   const [steps, setSteps] = useState([
@@ -113,10 +120,14 @@ const Log = () => {
 
       updateStepContents(list);
 
+      const possible = list.filter((item) => {
+        return item.flag == "B" || item.flag == "C";
+      });
+      setPossibleList(possible);
+
       const confirm = list.filter((item) => {
         return item.flag == "E";
       });
-      console.log(confirm);
       setConfirmList(confirm);
     });
   };
@@ -268,9 +279,14 @@ const Log = () => {
               marginLeft: "30px",
             }}
           >
+            <PossibleModal
+              open={possibleModal}
+              handleClose={closePossibleModal}
+              possibleList={possibleList}
+            />
             <ConfirmModal
-              open={openModal}
-              handleClose={closeModal}
+              open={confirmModal}
+              handleClose={closeConfirmModal}
               confirmList={confirmList}
             />
             {/* <Box sx={{ maxWidth: 400 }}> */}
@@ -303,10 +319,18 @@ const Log = () => {
                         },
                     }}
                   >
+                    {step.label == "가능통과공장 설계" ? (
+                      <Button
+                        style={{ marginTop: -10 }}
+                        onClick={() => setPossibleModal(true)}
+                      >
+                        상세 내역 조회
+                      </Button>
+                    ) : null}
                     {step.label == "공장 결정" ? (
                       <Button
                         style={{ marginTop: -10 }}
-                        onClick={() => setOpenModal(true)}
+                        onClick={() => setConfirmModal(true)}
                       >
                         상세 내역 조회
                       </Button>

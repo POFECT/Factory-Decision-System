@@ -64,7 +64,7 @@ function Row(props) {
                 component="div"
                 style={{ marginTop: 10, marginBottom: 10 }}
               >
-                공장 능력 이력
+                공장 능력 변경 이력
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
