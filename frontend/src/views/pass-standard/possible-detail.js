@@ -4,9 +4,9 @@ import { Grid, Typography, Button, Select, MenuItem, FormControl,
   InputLabel, OutlinedInput, accordionActionsClasses, Card,Box,
   Table, TableBody, TableCell, TableContainer, TableRow, TableHead, Checkbox } 
 from "@mui/material";
-import FactoryStandardApi from 'src/api/FactoryStandardApi';
 import { CheckNetworkOutline } from 'mdi-material-ui';
 import { Notify } from "src/notifix/notiflix-notify-aio";
+import PassStandardApi from 'src/api/PassStandardApi';
 
 const possibleDetail =({a,openFun,checkNone,test})=>{
   let processName=null;
@@ -37,7 +37,7 @@ const checking = ()=>{
   checkNone(!test)
 }
   useEffect(() => {
-    FactoryStandardApi.getPossiblePopper(a.processCd, (data) => {
+    PassStandardApi.getPossiblePopper(a.processCd, (data) => {
       setProcessFactoryList(data.response);//Table에 보여줄 리스트 세팅
       //processFacNum값이 초기 세팅된 값이므로 setCheckedItemList에 세팅
       setCheckedItemList(a.processFacNum.map(String));
@@ -72,7 +72,7 @@ const checking = ()=>{
     console.log("저장할 체크된 번호 리스트", checkedItemList);
     console.log("저장할 설명 리스트", checkedExplList.sort().join(','));
     const saveResult = "";
-    const res = await FactoryStandardApi.updatePossibleFactory(
+    const res = await PassStandardApi.updatePossibleFactory(
       a.btiPosbPsFacTp,
       a.processCd,
       checkedList,
@@ -97,9 +97,6 @@ const checking = ()=>{
         Notify.failure("이미 존재하는 코드 조합입니다.");
         break;
     }
-    //부분 새로고침
-    
-
   };
 
   const processColumn = [
@@ -107,7 +104,11 @@ const checking = ()=>{
     { field: "공정",headerName:processName, width:160, type:'text',alignItems:'left',headerAlign: "left"},
   ]
   return (
-    <>
+    <div style={{
+      borderRadius: "6px",
+      boxShadow: "0px 2px 10px 0px rgba(58, 53, 65, 0.1)",
+      overflow: "hidden", // Optional: 컴포넌트 내용이 박스 쉐도우를 벗어나는 경우 숨김
+    }}>
       <TableContainer>
         <Table aria-label="spanning table">
           <TableHead>
@@ -139,7 +140,8 @@ const checking = ()=>{
                   color: "#05507d",
                   background:"#F5F9FF",
                   fontSize:"15px",
-                  padding:"10px"
+                  padding:"3%",
+                  paddingLeft:"25%"
                 }}
               >
                 Code
@@ -151,7 +153,8 @@ const checking = ()=>{
                   color: "#05507d",
                   background:"#F5F9FF",
                   fontSize:"15px",
-                  padding:"10px"
+                  padding:"3%",
+                  paddingLeft:"17%"
                 }}
               >
                 {processName}
@@ -165,15 +168,15 @@ const checking = ()=>{
           processFactoryList.map((e)=>{
             return(
               <TableRow key={e.id}>
-                <TableCell style={{width:"30%"}}>
-                  {e.processCd}
-                </TableCell>
-                <TableCell padding="checkbox" style={{width:"20%"}}>
+                  <TableCell padding="checkbox" style={{width:"20%"}}>
                   <Checkbox
                     checked={checkedItemList.includes(e.firmPsFacTp)}
                     onChange={(event) => handleCheckboxChange(event, e.firmPsFacTp,e.cdExpl)}                                                                                    
                     style={{margin:0,padding:0}}
                   />
+                </TableCell>
+                <TableCell style={{width:"30%"}}>
+                  {e.processCd}
                 </TableCell>
                 <TableCell
                   align="center" 
@@ -200,15 +203,15 @@ const checking = ()=>{
               </Button>
               </TableCell>
               <TableCell style={{padding:0,margin:0}}>
-              <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "#BE2E22",color:"white" }} onClick={()=>{openFun(false)}}>
-                X
+              <Button size="small" type="submit" variant="contained" style={{ backgroundColor: "#BE2E22",color:"white",margin:"10px" }} onClick={()=>{openFun(false)}}>
+                닫기
               </Button>
               </TableCell>
             </TableRow>
           </TableHead>
         </Table>
       </TableContainer>
-    </>
+    </div>
   );
 }
 

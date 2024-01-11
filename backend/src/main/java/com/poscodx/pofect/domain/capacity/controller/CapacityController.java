@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(value = "Capacity API", tags = {"투입능력관리"})
-@CrossOrigin("*")
 @RequestMapping("/capacity")
 @RestController
 @RequiredArgsConstructor

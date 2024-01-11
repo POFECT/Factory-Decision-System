@@ -13,6 +13,7 @@ import com.poscodx.pofect.domain.log.service.LogService;
 import com.poscodx.pofect.domain.lot.dto.LotSearchDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
+import com.poscodx.pofect.domain.main.dto.app.appResDto;
 import com.poscodx.pofect.domain.main.entity.FactoryOrderInfo;
 import com.poscodx.pofect.domain.main.repository.FactoryOrderInfoRepository;
 import com.poscodx.pofect.common.exception.CustomException;
@@ -604,5 +605,12 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         return FactoryOrderInfoResDto.toDto(factoryOrderInfoRepository.findByOrderHeadLineNo(orderHeadLineNo));
 
     }
+
+    //Mobile API
+    @Override
+    public List<appResDto> getOrderCntByMD() {
+        return factoryOrderInfoRepository.getRecentOrders();
+    }
+
 
 }

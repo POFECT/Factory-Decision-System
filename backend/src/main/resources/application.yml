@@ -1,36 +1,7 @@
 spring:
-  # yml 파일 등록
+  application:
+    name: service-pofect
+  profiles:
+    active: development
   config:
-    import: account.yml
-  
-  # JPA 설정
-  jpa:
-    properties:
-      hibernate:
-        default_batch_fetch_size: '1000'
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        format_sql: 'true'
-    hibernate:
-      database: mysql
-      ddl-auto: update  # create
-    show-sql: 'true'
-  # DB - MySQL
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${mysql.url}
-    username: ${mysql.username}
-    password: ${mysql.password}
-  # DB - MongoDB
-  data:
-    mongodb:
-      uri: ${mongo.uri}
-#      host: ${mongo.host}
-#      port: ${mongo.port}
-#      database: ${mongo.database}
-
-
-# 서버
-server:
-  port: '8080'
-  servlet:
-    context-path: /api
+    import: optional:configserver:http://localhost:7777

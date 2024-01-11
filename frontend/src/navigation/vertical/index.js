@@ -5,6 +5,7 @@ import CropRotateIcon from "@mui/icons-material/CropRotate";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import LanIcon from "@mui/icons-material/Lan";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
+import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 import DvrIcon from "@mui/icons-material/Dvr";
 
 const navigation = () => {

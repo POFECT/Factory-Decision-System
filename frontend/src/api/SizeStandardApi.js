@@ -1,8 +1,9 @@
+import Api from "./api";
 import { axiosApi } from "./api";
 
 const SizeStandardApi = {
   getList: async (callback) => {
-    await axiosApi()
+    await Api
       .get("/size-standard")
       .then((response) => {
         callback && callback(response.data);
@@ -14,7 +15,7 @@ const SizeStandardApi = {
   },
 
   updateSize: async (sizeStandardList, callback) => {
-    await axiosApi()
+    await Api
       .patch("/size-standard",sizeStandardList)
       .then((response) => {
         callback && callback(response.data);
@@ -25,7 +26,7 @@ const SizeStandardApi = {
   },
 
   getSizeDesign: async (requestSize, callback) => {
-    await axiosApi()
+    await Api
       .get("/size-standard/design", {
         params: {
           thick: requestSize.thick != null ? requestSize.thick : undefined,

@@ -18,7 +18,6 @@ import java.util.Map;
 
 @Slf4j
 @Api(value = "Lot API", tags = {"출강Lot"})
-@CrossOrigin("*")
 @RequestMapping("/lot")
 @RestController
 @RequiredArgsConstructor
