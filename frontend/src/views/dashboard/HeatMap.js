@@ -87,7 +87,7 @@ function formatData(data) {
   }
 
   if (typeof window !== "undefined") {
-    console.log(newData);
+    // console.log(newData);
   }
 
   return newData;
@@ -95,7 +95,7 @@ function formatData(data) {
 
 const HeatMap = () => {
   useEffect(() => {
-    console.log("Component mounted on the client side");
+    // console.log("Component mounted on the client side");
   }, []);
 
   return (
