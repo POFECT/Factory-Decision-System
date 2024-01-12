@@ -22,6 +22,7 @@ import CapacityDetail from "../../views/main-capacity/capacity-detail";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
 import CapacityModal from "src/views/main-capacity/capacity-modal";
+import withAuth from "src/pages/api/auth/withAuth";
 
 function MyCell(props) {
   let style = {
@@ -46,7 +47,7 @@ function MyCell(props) {
   return <GridCell {...props} style={style} />;
 }
 
-const MainCapacity = () => {
+const MainCapacity = ({ userData }) => {
   /* 데이터 */
 
   const osMainStatusCd = "H";
@@ -74,6 +75,8 @@ const MainCapacity = () => {
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
 
   useEffect(() => {
+    console.log(userData);
+
     getOrders(null, null);
 
     MainApi.getCodeNameList((data) => {
@@ -876,4 +879,4 @@ const MainCapacity = () => {
   );
 };
 
-export default MainCapacity;
+export default withAuth(MainCapacity, { userData: true });
