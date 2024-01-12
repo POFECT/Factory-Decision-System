@@ -155,7 +155,6 @@ const CapacityMgt = () => {
   };
 
   const handleSearch = async () => {
-<<<<<<< HEAD
     console.log("Selected week:", weekList.select);
     capacityApi();
 
@@ -167,7 +166,6 @@ const CapacityMgt = () => {
     //     setCapacity(data.response);
     //   });
     // }
-=======
     const data = await new Promise((resolve, reject) => {
       CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
         resolve(data);
@@ -184,7 +182,6 @@ const CapacityMgt = () => {
         setCapacity(data.response);
       });
     }
->>>>>>> 6fb27016ebf9d1574463dbcbd4ee3834050ba681
   };
 
   const handleInsert=() =>{
