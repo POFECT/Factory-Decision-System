@@ -82,12 +82,6 @@ const LoginPage = () => {
     }
   }, [status]);
 
-  useEffect(() => {
-    if (session) {
-      console.log(session);
-      console.log("accessToken", session.accessToken);
-    }
-  });
 
   return (
     <Box className="content-center">

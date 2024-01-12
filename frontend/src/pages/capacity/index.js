@@ -84,7 +84,6 @@ function MyCell(props) {
 }
 
 const CapacityMgt = () => {
-
   // 능력
   const [capacity, setCapacity] = useState([]);
   const [labels, setLabels] = useState([]);
@@ -118,6 +117,7 @@ const CapacityMgt = () => {
     CapacityStandardApi.getWeek("H", ["D", "E"], (data) => {
       const list = data.response;
       const select = list[0];
+      console.log("select ", select);
       setWeekList((prev) => {
         return { ...prev, list, select };
       });
@@ -136,7 +136,7 @@ const CapacityMgt = () => {
 
   const handleAccept = () => {
     const capacityData = {
-      ordRcpTapWekCd: weekList.select
+      ordRcpTapWekCd: weekList.select,
     };
 
     CapacityStandardApi.createCapacity(capacityData)
@@ -155,6 +155,7 @@ const CapacityMgt = () => {
   };
 
   const handleSearch = async () => {
+<<<<<<< HEAD
     console.log("Selected week:", weekList.select);
     capacityApi();
 
@@ -166,6 +167,24 @@ const CapacityMgt = () => {
     //     setCapacity(data.response);
     //   });
     // }
+=======
+    const data = await new Promise((resolve, reject) => {
+      CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
+        resolve(data);
+      });
+    });
+
+    setCapacity(data.response);
+
+    if (capacity.length === 0) {
+      setShowAlert(true);
+      // alert("데이터가 없으므로 데이터를 생성하겠습니다.");
+    } else {
+      CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
+        setCapacity(data.response);
+      });
+    }
+>>>>>>> 6fb27016ebf9d1574463dbcbd4ee3834050ba681
   };
 
   const handleInsert=() =>{
@@ -491,18 +510,20 @@ const CapacityMgt = () => {
       </div>
 
       {/* alert */}
-      {showAlert && (
+      {showAlert &&
         Report.warning(
-        " ",
-        "<div style='text-align: center;'>" +
-          "현재 [" + weekList.select + "] 출강 주의 " +
-          "<br />" + "투입 능력 관리 데이터가 없습니다." +
-          "<br />" +
-          "<br />" +
-
-          "데이터를 추가 하시겠습니까?" +
-        "</div>",
-        "확인",
+          " ",
+          "<div style='text-align: center;'>" +
+            "현재 [" +
+            weekList.select +
+            "] 출강 주의 " +
+            "<br />" +
+            "투입 능력 관리 데이터가 없습니다." +
+            "<br />" +
+            "<br />" +
+            "데이터를 추가 하시겠습니까?" +
+            "</div>",
+          "확인",
           () => {
             handleAccept();
           },
@@ -513,13 +534,9 @@ const CapacityMgt = () => {
           {
             backOverlayClickToClose: true,
             cssAnimationStyle: "zoom",
-                cssAnimationDuration: 400,
-
-
+            cssAnimationDuration: 400,
           }
-        )
-
-      )}
+        )}
     </>
   );
 };

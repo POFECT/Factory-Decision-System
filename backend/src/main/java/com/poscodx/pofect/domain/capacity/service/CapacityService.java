@@ -4,6 +4,7 @@ import com.poscodx.pofect.domain.capacity.dto.CapacityInfoDto;
 import com.poscodx.pofect.domain.capacity.dto.CombinedCapacityDto;
 import com.poscodx.pofect.domain.capacity.dto.CombinedCapacityRowSpanDto;
 import com.poscodx.pofect.domain.capacity.entity.CapacityInfo;
+import com.poscodx.pofect.domain.log.document.CapacityData;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
 
 import java.util.List;
@@ -40,4 +41,6 @@ public interface CapacityService {
     void plusProcessQty(FactoryOrderInfoReqDto.updateFactoryDto dto);
 
     List<String> checkWeekCapacityList(List<String> weekList);
+
+    List<CapacityData> getByCfirmcodeAndWeek(String confirmCode, String week);
 }
