@@ -1,27 +1,32 @@
 import axios from "axios";
 import NextAuth from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak";
+import { config } from "dotenv";
 
 async function getKeycloakUserInfo(accessToken) {
   try {
-    const res = await axios.get('http://localhost:5555/realms/pofect-realm/protocol/openid-connect/userinfo', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const res = await axios.get(
+      "http://localhost:5555/realms/pofect-realm/protocol/openid-connect/userinfo",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
     return res.data;
   } catch (err) {
     console.error(err);
     return null;
   }
 }
+config({ path: ".env.development" });
 
 export const authOptions = {
   providers: [
     KeycloakProvider({
-      clientId: "pofect",
-      clientSecret: "lRu2t5FaIGkbSWc939JxC9yblwbz3qQj",
-      issuer: "http://localhost:5555/realms/pofect-realm",
+      clientId: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      issuer: process.env.ISSUER,
     }),
   ],
   callbacks: {
@@ -51,12 +56,9 @@ export const authOptions = {
     },
   },
   pages: {
-    async api({
-      req,
-      res,
-    }) {
+    async api({ req, res }) {
       //Token Session검사를 진행하지 않는 API 따로 작성
-      if (req.url === "/user/login") { 
+      if (req.url === "/user/login") {
         return NextAuth(req, res);
       }
       return NextAuth(req, res);
