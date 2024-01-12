@@ -82,4 +82,11 @@ public class ProcessStandardServiceImpl implements ProcessStandardService {
             System.out.println("processStandard = " + processStandard);
             return processStandardRepository.save(processStandard);
         }
+
+    @Transactional
+    @Override
+    public void deleteProcessList(List<Long> idsToDelete) {
+        // Assuming ProcessStandardRepository has a deleteByIdIn method
+        processStandardRepository.deleteByIdIn(idsToDelete);
     }
+}

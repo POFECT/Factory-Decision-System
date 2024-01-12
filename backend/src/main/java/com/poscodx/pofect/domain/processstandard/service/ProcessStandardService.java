@@ -17,4 +17,5 @@ public interface ProcessStandardService {
 
     ProcessStandard insert(ProcessStandardDto insertList);
 
+    void deleteProcessList(List<Long> idsToDelete);
 }

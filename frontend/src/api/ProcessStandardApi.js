@@ -60,6 +60,19 @@ const ProcessStandardApi = {
       .finally(() => { });
   },
 
+  delete: async (idsToDelete, callback) => {
+    await Api
+        .delete("/process-standard/delete", { data: idsToDelete })
+        .then((response) => {
+          console.log("Delete successful:", response.data);
+          callback && callback(response.data);
+        })
+        .catch((error) => {
+          console.log("Error during delete:", error);
+        });
+  },
+
 }
+
 
 export default ProcessStandardApi;
