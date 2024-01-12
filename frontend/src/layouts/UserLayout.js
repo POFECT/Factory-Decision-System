@@ -17,6 +17,7 @@ import { useSettings } from "src/@core/hooks/useSettings";
 import Spinner from "src/views/spinners/Spinner";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import withAuth from "src/pages/api/auth/withAuth";
 
 const UserLayout = ({ children }) => {
   // ** Hooks
@@ -67,4 +68,4 @@ const UserLayout = ({ children }) => {
   );
 };
 
-export default UserLayout;
+export default withAuth(UserLayout);

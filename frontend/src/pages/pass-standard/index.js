@@ -13,8 +13,6 @@ import { Grid, Typography,
           Button, Select, MenuItem, FormControl, 
           InputLabel, OutlinedInput,
           Card, Box} from "@mui/material";
-import { useSession } from "next-auth/react";
-import { Router, useRouter } from "next/router";
 import PassStandardApi from "src/api/PassStandardApi";
 
 
@@ -44,15 +42,13 @@ function MyCell(props) {
       zIndex: 1,
     };
   }
+  let confirmListforExcel=null;
   return <GridCell {...props} style={style} />;
 }
-let confirmListforExcel=null;
 let possibleBtiPosbPsFacTpValues=null;
 
 const PassStandard = () => {
   /* Data */
-  const { data: session } = useSession();
-  const router = useRouter()
   const [possibleList,setPossibleList]=useState([]);//가통리스트
   const [confirmList,setConfirmList]=useState([]);//확통리스트
   const [millCd,setMillCd]=useState([]);//소구분
@@ -77,7 +73,6 @@ const PassStandard = () => {
     setOpen(check)
   }
   useEffect(() => {
-    if (session) {
       PassStandardApi.getPossibleList((data) => {
         const dataMap = data.response.reduce((list, { btiPosbPsFacTp, processCd, feasibleRoutingGroup }) => {
           list[btiPosbPsFacTp] = list[btiPosbPsFacTp]||{};
@@ -110,12 +105,8 @@ const PassStandard = () => {
         id: code,
         ...processCd,
       }));
-      confirmListforExcel=transformData;
       setConfirmList(transformData);
-    }, []);}
-    else{
-      router.push("/user/login")
-    }
+    }, []);
   },[test]);
   //가통 컬럼
   const possibleColumns = [
@@ -164,7 +155,7 @@ const PassStandard = () => {
     setAnchorEl(e.currentTarget);
     setOpen((previousOpen)=>!previousOpen);
 
-    if(pPopupProcessCd==='code'){
+    if(pPopupProcessCd==='id'){
       setOpen(false);
     }
   }

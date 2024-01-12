@@ -25,6 +25,7 @@ import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
 import LotDetail from "src/views/lot/lot-detail";
 import LotChart from "src/views/lot/lot-chart";
+import LotRegression from "src/views/lot-regression/LotRegresion";
 
 function MyCell(props) {
   let style = {
@@ -178,7 +179,6 @@ const Lot = () => {
             };
             sum2 += item.widthGroups.width_over_15702;
           }
-
         }
         return {
           ...newItem,
@@ -637,10 +637,19 @@ const Lot = () => {
     setIsChartOpen(false);
   };
 
+  const [openPassStandard, setOpenPassStandard] = useState(false);
+
+  const passClick = () => {
+    setOpenPassStandard(true);
+  };
+  const passClose = () => {
+    setOpenPassStandard(false);
+  };
+
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
-      width: 305,
+      width: 260,
     }),
   };
 
@@ -748,74 +757,90 @@ const Lot = () => {
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "flex-start",
+          justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <div>
-          <FormControl
-            sx={{ m: 1 }}
-            style={{
-              paddingTop: 10,
-              // paddingBottom: 10,
-              marginRight: 10,
-            }}
-          >
-            <InputLabel id="label1" style={{ paddingTop: 10 }}>
-              구분
-            </InputLabel>
-            <Select
-              labelId="분류"
-              id="demo-multiple-name"
-              defaultValue="T"
-              input={<OutlinedInput label="구분" />}
-              style={{ height: 40 }}
-            >
-              <MenuItem value="T">포항</MenuItem>
-              {/* <MenuItem value="K">광양</MenuItem> */}
-            </Select>
-          </FormControl>
-        </div>
-        <div>
-          <FormControl
-            sx={{ m: 1 }}
-            style={{
-              paddingTop: 10,
-              // paddingBottom: 10,
-              marginRight: 10,
-            }}
-          >
-            <InputLabel
-              id="label1"
-              style={{ paddingTop: 13, marginBottom: 100 }}
-            >
-              출강주
-            </InputLabel>
-            <Select
-              labelId="출강주"
-              id="demo-multiple-name"
-              defaultValue={0}
-              input={<OutlinedInput label="출강주" />}
-              onChange={(e) => {
-                setWeekList(
-                  Object.assign({}, weekList, {
-                    select: e.target.value,
-                  })
-                );
+        <div style={{ display: "flex" }}>
+          <div>
+            <FormControl
+              sx={{ m: 1 }}
+              style={{
+                paddingTop: 10,
+                // paddingBottom: 10,
+                marginRight: 10,
               }}
-              style={{ height: 40, width: 150 }}
             >
-              <MenuItem value={0}>All</MenuItem>
-              {weekList.list.map((code, idx) => {
-                return (
-                  <MenuItem key={idx} value={code}>
-                    {code}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+              <InputLabel id="label1" style={{ paddingTop: 10 }}>
+                구분
+              </InputLabel>
+              <Select
+                labelId="분류"
+                id="demo-multiple-name"
+                defaultValue="T"
+                input={<OutlinedInput label="구분" />}
+                style={{ height: 40 }}
+              >
+                <MenuItem value="T">포항</MenuItem>
+                {/* <MenuItem value="K">광양</MenuItem> */}
+              </Select>
+            </FormControl>
+          </div>
+          <div>
+            <FormControl
+              sx={{ m: 1 }}
+              style={{
+                paddingTop: 10,
+                // paddingBottom: 10,
+                marginRight: 10,
+              }}
+            >
+              <InputLabel
+                id="label1"
+                style={{ paddingTop: 13, marginBottom: 100 }}
+              >
+                출강주
+              </InputLabel>
+              <Select
+                labelId="출강주"
+                id="demo-multiple-name"
+                defaultValue={0}
+                input={<OutlinedInput label="출강주" />}
+                onChange={(e) => {
+                  setWeekList(
+                    Object.assign({}, weekList, {
+                      select: e.target.value,
+                    })
+                  );
+                }}
+                style={{ height: 40, width: 150 }}
+              >
+                <MenuItem value={0}>All</MenuItem>
+                {weekList.list.map((code, idx) => {
+                  return (
+                    <MenuItem key={idx} value={code}>
+                      {code}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </div>
         </div>
+        <Button
+          size="large"
+          type="submit"
+          variant="contained"
+          style={{ backgroundColor: "darkred", whiteSpace: "nowrap" }}
+          onClick={passClick}
+        >
+          예측하기
+        </Button>
+        <LotRegression
+          open={openPassStandard}
+          handleClose={passClose}
+          sumValue={sumValue}
+        />
       </div>
 
       <div

@@ -419,6 +419,9 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
                 if(e.getProcessCD().equals("10")){
                     e.setBtiPosbPsFacTpList(List.of("06"));
                 }
+                if(e.getProcessCD().equals("30")){
+                    e.setBtiPosbPsFacTpList(List.of("03"));
+                }
             }
             }
             return essentialStandardBtiPosReqDtoList;

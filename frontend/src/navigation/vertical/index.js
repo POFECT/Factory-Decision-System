@@ -6,6 +6,8 @@ import CalculateIcon from "@mui/icons-material/Calculate";
 import LanIcon from "@mui/icons-material/Lan";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
 import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
+import DvrIcon from "@mui/icons-material/Dvr";
+
 const navigation = () => {
   return [
     {
@@ -60,9 +62,9 @@ const navigation = () => {
       path: "/lot",
     },
     {
-      icon: PsychologyAltIcon,
-      title: "출강 Lot 투입 예측",
-      path: "/lot-regression",
+      icon: DvrIcon,
+      title: "주문 Log",
+      path: "/log",
     },
   ];
 };
