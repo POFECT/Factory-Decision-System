@@ -60,4 +60,5 @@ public interface ProcessStandardRepository extends JpaRepository<ProcessStandard
     boolean existsByOrdPdtItdsCdN(String ordPdtItdsCdN);
 
 
+    void deleteByIdIn(List<Long> idsToDelete);
 }

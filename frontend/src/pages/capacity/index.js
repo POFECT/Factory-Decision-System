@@ -341,7 +341,7 @@ const CapacityMgt = () => {
               type="submit"
               variant="contained"
               onClick={handleInsert}
-              style={{backgroundColor: "#0A5380"}}
+              style={{backgroundColor: "darkred"}}
           >
             추가
           </Button>):(<></>)}

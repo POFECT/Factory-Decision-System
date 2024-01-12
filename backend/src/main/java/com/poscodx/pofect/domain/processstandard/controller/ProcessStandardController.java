@@ -63,5 +63,15 @@ public class ProcessStandardController {
             return new ResponseEntity<>(new ResponseDto("Failed to create capacity data: " + e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
-
+    // Delete
+    @DeleteMapping("/delete")
+    @ApiOperation(value = "경유 공정 삭제", notes = "선택한 공정 데이터 삭제")
+    public ResponseEntity<ResponseDto> deleteProcessList(@RequestBody List<Long> idsToDelete) {
+        try {
+            processStandardService.deleteProcessList(idsToDelete);
+            return new ResponseEntity<>(new ResponseDto("Process standard data deleted successfully."), HttpStatus.OK);
+        } catch (CustomException e) {
+            return new ResponseEntity<>(new ResponseDto("Failed to delete process standard data: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
 }
