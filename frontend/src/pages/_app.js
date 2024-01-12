@@ -25,6 +25,11 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import "../../styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 
+
+import 'react-chatbot-kit/build/main.css';
+import "../../styles/chatbot.css";
+import Layout from "src/views/chat-bot/Layout";
+
 const clientSideEmotionCache = createEmotionCache();
 
 // ** Pace Loader
@@ -52,17 +57,20 @@ const App = (props) => {
     Component.getLayout ?? ((page) => <UserLayout>{page}</UserLayout>);
 
   return (
-    <SessionProvider session={session}>
-      <SettingsConsumer>
-        {({ settings }) => {
-          return (
-            <ThemeComponent settings={settings}>
-              {getLayout(<Component {...pageProps} />)}
-            </ThemeComponent>
-          );
-        }}
-      </SettingsConsumer>
-    </SessionProvider>
+    <Layout>
+      <SessionProvider session={session}>
+        <SettingsConsumer>
+          {({ settings }) => {
+            return (
+              <ThemeComponent settings={settings}>
+                {getLayout(<Component {...pageProps} />)}
+              </ThemeComponent>
+            );
+          }}
+        </SettingsConsumer>
+      </SessionProvider>
+    </Layout>
+
   );
 };
 

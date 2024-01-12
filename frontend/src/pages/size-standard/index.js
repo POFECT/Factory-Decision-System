@@ -20,7 +20,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import SizeStandardApi from "/src/api/SizeStandardApi";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
-import SizeDesignModal from "./size-design-modal";
+import SizeDesignModal from "../../views/size-standard/size-design-modal";
 import { Report } from "src/notifix/notiflix-report-aio";
 import { Notify } from "src/notifix/notiflix-notify-aio";
 
@@ -62,7 +62,6 @@ const Standard = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const [editedCellValue, setEditedCellValue] = useState("");
   const [sizeDesign, setSizeDesign] = useState(false);
-  const [badDatas, setBadDatas] = useState([]);
 
   const handleCellEditCommit = (params) => {
     const updatedList = sizeStandardList.map((item) =>
