@@ -4,19 +4,36 @@ import ChatMessage from "../chat-bot/ChatMessage.js";
 import Options from "../chat-bot/Options.js";
 import QuestionChatBot from "./QuestionChatBot.js";
 
-const CloseButton = styled.i`
-  font-size: 1.5rem;
-  color: #ffffff;
-  cursor: pointer;
+const HeaderContainer = styled.div`
+  background: rgb(92, 130, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(157, 92, 255, 1) 0%,
+    rgba(92, 130, 255, 1) 100%
+  );
+  width: 100%;
+  height: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1.4rem;
+
+  .ri-close-line {
+    font-size: 1.5rem;
+    color: #ffffff;
+    cursor: pointer;
+  }
 `;
 
 const config = {
   botName: "Pofect-ChatBot",
   initialMessages: [
-    createChatBotMessage(`메뉴 중 무엇이 궁금하신가요?`,
-      {
-        widget: "options",
-      }),
+    // createChatBotMessage(`메뉴 중 무엇이 궁금하신가요?`,
+    //   {
+    //     widget: "options",
+    //   }),
+    createChatBotMessage(`안녕하세요 Pofect 챗봇입니다. 궁금한 것이 있으신가요?`)
+    
   ],
   widgets: [
     {
@@ -264,27 +281,6 @@ const config = {
 
   customComponents: {
     header: (props) => {
-        const HeaderContainer = styled.div`
-          background: rgb(92, 130, 255);
-          background: linear-gradient(
-            90deg,
-            rgba(157, 92, 255, 1) 0%,
-            rgba(92, 130, 255, 1) 100%
-          );
-          width: 100%;
-          height: 60px;
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          padding: 1.4rem;
-
-          .ri-close-line{
-            font-size: 1.5rem;
-            color: #ffffff;
-
-          }
-        `;
-          console.log(props)
       return (
         <HeaderContainer  onClick={props.onClose}>
           {/* <button className="ri-close-line" /> */}

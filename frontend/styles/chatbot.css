@@ -37,37 +37,36 @@
   }
   
   .react-chatbot-kit-chat-input {
-    display: none;
+    /* display: none; */
     border: none;
     border-radius: 20px;
-    height: 50px;
+    height: 20px;
     padding: 1.3rem 1.2rem;
     margin-right: 0.5rem;
     font-weight: 300;
   }
-  
+
   .react-chatbot-kit-chat-input:focus-visible {
-    display: none;
+    outline: none;
   }
-  
+
   .react-chatbot-kit-chat-input-form {
-    display: none;
+    /* display: none; */
     background-color: #ffffff;
     border: 1.4px solid #f2f2f2;
   }
   
   .react-chatbot-kit-chat-input::placeholder {
-    display: none;
+    /* display: none; */
     color: #d4d4d4;
     font-weight: 300;
   }
   
   .react-chatbot-kit-chat-btn-send {
     width: 70px;
-    height: 50px;
+    height: fit-content;
     border-radius: 10px;
     padding: 0.8rem;
-    display: none;
   }
   
   .react-chatbot-kit-chat-bot-message-container {

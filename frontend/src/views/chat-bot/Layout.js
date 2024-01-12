@@ -29,7 +29,8 @@ const Layout = ({ children }) => {
                     height: "60px",
                     borderRadius: "50px",
                     overflow: "hidden",
-                    border: "0px"
+                    border: "0px",
+                    cursor: "pointer",
                 }}
                 onClick={handleChatBotOpenModal}>
                 <img src="/images/avatars/9.png" alt="버튼 이미지" style={imageStyle} />
