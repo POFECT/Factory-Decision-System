@@ -28,11 +28,11 @@ const HeaderContainer = styled.div`
 const config = {
   botName: "Pofect-ChatBot",
   initialMessages: [
-    // createChatBotMessage(`메뉴 중 무엇이 궁금하신가요?`,
-    //   {
-    //     widget: "options",
-    //   }),
-    createChatBotMessage(`안녕하세요 Pofect 챗봇입니다. 궁금한 것이 있으신가요?`)
+    createChatBotMessage(`메뉴 중 무엇이 궁금하신가요?`,
+      {
+        widget: "options",
+      }),
+    // createChatBotMessage(`안녕하세요 Pofect 챗봇입니다. 궁금한 것이 있으신가요?`)
     
   ],
   widgets: [

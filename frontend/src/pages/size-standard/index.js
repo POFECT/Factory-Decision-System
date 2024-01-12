@@ -20,7 +20,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import SizeStandardApi from "/src/api/SizeStandardApi";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
-import SizeDesignModal from "./size-design-modal";
+import SizeDesignModal from "../../views/size-standard/size-design-modal";
 import { Report } from "src/notifix/notiflix-report-aio";
 import { Notify } from "src/notifix/notiflix-notify-aio";
 

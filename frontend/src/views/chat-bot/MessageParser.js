@@ -27,6 +27,15 @@ const MessageParser = ({ children, actions }) => {
     }
 
     // 가능통과공장 설계
+    if ((message.includes('가능') && message.includes('통과') && message.includes('설계')) || preMessage.includes('가능통과공장설계')) {
+      messageFlag = true;
+      
+    }
+
+
+
+
+
     if (message.includes('가능') && message.includes('설계')
       && !message.includes('진행') && !message.includes('확정처리') && !message.includes('코드')) {
       messageFlag = true;
