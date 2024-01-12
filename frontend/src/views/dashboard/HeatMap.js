@@ -107,7 +107,7 @@ const HeatMap = () => {
         options={options}
         series={series}
         type="heatmap"
-        height="281"
+        height="280"
         width="100%"
       />
     </Paper>
