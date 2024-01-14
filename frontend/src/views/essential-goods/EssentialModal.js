@@ -375,6 +375,7 @@ const EssentialModal = ({
   };
   const btiPosbPsFacTpChange = (event) => {
     setAddData((prev) => ({ ...prev, btiPosbPsFacTp: event.target.value }));
+    console.log("박판 가통 구분 : ");
     console.log(event.target.value);
   };
 
@@ -626,6 +627,35 @@ const EssentialModal = ({
     }));
   };
 
+  const posFacItem = [
+    <MenuItem value={"01"}>01</MenuItem>,
+    <MenuItem value={"02"}>02</MenuItem>,
+    <MenuItem value={"06"}>06</MenuItem>,
+  ];
+  const posFacItem2 = [
+    <MenuItem value={"01"}>01</MenuItem>,
+    <MenuItem value={"02"}>02</MenuItem>,
+    <MenuItem value={"03"}>03</MenuItem>,
+  ];
+  const posFacItem3 = [
+    <MenuItem value={"01"}>01</MenuItem>,
+    <MenuItem value={"02"}>02</MenuItem>,
+    <MenuItem value={"03"}>03</MenuItem>,
+    <MenuItem value={"06"}>06</MenuItem>,
+    <MenuItem value={"07"}>07</MenuItem>,
+    <MenuItem value={"08"}>08</MenuItem>,
+    <MenuItem value={"09"}>09</MenuItem>,
+  ];
+  const posFacItem4 = [
+    <MenuItem value={"01"}>01</MenuItem>,
+    <MenuItem value={"03"}>03</MenuItem>,
+    <MenuItem value={"08"}>08</MenuItem>,
+  ];
+  const posFacItem5 = [
+    <MenuItem value={"03"}>03</MenuItem>,
+    <MenuItem value={"04"}>04</MenuItem>,
+    <MenuItem value={"06"}>06</MenuItem>,
+  ];
   return (
     <Dialog
       open={open}
@@ -869,15 +899,24 @@ const EssentialModal = ({
                   label="박판가능통과공장구분"
                   onChange={btiPosbPsFacTpChange}
                 >
-                  <MenuItem value={"01"}>01</MenuItem>
-                  <MenuItem value={"02"}>02</MenuItem>
-                  <MenuItem value={"03"}>03</MenuItem>
-                  <MenuItem value={"04"}>04</MenuItem>
-                  <MenuItem value={"05"}>05</MenuItem>
-                  <MenuItem value={"06"}>06</MenuItem>
-                  <MenuItem value={"07"}>07</MenuItem>
-                  <MenuItem value={"08"}>08</MenuItem>
-                  <MenuItem value={"09"}>09</MenuItem>
+                  {addData.processCd === "10" || addData.processCd === "20" ? (
+                    posFacItem
+                  ) : (
+                    <></>
+                  )}
+                  {addData.processCd === "30" ? posFacItem2 : <></>}
+                  {addData.processCd === "40" || addData.processCd === "50" ? (
+                    posFacItem3
+                  ) : (
+                    <></>
+                  )}
+                  {addData.processCd === "60" ? posFacItem4 : <></>}
+                  {addData.processCd === "70" ? posFacItem5 : <></>}
+                  {addData.processCd === "80" ? (
+                    <MenuItem value={"01"}>01</MenuItem>
+                  ) : (
+                    <></>
+                  )}
                 </Select>
               </FormControl>
             </div>
