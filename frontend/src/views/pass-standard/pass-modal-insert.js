@@ -22,11 +22,12 @@ const InsertFormComponent = ({ open, onSave, handleClose, columns, codeNameList,
   const [selectedColumns, setSelectedColumns] = useState([]);
 
   //품명
-  const [ordPdtItdsCdN, setordPdtItdsCdN] = useState('');
+  const [ordPdtItdsCdN, setOrdPdtItdsCdN] = useState('');
   //구분
   const [millCd, setmillCd] = useState('');
   //품종
   const [productType, setProductType] = useState('');
+
   //문자 에러
     const [error, setError] = useState('');
 
@@ -39,8 +40,6 @@ const InsertFormComponent = ({ open, onSave, handleClose, columns, codeNameList,
             setError("품종 값이 비어있습니다.")
         }else if(!ordPdtItdsCdN){
             setError("품명 값이 비어있습니다.")
-        }else if(error !== ''){
-            setError('품명에는 문자만 입력 가능합니다.');
 
         }else if(existingOrdPdtItdsCdNList.includes(ordPdtItdsCdN)){
             setError('이미 사용 중인 품명입니다.');
@@ -54,7 +53,7 @@ const InsertFormComponent = ({ open, onSave, handleClose, columns, codeNameList,
         else {
             // If everything is valid, proceed with saving
             onSave({ ordPdtItdsCdN, selectedColumns, millCd, productType });
-            setordPdtItdsCdN('');
+            setOrdPdtItdsCdN('');
             setSelectedColumns([]);
             setmillCd('');
             setProductType('');
@@ -68,7 +67,7 @@ const InsertFormComponent = ({ open, onSave, handleClose, columns, codeNameList,
     const handleCancel = () => {
       handleClose();
 
-    setordPdtItdsCdN('');
+    setOrdPdtItdsCdN('');
     setSelectedColumns([]);
     setmillCd('');
     setProductType('');
@@ -85,14 +84,28 @@ const InsertFormComponent = ({ open, onSave, handleClose, columns, codeNameList,
       setSelectedColumns([...selectedColumns, field])
     }
   };
+    const handleProductTypeChange = (value) => {
+        setProductType(value);
+        setOrdPdtItdsCdN(value.slice(0, 2));
+    };
 
-  const handleProductTypeChange = (value) => {
-    setProductType(value);
-    setordPdtItdsCdN(`${value}`); // You can customize this as needed
-  };
+    const handleOrdPdtItdsCdNChange = (e) => {
+        const inputValue = e.target.value.toUpperCase();
+
+  {
+            setOrdPdtItdsCdN(inputValue.slice(0, 4));
+
+        }
+        if (/[^A-Z]/.test(inputValue.slice(2, 4))) {
+            setError('품명에는 대문자만 입력 가능합니다.');
+        } else {
+            setError('');
+        }
+
+    };
 
  useEffect(()=>{
-     setordPdtItdsCdN('');
+     setOrdPdtItdsCdN('');
      setSelectedColumns([]);
      setmillCd('');
      setProductType('');
@@ -162,15 +175,8 @@ const InsertFormComponent = ({ open, onSave, handleClose, columns, codeNameList,
                                         variant="outlined"
                                         fullWidth
                                         value={ordPdtItdsCdN}
-                                        onChange={(e) => {
-                                            const inputValue = e.target.value.replace(/[^A-Za-z]/g, '').slice(0, 4);
-                                            if (/[^A-Za-z]/.test(e.target.value)) {
-                                                setError('품명에는 문자만 입력 가능합니다.');
-                                            } else {
-                                                setError('' );
-                                            }
-                                            setordPdtItdsCdN(inputValue);
-                                        }}
+                                        onChange={handleOrdPdtItdsCdNChange}
+
                                         error={Boolean(error)}
                                     />
                                 </FormControl>
