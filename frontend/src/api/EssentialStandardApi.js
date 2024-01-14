@@ -4,12 +4,12 @@ import { axiosApi } from "./api";
 const EssentialStandardApi = {
   getEssentialStandardList: async (callback) => {
     if (!callback) {
+      // AUthApi undefined 나오는데??
       const result = await AuthApi.get("/essential-standard");
       return result.data.response;
     }
 
-    await Api
-      .get("/essential-standard")
+    await Api.get("/essential-standard")
       .then((response) => {
         callback && callback(response.data);
       })
