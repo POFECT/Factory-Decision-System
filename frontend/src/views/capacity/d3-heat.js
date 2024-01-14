@@ -158,7 +158,7 @@ const MyD3Heatmap = ({ capacity }) => {
 
   return (
     <>
-      <p style={{}}>선택된 공장의 잔여량: {clickedCell}</p>
+      <p style={{fontSize:19, }}>선택된 공장의 잔여량: {clickedCell}</p>
       <animated.div style={{ fadeInAnimation, display: 'flex' }}>
         <div>
           {/* <p>Hovered Cell: {hoveredCell}</p> */}
