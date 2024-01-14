@@ -12,7 +12,6 @@ import {
   Box,
   Chip,
 } from "@mui/material";
-// import Chip from "@mui/material-next/Chip";
 import MainApi from "src/api/MainApi";
 import Card from "@mui/material/Card";
 import { Notify } from "src/notifix/notiflix-notify-aio";
@@ -22,6 +21,7 @@ import CapacityDetail from "../../views/main-capacity/capacity-detail";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
 import CapacityModal from "src/views/main-capacity/capacity-modal";
+import withAuth from "src/pages/api/auth/withAuth";
 
 function MyCell(props) {
   let style = {
@@ -46,7 +46,7 @@ function MyCell(props) {
   return <GridCell {...props} style={style} />;
 }
 
-const MainCapacity = () => {
+const MainCapacity = ({ userData }) => {
   /* 데이터 */
 
   const osMainStatusCd = "H";
@@ -131,7 +131,7 @@ const MainCapacity = () => {
       return selectedId.id;
     });
 
-    MainApi.updateFlag("D", selectedIdList, (data) => {
+    MainApi.updateFlag(userData.name, "D", selectedIdList, (data) => {
       const cnt = data.response;
       Notify.success(cnt + "건 설계 확정되었습니다.");
       setRowSelectionModel([]);
@@ -163,7 +163,7 @@ const MainCapacity = () => {
 
     // 가통 설계 start
     const res = {};
-    await MainApi.possibleDecision(selectedIdList, (data) => {
+    await MainApi.possibleDecision(userData.name, selectedIdList, (data) => {
       res = data.response;
     });
 
@@ -291,6 +291,9 @@ const MainCapacity = () => {
       width: 150,
       editable: false,
       headerAlign: "center",
+      renderCell: (params) => (
+        <div style={{ textAlign: "left", width: "100%" }}>{params.value}</div>
+      ),
     },
     {
       field: "posbPassFacUpdateDate",
@@ -305,6 +308,9 @@ const MainCapacity = () => {
       width: 150,
       editable: false,
       headerAlign: "center",
+      renderCell: (params) => (
+        <div style={{ textAlign: "left", width: "100%" }}>{params.value}</div>
+      ),
     },
     {
       field: "ordPdtItpCdN",
@@ -876,4 +882,4 @@ const MainCapacity = () => {
   );
 };
 
-export default MainCapacity;
+export default withAuth(MainCapacity, { userData: true });

@@ -24,8 +24,8 @@ public class LogDoc {
     @Id
     private String _id;
 
-    @Field(name = "USER_ID")
-    private String userId;  // 사용자 ID
+    @Field(name = "USER_NAME")
+    private String userName;  // 관리자 이름
 
     @CreatedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm:ss", timezone = "Asia/Seoul")

@@ -52,7 +52,7 @@ function Row(props) {
         <TableCell align="center">{row.flag}</TableCell>
         <TableCell align="center">{row.possibleData.code}</TableCell>
         <TableCell align="right">{row.updateDate}</TableCell>
-        <TableCell align="right">user</TableCell>
+        <TableCell align="right">{row.userName}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

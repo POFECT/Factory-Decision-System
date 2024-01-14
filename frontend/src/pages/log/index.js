@@ -2,27 +2,7 @@ import "react-datasheet-grid/dist/style.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
-//Alert
-import { Alert, AlertTitle } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import { DialogTitle, DialogContent, DialogActions } from "@mui/material";
-
-import {
-  Box,
-  Card,
-  Grid,
-  Typography,
-  Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-} from "@mui/material";
-
-// import { DataGrid } from "@mui/x-data-grid";
-
-import { Report } from "src/notifix/notiflix-report-aio";
+import { Box, Card, Grid, Typography, Button } from "@mui/material";
 
 import React, { useEffect, useState } from "react";
 
@@ -30,13 +10,12 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
-import Paper from "@mui/material/Paper";
+import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 
 import MainApi from "src/api/MainApi";
 import LogApi from "src/api/LogApi";
 import OrderList from "src/views/log/order-list";
 import OrderDataGrid from "src/views/log/order-data-grid";
-import UserLayout from "./../../layouts/UserLayout";
 import ConfirmModal from "src/views/log/confirm-modal";
 import PossibleModal from "src/views/log/possible-modal";
 
@@ -144,28 +123,33 @@ const Log = () => {
     for (const obj of list) {
       // 주문 완료
       if (obj.flag == "A") {
-        updatedSteps[0].description.push(`(${obj.updateDate}) - user`);
+        updatedSteps[0].description.push(
+          `(${obj.updateDate}) - ${obj.userName}`
+        );
       }
       // 가통 설계
       else if (obj.flag == "B" || obj.flag == "C") {
         updatedSteps[1].description.push(
-          `[${obj.etc}] 결과: ${obj.possibleData.code}\n(${obj.updateDate} - user)`
+          `[${obj.etc}] 결과: ${obj.possibleData.code}\n(${obj.updateDate}) - ${obj.userName}`
         );
       }
       // 가통 확정
       else if (obj.flag == "D") {
-        updatedSteps[2].description.push(`(${obj.updateDate}) - user`);
+        updatedSteps[2].description.push(
+          `(${obj.updateDate}) - ${obj.userName}`
+        );
       }
       // 공장 결정 / 공장 변경
       else if (obj.flag == "E") {
         updatedSteps[3].description.push(
-          `[${obj.etc}] 결과: ${obj.confirmData.code}\n(${obj.updateDate} - user)`
-          // `(${obj.updateDate} - ${obj.etc}) - user\n결과: ${obj.confirmData.code}`
+          `[${obj.etc}] 결과: ${obj.confirmData.code}\n(${obj.updateDate}) - ${obj.userName}`
         );
       }
       // 제조 투입
       else if (obj.flag == "F") {
-        updatedSteps[4].description.push(`(${obj.updateDate}) - user`);
+        updatedSteps[4].description.push(
+          `(${obj.updateDate}) - ${obj.userName}`
+        );
       }
     }
 
@@ -321,6 +305,7 @@ const Log = () => {
                   >
                     {step.label == "가능통과공장 설계" ? (
                       <Button
+                        startIcon={<ExpandCircleDownIcon />}
                         style={{ marginTop: -10 }}
                         onClick={() => setPossibleModal(true)}
                       >
@@ -329,6 +314,7 @@ const Log = () => {
                     ) : null}
                     {step.label == "공장 결정" ? (
                       <Button
+                        startIcon={<ExpandCircleDownIcon />}
                         style={{ marginTop: -10 }}
                         onClick={() => setConfirmModal(true)}
                       >
