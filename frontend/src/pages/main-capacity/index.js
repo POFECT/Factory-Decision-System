@@ -12,7 +12,6 @@ import {
   Box,
   Chip,
 } from "@mui/material";
-// import Chip from "@mui/material-next/Chip";
 import MainApi from "src/api/MainApi";
 import Card from "@mui/material/Card";
 import { Notify } from "src/notifix/notiflix-notify-aio";
@@ -75,8 +74,6 @@ const MainCapacity = ({ userData }) => {
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
 
   useEffect(() => {
-    console.log(userData);
-
     getOrders(null, null);
 
     MainApi.getCodeNameList((data) => {
@@ -134,7 +131,7 @@ const MainCapacity = ({ userData }) => {
       return selectedId.id;
     });
 
-    MainApi.updateFlag("D", selectedIdList, (data) => {
+    MainApi.updateFlag(userData.name, "D", selectedIdList, (data) => {
       const cnt = data.response;
       Notify.success(cnt + "건 설계 확정되었습니다.");
       setRowSelectionModel([]);
@@ -166,7 +163,7 @@ const MainCapacity = ({ userData }) => {
 
     // 가통 설계 start
     const res = {};
-    await MainApi.possibleDecision(selectedIdList, (data) => {
+    await MainApi.possibleDecision(userData.name, selectedIdList, (data) => {
       res = data.response;
     });
 
@@ -294,6 +291,9 @@ const MainCapacity = ({ userData }) => {
       width: 150,
       editable: false,
       headerAlign: "center",
+      renderCell: (params) => (
+        <div style={{ textAlign: "left", width: "100%" }}>{params.value}</div>
+      ),
     },
     {
       field: "posbPassFacUpdateDate",
@@ -308,6 +308,9 @@ const MainCapacity = ({ userData }) => {
       width: 150,
       editable: false,
       headerAlign: "center",
+      renderCell: (params) => (
+        <div style={{ textAlign: "left", width: "100%" }}>{params.value}</div>
+      ),
     },
     {
       field: "ordPdtItpCdN",

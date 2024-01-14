@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from "react";
-import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 import {
   Chip,
   Paper,
@@ -10,29 +9,6 @@ import {
   TableCell,
   TableBody,
 } from "@mui/material";
-
-function MyCell(props) {
-  let style = {
-    minWidth: props.width,
-    maxWidth: props.width,
-    minHeight: props.height,
-    maxHeight: props.height === "auto" ? "none" : props.height,
-    ...props.style,
-  };
-  const apiRef = useGridApiContext();
-  const row = apiRef.current.getRow(props.rowId);
-  if (row && row.rowSpan && row.rowSpan[props.column.field]) {
-    const span = row.rowSpan[props.column.field];
-    style = {
-      ...style,
-      minHeight: props.height * span,
-      maxHeight: props.height * span,
-      backgroundColor: "gray",
-      zIndex: 1,
-    };
-  }
-  return <GridCell {...props} style={style} />;
-}
 
 const OrderDataGrid = (props) => {
   /* column 필드 */
@@ -75,69 +51,7 @@ const OrderDataGrid = (props) => {
       editable: false,
       headerAlign: "center",
     },
-    {
-      field: "faConfirmFlag",
-      headerName: "공장결정확정구분",
-      width: 140,
-      editable: false,
-      headerAlign: "center",
-      renderCell: (params) => {
-        const flag = params.value;
 
-        if (flag === "A") {
-          return (
-            <Chip
-              variant="outlined"
-              color="primary"
-              size="small"
-              label={params.value}
-            />
-          );
-        }
-        if (flag === "B") {
-          return (
-            <Chip
-              variant="outlined"
-              color="success"
-              size="small"
-              label={params.value}
-            />
-          );
-        }
-        if (flag === "C") {
-          return (
-            <Chip
-              variant="outlined"
-              color="error"
-              size="small"
-              label={params.value}
-            />
-          );
-        }
-        // <Chip icon={isRejected ? <WarningIcon/> : <CheckIcon/>}  label={params.value} variant={"outlined"} color={isRejected ? "error" : "success"} />;
-      },
-    },
-    {
-      field: "posbPassFacCdN",
-      headerName: "가능통과공정코드",
-      width: 150,
-      editable: false,
-      headerAlign: "center",
-    },
-    {
-      field: "posbPassFacUpdateDate",
-      headerName: "가능통과공정설계일자",
-      width: 170,
-      editable: false,
-      headerAlign: "center",
-    },
-    {
-      field: "cfirmPassOpCd",
-      headerName: "확정통과공정코드",
-      width: 150,
-      editable: false,
-      headerAlign: "center",
-    },
     {
       field: "ordPdtItpCdN",
       headerName: "품종",
