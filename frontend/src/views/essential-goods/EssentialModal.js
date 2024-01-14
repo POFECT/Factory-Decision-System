@@ -65,7 +65,6 @@ const EssentialModal = ({
   });
 
   const addEssentailRowCallBack = () => {
-    console.log(addData);
     async function validateData(addData) {
       // gcsCompCode 조건 검사
       if (
@@ -292,11 +291,26 @@ const EssentialModal = ({
       }
 
       await EssentialStandardApi.addEssential(addData).then((data) => {
-        console.log(data);
+        if (addData.processCd === "10") {
+          data.processCd = "제강";
+        } else if (addData.processCd === "20") {
+          data.processCd = "열연";
+        } else if (addData.processCd === "30") {
+          data.processCd = "열연정정";
+        } else if (addData.processCd === "40") {
+          data.processCd = "냉각압연";
+        } else if (addData.processCd === "50") {
+          data.processCd = "1차소둔";
+        } else if (addData.processCd === "60") {
+          data.processCd = "2차소둔";
+        } else if (addData.processCd === "70") {
+          data.processCd = "도금";
+        } else if (addData.processCd === "80") {
+          data.processCd = "정정";
+        }
         addEssentialRow([...essentialList, data]);
       });
 
-      console.log("test");
       Notify.success("필수재 기준이 추가 되었습니다", {
         showOnlyTheLastOne: false,
       });
@@ -340,43 +354,33 @@ const EssentialModal = ({
       return true;
     }
     if (!validateData(addData)) {
-      console.log("실패");
     }
   };
   const gcsCompCodeChange = (event) => {
     setAddData((prev) => ({ ...prev, gcsCompCode: event.target.value }));
-    console.log(event.target.value);
   };
   const millCdChange = (event) => {
     setAddData((prev) => ({ ...prev, millCd: event.target.value }));
-    console.log(event.target.value);
   };
   const pplMmatCngMgtNoChange = (event) => {
     setAddData((prev) => ({ ...prev, pplMmatCngMgtNo: event.target.value }));
-    console.log(event.target.value);
   };
   const seqChange = (event) => {
     setAddData((prev) => ({ ...prev, seq: event.target.value }));
-    console.log(event.target.value);
   };
   const processCdChange = (event) => {
     setAddData((prev) => ({ ...prev, processCd: event.target.value }));
-    console.log(event.target.value);
   };
   const [selectedDate, setSelectedDate] = useState(dayjs(new Date()));
   const pplMmatCancAppDtChange = (selectDate) => {
     setAddData((prev) => ({ ...prev, pplMmatCancAppDt: new Date(selectDate) }));
     setSelectedDate(new Date(selectDate));
-    console.log(selectDate);
   };
   const pplBasPsgnoTpChange = (event) => {
     setAddData((prev) => ({ ...prev, pplBasPsgnoTp: event.target.value }));
-    console.log(event.target.value);
   };
   const btiPosbPsFacTpChange = (event) => {
     setAddData((prev) => ({ ...prev, btiPosbPsFacTp: event.target.value }));
-    console.log("박판 가통 구분 : ");
-    console.log(event.target.value);
   };
 
   const [check01, setCheck01] = useState(false);
@@ -388,9 +392,7 @@ const EssentialModal = ({
       setCheck01(false);
       setAddData((prev) => ({ ...prev, ordPdtItpCdN: null }));
       setAddData((prev) => ({ ...prev, conCalcOpxa01: null }));
-      console.log(addData.conCalcOpxa01);
     }
-    console.log(addData.conCalcOpxa01);
   };
 
   const ordPdtItpCdNChange = (event) => {
@@ -411,7 +413,6 @@ const EssentialModal = ({
 
   const ordPdtItdsCdNChange = (event) => {
     setAddData((prev) => ({ ...prev, ordPdtItdsCdN: event.target.value }));
-    console.log(event.target.value);
   };
 
   const [check03, setCheck03] = useState(false);
@@ -428,7 +429,6 @@ const EssentialModal = ({
 
   const specificationCdNChange = (event) => {
     setAddData((prev) => ({ ...prev, specificationCdN: event.target.value }));
-    console.log(event.target.value);
   };
 
   const [check04, setCheck04] = useState(false);
@@ -449,7 +449,6 @@ const EssentialModal = ({
 
   const orderUsageCdNChange = (event) => {
     setAddData((prev) => ({ ...prev, orderUsageCdN: event.target.value }));
-    console.log(event.target.value);
   };
 
   const [check05, setCheck05] = useState(0);
@@ -482,11 +481,9 @@ const EssentialModal = ({
 
   const orderThickMinChange = (event) => {
     setAddData((prev) => ({ ...prev, orderThickMin: event.target.value }));
-    console.log(event.target.value);
   };
   const orderThickMaxChange = (event) => {
     setAddData((prev) => ({ ...prev, orderThickMax: event.target.value }));
-    console.log(event.target.value);
   };
 
   const [check06, setCheck06] = useState(0);
@@ -517,11 +514,9 @@ const EssentialModal = ({
   };
 
   const orderWidthMinChange = (event) => {
-    console.log(event.target.value);
     setAddData((prev) => ({ ...prev, orderWidthMin: event.target.value }));
   };
   const orderWidthMaxChange = (event) => {
-    console.log(event.target.value);
     setAddData((prev) => ({ ...prev, orderWidthMax: event.target.value }));
   };
 
@@ -538,7 +533,6 @@ const EssentialModal = ({
   };
 
   const postTreatmentMethodCdNChange = (event) => {
-    console.log(event.target.value);
     setAddData((prev) => ({
       ...prev,
       postTreatmentMethodCdN: event.target.value,
@@ -568,7 +562,6 @@ const EssentialModal = ({
       ...prev,
       smSteelGrdN: event.target.value,
     }));
-    console.log(event.target.value);
   };
 
   const [check09, setCheck09] = useState(false);
@@ -590,7 +583,6 @@ const EssentialModal = ({
   };
 
   const salCusLocLClsTpChange = (event) => {
-    console.log(event.target.value);
     setAddData((prev) => ({
       ...prev,
       salCusLocLClsTp: event.target.value,
@@ -620,7 +612,6 @@ const EssentialModal = ({
   };
 
   const customerNumberChange = (event) => {
-    console.log(event.target.value);
     setAddData((prev) => ({
       ...prev,
       customerNumber: event.target.value,
