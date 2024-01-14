@@ -230,27 +230,6 @@ const NotificationDropdown = () => {
           </Box>
         </MenuItem>
         <ScrollWrapper>
-        {/* <MenuItem onClick={handleDropdownClose}>
-            <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
-              <Box
-                sx={{
-                  mx: 4,
-                  flex: "1 1",
-                  display: "flex",
-                  overflow: "hidden",
-                  flexDirection: "column",
-                }}
-              >
-                <MenuItemTitle>알람테스트</MenuItemTitle>
-                <MenuItemSubtitle variant="body2">
-                  알람어쩌고
-                </MenuItemSubtitle>
-              </Box>
-              <Typography variant="caption" sx={{ color: "text.disabled" }}>
-                Today
-              </Typography>
-            </Box>
-          </MenuItem> */}
           {notifications.map((notification) => (
             <MenuItem key={notification.id} onClick={handleDropdownClose}>
               <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
