@@ -1,11 +1,9 @@
 import "react-datasheet-grid/dist/style.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import { Notify } from "src/notifix/notiflix-notify-aio";
 
-//Alert
-import { Alert, AlertTitle } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import { DialogTitle, DialogContent, DialogActions } from "@mui/material";
+
 
 import {
   Box,
@@ -174,14 +172,7 @@ const CapacityMgt = () => {
 
     setCapacity(data.response);
 
-    if (capacity.length === 0) {
-      setShowAlert(true);
-      // alert("데이터가 없으므로 데이터를 생성하겠습니다.");
-    } else {
-      CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
-        setCapacity(data.response);
-      });
-    }
+
   };
 
   const handleInsert=() =>{
@@ -248,15 +239,23 @@ const CapacityMgt = () => {
       if (isNaN(item.faAdjustmentWgt)) {
         result += item.processName + " " + item.firmPsFacTp + "공장 조정량\n";
         updateFlag = true;
+        Notify.failure("공정 조정량은 숫자만 가능합니다.");
+
+      } else if (item.faAdjustmentWgt === undefined || item.faAdjustmentWgt === null || item.faAdjustmentWgt === "") {
+
+        Notify.failure("공정 조정량이 비어있습니다.");
+        updateFlag = true;
+
       }
     });
 
     if (updateFlag) {
-      alert(result);
+
+      // alert(result);
       // getSizeStadards();
     } else if (!updateFlag) {
       await CapacityStandardApi.updateSave(capacity, (data) => {
-        alert("저장되었습니다.");
+        Notify.success("저장되었습니다.");
         capacityApi();
       });
     }
