@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -91,6 +88,7 @@ public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStanda
             if(sameCount==0){
                 possibleFactoryStandardRepository.updateFeasibleRoutingGroup(btiPosbPsFacTp,processCd,checkedList);
                 result.setResult("Update");
+                sseController.sendAlert("pass-standard","Update");
             }else{
                 result.setResult("Fail");
             }
@@ -98,16 +96,17 @@ public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStanda
             int deletedCount = possibleFactoryStandardRepository.deleteFeasibleRoutingGroup(btiPosbPsFacTp,processCd);
             System.out.println("삭제된 내용 있을 때 >>"+deletedCount);
             result.setResult("Delete");
+            sseController.sendAlert("pass-standard","Delete");
         }else{//현재 존재하지 않는 값을 insert
             int sameCount = possibleFactoryStandardRepository.checkFeasibleRoutingGroupSame(processCd,checkedList);
             System.out.println(">> sameCount = "+sameCount);
             if(sameCount==0){
                 int insertCount = possibleFactoryStandardRepository.insertFeasibleRoutingGroup(btiPosbPsFacTp,processCd,checkedList,checkedExpl);
                 if(insertCount>0) result.setResult("Insert");
+                sseController.sendAlert("pass-standard","Insert");
             }else{
                 result.setResult("Fail");
             }
-
         }
         return result;
     };

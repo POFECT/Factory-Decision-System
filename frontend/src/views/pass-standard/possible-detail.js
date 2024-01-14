@@ -33,7 +33,6 @@ const possibleDetail =({a,openFun,checkNone,test})=>{
   const [checkedExplList,setCheckedExplList]=useState([]);//check된것들 Expl
   const setInitialData=null;
 const checking = ()=>{
-  console.log("test"+test)
   checkNone(!test)
 }
   useEffect(() => {
@@ -49,7 +48,6 @@ const checking = ()=>{
   }, [a.processFacNum]);
 
   const handleCheckboxChange = (event, firmPsFacTp,cdExpl) => {
-    console.log('Checkbox clicked!', event.target.checked, ' , 현재 체크된 번호 : ',firmPsFacTp);
     const updatedCheckedItemList = [...checkedItemList];
     const updatedCheckedExplList=[...checkedExplList];
     if (event.target.checked) {
@@ -69,8 +67,6 @@ const checking = ()=>{
   };
   const savePossibleFactory=async()=>{
     const checkedList = checkedItemList.sort().join('');
-    console.log("저장할 체크된 번호 리스트", checkedItemList);
-    console.log("저장할 설명 리스트", checkedExplList.sort().join(','));
     const saveResult = "";
     const res = await PassStandardApi.updatePossibleFactory(
       a.btiPosbPsFacTp,
@@ -81,7 +77,6 @@ const checking = ()=>{
         saveResult=data.response.result;
       }
     );
-    console.log("코드 변경 시도 결과 ",saveResult)
     
     switch (saveResult) {
       case "Delete":
