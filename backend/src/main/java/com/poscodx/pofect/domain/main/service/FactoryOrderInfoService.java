@@ -28,9 +28,9 @@ public interface FactoryOrderInfoService {
 
     Long updateOrderStatus(FactoryOrderInfoReqDto.updateCodeDto reqDto);
 
-    Boolean possibleFactory(Long id);
+    Boolean possibleFactory(String userName, Long id);
 
-    Boolean confirmFactory(Long id);
+    Boolean confirmFactory(String userName, Long id);
 
     void updateFactory(FactoryOrderInfoReqDto.updateFactoryDto reqDto);
 

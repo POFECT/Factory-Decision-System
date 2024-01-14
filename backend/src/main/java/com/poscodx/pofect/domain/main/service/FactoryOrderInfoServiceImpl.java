@@ -112,6 +112,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
             LogDoc logDoc = LogDoc.builder()
                     .orderId(order.getId())
+                    .userName(reqDto.getUserName())
                     .flag(reqDto.getValue())
                     .build();
 
@@ -136,7 +137,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
     @Transactional
     @Override
-    public Boolean possibleFactory(Long id) {
+    public Boolean possibleFactory(String userName, Long id) {
         FactoryOrderInfo order = factoryOrderInfoRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
 
@@ -330,6 +331,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
                 LogDoc logDoc = LogDoc.builder()
                         .orderId(order.getId())
+                        .userName(userName)
                         .flag(logFlag)
                         .possibleData(possibleData)
                         .etc(etc)
@@ -347,6 +349,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
                 LogDoc logDoc = LogDoc.builder()
                         .orderId(order.getId())
+                        .userName(userName)
                         .flag(logFlag)
                         .possibleData(possibleData)
                         .etc(etc)
@@ -362,7 +365,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
     @Transactional
     @Override
-    public Boolean confirmFactory(Long id) {
+    public Boolean confirmFactory(String userName, Long id) {
         FactoryOrderInfo order = factoryOrderInfoRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
 
@@ -452,6 +455,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
         LogDoc logDoc = LogDoc.builder()
                 .orderId(id)
+                .userName(userName)
                 .orderHeadLineNo(order.getOrderHeadLineNo())
                 .flag("E")
                 .etc(etc)
@@ -496,6 +500,7 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
 
         LogDoc logDoc = LogDoc.builder()
                 .orderId(order.getId())
+                .userName(reqDto.getUserName())
                 .orderHeadLineNo(order.getOrderHeadLineNo())
                 .flag("E")
                 .etc("공장 변경")

@@ -52,7 +52,7 @@ function Row(props) {
         <TableCell align="center">{row.confirmData.code}</TableCell>
         <TableCell align="center">{row.orderLineQty}</TableCell>
         <TableCell align="right">{row.updateDate}</TableCell>
-        <TableCell align="right">user</TableCell>
+        <TableCell align="right">{row.userName}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -67,7 +67,7 @@ function Row(props) {
                 공장 능력 변경 이력
               </Typography>
               <Table size="small" aria-label="purchases">
-                <TableHead>
+                <TableHead style={{ backgroundColor: "#F9FAFC" }}>
                   <TableRow>
                     <TableCell style={{ fontSize: 14 }}>공정</TableCell>
                     <TableCell style={{ fontSize: 14 }}>공장</TableCell>

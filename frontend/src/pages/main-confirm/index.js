@@ -21,6 +21,7 @@ import { Notify } from "src/notifix/notiflix-notify-aio";
 
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
+import withAuth from "../api/auth/withAuth";
 
 function MyCell(props) {
   let style = {
@@ -45,7 +46,7 @@ function MyCell(props) {
   return <GridCell {...props} style={style} />;
 }
 
-const MainConfirm = () => {
+const MainConfirm = ({ userData }) => {
   const router = useRouter();
 
   /* 데이터 */
@@ -133,11 +134,10 @@ const MainConfirm = () => {
       return selectedId.id;
     });
 
-    await MainApi.updateFlag("F", selectedIdList, (data) => {
+    await MainApi.updateFlag(userData.name, "F", selectedIdList, (data) => {
       const cnt = data.response;
-      console.log(cnt);
     });
-    await MainApi.updateStatus("C", selectedIdList, (data) => {
+    await MainApi.updateStatus(userData.name, "C", selectedIdList, (data) => {
       const cnt = data.response;
       Notify.success(cnt + "건 제조투입 완료되었습니다.");
       setRowSelectionModel([]);
@@ -205,7 +205,7 @@ const MainConfirm = () => {
 
     const allCnt = selectedIdList.length;
 
-    await MainApi.confirmDecision(selectedIdList, (data) => {
+    await MainApi.confirmDecision(userData.name, selectedIdList, (data) => {
       const res = data.response;
       Notify.success(res.success + "/" + allCnt + "건 성공", {
         showOnlyTheLastOne: false,
@@ -309,6 +309,9 @@ const MainConfirm = () => {
       width: 150,
       editable: false,
       headerAlign: "center",
+      renderCell: (params) => (
+        <div style={{ textAlign: "left", width: "100%" }}>{params.value}</div>
+      ),
     },
     {
       field: "posbPassFacUpdateDate",
@@ -323,6 +326,9 @@ const MainConfirm = () => {
       width: 150,
       editable: false,
       headerAlign: "center",
+      renderCell: (params) => (
+        <div style={{ textAlign: "left", width: "100%" }}>{params.value}</div>
+      ),
     },
     {
       field: "ordPdtItpCdN",
@@ -885,4 +891,4 @@ const MainConfirm = () => {
   );
 };
 
-export default MainConfirm;
+export default withAuth(MainConfirm, { userData: true });
