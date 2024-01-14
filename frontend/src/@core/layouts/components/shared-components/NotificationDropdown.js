@@ -5,6 +5,7 @@ import { useState, Fragment, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
+import Badge from '@mui/material/Badge'
 import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -18,7 +19,6 @@ import BellOutline from "mdi-material-ui/BellOutline";
 
 // ** Third Party Components
 import PerfectScrollbarComponent from "react-perfect-scrollbar";
-import axios from "axios";
 
 // ** Styled Menu component
 const Menu = styled(MuiMenu)(({ theme }) => ({
@@ -34,6 +34,15 @@ const Menu = styled(MuiMenu)(({ theme }) => ({
     padding: 0,
   },
 }));
+
+// ** Styled Components
+const BadgeContentSpan = styled('span')(({ theme }) => ({
+  width: 8,
+  height: 8,
+  borderRadius: '50%',
+  backgroundColor: theme.palette.success.main,
+  boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
+}))
 
 // ** Styled MenuItem component
 const MenuItem = styled(MuiMenuItem)(({ theme }) => ({
@@ -84,39 +93,74 @@ const NotificationDropdown = () => {
   // ** States
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]); // 새로운 상태 추가
+  const [showBadge, setShowBadge] = useState(true); //알림 뱃지 상태 변경
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   // ** Hook
   const hidden = useMediaQuery((theme) => theme.breakpoints.down("lg"));
 
   const handleDropdownOpen = (event) => {
     setAnchorEl(event.currentTarget);
+    setShowBadge(false); // 뱃지를 숨김
   };
 
   const handleDropdownClose = () => {
     setAnchorEl(null);
   };
+
+  //알람 시간 보기 좋게 변경하는 코드
+  const elapsedTime = (date) => {
+    const start = new Date(date);
+    const end = currentTime;
+  
+    const seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
+    if (seconds < 60) return '방금 전';
+  
+    const minutes = seconds / 60;
+    if (minutes < 60) return `${Math.floor(minutes)}분 전`;
+  
+    const hours = minutes / 60;
+    if (hours < 24) return `${Math.floor(hours)}시간 전`;
+  
+    const days = hours / 24;
+    if (days < 7) return `${Math.floor(days)}일 전`;
+  
+    return `${start.toLocaleDateString()}`;
+  };
+
   useEffect(() => {
-    const eventSource = new EventSource('http://localhost:8080/api/alertsd/events');
+    const eventSource = new EventSource('http://localhost:8080/api/alert/events');
+    
     // 이벤트 핸들러 등록
+//    console.log("현재 연결 상태",eventSource.readyState)
     eventSource.onmessage = (event) => {
       const eventData = JSON.parse(event.data);
-      console.log('Received SSE Event:', eventData);
+//      console.log('Received SSE Event:', eventData);
+      //시간 형태 변경
+      const timeDifference = elapsedTime(eventData.date);
+
       // 새로운 알람을 상태에 추가
-      setNotifications((prevNotifications) => [
-        ...prevNotifications,
-        eventData,
-      ]);
-    };
+      setNotifications((prevNotifications) => {
+        const updatedNotifications = [...prevNotifications, { ...eventData, elapsed: timeDifference }];
+//        console.log('Updated Notifications:', updatedNotifications);
+        setShowBadge(true);
+        return updatedNotifications;
+      });
+    }
 
     // 에러 핸들러 등록
     eventSource.onerror = (error) => {
-      console.error('Error with SSE:', error);
+      //console.error('Error with SSE:', error);
     };
 
     return () => {
       eventSource.close();
     };
+    
   }, []);
+
+
+
   const ScrollWrapper = ({ children }) => {
     if (hidden) {
       return (
@@ -138,14 +182,23 @@ const NotificationDropdown = () => {
   return (
     <Fragment>
       <IconButton
-        color="inherit"
-        aria-haspopup="true"
-        onClick={handleDropdownOpen}
-        aria-controls="customized-menu"
-        style={{ color: "white" }}
+          color="inherit"
+          aria-haspopup="true"
+          onClick={handleDropdownOpen}
+          aria-controls="customized-menu"
+          style={{ color: "white"}}
       >
+      <Badge
+        overlap='circular'
+        onClick={handleDropdownOpen}
+        sx={{ ml: 2, cursor: 'pointer',display: showBadge ? 'inline-block' : 'none' }}
+        badgeContent={<BadgeContentSpan />}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right',paddingRight:"20px"}}
+      >
+      </Badge>
         <BellOutline />
       </IconButton>
+
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -165,7 +218,7 @@ const NotificationDropdown = () => {
             <Typography sx={{ fontWeight: 600 }}>Notifications</Typography>
             <Chip
               size="small"
-              label="8 New"
+              label={`${notifications.length} New`}
               color="primary"
               sx={{
                 height: 20,
@@ -177,29 +230,31 @@ const NotificationDropdown = () => {
           </Box>
         </MenuItem>
         <ScrollWrapper>
-        <MenuItem onClick={handleDropdownClose}>
-            <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
-              <Box
-                sx={{
-                  mx: 4,
-                  flex: "1 1",
-                  display: "flex",
-                  overflow: "hidden",
-                  flexDirection: "column",
-                }}
-              >
-                <MenuItemTitle>알람테스트</MenuItemTitle>
-                <MenuItemSubtitle variant="body2">
-                  알람어쩌고
-                </MenuItemSubtitle>
+          {notifications.map((notification) => (
+            <MenuItem key={notification.id} onClick={handleDropdownClose}>
+              <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+                <Box
+                  sx={{
+                    mx: 4,
+                    flex: "1 1",
+                    display: "flex",
+                    overflow: "hidden",
+                    flexDirection: "column",
+                  }}
+                >
+                  <MenuItemTitle>{notification.title}</MenuItemTitle>
+                  <MenuItemSubtitle variant="body2">
+                    {notification.subtitle}
+                  </MenuItemSubtitle>
+                </Box>
+                <Typography variant="caption" sx={{ color: "text.disabled" }}>
+                  {notification.elapsed}
+                </Typography>
               </Box>
-              <Typography variant="caption" sx={{ color: "text.disabled" }}>
-                Today
-              </Typography>
-            </Box>
-          </MenuItem>
+            </MenuItem>
+          ))}
         </ScrollWrapper>
-        <MenuItem
+        {/* <MenuItem
           disableRipple
           sx={{
             py: 3.5,
@@ -210,7 +265,7 @@ const NotificationDropdown = () => {
           <Button fullWidth variant="contained" onClick={handleDropdownClose}>
             Read All Notifications
           </Button>
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </Fragment>
   );

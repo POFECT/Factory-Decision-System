@@ -61,7 +61,7 @@ const App = (props) => {
   try {
     const asPath = props.router?.asPath;
 
-    console.log(asPath);
+    //console.log(asPath);
     if (asPath === '/user/login/') {
       return (
         <SessionProvider session={session}>
