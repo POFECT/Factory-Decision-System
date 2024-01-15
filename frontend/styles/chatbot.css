@@ -26,7 +26,7 @@
   
   .react-chatbot-kit-chat-message-container {
     /* height: 560px; */
-    padding: 0.5rem 1.1rem;
+    padding: 0.5rem 1.1rem 2rem;
     -ms-overflow-style: none;
     scrollbar-width: none;
     height: 100%;
@@ -37,7 +37,7 @@
   }
   
   .react-chatbot-kit-chat-input {
-    display: none;
+    /* display: none; */
     border: none;
     border-radius: 20px;
     height: 20px;
@@ -51,13 +51,13 @@
   }
 
   .react-chatbot-kit-chat-input-form {
-    display: none;
+    /* display: none; */
     background-color: #ffffff;
     border: 1.4px solid #f2f2f2;
   }
   
   .react-chatbot-kit-chat-input::placeholder {
-    display: none;
+    /* display: none; */
     color: #d4d4d4;
     font-weight: 300;
   }
