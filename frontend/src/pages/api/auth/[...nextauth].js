@@ -5,7 +5,7 @@ import KeycloakProvider from "next-auth/providers/keycloak";
 async function getKeycloakUserInfo(accessToken) {
   try {
     const res = await axios.get(
-      "http://localhost:5555/realms/pofect-realm/protocol/openid-connect/userinfo",
+      (process.env.ISSUER+"/protocol/openid-connect/userinfo"),
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

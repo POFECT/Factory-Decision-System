@@ -23,7 +23,7 @@ public class SseController {
 
     @GetMapping("/events")
     public SseEmitter handleSse() {
-        SseEmitter emitter = new SseEmitter();
+        SseEmitter emitter = new SseEmitter(60 * 1000L);
 
         emitters.add(emitter);
 
