@@ -12,7 +12,8 @@ const MessageParser = ({ children, actions }) => {
       || message.includes('하이') || message.includes('헬로')) {
       messageFlag = true;
       setPremessage("인사");
-      actions.handleTypingMessage("안녕하세요.");
+      // actions.handleTypingMessage("안녕하세요.");
+      actions.handleApiTest();
     }
     if (message.includes('알겠') || message.includes('아하')
       || message.includes('이해') || message.includes('알았') || message.includes('고마워') || message.includes('땡큐') || message.includes('감사') || message.includes('고맙')) {
@@ -29,7 +30,7 @@ const MessageParser = ({ children, actions }) => {
     // 가능통과공장 설계
     if ((message.includes('가능') && message.includes('통과') && message.includes('설계')) || preMessage.includes('가능통과공장설계')) {
       messageFlag = true;
-      
+
     }
 
 

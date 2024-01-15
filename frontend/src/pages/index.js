@@ -15,7 +15,7 @@ import HeatMap from "src/views/dashboard/HeatMap";
 import InputStatusBar from "src/views/dashboard/InputStatusBar";
 import FactoryGuage from "src/views/dashboard/FactoryGuage";
 import OrderGrid from "src/views/dashboard/OrderGrid";
-import Trophy from "src/views/dashboard/Throphy";
+import PassProcessDash from "src/views/dashboard/PassProcessDash";
 
 ChartJS.register(
   CategoryScale,
@@ -32,16 +32,16 @@ const Index = () => {
     <ApexChartWrapper>
       <Grid container spacing={6}>
         <Grid item xs={12} md={3}>
-          <Trophy />
+          <PassProcessDash />
         </Grid>
         <Grid item xs={12} md={3}>
-          <Trophy />
+          <PassProcessDash />
         </Grid>
         <Grid item xs={12} md={3}>
-          <Trophy />
+          <PassProcessDash />
         </Grid>
         <Grid item xs={12} md={3}>
-          <Trophy />
+          <PassProcessDash />
         </Grid>
         <Grid item xs={12} md={6}>
           <HeatMap />

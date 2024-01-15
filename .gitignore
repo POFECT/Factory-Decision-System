@@ -21,6 +21,6 @@
 
 ## next
 **/.next
-**/.env.development
+**/.env
 
 .idea
