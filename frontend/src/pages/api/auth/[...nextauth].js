@@ -1,7 +1,6 @@
 import axios from "axios";
 import NextAuth from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak";
-import { config } from "dotenv";
 
 async function getKeycloakUserInfo(accessToken) {
   try {
@@ -19,7 +18,6 @@ async function getKeycloakUserInfo(accessToken) {
     return null;
   }
 }
-config({ path: ".env.development" });
 
 export const authOptions = {
   providers: [
