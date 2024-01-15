@@ -65,7 +65,7 @@ const OrderGrid = () => {
   return (
     <Paper elevation={3} style={{ padding: "15px" }}>
       <Typography variant="h5" style={{ padding: "10px 20px 10px 20px" }}>
-        주문 조회
+        품종-단계별 주문 건수
       </Typography>
       <Box
         sx={{

@@ -12,9 +12,36 @@ const InputStatusBar = () => {
       title: {
         display: true,
         text: "품종 별 투입 현황",
+        font: {
+          family: "JalnanGothic",
+        },
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            family: "JalnanGothic",
+          },
+        },
+      },
+      y: {
+        ticks: {
+          font: {
+            family: "JalnanGothic",
+          },
+        },
+      },
+    },
+    legend: {
+      labels: {
+        font: {
+          family: "JalnanGothic",
+        },
       },
     },
   };
+
   const inputStatusChartData = {
     labels: labels,
     datasets: [
