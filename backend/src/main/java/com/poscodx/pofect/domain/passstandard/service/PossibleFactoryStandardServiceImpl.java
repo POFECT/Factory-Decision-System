@@ -1,8 +1,9 @@
 package com.poscodx.pofect.domain.passstandard.service;
 
 import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardBtiPosReqDto;
-import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardResDto;
+import com.poscodx.pofect.domain.etc.controller.AlertController;
 import com.poscodx.pofect.domain.etc.controller.SseController;
+import com.poscodx.pofect.domain.etc.controller.SseEmitters;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleChangeReqDto;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleChangeResultResDto;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleFactoryStandardResDto;
@@ -12,6 +13,7 @@ import com.poscodx.pofect.domain.passstandard.repository.PossibleFactoryStandard
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.transaction.Transactional;
 import java.util.*;
@@ -22,8 +24,16 @@ import java.util.stream.Collectors;
 public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStandardService {
     @Autowired
     private SseController sseController;
+    private PossibleFactoryStandardRepository possibleFactoryStandardRepository;
+    private final SseEmitters sseEmitters;
 
-    private final PossibleFactoryStandardRepository possibleFactoryStandardRepository;
+    @Autowired
+    public PossibleFactoryStandardServiceImpl(PossibleFactoryStandardRepository possibleFactoryStandardRepository, SseEmitters sseEmitters) {
+        this.possibleFactoryStandardRepository = possibleFactoryStandardRepository;
+        this.sseEmitters = sseEmitters;
+    }
+
+
     @Override
     public List<PossibleFactoryStandardResDto> getGridData() {
         return possibleFactoryStandardRepository.getGridData().stream()
@@ -77,6 +87,7 @@ public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStanda
         String processCd = checkedFactory.getProcessCd();
         String checkedList = checkedFactory.getCheckedList();
         String checkedExpl = checkedFactory.getCheckedExpl();
+        SseEmitter alert = new SseEmitter(60*1000L);
 
         System.out.println("checkedList = "+checkedList+", expl = "+checkedExpl);
         PossibleChangeResultResDto result =new PossibleChangeResultResDto();
@@ -89,6 +100,9 @@ public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStanda
                 possibleFactoryStandardRepository.updateFeasibleRoutingGroup(btiPosbPsFacTp,processCd,checkedList);
                 result.setResult("Update");
                 sseController.sendAlert("pass-standard","Update");
+                //알람보내기
+                SseEmitter emitter = new SseEmitter();
+
             }else{
                 result.setResult("Fail");
             }
@@ -97,6 +111,7 @@ public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStanda
             System.out.println("삭제된 내용 있을 때 >>"+deletedCount);
             result.setResult("Delete");
             sseController.sendAlert("pass-standard","Delete");
+
         }else{//현재 존재하지 않는 값을 insert
             int sameCount = possibleFactoryStandardRepository.checkFeasibleRoutingGroupSame(processCd,checkedList);
             System.out.println(">> sameCount = "+sameCount);
