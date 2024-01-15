@@ -8,7 +8,7 @@ mysql:
 # RDS - MySQL
 # mysql:
 #  url: jdbc:mysql://pofect-database.c4jotwudvoiz.ap-northeast-2.rds.amazonaws.com:3306/pofect?characterEncoding=UTF-8&serverTimezone=UTC
-#  username: pofect
+#  username: pofectd
 #  password: 2wh1234!!
 
 # MongoDB

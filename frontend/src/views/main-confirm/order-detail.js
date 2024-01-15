@@ -147,10 +147,21 @@ const OrderDetail = (props) => {
               <TableContainer>
                 <Table aria-label="spanning table">
                   <TableHead>
-                    <TableRow>
-                      <TableCell align="center" style={{ fontSize: 17 }}>
-                        구분
-                      </TableCell>
+                    <TableRow
+                      sx={{
+                        "& .MuiTableCell-head:first-child": {
+                          cursor: "auto",
+                          textDecoration: "auto",
+                        },
+                        "& .MuiTableCell-head": {
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                          fontSize: 17,
+                          whiteSpace: "nowrap",
+                        },
+                      }}
+                    >
+                      <TableCell align="center">구분</TableCell>
                       <TableCell
                         align="center"
                         accessKey={10}
@@ -158,10 +169,7 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(0));
                         }}
                         style={{
-                          cursor: "pointer",
-                          textDecoration: "underline",
-                          fontSize: 17,
-                          padding: 0,
+                          color: `${factory.no == 10 ? "darkred" : ""}`,
                         }}
                       >
                         제강
@@ -173,10 +181,7 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(1));
                         }}
                         style={{
-                          cursor: "pointer",
-                          textDecoration: "underline",
-                          fontSize: 17,
-                          padding: 0,
+                          color: `${factory.no == 20 ? "darkred" : ""}`,
                         }}
                       >
                         열연
@@ -188,10 +193,7 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(2));
                         }}
                         style={{
-                          cursor: "pointer",
-                          textDecoration: "underline",
-                          fontSize: 17,
-                          padding: 0,
+                          color: `${factory.no == 30 ? "darkred" : ""}`,
                         }}
                       >
                         열연정정
@@ -203,10 +205,7 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(3));
                         }}
                         style={{
-                          cursor: "pointer",
-                          textDecoration: "underline",
-                          fontSize: 17,
-                          padding: 0,
+                          color: `${factory.no == 40 ? "darkred" : ""}`,
                         }}
                       >
                         냉간압연
@@ -218,10 +217,7 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(4));
                         }}
                         style={{
-                          cursor: "pointer",
-                          textDecoration: "underline",
-                          fontSize: 17,
-                          padding: 0,
+                          color: `${factory.no == 50 ? "darkred" : ""}`,
                         }}
                       >
                         1차소둔
@@ -233,10 +229,7 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(5));
                         }}
                         style={{
-                          cursor: "pointer",
-                          textDecoration: "underline",
-                          fontSize: 17,
-                          padding: 0,
+                          color: `${factory.no == 60 ? "darkred" : ""}`,
                         }}
                       >
                         2차소둔
@@ -248,10 +241,7 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(6));
                         }}
                         style={{
-                          cursor: "pointer",
-                          textDecoration: "underline",
-                          fontSize: 17,
-                          padding: 0,
+                          color: `${factory.no == 70 ? "darkred" : ""}`,
                         }}
                       >
                         도금
@@ -263,11 +253,7 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(7));
                         }}
                         style={{
-                          cursor: "pointer",
-                          textDecoration: "underline",
-                          fontSize: 17,
-
-                          padding: 0,
+                          color: `${factory.no == 80 ? "darkred" : ""}`,
                         }}
                       >
                         정정
@@ -278,7 +264,11 @@ const OrderDetail = (props) => {
                     <TableRow>
                       <TableCell
                         align="center"
-                        style={{ fontWeight: "bold", fontSize: 17 }}
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: 17,
+                          whiteSpace: "nowrap",
+                        }}
                       >
                         공장
                       </TableCell>

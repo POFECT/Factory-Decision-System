@@ -70,8 +70,9 @@ const MainApi = {
       });
   },
 
-  updateFlag: async (flag, orderIds, callback) => {
+  updateFlag: async (userName, flag, orderIds, callback) => {
     await Api.patch("/main/flag/update", {
+      userName,
       value: flag,
       ids: orderIds,
     })
@@ -83,8 +84,9 @@ const MainApi = {
       });
   },
 
-  updateStatus: async (status, orderIds, callback) => {
+  updateStatus: async (userName, status, orderIds, callback) => {
     await Api.patch("/main/status/update", {
+      userName,
       value: status,
       ids: orderIds,
     })
@@ -96,8 +98,11 @@ const MainApi = {
       });
   },
 
-  possibleDecision: async (orderIds, callback) => {
-    await Api.patch("/main/possible", orderIds)
+  possibleDecision: async (userName, orderIds, callback) => {
+    await Api.patch("/main/possible", {
+      userName,
+      ids: orderIds,
+    })
       .then((response) => {
         callback && callback(response.data);
       })
@@ -106,8 +111,11 @@ const MainApi = {
       });
   },
 
-  confirmDecision: async (orderIds, callback) => {
-    await Api.patch("/main/confirm", orderIds)
+  confirmDecision: async (userName, orderIds, callback) => {
+    await Api.patch("/main/confirm", {
+      userName,
+      ids: orderIds,
+    })
       .then((response) => {
         callback && callback(response.data);
       })

@@ -58,7 +58,7 @@ const EssentialGoods = () => {
   useEffect(() => {
     EssentialStandardApi.getEssentialStandardList((data) => {
       const responseData = data.response;
-      console.log(data.response);
+
       const processCdMappings = {
         10: "제강",
         20: "열연",
@@ -474,9 +474,7 @@ const EssentialGoods = () => {
               id="demo-multiple-name"
               defaultValue="T"
               input={<OutlinedInput label="구분" />}
-              onChange={(e) => {
-                console.log(e);
-              }}
+              onChange={(e) => {}}
               style={{ height: 40 }}
             >
               <MenuItem value="T">포항</MenuItem>
@@ -589,9 +587,7 @@ const EssentialGoods = () => {
             rows={essentialList}
             columns={columns}
             columnGroupingModel={columnGroupingModel}
-            onCellClick={(e) => {
-              console.log(e);
-            }}
+            onCellClick={(e) => {}}
             slots={{
               cell: MyCell,
             }}
