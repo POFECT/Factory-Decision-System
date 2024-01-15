@@ -191,9 +191,12 @@ const NotificationDropdown = () => {
       <Badge
         overlap='circular'
         onClick={handleDropdownOpen}
-        sx={{ ml: 2, cursor: 'pointer',display: showBadge ? 'inline-block' : 'none' }}
+        sx={{ ml: 2, cursor: 'pointer',display: showBadge ? 'inline-block' : 'none','& .MuiBadge-badge': {
+          paddingLeft: '50px',
+          paddingTop: '20px',
+        } }}
         badgeContent={<BadgeContentSpan />}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right',paddingRight:"20px"}}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right'}}
       >
       </Badge>
         <BellOutline />
