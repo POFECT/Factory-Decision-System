@@ -61,6 +61,7 @@ export const authOptions = {
       }
       return NextAuth(req, res);
     },
+    signIn: "/auth/signin",
   },
 };
 
