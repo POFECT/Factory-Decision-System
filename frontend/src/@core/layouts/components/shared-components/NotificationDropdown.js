@@ -147,7 +147,7 @@ const NotificationDropdown = () => {
   };
 
   useEffect(() => {
-    const eventSource = new EventSource('http://localhost:8080/api/alert/connect');
+    const eventSource = new EventSource('http://localhost:8080/src/pages/alert/connect');
     
     // 이벤트 핸들러 등록
     //console.log("현재 연결 상태",eventSource.readyState)

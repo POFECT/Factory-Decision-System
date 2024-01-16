@@ -1,10 +1,10 @@
 import axios from "axios";
 import NextAuth from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak";
-
 async function getKeycloakUserInfo(accessToken) {
   try {
     const res = await axios.get(
+      // "http://localhost:5555/realms/pofect-realm/protocol/openid-connect/userinfo",
       "http://52.79.114.216:5555/realms/pofect-realm/protocol/openid-connect/userinfo",
       {
         headers: {
@@ -18,7 +18,6 @@ async function getKeycloakUserInfo(accessToken) {
     return null;
   }
 }
-
 export const authOptions = {
   providers: [
     KeycloakProvider({
@@ -27,6 +26,7 @@ export const authOptions = {
       issuer: process.env.ISSUER,
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, account }) {
       // Persist the OAuth access_token to the token right after signin
@@ -39,7 +39,6 @@ export const authOptions = {
         token.roles = userInfo.roles;
         token.permissions = userInfo.permissions;
       }
-
       return token;
     },
     async session({ session, token }) {
@@ -49,7 +48,6 @@ export const authOptions = {
       console.log(session);
       console.log(session.permissions);
       console.log(session.roles);
-
       return session;
     },
   },
@@ -57,12 +55,11 @@ export const authOptions = {
     async api({ req, res }) {
       //Token Session검사를 진행하지 않는 API 따로 작성
       if (req.url === "/user/login") {
+        s;
         return NextAuth(req, res);
       }
       return NextAuth(req, res);
     },
-    signIn: "/auth/signin",
   },
 };
-
 export default NextAuth(authOptions);

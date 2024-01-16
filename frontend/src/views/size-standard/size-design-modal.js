@@ -13,7 +13,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
 //excel
-import SizeStandardApi from "src/pages/api/SizeStandardApi";
+import SizeStandardApi from "/api/SizeStandardApi";
 
 const SizeDesignModal = ({ open, handleClose }) => {
   const [columns, setColumns] = useState([
