@@ -17,8 +17,6 @@ import {
   DialogContent,
   DialogContentText,
 } from "@mui/material";
-import PassStandardApi from "src/pages/api/ProcessStandardApi";
-import SizeStandardApi from "src/pages/api/SizeStandardApi";
 
 const InsertFormComponent = ({
   open,
