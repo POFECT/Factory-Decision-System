@@ -20,7 +20,7 @@ import Button from "@mui/material/Button";
 
 // ** Icons Imports
 import Close from "mdi-material-ui/Close";
-import withAuth from "src/pages/api/auth/withAuth";
+import withAuth from "src/pagessrc/pages/api/pofect/auth/withAuth";
 
 const ImgStyled = styled("img")(({ theme }) => ({
   width: 123,

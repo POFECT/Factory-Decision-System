@@ -1,6 +1,6 @@
 import Card from "@mui/material/Card";
 import { useEffect, useState } from "react";
-import PassStandardApi from "/api/ProcessStandardApi";
+import PassStandardApi from "src/pages/api/pofect/ProcessStandardApi";
 
 const PassProcessDash = () => {
   const [passStandard, setPassStandard] = useState([]);

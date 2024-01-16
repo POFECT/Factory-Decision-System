@@ -35,7 +35,7 @@ import {
 import { Report } from "src/notifix/notiflix-report-aio";
 
 import React, { useEffect, useState } from "react";
-import CapacityStandardApi from "/api/CapacityApi";
+import CapacityStandardApi from "src/pages/api/pofect/CapacityApi";
 import MyD3Heatmap from "../../views/capacity/d3-heat";
 
 import * as FileSaver from "file-saver";

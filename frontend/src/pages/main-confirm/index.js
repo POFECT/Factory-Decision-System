@@ -14,14 +14,14 @@ import {
   Box,
   Chip,
 } from "@mui/material";
-import MainApi from "/api/MainApi";
+import MainApi from "src/pages/api/pofect/MainApi";
 import OrderDetail from "../../views/main-confirm/order-detail";
 import { Report } from "src/notifix/notiflix-report-aio";
 import { Notify } from "src/notifix/notiflix-notify-aio";
 
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
-import withAuth from "/src/pages/api/auth/withAuth";
+import withAuth from "../api/auth/withAuth";
 
 function MyCell(props) {
   let style = {

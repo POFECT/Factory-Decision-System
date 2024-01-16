@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import MainApi from "/api/MainApi";
-import LotApi from "/api/LotApi";
+import MainApi from "src/pages/api/pofect/MainApi";
+import LotApi from "src/pages/api/pofect/LotApi";
 
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   const handleTypingMessage = (messaage) => {

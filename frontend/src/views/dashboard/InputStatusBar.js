@@ -1,7 +1,7 @@
 import { Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
-import DashBoardApi from "/api/DashBoardApi";
+import DashBoardApi from "src/pages/api/pofect/DashBoardApi";
 
 const InputStatusBar = () => {
   const [labels, setLabels] = useState([]);
