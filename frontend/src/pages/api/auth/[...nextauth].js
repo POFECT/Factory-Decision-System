@@ -1,12 +1,11 @@
 import axios from "axios";
 import NextAuth from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak";
-import { config } from "dotenv";
 
 async function getKeycloakUserInfo(accessToken) {
   try {
     const res = await axios.get(
-      "http://localhost:5555/realms/pofect-realm/protocol/openid-connect/userinfo",
+      "http://52.79.114.216:5555/realms/pofect-realm/protocol/openid-connect/userinfo",
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -19,7 +18,6 @@ async function getKeycloakUserInfo(accessToken) {
     return null;
   }
 }
-config({ path: ".env.development" });
 
 export const authOptions = {
   providers: [

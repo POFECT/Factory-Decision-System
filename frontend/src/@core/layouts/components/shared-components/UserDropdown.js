@@ -94,12 +94,12 @@ const UserDropdown = ({ userData }) => {
           </Box>
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles} onClick={handleUserInfo}>
             <AccountOutline sx={{ marginRight: 2 }} />
             회원정보
           </Box>
-        </MenuItem>
+        </MenuItem> */}
         {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <MessageOutline sx={{ marginRight: 2 }} />

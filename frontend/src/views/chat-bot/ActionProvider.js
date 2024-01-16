@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from "react";
-import MainApi from "src/api/MainApi";
-import LotApi from "src/api/LotApi";
+import MainApi from "src/pages/api/MainApi";
+import LotApi from "src/pages/api/LotApi";
 
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
