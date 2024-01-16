@@ -23,6 +23,8 @@ const QuestionChatBot = (props) => {
             props.actionProvider.handleUnderWidget(option.answer, option.underWidget);
         } else if(option.withApi === "week"){
             props.actionProvider.handleWeekApi(option.answer, option.flagList);
+        } else if(option.withApi === "lotSm"){
+            props.actionProvider.handleLotSmApi(option.answer);
         }
         else {
             props.actionProvider.handleMessage(option.answer);

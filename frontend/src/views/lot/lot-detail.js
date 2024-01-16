@@ -87,6 +87,26 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
       title: {
         display: true,
         text: "기투입 차트",
+        font: {
+          family: "JalnanGothic",
+        },
+      },
+      
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            family: "JalnanGothic",
+          },
+        },
+      },
+      y: {
+        ticks: {
+          font: {
+            family: "JalnanGothic",
+          },
+        },
       },
     },
   };
@@ -127,6 +147,26 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
       title: {
         display: true,
         text: "투입대기 차트",
+        font: {
+          family: "JalnanGothic",
+        },
+      },
+      
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            family: "JalnanGothic",
+          },
+        },
+      },
+      y: {
+        ticks: {
+          font: {
+            family: "JalnanGothic",
+          },
+        },
       },
     },
   };
@@ -173,7 +213,9 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
       <DialogContent>
         <DialogContentText
           style={{
+            width: "100%",
             height: "100%",
+
           }}
         >
           <div
@@ -186,7 +228,10 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
             }}
           >
             <div>
-              <Card>
+              <Card style={{
+                width: 400,
+                height: 200
+              }}>
                 <Bar options={optionStand} data={dataStand} />
               </Card>
               {selectedCellValue.length === 2 ? (
@@ -199,7 +244,10 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
             </div>
             {selectedCellValue.length === 2 ? (
               <div style={{ paddingLeft: "10px" }}>
-                <Card>
+                <Card style={{
+                  width: 400,
+                  height: 400
+                }}>
                   <Doughnut data={test} />
                 </Card>
               </div>
