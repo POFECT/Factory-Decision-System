@@ -93,27 +93,37 @@ const config = {
         questions: [
           {
             questions: "PP",
-            answer: "PP: 필수재와 사이즈 기준의 교집합이 존재하나 불가한 상태",
+            answer: "PP: 필수재와 사이즈 기준의 교집합이 존재하나 불가한 상태 \n\n"
+            + "현재 해당 에러코드를 가진 주문번호는 아래와 같습니다.\n",
+            withApi: "errorCode",
             id: 1,
           },
           {
             questions: "PF",
-            answer: "PF: 사이즈 기준 부적합",
+            answer: "PF: 사이즈 기준 부적합 \n\n"
+            + "현재 해당 에러코드를 가진 주문번호는 아래와 같습니다.\n",
+            withApi: "errorCode",
             id: 2,
           },
           {
             questions: "FP",
-            answer: "FP: 필수재 부적합",
+            answer: "FP: 필수재 부적합 \n\n"
+            + "현재 해당 에러코드를 가진 주문번호는 아래와 같습니다.\n",
+            withApi: "errorCode",
             id: 3,
           },
           {
             questions: "FF",
-            answer: "FF: 사이즈, 필수재 부적합",
+            answer: "FF: 사이즈, 필수재 부적합 \n\n"
+            + "현재 해당 에러코드를 가진 주문번호는 아래와 같습니다.\n",
+            withApi: "errorCode",
             id: 4,
           },
           {
             questions: "CC",
-            answer: "CC: 사이즈, 필수재 모두 적합하나 교집합 없음",
+            answer: "CC: 사이즈, 필수재 모두 적합하나 교집합 없음 \n\n"
+            + "현재 해당 에러코드를 가진 주문번호는 아래와 같습니다.\n",
+            withApi: "errorCode",
             id: 5,
           },
           {

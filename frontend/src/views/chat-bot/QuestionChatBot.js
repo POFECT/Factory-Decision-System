@@ -25,7 +25,10 @@ const QuestionChatBot = (props) => {
             props.actionProvider.handleWeekApi(option.answer, option.flagList);
         } else if(option.withApi === "lotSm"){
             props.actionProvider.handleLotSmApi(option.answer);
+        } else if(option.withApi === "errorCode"){
+            props.actionProvider.handleErrorCodeApi(option.answer, option.questions);
         }
+
         else {
             props.actionProvider.handleMessage(option.answer);
         }

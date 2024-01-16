@@ -86,6 +86,29 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
             });
 
             if(list.length == 0){
+                message = createChatBotMessage("해당 에러코드를 가진 주문이 없습니다.",
+                {
+                    widget: "startChatbot",
+                });
+            }
+            setState((prev) => ({
+                ...prev,
+                messages: [...prev.messages, message],
+            }));
+        });
+    }
+
+
+    const handleErrorCodeApi = (answer, questions) => {
+        MainApi.getErrorCodeList(questions, (data) => {
+            const list = data.response;
+            const messageText = list.map((item) => `${item}`).join('\n');
+            const message = createChatBotMessage(answer + " \n\n" + messageText + "\n\n" + "총 " + list.length +"개 입니다.",
+            {
+                widget: "startChatbot"
+            });
+
+            if(list.length == 0){
                 message = createChatBotMessage("현재 강종는 없습니다.",
                 {
                     widget: "startChatbot",
@@ -97,6 +120,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
             }));
         });
     }
+
     const handleNoContent = () => {
         const botMessage = createChatBotMessage('죄송합니다. 모르는 정보입니다.');
 
@@ -105,6 +129,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
             messages: [...prev.messages, botMessage],
         }));
     }
+
 
     // Put the handleHello function in the actions object to pass to the MessageParser
     return (
@@ -118,7 +143,8 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
                         handleNoContent,
                         handleWeekApi,
                         handleUnderWidget,
-                        handleLotSmApi
+                        handleLotSmApi,
+                        handleErrorCodeApi
                     },
                 });
             })}
