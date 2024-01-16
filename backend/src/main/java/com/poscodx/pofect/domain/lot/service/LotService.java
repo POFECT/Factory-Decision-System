@@ -8,5 +8,7 @@ import java.util.List;
 public interface LotService {
     List<LotGroupDto> findLotAll(LotSearchDto searchDto);
 
+    List<String> findSmAll();
+
 
 }

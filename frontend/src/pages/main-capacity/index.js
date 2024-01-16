@@ -12,7 +12,7 @@ import {
   Box,
   Chip,
 } from "@mui/material";
-import MainApi from "src/api/MainApi";
+import MainApi from "src/pages/api/MainApi";
 import Card from "@mui/material/Card";
 import { Notify } from "src/notifix/notiflix-notify-aio";
 

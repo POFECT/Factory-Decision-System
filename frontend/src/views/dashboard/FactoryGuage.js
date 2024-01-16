@@ -1,7 +1,7 @@
 import { Box, Paper, Tab, Tabs, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import CapacityStandardApi from "src/api/CapacityApi";
+import CapacityStandardApi from "src/pages/api/CapacityApi";
 
 const FactoryGuage = () => {
   const GaugeChart = dynamic(() => import("react-gauge-chart"), { ssr: false });

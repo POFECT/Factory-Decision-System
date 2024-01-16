@@ -40,6 +40,26 @@ const LotChart = ({ open, handleClose, sumValue }) => {
       title: {
         display: true,
         text: "기투입 차트",
+        font: {
+          family: "JalnanGothic",
+        },
+      },
+      
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            family: "JalnanGothic",
+          },
+        },
+      },
+      y: {
+        ticks: {
+          font: {
+            family: "JalnanGothic",
+          },
+        },
       },
     },
   };
@@ -78,6 +98,26 @@ const LotChart = ({ open, handleClose, sumValue }) => {
       title: {
         display: true,
         text: "투입대기 차트",
+        font: {
+          family: "JalnanGothic",
+        },
+      },
+      
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            family: "JalnanGothic",
+          },
+        },
+      },
+      y: {
+        ticks: {
+          font: {
+            family: "JalnanGothic",
+          },
+        },
       },
     },
   };
@@ -103,17 +143,17 @@ const LotChart = ({ open, handleClose, sumValue }) => {
         label: "합계량",
         data: [
           sumValue.width_970_stand_sum +
-            sumValue.width_1270_stand_sum +
-            sumValue.width_1570_stand_sum +
-            sumValue.width_over_1570_stand_sum,
+          sumValue.width_1270_stand_sum +
+          sumValue.width_1570_stand_sum +
+          sumValue.width_over_1570_stand_sum,
           sumValue.width_9701_sum +
-            sumValue.width_12701_sum +
-            sumValue.width_15701_sum +
-            sumValue.width_over_15701_sum +
-            sumValue.width_9702_sum +
-            sumValue.width_12702_sum +
-            sumValue.width_15702_sum +
-            sumValue.width_over_15702_sum,
+          sumValue.width_12701_sum +
+          sumValue.width_15701_sum +
+          sumValue.width_over_15701_sum +
+          sumValue.width_9702_sum +
+          sumValue.width_12702_sum +
+          sumValue.width_15702_sum +
+          sumValue.width_over_15702_sum,
         ],
         backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)"],
         borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
@@ -148,13 +188,22 @@ const LotChart = ({ open, handleClose, sumValue }) => {
               paddingTop: "15px",
             }}
           >
-            <Card>
+            <Card style={{
+              width: 400,
+              height: 200
+            }}>
               <Bar options={optionStand} data={dataStand} />
             </Card>
-            <Card>
+            <Card style={{
+              width: 400,
+              height: 200
+            }}>
               <Bar options={options} data={data} />
             </Card>
-            <Card>
+            <Card style={{
+              width: 400,
+              height: 400
+            }}>
               <Doughnut data={test} />
             </Card>
           </div>

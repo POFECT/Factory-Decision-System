@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import SizeStandardApi from "/src/api/SizeStandardApi";
+import SizeStandardApi from "/src/pages/api/SizeStandardApi";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
 import SizeDesignModal from "../../views/size-standard/size-design-modal";
@@ -102,7 +102,6 @@ const Standard = () => {
       });
 
       setSizeStandardList(resultData);
-
     });
   };
 
@@ -116,32 +115,34 @@ const Standard = () => {
         item.orderThickMax < 0 ||
         item.orderThickMin > item.orderThickMax
       ) {
-        const badData = [{
-          id: item.id,
-          min: "orderThickMin",
-          max: "orderThickMax"
-        }]
+        const badData = [
+          {
+            id: item.id,
+            min: "orderThickMin",
+            max: "orderThickMax",
+          },
+        ];
         console.log(badData);
         result += item.processCd + " " + item.firmPsFacTp + "공장 두께\n";
         updateFlag = true;
-        setBadDatas(prevData => [...prevData, badData]);
-
+        setBadDatas((prevData) => [...prevData, badData]);
       }
       if (
         item.orderWidthMin < 0 ||
         item.orderWidthMax < 0 ||
         item.orderWidthMin > item.orderWidthMax
       ) {
-        const badData = [{
-          id: item.id,
-          min: "orderWidthMin",
-          max: "orderWidthMax"
-        }]
+        const badData = [
+          {
+            id: item.id,
+            min: "orderWidthMin",
+            max: "orderWidthMax",
+          },
+        ];
         console.log(badData);
         result += item.processCd + " " + item.firmPsFacTp + "공장 폭\n";
         updateFlag = true;
-        setBadDatas(prevData => [...prevData, badData]);
-
+        setBadDatas((prevData) => [...prevData, badData]);
       }
       if (
         item.orderLengthMin < 0 ||
@@ -196,8 +197,6 @@ const Standard = () => {
         backOverlayClickToClose: true,
       }
     );
-
-
   };
 
   const columns = [
@@ -456,23 +455,23 @@ const Standard = () => {
             height: 600,
             width: "100%",
             "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
-            {
-              borderBottom: "1px solid rgba(225, 234, 239, 1)",
-              borderRight: "1px solid rgba(225, 234, 239, 1)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "gray",
-            },
+              {
+                borderBottom: "1px solid rgba(225, 234, 239, 1)",
+                borderRight: "1px solid rgba(225, 234, 239, 1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "gray",
+              },
             "& .custom-data-grid .MuiDataGrid-columnHeader": {
               cursor: "pointer",
               borderBottom: "1px solid rgba(225, 234, 239, 1)",
               borderRight: "1px solid rgba(225, 234, 239, 1)",
             },
             "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
-            {
-              borderBottomStyle: "none",
-            },
+              {
+                borderBottomStyle: "none",
+              },
             "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
               backgroundColor: "#F5F9FF",
             },
