@@ -55,7 +55,6 @@ export const authOptions = {
     async api({ req, res }) {
       //Token Session검사를 진행하지 않는 API 따로 작성
       if (req.url === "/user/login") {
-        s;
         return NextAuth(req, res);
       }
       return NextAuth(req, res);
