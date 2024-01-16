@@ -40,9 +40,42 @@ public interface FactoryOrderInfoRepository extends JpaRepository<FactoryOrderIn
             "LIMIT 5", nativeQuery = true)
     List<appResDto> getRecentOrders();
 
-    @Query(value="select count(FOI.cfirm_pass_op_cd) from factory_order_info FOI " +
-            "where substring(FOI.cfirm_pass_op_cd,:processCd,1)=:firmFsFacTp",nativeQuery = true)
-    int getCfrmOrderCount(@Param("processCd") String processCd,@Param("firmFsFacTp") String firmFsFacTp);
+    //한주만 가져오기 버전
+//    @Query(value="SELECT " +
+//            "      SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 1, 1) = :firmFsFacTp THEN 1 ELSE 0 END) AS 제강, " +
+//            "      SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 2, 1) = :firmFsFacTp THEN 1 ELSE 0 END) AS 열연," +
+//            "      SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 3, 1) = :firmFsFacTp THEN 1 ELSE 0 END) AS 열연정정," +
+//            "      SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 4, 1) = :firmFsFacTp THEN 1 ELSE 0 END) AS PCM," +
+//            "      SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 5, 1) = :firmFsFacTp THEN 1 ELSE 0 END) AS CAL," +
+//            "      SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 6, 1) = :firmFsFacTp THEN 1 ELSE 0 END) AS ACL," +
+//            "      SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 7, 1) = :firmFsFacTp THEN 1 ELSE 0 END) AS EGL," +
+//            "      SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 8, 1) = :firmFsFacTp THEN 1 ELSE 0 END) AS RCL" +
+//            "      FROM factory_order_info FOI",nativeQuery = true)
+    //전체 가져오기 버전
+    @Query(value="SELECT" +
+            "  FOI.ord_thw_tap_Wek_Cd," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 1, 1) = '1' THEN 1 ELSE 0 END) AS '1제강'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 1, 1) = '2' THEN 1 ELSE 0 END) AS '2제강'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 2, 1) = '1' THEN 1 ELSE 0 END) AS '1열연'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 2, 1) = '2' THEN 1 ELSE 0 END) AS '2열연'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 3, 1) = '1' THEN 1 ELSE 0 END) AS '1열연정정'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 3, 1) = '2' THEN 1 ELSE 0 END) AS '2열연정정'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 4, 1) = '1' THEN 1 ELSE 0 END) AS '1PCM'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 4, 1) = '2' THEN 1 ELSE 0 END) AS '2PCM'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 4, 1) = '3' THEN 1 ELSE 0 END) AS '3PCM'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 5, 1) = '1' THEN 1 ELSE 0 END) AS '1CAL'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 5, 1) = '2' THEN 1 ELSE 0 END) AS '2CAL'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 5, 1) = '3' THEN 1 ELSE 0 END) AS '3CAL'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 6, 1) = '1' THEN 1 ELSE 0 END) AS '1ACL'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 6, 1) = '3' THEN 1 ELSE 0 END) AS '3ACL'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 7, 1) = '2' THEN 1 ELSE 0 END) AS '2EGL'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 7, 1) = '3' THEN 1 ELSE 0 END) AS '3EGL'," +
+            "  SUM(CASE WHEN SUBSTRING(FOI.cfirm_pass_op_cd, 8, 1) = '1' THEN 1 ELSE 0 END) AS '1RCL'" +
+            "FROM" +
+            "  factory_order_info FOI " +
+            "GROUP BY" +
+            "  ord_thw_tap_Wek_Cd",nativeQuery = true)
+    List<Object[]> getCfrmOrderCount();
 
 
 

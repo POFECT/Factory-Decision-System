@@ -40,5 +40,5 @@ public interface FactoryOrderInfoService {
 
     List<String> getOrderListByErrorCode(String errorCode);
 
-    int getCfrmOrderCount(String processCd, String firmFsFacTp);
+    List<Object[]> getCfrmOrderCount();
 }

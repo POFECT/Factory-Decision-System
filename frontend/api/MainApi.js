@@ -162,15 +162,16 @@ const MainApi = {
         console.log(error);
       });
   },
-  cfrmOrderCount:async(processCd,firmFsFacTp)=>{
-    await Api.get("/cfrmOrderCount",processCd,firmFsFacTp)
-    .then((response) => {
-      callback && callback(response.data);
+  cfrmOrderCount:async(callback)=>{
+    await Api.get("/main/cfrmOrderCount")
+    .then((res) => {
+      console.log(res.data.response);
+      callback && callback(res.data.response);
     })
     .catch((error) => {
       console.log(error);
     });
-  }
+  },
 };
 
 export default MainApi;

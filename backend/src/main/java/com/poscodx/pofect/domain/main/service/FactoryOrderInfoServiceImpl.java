@@ -623,8 +623,8 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
     }
 
     @Override
-    public int getCfrmOrderCount(String processCd, String firmFsFacTp){
-        return factoryOrderInfoRepository.getCfrmOrderCount(processCd, firmFsFacTp);
+    public List<Object[]> getCfrmOrderCount(){
+        return factoryOrderInfoRepository.getCfrmOrderCount();
     }
 
 

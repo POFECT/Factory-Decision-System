@@ -160,10 +160,8 @@ public class MainController {
 
     @GetMapping("/cfrmOrderCount")
     @ApiOperation(value = "확통 공장별 주문 건수 조회", notes = "대시보드에서 사용되는 확통 공장별 주문 건수 조회")
-    public ResponseEntity<ResponseDto> getCfrmOrderCount(String processCd, String firmFsFacTp){
-        String inputProcessCd=processCd.substring(0,1);
-
-        int result = factoryOrderInfoService.getCfrmOrderCount(inputProcessCd,firmFsFacTp);
+    public ResponseEntity<ResponseDto> getCfrmOrderCount(){
+        List<Object[]> result = factoryOrderInfoService.getCfrmOrderCount();
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 
