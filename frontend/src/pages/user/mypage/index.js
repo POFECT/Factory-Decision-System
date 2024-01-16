@@ -198,3 +198,8 @@
 // };
 
 // export default withAuth(TabAccount, { userData: true });
+const TabAccount = () => {
+  return <div></div>;
+};
+
+export default TabAccount;
