@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Paper, Typography } from "@mui/material";
-import MainApi from "/api/MainApi";
+import MainApi from "src/pages/api/pofect/MainApi";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
