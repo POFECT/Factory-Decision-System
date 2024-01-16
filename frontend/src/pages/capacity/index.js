@@ -3,8 +3,6 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { Notify } from "src/notifix/notiflix-notify-aio";
 
-
-
 import {
   Box,
   Card,
@@ -37,7 +35,7 @@ import {
 import { Report } from "src/notifix/notiflix-report-aio";
 
 import React, { useEffect, useState } from "react";
-import CapacityStandardApi from "src/api/CapacityApi";
+import CapacityStandardApi from "src/pages/api/CapacityApi";
 import MyD3Heatmap from "../../views/capacity/d3-heat";
 
 import * as FileSaver from "file-saver";
@@ -171,14 +169,11 @@ const CapacityMgt = () => {
     });
 
     setCapacity(data.response);
-
-
   };
 
-  const handleInsert=() =>{
-
+  const handleInsert = () => {
     setShowAlert(true);
-  }
+  };
   //   console.log(" weeklist:", weekList);
 
   //컬럼
@@ -240,17 +235,17 @@ const CapacityMgt = () => {
         result += item.processName + " " + item.firmPsFacTp + "공장 조정량\n";
         updateFlag = true;
         Notify.failure("공정 조정량은 숫자만 가능합니다.");
-
-      } else if (item.faAdjustmentWgt === undefined || item.faAdjustmentWgt === null || item.faAdjustmentWgt === "") {
-
+      } else if (
+        item.faAdjustmentWgt === undefined ||
+        item.faAdjustmentWgt === null ||
+        item.faAdjustmentWgt === ""
+      ) {
         Notify.failure("공정 조정량이 비어있습니다.");
         updateFlag = true;
-
       }
     });
 
     if (updateFlag) {
-
       // alert(result);
       // getSizeStadards();
     } else if (!updateFlag) {
@@ -350,16 +345,19 @@ const CapacityMgt = () => {
           </FormControl>
         </div>
         <div>
-          {capacity.length === 0 ?(
+          {capacity.length === 0 ? (
             <Button
               size="small"
               type="submit"
               variant="contained"
               onClick={handleInsert}
-              style={{backgroundColor: "darkred"}}
-          >
-            추가
-          </Button>):(<></>)}
+              style={{ backgroundColor: "darkred" }}
+            >
+              추가
+            </Button>
+          ) : (
+            <></>
+          )}
           <Button
             size="small"
             type="submit"
