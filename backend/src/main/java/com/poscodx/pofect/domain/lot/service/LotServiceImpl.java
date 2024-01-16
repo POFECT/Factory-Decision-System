@@ -3,6 +3,8 @@ package com.poscodx.pofect.domain.lot.service;
 import com.poscodx.pofect.domain.lot.dto.LotGroupDto;
 import com.poscodx.pofect.domain.lot.dto.LotResDto;
 import com.poscodx.pofect.domain.lot.dto.LotSearchDto;
+import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoReqDto;
+import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
 import com.poscodx.pofect.domain.main.service.FactoryOrderInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -55,6 +57,15 @@ public class LotServiceImpl implements LotService{
         System.out.println(collect);
 
         return getLotGroupDtos(collect, searchDto.getIsChecked());
+    }
+
+    @Override
+    public List<String> findSmAll() {
+        List<FactoryOrderInfoResDto> list = factoryOrderInfoService.getList();
+        return list.stream()
+                .map(FactoryOrderInfoResDto::getSmSteelGrdN)
+                .distinct()
+                .toList();
     }
 
     private static List<LotGroupDto> getLotGroupDtos(Map<String, Map<String, Map<Character, Map<String, Integer>>>> collect, Boolean isChecked) {

@@ -70,6 +70,16 @@ const MainApi = {
       });
   },
 
+  getErrorCodeList: async (errorCode, callback) => {
+    await Api.get(`/main/error/${errorCode}`)
+      .then((response) => {
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
   updateFlag: async (userName, flag, orderIds, callback) => {
     await Api.patch("/main/flag/update", {
       userName,

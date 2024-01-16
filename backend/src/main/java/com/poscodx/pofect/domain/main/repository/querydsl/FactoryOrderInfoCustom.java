@@ -19,4 +19,6 @@ public interface FactoryOrderInfoCustom {
     Long updateFlag(FactoryOrderInfoReqDto.updateCodeDto reqDto);
 
     Long updateStatus(FactoryOrderInfoReqDto.updateCodeDto reqDto);
+
+    List<String> findOrderErrorList(String errorCode);
 }
