@@ -35,7 +35,7 @@ import {
 import { Report } from "src/notifix/notiflix-report-aio";
 
 import React, { useEffect, useState } from "react";
-import CapacityStandardApi from "src/api/CapacityApi";
+import CapacityStandardApi from "src/pages/api/pofect/CapacityApi";
 import MyD3Heatmap from "../../views/capacity/d3-heat";
 
 import * as FileSaver from "file-saver";
@@ -168,14 +168,11 @@ const CapacityMgt = () => {
     });
 
     setCapacity(data.response);
-
-
   };
 
-  const handleInsert=() =>{
-
+  const handleInsert = () => {
     setShowAlert(true);
-  }
+  };
   //   console.log(" weeklist:", weekList);
 
   //컬럼

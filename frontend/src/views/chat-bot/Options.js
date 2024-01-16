@@ -19,7 +19,8 @@ const Options = (props) => {
         { text: "사이즈 기준", handler: () => props.actionProvider.handleWidget("사이즈 기준", "sizeChatBot"), widgetName: "sizeChatBot", id: 4 },
         { text: "필수재 기준", handler: () => props.actionProvider.handleWidget("필수재 기준", "essentialChatBot"), widgetName: "essentialChatBot", id: 5 },
         { text: "가능/확통 기준", handler: () => props.actionProvider.handleWidget("가능/확통 기준", "passChatBot"), widgetName: "passChatBot", id: 6 },
-        { text: "출강Lot", handler: () => props.actionProvider.handleWidget("출강Lot", "lotChatBot"), widgetName: "lotChatBot", id: 7 },
+        { text: "대시보드", handler: () => props.actionProvider.handleWidget("대시보드", "dashChatBot"), widgetName: "dashChatBot", id: 7 },
+        { text: "출강Lot", handler: () => props.actionProvider.handleWidget("출강Lot", "lotChatBot"), widgetName: "lotChatBot", id: 8 },
     ];
 
     const onClickButton = (option) => {

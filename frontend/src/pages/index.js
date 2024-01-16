@@ -10,12 +10,12 @@ import {
 } from "chart.js";
 import { Grid } from "@mui/material";
 import ApexChartWrapper from "src/@core/styles/libs/react-apexcharts";
-import withAuth from "./api/auth/withAuth";
+import withAuth from "src/pages/api/auth/withAuth";
 import HeatMap from "src/views/dashboard/HeatMap";
 import InputStatusBar from "src/views/dashboard/InputStatusBar";
 import FactoryGuage from "src/views/dashboard/FactoryGuage";
 import OrderGrid from "src/views/dashboard/OrderGrid";
-import Trophy from "src/views/dashboard/Throphy";
+import PassProcessDash from "src/views/dashboard/PassProcessDash";
 
 ChartJS.register(
   CategoryScale,
@@ -32,16 +32,16 @@ const Index = () => {
     <ApexChartWrapper>
       <Grid container spacing={6}>
         <Grid item xs={12} md={3}>
-          <Trophy />
+          <PassProcessDash />
         </Grid>
         <Grid item xs={12} md={3}>
-          <Trophy />
+          <PassProcessDash />
         </Grid>
         <Grid item xs={12} md={3}>
-          <Trophy />
+          <PassProcessDash />
         </Grid>
         <Grid item xs={12} md={3}>
-          <Trophy />
+          <PassProcessDash />
         </Grid>
         <Grid item xs={12} md={6}>
           <HeatMap />

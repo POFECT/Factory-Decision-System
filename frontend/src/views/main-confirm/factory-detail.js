@@ -13,7 +13,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableHead from "@mui/material/TableHead";
-import MainApi from "/src/api/MainApi";
+import MainApi from "src/pages/api/pofect/MainApi";
 import { Notify } from "src/notifix/notiflix-notify-aio";
 
 const FactoryDetail = (props) => {

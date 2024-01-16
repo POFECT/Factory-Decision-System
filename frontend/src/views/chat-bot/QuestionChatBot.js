@@ -7,12 +7,6 @@ const QuestionChatBot = (props) => {
     const [showMessage, setShowMessage] = useState(false);
 
     const updatedQuestions = props.questions.map((options) => {
-        // if (options.questions === "처음으로") {
-        //     return {
-        //         ...options,
-        //         handler: () => props.actionProvider.handleWidget("메뉴 중 ", "options"),
-        //     };
-        // }
         return {
             ...options,
             handler: () => props.actionProvider.handleMessage(options.answer),
@@ -25,11 +19,21 @@ const QuestionChatBot = (props) => {
         if (option.questions === "처음으로") {
             props.actionProvider.handleWidget("메뉴 중 ", "options")
         } 
-        else {
-            props.actionProvider.handleMessage(option.answer)
+        else if (option.underWidget !== undefined) {
+            props.actionProvider.handleUnderWidget(option.answer, option.underWidget);
+        } else if(option.withApi === "week"){
+            props.actionProvider.handleWeekApi(option.answer, option.flagList);
+        } else if(option.withApi === "lotSm"){
+            props.actionProvider.handleLotSmApi(option.answer);
+        } else if(option.withApi === "errorCode"){
+            props.actionProvider.handleErrorCodeApi(option.answer, option.questions);
         }
-        // props.actionProvider.handleMessage(option.answer);
+
+        else {
+            props.actionProvider.handleMessage(option.answer);
+        }
     }
+
 
     const buttonsMarkup = updatedQuestions.map((option) => (
         <button

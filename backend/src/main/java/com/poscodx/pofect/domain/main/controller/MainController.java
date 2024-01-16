@@ -148,5 +148,21 @@ public class MainController {
         return new ResponseEntity<>(new ResponseDto(rs), HttpStatus.OK);
     }
 
+    // 챗봇 API
+    @GetMapping("/error/{errorCode}")
+    @ApiOperation(value = "에러코드 주문 리스트 조회", notes = "에러코드 주문 리스트 조회")
+    public ResponseEntity<ResponseDto> getOrderListByErrorCode(
+            @PathVariable("errorCode") String errorCode
+    ) {
+        List<String> errorOrderList = factoryOrderInfoService.getOrderListByErrorCode(errorCode);
+        return new ResponseEntity<>(new ResponseDto(errorOrderList), HttpStatus.OK);
+    }
+
+    @GetMapping("/cfrmOrderCount")
+    @ApiOperation(value = "확통 공장별 주문 건수 조회", notes = "대시보드에서 사용되는 확통 공장별 주문 건수 조회")
+    public ResponseEntity<ResponseDto> getCfrmOrderCount(){
+        List<Object[]> result = factoryOrderInfoService.getCfrmOrderCount();
+        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+    }
 
 }

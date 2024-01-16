@@ -93,7 +93,7 @@ const NotificationDropdown = () => {
   // ** States
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState([]); // 새로운 상태 추가
-  const [showBadge, setShowBadge] = useState(true); //알림 뱃지 상태 변경
+  const [showBadge, setShowBadge] = useState(false); //알림 뱃지 상태 변경
   const [currentTime, setCurrentTime] = useState(new Date());
 
   // ** Hook
@@ -127,22 +127,45 @@ const NotificationDropdown = () => {
   
     return `${start.toLocaleDateString()}`;
   };
+  //Title 한글로 변경하는 코드
+  const transformTitle = (originalTitle) => {
+    if (originalTitle === "pass-standard") {
+      return "가능통과공장기준 변경 알림";
+    }
+    return originalTitle;
+  };
+  //SubTitle 한글로 변경하는 코드
+  const transformSubtitle = (originalSubtitle) => {
+    if (originalSubtitle === "Delete") {
+      return "가능통과공장기준이 삭제되었습니다.";
+    } else if (originalSubtitle === "Update") {
+      return "가능통과공장기준이 수정되었습니다.";
+    }else if (originalSubtitle === "Insert") {
+      return "가능통과공장기준이 추가되었습니다.";
+    }
+    return originalSubtitle;
+  };
 
   useEffect(() => {
-    const eventSource = new EventSource('http://localhost:8080/api/alert/events');
+    const eventSource = new EventSource('http://localhost:8080/src/pages/alert/connect');
     
     // 이벤트 핸들러 등록
-//    console.log("현재 연결 상태",eventSource.readyState)
+    //console.log("현재 연결 상태",eventSource.readyState)
+    //console.log("eventSource ",eventSource)
     eventSource.onmessage = (event) => {
       const eventData = JSON.parse(event.data);
-//      console.log('Received SSE Event:', eventData);
-      //시간 형태 변경
-      const timeDifference = elapsedTime(eventData.date);
+      //console.log('Received SSE Event:', eventData);
 
+      //알람 내용 변경
+      const transformedTitle = transformTitle(eventData.title);
+      const transformedSubtitle = transformSubtitle(eventData.subtitle);
+
+      // 시간 형태 변경
+      const timeDifference = elapsedTime(eventData.date);
       // 새로운 알람을 상태에 추가
       setNotifications((prevNotifications) => {
-        const updatedNotifications = [...prevNotifications, { ...eventData, elapsed: timeDifference }];
-//        console.log('Updated Notifications:', updatedNotifications);
+        const updatedNotifications = [...prevNotifications, { ...eventData, title: transformedTitle, subtitle: transformedSubtitle, elapsed: timeDifference }];
+        //console.log('Updated Notifications:', updatedNotifications);
         setShowBadge(true);
         return updatedNotifications;
       });
@@ -191,9 +214,12 @@ const NotificationDropdown = () => {
       <Badge
         overlap='circular'
         onClick={handleDropdownOpen}
-        sx={{ ml: 2, cursor: 'pointer',display: showBadge ? 'inline-block' : 'none' }}
+        sx={{ ml: 2, cursor: 'pointer',display: showBadge ? 'inline-block' : 'none','& .MuiBadge-badge': {
+          paddingLeft: '50px',
+          paddingTop: '20px',
+        } }}
         badgeContent={<BadgeContentSpan />}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right',paddingRight:"20px"}}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right'}}
       >
       </Badge>
         <BellOutline />

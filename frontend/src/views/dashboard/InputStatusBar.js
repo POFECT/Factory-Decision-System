@@ -1,7 +1,7 @@
 import { Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
-import DashBoardApi from "src/api/DashBoardApi";
+import DashBoardApi from "src/pages/api/pofect/DashBoardApi";
 
 const InputStatusBar = () => {
   const [labels, setLabels] = useState([]);
@@ -12,9 +12,36 @@ const InputStatusBar = () => {
       title: {
         display: true,
         text: "품종 별 투입 현황",
+        font: {
+          family: "JalnanGothic",
+        },
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            family: "JalnanGothic",
+          },
+        },
+      },
+      y: {
+        ticks: {
+          font: {
+            family: "JalnanGothic",
+          },
+        },
+      },
+    },
+    legend: {
+      labels: {
+        font: {
+          family: "JalnanGothic",
+        },
       },
     },
   };
+
   const inputStatusChartData = {
     labels: labels,
     datasets: [

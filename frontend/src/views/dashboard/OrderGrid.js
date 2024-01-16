@@ -1,7 +1,7 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import DashBoardApi from "src/api/DashBoardApi";
+import DashBoardApi from "src/pages/api/pofect/DashBoardApi";
 
 const OrderGrid = () => {
   const [orderInquiry, setOrderInquiry] = useState([]);
@@ -65,7 +65,7 @@ const OrderGrid = () => {
   return (
     <Paper elevation={3} style={{ padding: "15px" }}>
       <Typography variant="h5" style={{ padding: "10px 20px 10px 20px" }}>
-        주문 조회
+        품종-단계별 주문 건수
       </Typography>
       <Box
         sx={{

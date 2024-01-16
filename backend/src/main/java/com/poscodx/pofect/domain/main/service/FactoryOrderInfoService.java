@@ -37,4 +37,8 @@ public interface FactoryOrderInfoService {
     FactoryOrderInfoResDto getOrderListByOrdNo(String orderHeadLineNo);
 
     List<appResDto> getOrderCntByMD();
+
+    List<String> getOrderListByErrorCode(String errorCode);
+
+    List<Object[]> getCfrmOrderCount();
 }
