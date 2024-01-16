@@ -39,4 +39,11 @@ public interface FactoryOrderInfoRepository extends JpaRepository<FactoryOrderIn
             "ORDER BY f.ORD_THW_TAP_WEK_CD DESC " +
             "LIMIT 5", nativeQuery = true)
     List<appResDto> getRecentOrders();
+
+    @Query(value="select count(FOI.cfirm_pass_op_cd) from factory_order_info FOI " +
+            "where substring(FOI.cfirm_pass_op_cd,:processCd,1)=:firmFsFacTp",nativeQuery = true)
+    int getCfrmOrderCount(@Param("processCd") String processCd,@Param("firmFsFacTp") String firmFsFacTp);
+
+
+
 }
