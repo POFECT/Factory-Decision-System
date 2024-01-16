@@ -26,7 +26,6 @@ export const authOptions = {
       issuer: process.env.ISSUER,
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, account }) {
       // Persist the OAuth access_token to the token right after signin
@@ -52,10 +51,10 @@ export const authOptions = {
     },
   },
   pages: {
+    session: "/api/auth/session",
     async api({ req, res }) {
       //Token Session검사를 진행하지 않는 API 따로 작성
       if (req.url === "/user/login") {
-        s;
         return NextAuth(req, res);
       }
       return NextAuth(req, res);
