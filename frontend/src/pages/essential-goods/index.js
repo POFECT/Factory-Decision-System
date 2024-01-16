@@ -13,7 +13,7 @@ import {
   Card,
 } from "@mui/material";
 
-import EssentialStandardApi from "src/pages/api/EssentialStandardApi";
+import EssentialStandardApi from "/api/EssentialStandardApi";
 
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";

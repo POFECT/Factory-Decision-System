@@ -10,7 +10,7 @@ import {
 } from "chart.js";
 import { Grid } from "@mui/material";
 import ApexChartWrapper from "src/@core/styles/libs/react-apexcharts";
-import withAuth from "./api/auth/withAuth";
+import withAuth from "src/pages/api/auth/withAuth";
 import HeatMap from "src/views/dashboard/HeatMap";
 import InputStatusBar from "src/views/dashboard/InputStatusBar";
 import FactoryGuage from "src/views/dashboard/FactoryGuage";

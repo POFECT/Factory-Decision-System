@@ -21,7 +21,7 @@ import {
   Card,
   Box,
 } from "@mui/material";
-import PassStandardApi from "src/pages/api/PassStandardApi";
+import PassStandardApi from "/api/PassStandardApi";
 
 function MyCell(props) {
   let style = {

@@ -1,10 +1,10 @@
 import axios from "axios";
 import NextAuth from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak";
-
 async function getKeycloakUserInfo(accessToken) {
   try {
     const res = await axios.get(
+      // "http://localhost:5555/realms/pofect-realm/protocol/openid-connect/userinfo",
       "http://52.79.114.216:5555/realms/pofect-realm/protocol/openid-connect/userinfo",
       {
         headers: {
@@ -18,7 +18,6 @@ async function getKeycloakUserInfo(accessToken) {
     return null;
   }
 }
-
 export const authOptions = {
   providers: [
     KeycloakProvider({
@@ -39,7 +38,6 @@ export const authOptions = {
         token.roles = userInfo.roles;
         token.permissions = userInfo.permissions;
       }
-
       return token;
     },
     async session({ session, token }) {
@@ -49,7 +47,6 @@ export const authOptions = {
       console.log(session);
       console.log(session.permissions);
       console.log(session.roles);
-
       return session;
     },
   },
@@ -61,8 +58,6 @@ export const authOptions = {
       }
       return NextAuth(req, res);
     },
-    signIn: "/auth/signin",
   },
 };
-
 export default NextAuth(authOptions);

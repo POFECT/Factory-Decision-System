@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Grid, Typography, Card } from "@mui/material";
 import { GridCell, useGridApiContext } from "@mui/x-data-grid";
-import MainApi from "/src/pages/api/MainApi";
+import MainApi from "/api/MainApi";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
