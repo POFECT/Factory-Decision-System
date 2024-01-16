@@ -73,6 +73,7 @@ public class SecurityConfig {
                             .requestMatchers(new AntPathRequestMatcher("/lot-regression/**", null)).permitAll()
                             .requestMatchers(new AntPathRequestMatcher("/log/**", null)).permitAll()
                             .requestMatchers(new AntPathRequestMatcher("/alert/**", null)).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/user/**", null)).permitAll()
                             .anyRequest().denyAll();
                 });
         http

@@ -54,6 +54,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'com.jayway.jsonpath:json-path'
 
+	// mail
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'commons-io:commons-io:2.11.0'
+
 
 }
 
