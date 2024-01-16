@@ -20,6 +20,18 @@ const LotApi = {
       })
       .finally(()=>{});
     },
+
+    getSmList:async(callback)=>{
+
+      await Api.get(`/lot/sm`)
+      .then((response)=>{
+        callback && callback(response.data);
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
+      .finally(()=>{});
+    },
     
 }
 

@@ -37,7 +37,7 @@
   }
   
   .react-chatbot-kit-chat-input {
-    display: none;
+    /* display: none; */
     border: none;
     border-radius: 20px;
     height: 20px;

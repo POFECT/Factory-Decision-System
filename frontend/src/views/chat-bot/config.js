@@ -93,27 +93,37 @@ const config = {
         questions: [
           {
             questions: "PP",
-            answer: "PP: 필수재와 사이즈 기준의 교집합이 존재하나 불가한 상태",
+            answer: "PP: 필수재와 사이즈 기준의 교집합이 존재하나 불가한 상태 \n\n"
+            + "현재 해당 에러코드를 가진 주문번호는 아래와 같습니다.\n",
+            withApi: "errorCode",
             id: 1,
           },
           {
             questions: "PF",
-            answer: "PF: 사이즈 기준 부적합",
+            answer: "PF: 사이즈 기준 부적합 \n\n"
+            + "현재 해당 에러코드를 가진 주문번호는 아래와 같습니다.\n",
+            withApi: "errorCode",
             id: 2,
           },
           {
             questions: "FP",
-            answer: "FP: 필수재 부적합",
+            answer: "FP: 필수재 부적합 \n\n"
+            + "현재 해당 에러코드를 가진 주문번호는 아래와 같습니다.\n",
+            withApi: "errorCode",
             id: 3,
           },
           {
             questions: "FF",
-            answer: "FF: 사이즈, 필수재 부적합",
+            answer: "FF: 사이즈, 필수재 부적합 \n\n"
+            + "현재 해당 에러코드를 가진 주문번호는 아래와 같습니다.\n",
+            withApi: "errorCode",
             id: 4,
           },
           {
             questions: "CC",
-            answer: "CC: 사이즈, 필수재 모두 적합하나 교집합 없음",
+            answer: "CC: 사이즈, 필수재 모두 적합하나 교집합 없음 \n\n"
+            + "현재 해당 에러코드를 가진 주문번호는 아래와 같습니다.\n",
+            withApi: "errorCode",
             id: 5,
           },
           {
@@ -135,7 +145,6 @@ const config = {
             answer: " 아래는 기능통과공장 설계의 현재 출강주입니다.",
             withApi: "week",
             flagList: ["A","B","C"],
-            // flagList: ["E","F"],
             id: 1,
           },
           {
@@ -154,7 +163,7 @@ const config = {
         questions: [
           {
             questions: "공장결정",
-            answer: "공장결정에서는 ~ 입니다.",
+            answer: "공장결정 가능통과공정 코드를 기반으로 확정통과공정 코드를 부여하고 공장을 결정합니다.",
             id: 1,
           },
           {
@@ -172,12 +181,12 @@ const config = {
           },
           {
             questions: "공장부여와 제조투입",
-            answer: "공장부여와 제조투입은 ~ 입니다.",
+            answer: "공장부여란 가능통과공정코드를 기반으로 실제로 제작할 공장의 확정코드를 부여합니다.\n\n 제조투입은 확정공정코드가 부여된 후 주문을 투여하는 것 입니다.",
             id: 4,
           },
           {
             questions: "공장변경",
-            answer: "공장변경이란 ~ 입니다.",
+            answer: "밑에서 결정된 공장을 확인하고 여유 능력치를 체크하여 공장을 수기로 변경할 수 있습니다.",
             id: 5,
           },
           {
@@ -243,7 +252,7 @@ const config = {
           },
           {
             questions: "히트맵",
-            answer: "오른쪽 화면의 히트맵은 ~",
+            answer: "오른쪽 화면의 히트맵은 공장 부하 정도를 나타내는 차트로 색이 진할수록 부하가 심한 상태입니댜.",
             id: 6,
           },
           {
@@ -353,6 +362,41 @@ const config = {
       }
     },
     {
+      widgetName: "dashChatBot",
+      widgetFunc: (props) => <QuestionChatBot {...props} />,
+      props: {
+        widgetName: "dashChatBot",
+        questions: [
+          {
+            questions: "출강주 별 공장 투입 건수",
+            answer: "출강주 별 공장 투입 건수를 히트맵으로 확인할 수 있습니다.",
+            id: 1,
+          },
+          {
+            questions: "주문 조회",
+            answer: "간단한 주문 조회 표로 확인할 수 있습니다. ",
+            id: 2,
+          },
+          {
+            questions: "품종별 투입 현황",
+            answer: "품종별 투입 현황 품종별로 투입 현황을 그래프로 확인할 수 있습니다.",
+            id: 3,
+          },
+          {
+            questions: "공장 부하 현황",
+            answer: "공장 부하 현황 ~?",
+            id: 4,
+          },
+         
+          {
+            questions: "처음으로",
+            answer: "",
+            id: 5,
+          },
+        ],
+      }
+    },
+    {
       widgetName: "lotChatBot",
       widgetFunc: (props) => <QuestionChatBot {...props} />,
       props: {
@@ -360,28 +404,26 @@ const config = {
         questions: [
           {
             questions: "출강Lot",
-            answer: "출강Lot에서는 ~ 입니다.",
+            answer: "출강Lot에서는 투입대기, 기투입 상태(E, F)의 투입량 집계를 확인할 수 있습니다.\n\n"
+            + "맨 위 행은 길이, 두번째 행은 제강 공장입니다.",
             id: 1,
           },
           {
-            questions: "강종",
-            answer: "강종이란 ~ 입니다.",
+            questions: "차트",
+            answer: "강종 컬럼을 선택하여 클릭시 각 강종별 차트를 볼 수 있습니다.\n"
+            + "오른쪽 위 차트보기 버튼을 클릭하면 전체 차트를 볼 수 있습니다.",
             id: 2,
           },
           {
-            questions: "기투입",
-            answer: "기투입이란 ~ 입니다.",
+            questions: "강종 리스트",
+            withApi: "lotSm",
+            answer: "아래는 현재 강종 리스트입니다.",
             id: 3,
-          },
-          {
-            questions: "차트",
-            answer: "차트 확인은 ~ 입니다.",
-            id: 4,
           },
           {
             questions: "처음으로",
             answer: "",
-            id: 5,
+            id: 4,
           },
         ],
       }
