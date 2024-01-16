@@ -60,5 +60,6 @@ export const authOptions = {
       return NextAuth(req, res);
     },
   },
+  session: "/api/auth/session",
 };
 export default NextAuth(authOptions);
