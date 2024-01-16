@@ -23,7 +23,7 @@ AuthApi.interceptors.request.use(
       window.location.href = `/error/${error.response.status}`;
     }
     return Promise.reject(error);
-  },
+  }
 );
 
 // 응답 인터셉터
@@ -41,7 +41,7 @@ AuthApi.interceptors.response.use(
       window.location.href = `/error/${error.response.status}`;
     }
     return Promise.reject(error);
-  },
+  }
 );
 
 export default AuthApi;
