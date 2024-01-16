@@ -22,9 +22,9 @@ async function getKeycloakUserInfo(accessToken) {
 export const authOptions = {
   providers: [
     KeycloakProvider({
-      clientId: "pofect",
-      clientSecret: "wisCW4kd05e2XLLZqxYJsZtPtiIxWtkW",
-      issuer: "http://52.79.114.216:5555/realms/pofect-realm",
+      clientId: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      issuer: process.env.ISSUER,
     }),
   ],
   callbacks: {
