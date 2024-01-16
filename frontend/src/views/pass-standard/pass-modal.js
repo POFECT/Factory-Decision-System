@@ -241,63 +241,58 @@ const PassModal = ({ open, handleClose }) => {
   //Update
   const updatePass = async () => {
     let updateFlag = 0;
-    let result = "데이터를 확인해주세요.\n\n빈값 혹은 *만 들어갈 수 있습니다.";
-
-
-    passStandard.map(item => {
+    let isNull = 0;
+    passStandard.some((item) => {
       for (let i = 1; i <= 8; i++) {
         const columnName = `availablePassFacCdN${i}`;
         const value = item[columnName];
+        console.log(value, "&&&&&&&&&&");
 
-        if (value=== null) {
-          updateFlag = 1;
-        } else {
-          updateFlag = 0;
+        if (value === "*") {
+          isNull +=1;
         }
 
-        if (value !== null && value !== '' && value !== '*') {
-          updateFlag = 2;
-          break;
-        }
       }
-
-      for (let i = 1; i <= 8; i++) {
-        const columnName = `availablePassFacCdN${i}`;
-        let value = item[columnName];
-
-        if (value === '') {
-          value = null;
-          item[columnName] = value; // Update the original object
-          console.log("*****", value);
-        }
+      if (isNull === 0) {
+        updateFlag = 1
+        return true;
       }
+        return false;
     });
 
+    if (updateFlag === 0) {
+      passStandard.some((item) => {
+        for (let i = 1; i <= 8; i++) {
+          const columnName = `availablePassFacCdN${i}`;
+          const value = item[columnName];
+          console.log(value, "(********)");
 
-    if (updateFlag == 2) {
-      // alert(result);
-      Notify.failure("수정할 데이터를 확인해주세요.\n(* 또는 빈값만 가능)");
+          if (value !== null && value !== '' && value !== '*' &&  value !== ' ') {
+            updateFlag = 2;
+            return true; // Exit the loop
+          }
+        }
 
-      handleSearch();
-
-    }else if (updateFlag==1) {
-      Notify.failure("모든 공정의 값이 비어 수정이 불가합니다.");
-
-      handleSearch();
-
-    } else if (updateFlag==0) {
-      await PassStandardApi.updateSave(passStandard, (data) => {
-        Notify.success("저장되었습니다.", {
-          showOnlyTheLastOne: false,
-        });
-
-        handleSearch();
+        return false; // Continue the loop
       });
-
     }
 
-  };
+    console.log("Flag", updateFlag);
 
+    if (updateFlag === 2) {
+      Notify.failure("수정할 데이터를 확인해주세요.\n(* 또는 빈값만 가능)");
+      handleSearch();
+    } else if (updateFlag === 1) {
+      Notify.failure("모든 공정의 값이 비어 수정이 불가합니다.");
+      handleSearch();
+    } else {
+      await PassStandardApi.updateSave(passStandard, (data) => {
+        Notify.success("저장되었습니다.", {
+          showOnlyTheLastOne: false });
+        handleSearch();
+      });
+    }
+  };
   //excel
   const fileType =
       "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
