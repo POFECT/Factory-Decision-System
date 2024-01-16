@@ -34,4 +34,14 @@ public class LotController {
 //        List<LotGroupDto> lotAll = lotService.findLotAll();
         return new ResponseEntity<>(new ResponseDto(lotAll), HttpStatus.OK);
     }
+
+    @GetMapping("/sm")
+    @ApiOperation(value = "출강Lot 전체 강종 조회", notes = "출강Lot 전체 강종 데이터를 조회한다.")
+    public ResponseEntity<ResponseDto> getLotSmList(){
+        List<String> smAll = lotService.findSmAll();
+//        return new ResponseEntity<>(new ResponseDto());
+//        List<LotGroupDto> lotAll = lotService.findLotAll();
+        return new ResponseEntity<>(new ResponseDto(smAll), HttpStatus.OK);
+    }
+
 }
