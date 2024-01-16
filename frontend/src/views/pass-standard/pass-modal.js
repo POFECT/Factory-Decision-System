@@ -99,9 +99,6 @@ const PassModal = ({ open, handleClose }) => {
 
 
   const handleInsertSave = (newRecordData) => {
-    console.log("!!!!!!!", passStandard);
-
-    console.log("$#$#$##$", newRecordData);
 
     const maxId = passStandard.reduce((max, record) => (record.id > max ? record.id : max), 0);
     const newId = maxId + 1;
@@ -119,7 +116,6 @@ const PassModal = ({ open, handleClose }) => {
       newPassStandard[columnName] = "*";
     });
 
-    console.log("New Pass Standard:", newPassStandard);
     PassStandardApi.insertSave(newPassStandard, (data) => {
       // alert("저장되었습니다.");
       Notify.success("저장되었습니다.");
@@ -133,7 +129,6 @@ const PassModal = ({ open, handleClose }) => {
 
   //Update
   const handleCellEditCommit = (params) => {
-    console.log(params);
     const updatedList = passStandard.map((item) =>
       item.id === params.id ? params : item
     );
@@ -259,7 +254,6 @@ const PassModal = ({ open, handleClose }) => {
       });
     }
 
-    console.log("Flag", updateFlag);
 
     if (updateFlag === 2) {
       Notify.failure("수정할 데이터를 확인해주세요.\n(* 또는 빈값만 가능)");
@@ -275,13 +269,45 @@ const PassModal = ({ open, handleClose }) => {
       });
     }
   };
+
+
   //excel
+  // 한글 헤더
+  const koreanHeaderMap = {
+    "gcsCompCode": "품명",
+    "millCd" :"구분",
+    "ordPdtItdsCdN" : "품종",
+    "availablePassFacCdN1" :"제강",
+    "availablePassFacCdN2": "열연",
+    "availablePassFacCdN3":"열연정정",
+    "availablePassFacCdN4":"냉연",
+    "availablePassFacCdN5":"1차소둔",
+    "availablePassFacCdN6":"2차소둔",
+    "availablePassFacCdN7":"도금",
+    "availablePassFacCdN8":"정정",
+
+  };
   const fileType =
     "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
   const fileExtension = ".xlsx";
 
   const exportToExcel = async () => {
-    const ws = XLSX.utils.json_to_sheet(passStandard);
+    // 헤더 순서
+    const originalHeader = ["gcsCompCode", "millCd", "ordPdtItdsCdN",
+      "availablePassFacCdN1", "availablePassFacCdN2", "availablePassFacCdN3", "availablePassFacCdN4",
+    "availablePassFacCdN5", "availablePassFacCdN6", "availablePassFacCdN7","availablePassFacCdN8"];
+
+    // possibleList의 id를 기준으로 정렬
+    const sortedPassStandard = [...passStandard].sort((a, b) => a.id - b.id);
+
+    // 데이터를 헤더와 일치하는 형식으로 변환
+    const excelData = sortedPassStandard.map(item => originalHeader.map(key => item[key]));
+
+    // 헤더를 한글로 변경
+    const koreanHeader = originalHeader.map(englishKey => koreanHeaderMap[englishKey] || englishKey);
+
+    // 헤더와 데이터를 함께 전달하여 엑셀 생성
+    const ws = XLSX.utils.aoa_to_sheet([koreanHeader, ...excelData]);
     const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const data = new Blob([excelBuffer], { type: fileType });
