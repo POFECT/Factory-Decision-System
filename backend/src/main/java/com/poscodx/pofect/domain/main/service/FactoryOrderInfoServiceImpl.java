@@ -622,5 +622,10 @@ public class FactoryOrderInfoServiceImpl implements FactoryOrderInfoService{
         return factoryOrderInfoRepository.findOrderErrorList(errorCode);
     }
 
+    @Override
+    public List<Object[]> getCfrmOrderCount(){
+        return factoryOrderInfoRepository.getCfrmOrderCount();
+    }
+
 
 }

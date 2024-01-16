@@ -153,6 +153,25 @@ const MainApi = {
         console.log(error);
       });
   },
+  checkWeekListCapacity: async (weekList, callback) => {
+    await Api.get(`/capacity/weeklist?weekList=${weekList}`)
+      .then((response) => {
+        callback && callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  cfrmOrderCount:async(callback)=>{
+    await Api.get("/main/cfrmOrderCount")
+    .then((res) => {
+      console.log(res.data.response);
+      callback && callback(res.data.response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  },
 };
 
 export default MainApi;
