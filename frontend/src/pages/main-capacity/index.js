@@ -12,7 +12,7 @@ import {
   Box,
   Chip,
 } from "@mui/material";
-import MainApi from "src/pages/api/MainApi";
+import MainApi from "src/pages/api/pofect/MainApi";
 import Card from "@mui/material/Card";
 import { Notify } from "src/notifix/notiflix-notify-aio";
 
@@ -21,7 +21,7 @@ import CapacityDetail from "../../views/main-capacity/capacity-detail";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
 import CapacityModal from "src/views/main-capacity/capacity-modal";
-import withAuth from "src/pages/api/auth/withAuth";
+import withAuth from "../api/auth/withAuth";
 
 function MyCell(props) {
   let style = {

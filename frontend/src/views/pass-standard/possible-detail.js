@@ -22,7 +22,7 @@ import {
 } from "@mui/material";
 import { CheckNetworkOutline } from "mdi-material-ui";
 import { Notify } from "src/notifix/notiflix-notify-aio";
-import PassStandardApi from "src/pages/api/PassStandardApi";
+import PassStandardApi from "src/pages/api/pofect/PassStandardApi";
 
 const possibleDetail = ({ a, openFun, checkNone, test }) => {
   let processName = null;

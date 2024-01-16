@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Paper, Typography } from "@mui/material";
+import MainApi from "src/pages/api/pofect/MainApi";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -29,33 +30,6 @@ const options = {
     enabled: false,
   },
 };
-
-const series = [
-  {
-    name: "제4 출강주",
-    data: formatData([
-      0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160,
-    ]),
-  },
-  {
-    name: "제3 출강주",
-    data: formatData([
-      0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160,
-    ]),
-  },
-  {
-    name: "제2 출강주",
-    data: formatData([
-      0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160,
-    ]),
-  },
-  {
-    name: "제1 출강주",
-    data: formatData([
-      0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160,
-    ]),
-  },
-];
 
 function formatData(data) {
   let newData = [];
@@ -94,18 +68,32 @@ function formatData(data) {
 }
 
 const HeatMap = () => {
+  const [chartData, setChartData] = useState([]);
+
   useEffect(() => {
-    // console.log("Component mounted on the client side");
+    MainApi.cfrmOrderCount((data) => {
+      const formattedData = data.map((item) => {
+        const weekLabel = item[0];
+        const values = item.slice(1); // 제외한 숫자 데이터만 추출
+
+        return {
+          name: weekLabel,
+          data: formatData(values),
+        };
+      });
+
+      setChartData(formattedData);
+    }, []);
   }, []);
 
   return (
     <Paper elevation={3} style={{ padding: "15px" }}>
       <Typography variant="h5" style={{ padding: "10px 10px 0px 15px" }}>
-        출강주 별 공장 투입 건 수
+        출강주별 공장 확통결정 현황
       </Typography>
       <ReactApexChart
         options={options}
-        series={series}
+        series={chartData}
         type="heatmap"
         height="280"
         width="100%"

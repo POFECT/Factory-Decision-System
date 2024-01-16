@@ -13,7 +13,7 @@ import {
   Card,
   Box,
 } from "@mui/material";
-import FactoryStandardApi from "src/pages/api/FactoryStandardApi";
+import FactoryStandardApi from "src/pages/api/pofect/FactoryStandardApi";
 
 const confirmDetail = ({ a, openFun }) => {
   let processName = null;

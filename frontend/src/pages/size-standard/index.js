@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import SizeStandardApi from "/src/pages/api/SizeStandardApi";
+import SizeStandardApi from "src/pages/api/pofect/SizeStandardApi";
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
 import SizeDesignModal from "../../views/size-standard/size-design-modal";

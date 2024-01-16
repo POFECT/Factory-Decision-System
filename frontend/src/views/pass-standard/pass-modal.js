@@ -24,7 +24,7 @@ import "react-datasheet-grid/dist/style.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { DataGrid, GridCell, useGridApiContext } from "@mui/x-data-grid";
-import PassStandardApi from "src/pages/api/ProcessStandardApi";
+import PassStandardApi from "src/pages/api/pofect/ProcessStandardApi";
 import InsertFormComponent from "../../views/pass-standard/pass-modal-insert";
 
 //excel
@@ -65,6 +65,7 @@ function MyCell(props) {
 }
 
 const PassModal = ({ open, handleClose }) => {
+
   // 경유공정
   const [passStandard, setPassStandard] = useState([]);
 
@@ -92,17 +93,17 @@ const PassModal = ({ open, handleClose }) => {
   const passClose = () => {
     setOpenPassStandard(false);
     handleSearch();
+
+
   };
+
 
   const handleInsertSave = (newRecordData) => {
     console.log("!!!!!!!", passStandard);
 
     console.log("$#$#$##$", newRecordData);
 
-    const maxId = passStandard.reduce(
-      (max, record) => (record.id > max ? record.id : max),
-      0
-    );
+    const maxId = passStandard.reduce((max, record) => (record.id > max ? record.id : max), 0);
     const newId = maxId + 1;
 
     const { ordPdtItdsCdN, millCd, selectedColumns } = newRecordData;
@@ -112,6 +113,7 @@ const PassModal = ({ open, handleClose }) => {
       gcsCompCode: "01",
       ordPdtItdsCdN,
       millCd,
+
     };
     selectedColumns.forEach((columnName) => {
       newPassStandard[columnName] = "*";
@@ -191,16 +193,14 @@ const PassModal = ({ open, handleClose }) => {
   }, []);
 
   const handleSearch = () => {
-    console.log("Selected item:", codeNameList.select);
 
     if (codeNameList.select === "ALL") {
       PassStandardApi.getList((data) => {
         const passStandardList = data.response;
         setPassStandard(passStandardList);
-        const ordPdtItdsCdNList = passStandardList.map(
-          (item) => item.ordPdtItdsCdN
-        );
+        const ordPdtItdsCdNList = passStandardList.map((item) => item.ordPdtItdsCdN);
         setExistingOrdPdtItdsCdNList(ordPdtItdsCdNList);
+
       });
     } else {
       PassStandardApi.getListByItem(codeNameList.select, (data) => {
@@ -209,144 +209,72 @@ const PassModal = ({ open, handleClose }) => {
     }
   };
   const columns = [
+    { field: "ordPdtItdsCdN", headerName: "품명", width: 130, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: false, type:"number" },
     {
-      field: "ordPdtItdsCdN",
-      headerName: "품명",
-      width: 130,
-      headerAlign: "center",
-      headerClassName: "custom-header",
-      style: { borderRight: "1px solid #ccc", paddingRight: "8px" },
-      editable: false,
-      type: "number",
+      field: "availablePassFacCdN1", headerName: "제강", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true,
     },
-    {
-      field: "availablePassFacCdN1",
-      headerName: "제강",
-      width: 100,
-      headerAlign: "center",
-      headerClassName: "custom-header",
-      style: { borderRight: "1px solid #ccc", paddingRight: "8px" },
-      editable: true,
-    },
-    {
-      field: "availablePassFacCdN2",
-      headerName: "열연",
-      width: 100,
-      headerAlign: "center",
-      headerClassName: "custom-header",
-      style: { borderRight: "1px solid #ccc", paddingRight: "8px" },
-      editable: true,
-    },
-    {
-      field: "availablePassFacCdN3",
-      headerName: "열연정정",
-      width: 100,
-      headerAlign: "center",
-      headerClassName: "custom-header",
-      style: { borderRight: "1px solid #ccc", paddingRight: "8px" },
-      editable: true,
-    },
-    {
-      field: "availablePassFacCdN4",
-      headerName: "냉연",
-      width: 100,
-      headerAlign: "center",
-      headerClassName: "custom-header",
-      style: { borderRight: "1px solid #ccc", paddingRight: "8px" },
-      editable: true,
-    },
-    {
-      field: "availablePassFacCdN5",
-      headerName: "1차소둔",
-      width: 100,
-      headerAlign: "center",
-      headerClassName: "custom-header",
-      style: { borderRight: "1px solid #ccc", paddingRight: "8px" },
-      editable: true,
-    },
-    {
-      field: "availablePassFacCdN6",
-      headerName: "2차소둔",
-      width: 100,
-      headerAlign: "center",
-      headerClassName: "custom-header",
-      style: { borderRight: "1px solid #ccc", paddingRight: "8px" },
-      editable: true,
-    },
-    {
-      field: "availablePassFacCdN7",
-      headerName: "도금",
-      width: 100,
-      headerAlign: "center",
-      headerClassName: "custom-header",
-      style: { borderRight: "1px solid #ccc", paddingRight: "8px" },
-      editable: true,
-    },
-    {
-      field: "availablePassFacCdN8",
-      headerName: "정정",
-      width: 100,
-      headerAlign: "center",
-      headerClassName: "custom-header",
-      style: { borderRight: "1px solid #ccc", paddingRight: "8px" },
-      editable: true,
-    },
+    { field: "availablePassFacCdN2", headerName: "열연", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
+    { field: "availablePassFacCdN3", headerName: "열연정정", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
+    { field: "availablePassFacCdN4", headerName: "냉연", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
+    { field: "availablePassFacCdN5", headerName: "1차소둔", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
+    { field: "availablePassFacCdN6", headerName: "2차소둔", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
+    { field: "availablePassFacCdN7", headerName: "도금", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
+    { field: "availablePassFacCdN8", headerName: "정정", width: 100, headerAlign: 'center', headerClassName: 'custom-header', style: { borderRight: '1px solid #ccc', paddingRight: '8px' }, editable: true },
   ];
 
   //Update
   const updatePass = async () => {
     let updateFlag = 0;
-    let result = "데이터를 확인해주세요.\n\n빈값 혹은 *만 들어갈 수 있습니다.";
-
-    passStandard.map((item) => {
+    let isNull = 0;
+    passStandard.some((item) => {
       for (let i = 1; i <= 8; i++) {
         const columnName = `availablePassFacCdN${i}`;
         const value = item[columnName];
 
-        if (value === null) {
-          updateFlag = 1;
-        } else {
-          updateFlag = 0;
+        if (value === "*") {
+          isNull +=1;
         }
 
-        if (value !== null && value !== "" && value !== "*") {
-          updateFlag = 2;
-          break;
-        }
       }
-
-      for (let i = 1; i <= 8; i++) {
-        const columnName = `availablePassFacCdN${i}`;
-        let value = item[columnName];
-
-        if (value === "") {
-          value = null;
-          item[columnName] = value; // Update the original object
-          console.log("*****", value);
-        }
+      if (isNull === 0) {
+        updateFlag = 1
+        return true;
       }
+        return false;
     });
 
-    if (updateFlag == 2) {
-      // alert(result);
+    if (updateFlag === 0) {
+      passStandard.some((item) => {
+        for (let i = 1; i <= 8; i++) {
+          const columnName = `availablePassFacCdN${i}`;
+          const value = item[columnName];
+
+          if (value !== null && value !== '' && value !== '*' &&  value !== ' ') {
+            updateFlag = 2;
+            return true; // Exit the loop
+          }
+        }
+
+        return false; // Continue the loop
+      });
+    }
+
+    console.log("Flag", updateFlag);
+
+    if (updateFlag === 2) {
       Notify.failure("수정할 데이터를 확인해주세요.\n(* 또는 빈값만 가능)");
-
       handleSearch();
-    } else if (updateFlag == 1) {
+    } else if (updateFlag === 1) {
       Notify.failure("모든 공정의 값이 비어 수정이 불가합니다.");
-
       handleSearch();
-    } else if (updateFlag == 0) {
+    } else {
       await PassStandardApi.updateSave(passStandard, (data) => {
         Notify.success("저장되었습니다.", {
-          showOnlyTheLastOne: false,
-        });
-
+          showOnlyTheLastOne: false });
         handleSearch();
       });
     }
   };
-
   //excel
   const fileType =
     "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";

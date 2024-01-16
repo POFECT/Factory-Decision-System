@@ -1,7 +1,7 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import DashBoardApi from "src/pages/api/DashBoardApi";
+import DashBoardApi from "src/pages/api/pofect/DashBoardApi";
 
 const OrderGrid = () => {
   const [orderInquiry, setOrderInquiry] = useState([]);
