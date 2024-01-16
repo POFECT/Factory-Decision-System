@@ -88,6 +88,18 @@ public class FactoryOrderInfoCustomImpl extends Querydsl4RepositorySupport imple
     }
 
     @Override
+    public List<String> findOrderErrorList(String errorCode) {
+        BooleanBuilder option = integration(
+                containPosbPassFacCdN(errorCode)
+        );
+        return select(factoryOrderInfo.orderHeadLineNo)
+                .from(factoryOrderInfo)
+                .where(option)
+                .distinct()
+                .fetch();  // List로 변환
+    }
+
+    @Override
     public List<LotResDto> findLotAll(LotSearchDto searchDto) {
         List<String> faConfirmFlagList = new ArrayList<>();
         faConfirmFlagList.add("E");

@@ -47,6 +47,14 @@ public class FactoryOrderInfoCondition extends DefaultCondition {
         return factoryOrderInfo.ordPdtItpCdN.in(codes);
     }
 
+    public static BooleanExpression containPosbPassFacCdN(String errorCode) {
+        if(errorCode == null || errorCode.isEmpty()) {
+            return null;
+        }
+        return factoryOrderInfo.posbPassFacCdN.contains(errorCode);
+    }
+
+
     public static BooleanExpression inSmSteelGrdN(List<String> codes){
         if(codes == null || codes.isEmpty()) {
             return null;
