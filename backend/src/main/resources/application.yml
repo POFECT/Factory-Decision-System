@@ -22,7 +22,7 @@ spring:
   config:
     activate:
       on-profile: production
-    import: optional:configserver:http://52.79.114.216/:7777
+    import: optional:configserver:http://52.79.114.216:7777
 
 jasypt:
   key: Pofect!LeeCS123Qtkdlek
