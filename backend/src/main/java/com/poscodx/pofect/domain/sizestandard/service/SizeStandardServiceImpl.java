@@ -55,7 +55,6 @@ public class SizeStandardServiceImpl implements SizeStandardService {
                 }
             }
         }
-
         return dtoList;
     }
 
