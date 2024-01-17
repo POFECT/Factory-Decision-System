@@ -6,9 +6,11 @@ import com.poscodx.pofect.domain.essentialstandard.dto.EssentialStandardResDto;
 import com.poscodx.pofect.domain.essentialstandard.entity.EssentialStandard;
 import com.poscodx.pofect.domain.essentialstandard.repository.EssentialStandardRepository;
 import com.poscodx.pofect.domain.main.dto.FactoryOrderInfoResDto;
+import com.poscodx.pofect.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EssentialStandardServiceImpl implements EssentialStandardService {
     private final EssentialStandardRepository essentialStandardRepository;
+    private final UserService userService;
 
     @Override
     public List<EssentialStandardResDto> getList() {
@@ -428,9 +431,13 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
         }
 
     @Override
-    public EssentialStandardResDto addEssential(EssentialStandardReqDto essentialStandardReqDto) {
+    public EssentialStandardResDto addEssential(EssentialStandardReqDto essentialStandardReqDto, HttpServletRequest request) {
         EssentialStandard essentialStandard = EssentialStandard.fromDto(essentialStandardReqDto);
         EssentialStandard savedEntity = essentialStandardRepository.save(essentialStandard);
+
+        //이메일 보내기 기능 추가
+        userService.sendMailService("cheerup313@naver.com","필수재 기준","추가","essential-goods",request);
+        userService.sendMailService("chemi0313@gmail.com","필수재 기준","추가","essential-goods",request);
 
         return EssentialStandardResDto.toDto(savedEntity);
     }
