@@ -162,15 +162,14 @@ const MainApi = {
         console.log(error);
       });
   },
-  cfrmOrderCount:async(callback)=>{
+  cfrmOrderCount: async (callback) => {
     await Api.get("/main/cfrmOrderCount")
-    .then((res) => {
-      console.log(res.data.response);
-      callback && callback(res.data.response);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .then((res) => {
+        callback && callback(res.data.response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 
