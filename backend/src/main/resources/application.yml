@@ -2,19 +2,14 @@ spring:
   application:
     name: service-pofect
   profiles:
-    active: production
-
-
+    active: development
 ---
-
 spring:
   config:
     activate:
       on-profile: development
     import: optional:configserver:http://localhost:7777
-
 ---
-
 spring:
   config:
     activate:
