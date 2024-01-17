@@ -1,6 +1,6 @@
 .react-chatbot-kit-chat-container {
     position: fixed;
-    z-index: 1;
+    z-index: 1000;
     bottom: 80px;
     right: 10px;
     width: 350px;

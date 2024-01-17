@@ -62,6 +62,7 @@ const Standard = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const [editedCellValue, setEditedCellValue] = useState("");
   const [sizeDesign, setSizeDesign] = useState(false);
+  const [badData, setBadDatas] = useState([]);
 
   const handleCellEditCommit = (params) => {
     const updatedList = sizeStandardList.map((item) =>
