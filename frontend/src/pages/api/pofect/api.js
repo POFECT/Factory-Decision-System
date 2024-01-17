@@ -1,9 +1,9 @@
 import axios from "axios";
 const DEV = "http://localhost:8888/service-pofect/api";
-const HOST = "https://52.79.114.216:8080/api/";
+const HOST = "http://52.79.114.216:8888/api/";
 
 const AuthApi = axios.create({
-  baseURL: DEV,
+  baseURL: HOST,
 });
 
 // 요청 인터셉터
