@@ -57,6 +57,8 @@ dependencies {
 	// mail
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'commons-io:commons-io:2.11.0'
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot:3.0.4'
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 
 
 }
