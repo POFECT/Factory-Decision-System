@@ -22,10 +22,8 @@ const MyD3Heatmap = ({ capacity }) => {
   });
 
   const cleanedResultArray = resultArray.map(arr => arr.slice(0, -1));
-  console.log("))))))", cleanedResultArray)
   const transformedData = cleanedResultArray;
 
-  console.log("******", transformedData);
 
   const cellData = [
     ["1제강", "2제강", ""],
