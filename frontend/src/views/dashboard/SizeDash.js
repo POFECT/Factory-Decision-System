@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import PassStandardApi from "src/pages/api/pofect/ProcessStandardApi";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-const PassProcessDash = () => {
+const SizeDash = () => {
   const [passStandard, setPassStandard] = useState([]);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const PassProcessDash = () => {
   }, []);
   return (
     <Card elevation={3} style={{ padding: "15px" }}>
-      <div>경유 공정 기준</div>
+      <div>사이즈 기준</div>
       <div
         style={{
           display: "flex",
@@ -50,4 +50,4 @@ const PassProcessDash = () => {
   );
 };
 
-export default PassProcessDash;
+export default SizeDash;
