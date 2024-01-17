@@ -5,6 +5,7 @@ import com.poscodx.pofect.domain.user.dto.MailSendResult;
 import com.poscodx.pofect.domain.user.dto.MimeMessageDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.task.TaskRejectedException;
@@ -32,6 +33,8 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
+    @Value(value = "${mail.password}")
+    private String password;
     private static Queue<MimeMessageDto> mimeMessageQueue = new LinkedList<>();
 
     @Override
@@ -99,13 +102,11 @@ public class UserServiceImpl implements UserService{
     }
     private MimeMessage getMimeMessage(Properties properties) {
         String sender = "pofect2@gmail.com";
-        //암호화
-        String senderPwd = "mawj lidh esai emqg";
 
         Session session = Session.getInstance(properties,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(sender, senderPwd);
+                        return new PasswordAuthentication(sender, password);
                     }
                 });
 
