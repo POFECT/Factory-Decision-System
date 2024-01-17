@@ -11,6 +11,7 @@ import {
   OutlinedInput,
   Box,
   Card,
+  Backdrop,
 } from "@mui/material";
 
 import EssentialStandardApi from "src/pages/api/pofect/EssentialStandardApi";
@@ -59,7 +60,7 @@ const EssentialGoods = () => {
   useEffect(() => {
     EssentialStandardApi.getEssentialStandardList((data) => {
       const responseData = data.response;
-
+      console.log(responseData);
       const processCdMappings = {
         10: "제강",
         20: "열연",
@@ -96,63 +97,54 @@ const EssentialGoods = () => {
       field: "gcsCompCode",
       headerName: "법인",
       width: 150,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "millCd",
       headerName: "공정계획박판Mill구분",
       width: 180,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "pplMmatCngMgtNo",
       headerName: "공정계획필수재변경관리번호",
       width: 150,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "seq",
       headerName: "일련번호",
       width: 150,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "processCd",
       headerName: "박판공정계획공정구분",
       width: 150,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "pplMmatCancAppDt",
       headerName: "공정계획필수해지적용일자",
       width: 150,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "pplBasPsgnoTp",
       headerName: "공정계획기준가등록구분",
       width: 150,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "btiPosbPsFacTp",
       headerName: "박판가능통과공장구분",
       width: 100,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "conCalcOpxa01",
       headerName: "연산자",
       width: 100,
-      editable: true,
       headerAlign: "center",
       headerAlign: "center",
     },
@@ -160,7 +152,6 @@ const EssentialGoods = () => {
       field: "ordPdtItpCdN",
       headerName: "주문품종코드",
       width: 180,
-      editable: true,
       headerAlign: "center",
       headerAlign: "center",
     },
@@ -168,14 +159,12 @@ const EssentialGoods = () => {
       field: "conCalcOpxa02",
       headerName: "연산자",
       width: 100,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "ordPdtItdsCdN",
       headerName: "주문품명코드",
       width: 320,
-      editable: true,
       headerAlign: "center",
       headerAlign: "center",
     },
@@ -183,140 +172,120 @@ const EssentialGoods = () => {
       field: "conCalcOpxa03",
       headerName: "연산자",
       width: 130,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "customerNumber",
       headerName: "고객사코드",
       width: 100,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "conCalcOpxa04",
       headerName: "연산자",
       width: 100,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "orderUsageCdN",
       headerName: "주문용도지정코드",
       width: 100,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "conCalcOpxa05",
       headerName: "연산자",
       width: 100,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "orderThickMin",
       headerName: "제품주문두께1",
       width: 100,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "orderThickMax",
       headerName: "제품주문두께2",
       width: 130,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "conCalcOpxa06",
       headerName: "연산자",
       width: 130,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "orderWidthMin",
       headerName: "제품주문폭1",
       width: 130,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "orderWidthMax",
       headerName: "제품주문폭2",
       width: 150,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "conCalcOpxa07",
       headerName: "연산자",
       width: 100,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "specificationCdN",
       headerName: "제품규격약호",
       width: 150,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "conCalcOpxa08",
       headerName: "연산자",
       width: 150,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "salCusLocLClsTp",
       headerName: "판매고객사지역대분류구분",
       width: 150,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "conCalcOpxa09",
       headerName: "연산자",
       width: 150,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "smSteelGrdN",
       headerName: "출강목표번호",
       width: 100,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "conCalcOpxa10",
       headerName: "연산자",
       width: 180,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "postTreatmentMethodCdN",
       headerName: "제품후처리방법지정코드",
       width: 180,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "userId",
       headerName: "박판공정계획사용자ID",
       width: 150,
-      editable: true,
       headerAlign: "center",
     },
     {
       field: "lastUpdateDate",
       headerName: "최종수정일자",
       width: 150,
-      editable: true,
       headerAlign: "center",
     },
   ];
@@ -390,7 +359,92 @@ const EssentialGoods = () => {
   const fileExtension = ".xlsx";
 
   const exportToExcel = async () => {
-    const ws = XLSX.utils.json_to_sheet(essentialList);
+    // 한글 헤더 매핑 (엑셀용)
+    const koreanHeaderMap = {
+      gcsCompCode: "법인",
+      millCd: "공정계획박판Mill구분",
+      pplMmatCngMgtNo: "공정계획필수재변경관리번호",
+      seq: "일련번호",
+      processCd: "박판공정계획공정구분",
+      pplMmatCancAppDt: "공정계획필수해지적용일자",
+      pplBasPsgnoTp: "공정계획기준가등록구분",
+      btiPosbPsFacTp: "박판가능통과공장구분",
+      conCalcOpxa01: "품종 연산자",
+      ordPdtItpCdN: "품종",
+      conCalcOpxa02: "품명 연산자",
+      ordPdtItdsCdN: "품명",
+      conCalcOpxa03: "고객사코드 연산자",
+      customerNumber: "고객사코드",
+      conCalcOpxa04: "주문용도지정코드 연산자",
+      orderUsageCdN: "주문용도지정코드",
+      conCalcOpxa05: "제품두께 연산자",
+      orderThickMin: "제품두께 최소",
+      orderThickMax: "제품두께 최대",
+      conCalcOpxa06: "제품규격약효 연산자",
+      orderWidthMin: "제품규격약효 최소",
+      orderWidthMax: "제품규격약효 최대",
+      conCalcOpxa07: "판매고객사지역대분류구분 연산자",
+      specificationCdN: "판매고객사지역대분류구분",
+      conCalcOpxa08: "출강목표번호 연산자",
+      salCusLocLClsTp: "출강목표번호",
+      conCalcOpxa09: "출강목표번호 연산자",
+      smSteelGrdN: "출강목표번호",
+      conCalcOpxa10: "주문제품후처리방법지정코드 연산자",
+      postTreatmentMethodCdN: "주문제품후처리방법지정코드",
+      userId: "박판공정계획사용자ID",
+      id: "아이디",
+      lastUpdateDate: "최종수정일자",
+    };
+
+    const originalHeader = [
+      "gcsCompCode",
+      "millCd",
+      "pplMmatCngMgtNo",
+      "seq",
+      "processCd",
+      "pplMmatCancAppDt",
+      "pplBasPsgnoTp",
+      "btiPosbPsFacTp",
+      "conCalcOpxa01",
+      "ordPdtItpCdN",
+      "conCalcOpxa02",
+      "ordPdtItdsCdN",
+      "conCalcOpxa03",
+      "customerNumber",
+      "conCalcOpxa04",
+      "orderUsageCdN",
+      "conCalcOpxa05",
+      "orderThickMin",
+      "orderThickMax",
+      "conCalcOpxa06",
+      "orderWidthMin",
+      "orderWidthMax",
+      "conCalcOpxa07",
+      "specificationCdN",
+      "conCalcOpxa08",
+      "salCusLocLClsTp",
+      "conCalcOpxa09",
+      "smSteelGrdN",
+      "conCalcOpxa10",
+      "postTreatmentMethodCdN",
+      "userId",
+      "id",
+      "lastUpdateDate",
+    ];
+
+    // possibleList의 id를 기준으로 정렬
+    const sortedEssentialList = [...essentialList].sort((a, b) => a.id - b.id);
+
+    // 데이터를 헤더와 일치하는 형식으로 변환
+    const excelData = sortedEssentialList.map((item) =>
+      originalHeader.map((key) => item[key])
+    );
+
+    // 헤더를 한글로 변경
+    const koreanHeader = originalHeader.map(
+      (englishKey) => koreanHeaderMap[englishKey] || englishKey
+    );
+    const ws = XLSX.utils.json_to_sheet([koreanHeader, ...excelData]);
     const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const data = new Blob([excelBuffer], { type: fileType });
@@ -433,9 +487,12 @@ const EssentialGoods = () => {
   const passClick = () => {
     setOpenPassStandard(true);
   };
-  const passClose = () => {
-    setOpenPassStandard(false);
+  const passClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setOpenPassStandard(false);
+    }
   };
+
   return (
     <div style={{ height: "800px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
