@@ -18,6 +18,7 @@ async function getKeycloakUserInfo(accessToken) {
     return null;
   }
 }
+
 export const authOptions = {
   providers: [
     KeycloakProvider({

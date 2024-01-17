@@ -7,6 +7,7 @@ import com.poscodx.pofect.domain.passstandard.dto.PossibleFactoryStandardResDto;
 import com.poscodx.pofect.domain.passstandard.dto.PossibleToConfirmResDto;
 import com.poscodx.pofect.domain.passstandard.entity.PossibleFactoryStandard;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface PossibleFactoryStandardService {
@@ -18,5 +19,5 @@ public interface PossibleFactoryStandardService {
 
     String getPosbCode(String processCd, String group);
 
-    PossibleChangeResultResDto updateFeasibleRoutingGroup(PossibleChangeReqDto checkedFactory);
+    PossibleChangeResultResDto updateFeasibleRoutingGroup(PossibleChangeReqDto checkedFactory, HttpServletRequest request);
 }
