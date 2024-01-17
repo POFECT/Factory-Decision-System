@@ -58,9 +58,9 @@ const App = (props) => {
     Component.getLayout ?? ((page) => <UserLayout>{page}</UserLayout>);
 
   const urlList = [
-    "/main-capacity",
+    "/main-capacity/",
     "/main-confirm/",
-    "/capacity",
+    "/capacity/",
     "/size-standard/",
     "/essential-goods/",
     "/pass-standard/",

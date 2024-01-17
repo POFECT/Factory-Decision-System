@@ -65,8 +65,16 @@ const Standard = () => {
   const [badData, setBadDatas] = useState([]);
 
   const handleCellEditCommit = (params) => {
-    const updatedList = sizeStandardList.map((item) =>
-      item.id === params.id ? params : item
+    const updatedList = sizeStandardList.map((item) => {
+      if(params.hrRollUnitWgtMax1 >= 0 && params.hrRollUnitWgtMax2 >= 0 
+        && params.orderLengthMax >= 0 && params.orderLengthMin >= 0 
+        && params.orderThickMax >= 0 && params.orderThickMin >= 0
+        && params.orderWidthMax >= 0 && params.orderWidthMin >= 0) {
+          return item.id === params.id ? params : item;
+        } else {
+          return item;
+        }
+    }
     );
 
     setSizeStandardList(updatedList);
@@ -169,23 +177,8 @@ const Standard = () => {
       "확인",
       () => {
         if (updateFlag) {
-          // Report.warning(
-          //   "",
-          //   result,
-          //   "확인",
-          //   {
-          //     backOverlayClickToClose: true,
-          //   },
-          //   "취소",
-          //   {
-          //     backOverlayClickToClose: true,
-          //   }
-          // )
-          // alert(result);
-          // setBadDatas([]);
           Notify.failure("데이터를 확인해주세요.");
 
-          // getSizeStadards();
         } else if (!updateFlag) {
           SizeStandardApi.updateSize(sizeStandardList, (data) => {
             Notify.success("저장되었습니다.");
@@ -223,6 +216,7 @@ const Standard = () => {
       headerAlign: "center",
       type: "number",
       editable: true,
+      valueFormatter: (params) => Math.max(0, params.value),
     },
     {
       field: "orderThickMax",
@@ -232,6 +226,7 @@ const Standard = () => {
       headerAlign: "center",
       type: "number",
       editable: true,
+      valueFormatter: (params) => Math.max(0, params.value),
     },
     {
       field: "orderWidthMin",
@@ -241,6 +236,7 @@ const Standard = () => {
       headerAlign: "center",
       type: "number",
       editable: true,
+      valueFormatter: (params) => Math.max(0, params.value),
     },
     {
       field: "orderWidthMax",
@@ -250,6 +246,7 @@ const Standard = () => {
       headerAlign: "center",
       type: "number",
       editable: true,
+      valueFormatter: (params) => Math.max(0, params.value),
     },
     {
       field: "orderLengthMin",
@@ -259,6 +256,7 @@ const Standard = () => {
       headerAlign: "center",
       type: "number",
       editable: true,
+      valueFormatter: (params) => Math.max(0, params.value),
     },
     {
       field: "orderLengthMax",
@@ -268,6 +266,7 @@ const Standard = () => {
       headerAlign: "center",
       type: "number",
       editable: true,
+      valueFormatter: (params) => Math.max(0, params.value),
     },
     {
       field: "hrRollUnitWgtMax1",
@@ -277,6 +276,7 @@ const Standard = () => {
       headerAlign: "center",
       type: "number",
       editable: true,
+      valueFormatter: (params) => Math.max(0, params.value),
     },
     {
       field: "hrRollUnitWgtMax2",
@@ -286,6 +286,7 @@ const Standard = () => {
       headerAlign: "center",
       type: "number",
       editable: true,
+      valueFormatter: (params) => Math.max(0, params.value),
     },
   ];
 
@@ -456,23 +457,23 @@ const Standard = () => {
             height: 600,
             width: "100%",
             "& .custom-data-grid .MuiDataGrid-columnsContainer, & .custom-data-grid .MuiDataGrid-cell":
-              {
-                borderBottom: "1px solid rgba(225, 234, 239, 1)",
-                borderRight: "1px solid rgba(225, 234, 239, 1)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "gray",
-              },
+            {
+              borderBottom: "1px solid rgba(225, 234, 239, 1)",
+              borderRight: "1px solid rgba(225, 234, 239, 1)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "gray",
+            },
             "& .custom-data-grid .MuiDataGrid-columnHeader": {
               cursor: "pointer",
               borderBottom: "1px solid rgba(225, 234, 239, 1)",
               borderRight: "1px solid rgba(225, 234, 239, 1)",
             },
             "& .custom-data-grid .MuiDataGrid-columnHeader--filledGroup  .MuiDataGrid-columnHeaderTitleContainer":
-              {
-                borderBottomStyle: "none",
-              },
+            {
+              borderBottomStyle: "none",
+            },
             "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
               backgroundColor: "#F5F9FF",
             },
