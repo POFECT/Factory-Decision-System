@@ -6,6 +6,7 @@ import {
   InputLabel,
   Button,
   TextField,
+  Backdrop,
 } from "@mui/material";
 import {
   Dialog,
@@ -665,6 +666,10 @@ const EssentialModal = ({
       onClose={handleClose}
       sx={{ width: "100%" }}
       maxWidth="xl"
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        style: { backdropFilter: "blur(0)" },
+      }}
     >
       <div
         style={{

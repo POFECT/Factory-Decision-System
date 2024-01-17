@@ -11,6 +11,7 @@ import {
   OutlinedInput,
   Box,
   Card,
+  Backdrop,
 } from "@mui/material";
 
 import EssentialStandardApi from "src/pages/api/pofect/EssentialStandardApi";
@@ -486,9 +487,12 @@ const EssentialGoods = () => {
   const passClick = () => {
     setOpenPassStandard(true);
   };
-  const passClose = () => {
-    setOpenPassStandard(false);
+  const passClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setOpenPassStandard(false);
+    }
   };
+
   return (
     <div style={{ height: "800px", width: "100%" }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
