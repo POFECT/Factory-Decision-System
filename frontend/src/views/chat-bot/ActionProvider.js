@@ -119,7 +119,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
       );
 
       if (list.length == 0) {
-        message = createChatBotMessage("현재 강종는 없습니다.", {
+        message = createChatBotMessage("현재 에러코드 "+questions+"인 주문은 없습니다.", {
           widget: "startChatbot",
         });
       }
