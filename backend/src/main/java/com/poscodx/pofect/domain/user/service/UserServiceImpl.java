@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService{
 
         messageHelper.setFrom(new InternetAddress(sender, userName, "utf-8"));
         messageHelper.setTo(toEmail);
-        messageHelper.setSubject("[POFECT]"+standardType+"이 "+ type +"되었습니다.");
+        messageHelper.setSubject("[POFECT] "+standardType+"이 "+ type +"되었습니다.");
         message = this.createInviteMailContent(origin, endpoint, standardType, type);
         messageHelper.setText(message, true);
 
