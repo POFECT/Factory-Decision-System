@@ -17,7 +17,7 @@ public interface SizeStandardService {
     List<SizeStandardResDto> getList();
     List<SizeStandardSetDto> setSizeStandard(Long id, List<String> processList);
 
-    void updateSizeStandard(List<SizeStandardReqDto> dto);
+    void updateSizeStandard(List<SizeStandardReqDto> dto,HttpServletRequest request);
 
     List<SizeStandardSetDto> designSizeStandard(SizeDesignReqDto dto);
 

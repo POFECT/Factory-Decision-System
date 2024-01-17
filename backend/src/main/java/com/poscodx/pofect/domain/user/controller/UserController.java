@@ -24,9 +24,9 @@ public class UserController {
 
     @PostMapping("/mail")
     public ResponseEntity<ResponseDto> sendMail(HttpServletRequest request) {
-        MailSendResult result = userService.sendMailService("chlwlsdud258@gmail.com", "사이즈", "수정",request);
-        return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
-//        return null;
+        //MailSendResult result = userService.sendMailService("chlwlsdud258@gmail.com", "사이즈", "수정",request);
+        //return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
+        return null;
 
     }
 

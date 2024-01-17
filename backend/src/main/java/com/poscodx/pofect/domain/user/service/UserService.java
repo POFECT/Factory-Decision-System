@@ -12,5 +12,5 @@ public interface UserService {
     void mailSend(MimeMessage mimeMessage) throws MessagingException, TaskRejectedException;
     boolean hasNext();
     MimeMessageDto poll();
-    MailSendResult sendMailService(String toEmail, String standardType, String type, HttpServletRequest request);
+    MailSendResult sendMailService(String toEmail, String standardType, String type, String endpoint, HttpServletRequest request);
 }
