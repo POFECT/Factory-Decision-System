@@ -5,7 +5,7 @@ async function getKeycloakUserInfo(accessToken) {
   try {
     const res = await axios.get(
         // "http://localhost:5555/realms/pofect-realm/protocol/openid-connect/userinfo",
-        "http://52.79.114.216:5555/realms/pofect-realm/protocol/openid-connect/userinfo",
+        "https://keycloak.pofect.store/realms/pofect-realm/protocol/openid-connect/userinfo",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
