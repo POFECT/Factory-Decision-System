@@ -5,10 +5,10 @@ import Link from "next/link";
 import Box from "@mui/material/Box";
 import { styled, useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import Image from "next/image";
 
 // ** Configs
 import themeConfig from "src/configs/themeConfig";
-import { Image } from "mdi-material-ui";
 
 // ** Styled Components
 const MenuHeaderWrapper = styled(Box)(({ theme }) => ({
@@ -45,8 +45,9 @@ const VerticalNavHeader = (props) => {
     <MenuHeaderWrapper
       style={{
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "left",
         background: "#0A5380",
+        paddingLeft:"10px"
       }}
     >
       {userVerticalNavMenuBranding ? (
@@ -55,12 +56,19 @@ const VerticalNavHeader = (props) => {
         <Link href="/" passHref>
           <div
             style={{
-              fontSize: "50px",
+              fontSize: "40px",
               cursor: "pointer",
               fontFamily: "JalnanGothic",
               color: "white",
+              alignItems:"baseline"
             }}
-          >
+          ><Image
+          src="/images/pofect_logo_reverse2.png"
+          alt="POFECT Logo"
+          width={50}
+          height={50}
+          style={{ paddingRight: "10px",marginTop:"10px",marginRight:"10px",objectFit:"cover" }}
+        />
             POFECT
           </div>
         </Link>

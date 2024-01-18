@@ -26,7 +26,7 @@ class CustomDocument extends Document {
             sizes="180x180"
             href="/images/logo-white.png"
           />
-          <link rel="shortcut icon" href="/images/favicon-pofect.png" />
+          <link rel="shortcut icon" href="/images/pofect_logo_reverse1.png" />
           {/* black han sans */}
           <link
             href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Stylish&display=swap"
