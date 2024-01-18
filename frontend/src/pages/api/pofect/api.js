@@ -3,7 +3,7 @@ const DEV = "http://localhost:8888/service-pofect/api";
 const HOST = "http://52.79.114.216:8888/api/";
 
 const AuthApi = axios.create({
-  baseURL: HOST,
+  baseURL: DEV,
 });
 
 // 요청 인터셉터
