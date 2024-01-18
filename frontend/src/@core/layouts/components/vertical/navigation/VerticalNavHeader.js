@@ -48,6 +48,7 @@ const VerticalNavHeader = (props) => {
         justifyContent: "left",
         background: "#0A5380",
         paddingLeft: "10px",
+        paddingTop:'6px'
       }}
     >
       {userVerticalNavMenuBranding ? (
@@ -61,6 +62,9 @@ const VerticalNavHeader = (props) => {
               fontFamily: "JalnanGothic",
               color: "white",
               alignItems: "baseline",
+              display:"flex",
+              justifyContent:"center",
+              alignItems:"center"
             }}
           >
             <Image
