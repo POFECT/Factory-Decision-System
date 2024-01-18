@@ -86,6 +86,9 @@ const OrderGrid = () => {
             {
               borderBottomStyle: "none",
             },
+          "& .custom-data-grid .MuiDataGrid-columnHeadersInner": {
+            backgroundColor: "#F5F9FF",
+          },
         }}
         style={{
           height: 285,
