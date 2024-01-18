@@ -52,16 +52,18 @@ const Error500 = () => {
           <Typography variant='h5' sx={{ mb: 1, fontSize: '1.5rem !important' }}>
             Internal server error 👨🏻‍💻
           </Typography>
-          <Typography variant='body2'>Oops, something went wrong!</Typography>
+          <Typography variant='body1'>서버에서 처리하는 동안 오류가 발생했습니다.</Typography>
+          <Typography variant='body1'> 이 문제가 계속되면 시스템 관리자에게 문의하세요.</Typography>
+          <Typography variant='body1'>문의 이메일 : pofect2@gmail.com</Typography>
         </BoxWrapper>
-        <Img height='487' alt='error-illustration' src='/images/pages/500.png' />
+        <Img height='487' alt='error-illustration' src='/images/pofect_logo3.png' />
         <Link passHref href='/'>
-          <Button component='a' variant='contained' sx={{ px: 5.5 }}>
-            Back to Home
+          <Button component='a' variant='contained' sx={{ px: 5.5, width:"50%" }}>
+            Go Dashboard
           </Button>
         </Link>
       </Box>
-      <FooterIllustrations image={<TreeIllustration alt='tree' src='/images/pages/tree-3.png' />} />
+      <FooterIllustrations image={<TreeIllustration />} />
     </Box>
   )
 }

@@ -7,25 +7,27 @@ import LanIcon from "@mui/icons-material/Lan";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
 import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 import DvrIcon from "@mui/icons-material/Dvr";
+import { Input, SaveAlt } from "@mui/icons-material";
 
 const navigation = () => {
   return [
     {
       sectionTitle: "업무 화면",
     },
-
     {
       icon: PrecisionManufacturingIcon,
       title: "가능 통과 공장 설계",
       path: "/main-capacity",
     },
+
     {
       icon: TouchAppIcon,
       title: "공장 결정",
       path: "/main-confirm",
     },
+
     {
-      icon: CubeOutline,
+      icon: SaveAlt,
       title: "투입 능력 관리",
       path: "/capacity",
     },
