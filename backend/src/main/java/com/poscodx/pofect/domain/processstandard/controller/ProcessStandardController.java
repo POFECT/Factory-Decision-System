@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Api(value = "PassProcessStandard API", tags = {"경유공정기준"})
@@ -45,17 +46,17 @@ public class ProcessStandardController {
     //  Update
     @PatchMapping("/update")
     @ApiOperation(value = "공유공정 update", notes = "공유공정 update")
-    public ResponseEntity<ResponseDto> updateProcessList(@RequestBody List<ProcessStandardDto> updateList) {
-        processStandardService.updateProcessList(updateList);
+    public ResponseEntity<ResponseDto> updateProcessList(@RequestBody List<ProcessStandardDto> updateList, HttpServletRequest request) {
+        processStandardService.updateProcessList(updateList,request);
         return new ResponseEntity<>(new ResponseDto(updateList), HttpStatus.OK);
     }
 
     // Insert
     @PostMapping("")
     @ApiOperation(value = "공유공정 insert", notes = "공유공정 insert")
-    public ResponseEntity<ResponseDto> insertProcessList(@RequestBody ProcessStandardDto insertList) {
+    public ResponseEntity<ResponseDto> insertProcessList(@RequestBody ProcessStandardDto insertList,HttpServletRequest request) {
         try {
-            processStandardService.insert(insertList);
+            processStandardService.insert(insertList,request);
             System.out.println("********insertList = " + insertList);
             return new ResponseEntity<>(new ResponseDto(insertList), HttpStatus.OK);
         } catch (CustomException e) {
@@ -66,9 +67,9 @@ public class ProcessStandardController {
     // Delete
     @DeleteMapping("/delete")
     @ApiOperation(value = "경유 공정 삭제", notes = "선택한 공정 데이터 삭제")
-    public ResponseEntity<ResponseDto> deleteProcessList(@RequestBody List<Long> idsToDelete) {
+    public ResponseEntity<ResponseDto> deleteProcessList(@RequestBody List<Long> idsToDelete,HttpServletRequest request) {
         try {
-            processStandardService.deleteProcessList(idsToDelete);
+            processStandardService.deleteProcessList(idsToDelete,request);
             return new ResponseEntity<>(new ResponseDto("Process standard data deleted successfully."), HttpStatus.OK);
         } catch (CustomException e) {
             return new ResponseEntity<>(new ResponseDto("Failed to delete process standard data: " + e.getMessage()), HttpStatus.BAD_REQUEST);

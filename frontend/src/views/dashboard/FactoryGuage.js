@@ -261,7 +261,6 @@ const FactoryGuage = () => {
   useEffect(() => {
     CapacityStandardApi.getCapacityListByWeek(20240123, (data) => {
       setCapacity(data.response);
-
       const filterCapacity = data.response.filter((c) => c.processCd === "10");
 
       filterCapacity.forEach((filter) => {
@@ -294,7 +293,7 @@ const FactoryGuage = () => {
       }}
     >
       <Typography variant="h5" style={{ padding: "10px 20px 10px 20px" }}>
-        공장 부하 현황
+        공장 부하 예상 현황
       </Typography>
       <Box
         sx={{ width: "100%", marginBottom: "15px" }}

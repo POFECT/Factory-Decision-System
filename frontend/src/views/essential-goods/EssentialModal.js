@@ -6,6 +6,7 @@ import {
   InputLabel,
   Button,
   TextField,
+  Backdrop,
 } from "@mui/material";
 import {
   Dialog,
@@ -396,7 +397,10 @@ const EssentialModal = ({
   };
 
   const ordPdtItpCdNChange = (event) => {
-    setAddData((prev) => ({ ...prev, ordPdtItpCdN: event.target.value }));
+    setAddData((prev) => ({
+      ...prev,
+      ordPdtItpCdN: event.target.value.toUpperCase(),
+    }));
   };
 
   const [check02, setCheck02] = useState(false);
@@ -412,7 +416,10 @@ const EssentialModal = ({
   };
 
   const ordPdtItdsCdNChange = (event) => {
-    setAddData((prev) => ({ ...prev, ordPdtItdsCdN: event.target.value }));
+    setAddData((prev) => ({
+      ...prev,
+      ordPdtItdsCdN: event.target.value.toUpperCase(),
+    }));
   };
 
   const [check03, setCheck03] = useState(false);
@@ -428,7 +435,10 @@ const EssentialModal = ({
   };
 
   const specificationCdNChange = (event) => {
-    setAddData((prev) => ({ ...prev, specificationCdN: event.target.value }));
+    setAddData((prev) => ({
+      ...prev,
+      specificationCdN: event.target.value.toUpperCase(),
+    }));
   };
 
   const [check04, setCheck04] = useState(false);
@@ -448,7 +458,10 @@ const EssentialModal = ({
   };
 
   const orderUsageCdNChange = (event) => {
-    setAddData((prev) => ({ ...prev, orderUsageCdN: event.target.value }));
+    setAddData((prev) => ({
+      ...prev,
+      orderUsageCdN: event.target.value.toUpperCase(),
+    }));
   };
 
   const [check05, setCheck05] = useState(0);
@@ -535,7 +548,7 @@ const EssentialModal = ({
   const postTreatmentMethodCdNChange = (event) => {
     setAddData((prev) => ({
       ...prev,
-      postTreatmentMethodCdN: event.target.value,
+      postTreatmentMethodCdN: event.target.value.toUpperCase(),
     }));
   };
 
@@ -560,7 +573,7 @@ const EssentialModal = ({
   const smSteelGrdNChange = (event) => {
     setAddData((prev) => ({
       ...prev,
-      smSteelGrdN: event.target.value,
+      smSteelGrdN: event.target.value.toUpperCase(),
     }));
   };
 
@@ -585,7 +598,7 @@ const EssentialModal = ({
   const salCusLocLClsTpChange = (event) => {
     setAddData((prev) => ({
       ...prev,
-      salCusLocLClsTp: event.target.value,
+      salCusLocLClsTp: event.target.value.toUpperCase(),
     }));
   };
 
@@ -614,7 +627,7 @@ const EssentialModal = ({
   const customerNumberChange = (event) => {
     setAddData((prev) => ({
       ...prev,
-      customerNumber: event.target.value,
+      customerNumber: event.target.value.toUpperCase(),
     }));
   };
 
@@ -653,6 +666,10 @@ const EssentialModal = ({
       onClose={handleClose}
       sx={{ width: "100%" }}
       maxWidth="xl"
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        style: { backdropFilter: "blur(0)" },
+      }}
     >
       <div
         style={{

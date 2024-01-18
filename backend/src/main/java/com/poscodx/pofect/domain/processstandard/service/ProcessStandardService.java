@@ -3,6 +3,7 @@ package com.poscodx.pofect.domain.processstandard.service;
 import com.poscodx.pofect.domain.processstandard.dto.ProcessStandardDto;
 import com.poscodx.pofect.domain.processstandard.entity.ProcessStandard;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface ProcessStandardService {
@@ -13,9 +14,9 @@ public interface ProcessStandardService {
 
     List<ProcessStandardDto> getProcessByItemList(String ordPdtItpCdN);
 
-    void updateProcessList(List<ProcessStandardDto> updateList);
+    void updateProcessList(List<ProcessStandardDto> updateList, HttpServletRequest request);
 
-    ProcessStandard insert(ProcessStandardDto insertList);
+    ProcessStandard insert(ProcessStandardDto insertList,HttpServletRequest request);
 
-    void deleteProcessList(List<Long> idsToDelete);
+    void deleteProcessList(List<Long> idsToDelete,HttpServletRequest request);
 }
