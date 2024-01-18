@@ -146,7 +146,7 @@ const NotificationDropdown = () => {
     return originalSubtitle;
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     const eventSource = new EventSource('http://localhost:8080/src/pages/alert/connect');
     
     // 이벤트 핸들러 등록
@@ -180,7 +180,7 @@ const NotificationDropdown = () => {
       eventSource.close();
     };
     
-  }, []);
+  }, []);*/
 
 
 

@@ -206,6 +206,8 @@ const CapacityMgt = () => {
       editable: true,
       headerAlign: "center",
       sortable: false,
+        type: "number",
+
     },
     {
       field: "progressQty",
@@ -516,7 +518,7 @@ const CapacityMgt = () => {
                 xs={4}
                 sx={{ paddingBottom: 10, paddingTop: 3, paddingLeft: 3 }}
             >
-              <Typography variant="h5"> 공장 부하 현황 </Typography>
+              <Typography variant="h5"> 공장 부하 예상 현황 </Typography>
               {loading && <div>Loading...</div>}
 
               {!loading &&capacity.length === 0 ? (
