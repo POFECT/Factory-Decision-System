@@ -292,22 +292,22 @@ const Standard = () => {
 
   const columnGroupingModel = [
     {
-      groupId: "두께",
+      groupId: "두께(mm)",
       children: [{ field: "orderThickMin" }, { field: "orderThickMax" }],
       headerAlign: "center",
     },
     {
-      groupId: "폭",
+      groupId: "폭(mm)",
       children: [{ field: "orderWidthMin" }, { field: "orderWidthMax" }],
       headerAlign: "center",
     },
     {
-      groupId: "길이",
+      groupId: "길이(mm)",
       children: [{ field: "orderLengthMin" }, { field: "orderLengthMax" }],
       headerAlign: "center",
     },
     {
-      groupId: "단중",
+      groupId: "단중(ton)",
       children: [
         { field: "hrRollUnitWgtMax1" },
         { field: "hrRollUnitWgtMax2" },

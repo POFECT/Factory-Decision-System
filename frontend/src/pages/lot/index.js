@@ -435,6 +435,14 @@ const Lot = () => {
 
   const columnGroupingModel = [
     {
+      groupId: "주문 폭(m)",
+      children: [
+        { field: "smSteelGrdN" },
+        { field: "faConfirmFlag" },
+      ],
+      headerAlign: "center",
+    },
+    {
       groupId: "970",
       children: [
         { field: "width_9701" },
