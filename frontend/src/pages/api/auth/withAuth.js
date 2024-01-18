@@ -11,7 +11,6 @@ const withAuth = (WrappedComponent, options = {}) => {
     useEffect(() => {
       // 여기에 로그인 상태 체크 로직을 구현합니다.
       if (status === "authenticated" && session) {
-        console.log(session.user.name);
         const reversedName = session.user.name.split(' ').reverse().join('');
         setUserData({
           name: reversedName,
