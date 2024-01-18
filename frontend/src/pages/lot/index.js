@@ -436,10 +436,7 @@ const Lot = () => {
   const columnGroupingModel = [
     {
       groupId: "주문 폭(m)",
-      children: [
-        { field: "smSteelGrdN" },
-        { field: "faConfirmFlag" },
-      ],
+      children: [{ field: "smSteelGrdN" }, { field: "faConfirmFlag" }],
       headerAlign: "center",
     },
     {
@@ -839,7 +836,7 @@ const Lot = () => {
           size="large"
           type="submit"
           variant="contained"
-          style={{ backgroundColor: "darkred", whiteSpace: "nowrap" }}
+          style={{ backgroundColor: "rgb(190, 46, 34)", whiteSpace: "nowrap" }}
           onClick={passClick}
         >
           예측하기
