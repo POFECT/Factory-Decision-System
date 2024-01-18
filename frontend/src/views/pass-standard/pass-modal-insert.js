@@ -113,20 +113,34 @@ const InsertFormComponent = ({
   }, [open]);
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      sx={{ width: "100%" }}
-      maxWidth="xl"
-    >
-      <div style={{ maxWidth: "720px" }}>
-        <DialogTitle>
+
+      <Dialog
+          open={open}
+          onClose={handleClose}
+          sx={{ width: "100%",     overflow: 'hidden',
+          }}
+          maxWidth="xl"
+      >
+        <div style={{ maxWidth: "xl" }}>
+          <DialogTitle>
+
           <Grid item xs={12} sx={{ paddingBottom: 4 }}>
             <Typography variant="h4">데이터 추가</Typography>
           </Grid>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{
+          overflowY: 'hidden',
+        }}>
           <DialogContentText>
+            <divdafdsfads
+                style={{
+                  // display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  padding: "-20px",
+                }}
+            >
             <div style={{ marginLeft: 5, marginRight: 5 }}>
               <p
                 style={{ color: "#0A5380", marginRight: 16, marginBottom: 40 }}
@@ -288,13 +302,38 @@ const InsertFormComponent = ({
                 marginTop: 50,
               }}
             >
-              <Button onClick={handleSave} style={{ marginRight: 8 }}>
+              <Button
+                  size="small"
+                  type="submit"
+                  variant="contained"
+                  onClick={handleSave}
+                  style={{
+                    backgroundColor: "#0A5380",
+                    whiteSpace: "nowrap",
+                  }}
+              >
                 저장
               </Button>
-              <Button onClick={handleCancel} color="primary">
-                취소
+              <Button
+                  size="small"
+                  type="submit"
+                  variant="contained"
+                  onClick={handleCancel}
+                  style={{
+                    backgroundColor: "darkred",
+                    whiteSpace: "nowrap",
+                  }}
+              >
+                닫기
               </Button>
+              {/*<Button onClick={handleSave} style={{ marginRight: 8 }}>*/}
+              {/*  저장*/}
+              {/*</Button>*/}
+              {/*<Button onClick={handleCancel} color="primary">*/}
+              {/*  취소*/}
+              {/*</Button>*/}
             </div>
+            </divdafdsfads>
           </DialogContentText>
         </DialogContent>
       </div>

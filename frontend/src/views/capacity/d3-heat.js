@@ -5,9 +5,10 @@ import { useSpring, animated } from 'react-spring';
 const MyD3Heatmap = ({ capacity }) => {
   // const xLabels = capacity ? capacity.map(item => item.firmPsFacTp) : [];
   // const yLabels = capacity ? capacity.map(item => item.processCd) : [];
-  const data = capacity ? capacity.map(item => [Number(item.processCd) / 10, Number(item.firmPsFacTp), item.remainQty]) : [];
-  const reshapedData = data.map(([x, y, value]) => [x, y, value]);
+  // const data = capacity ? capacity.map(item => [Number(item.processCd) / 10, Number(item.firmPsFacTp), item.remainQty]) : [];
 
+  const data = capacity ? capacity.map(item => [Number(item.processCd) / 10, Number(item.firmPsFacTp), (item.remainQty/item.planQty)]) : [];
+  const reshapedData = data.map(([x, y, value]) => [x, y, value]);
 
   const xLabels = ['1공장', '2공장', '3공장'];
   const yLabels = ['제강', '열연', '열연정정', '냉간압연', '1차소둔', '2차소둔', '도금', '정정',];
@@ -22,10 +23,8 @@ const MyD3Heatmap = ({ capacity }) => {
   });
 
   const cleanedResultArray = resultArray.map(arr => arr.slice(0, -1));
-  console.log("))))))", cleanedResultArray)
   const transformedData = cleanedResultArray;
 
-  console.log("******", transformedData);
 
   const cellData = [
     ["1제강", "2제강", ""],
@@ -158,7 +157,7 @@ const MyD3Heatmap = ({ capacity }) => {
 
   return (
     <>
-      <p style={{fontSize:19, }}>선택된 공장의 잔여량: {clickedCell}</p>
+    <p style={{fontSize:19,  }}>선택된 공장의 잔여량: <span style={{ color: 'blue' }}>{clickedCell}(ton)</span></p>
       <animated.div style={{ fadeInAnimation, display: 'flex' }}>
         <div>
           {/* <p>Hovered Cell: {hoveredCell}</p> */}
