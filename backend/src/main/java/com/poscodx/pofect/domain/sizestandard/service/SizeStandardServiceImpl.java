@@ -8,6 +8,7 @@ import com.poscodx.pofect.domain.sizestandard.dto.*;
 import com.poscodx.pofect.domain.sizestandard.entity.FactorySizeStandard;
 import com.poscodx.pofect.domain.sizestandard.repository.SizeStandardRepository;
 import com.poscodx.pofect.domain.sizestandard.util.RestTemplateTest;
+import com.poscodx.pofect.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ public class SizeStandardServiceImpl implements SizeStandardService {
     private final SizeStandardRepository repository;
     private final FactoryOrderInfoService factoryOrderInfoService;
     private final RestTemplateTest restTemplateTest;
+    private final UserService userService;
 
     @Override
     @Transactional(readOnly = true)
@@ -53,7 +55,6 @@ public class SizeStandardServiceImpl implements SizeStandardService {
                 }
             }
         }
-
         return dtoList;
     }
 
@@ -80,7 +81,7 @@ public class SizeStandardServiceImpl implements SizeStandardService {
 
     @Override
     @Transactional
-    public void updateSizeStandard(List<SizeStandardReqDto> dtoList) {
+    public void updateSizeStandard(List<SizeStandardReqDto> dtoList,HttpServletRequest request) {
         List<FactorySizeStandard> sizeStandardList = repository.findAll();
 
         for (FactorySizeStandard factorySizeStandard : sizeStandardList) {
@@ -118,7 +119,8 @@ public class SizeStandardServiceImpl implements SizeStandardService {
                 }
             }
         }
-
+        userService.sendMailService("cheerup313@naver.com","사이즈 기준","수정","size-standard",request);
+        userService.sendMailService("chemi0313@gmail.com","사이즈 기준","수정","size-standard",request);
     }
 
     @Override

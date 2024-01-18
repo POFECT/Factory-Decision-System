@@ -12,7 +12,7 @@ import Magnify from "mdi-material-ui/Magnify";
 // ** Components
 import ModeToggler from "src/@core/layouts/components/shared-components/ModeToggler";
 import UserDropdown from "src/@core/layouts/components/shared-components/UserDropdown";
-import NotificationDropdown from "src/@core/layouts/components/shared-components/NotificationDropdown";
+//import NotificationDropdown from "src/@core/layouts/components/shared-components/NotificationDropdown";
 
 const AppBarContent = (props) => {
   // ** Props
@@ -49,7 +49,7 @@ const AppBarContent = (props) => {
         sx={{ display: "flex", alignItems: "center", paddingRight: "40px" }}
       >
         <ModeToggler settings={settings} saveSettings={saveSettings} />
-        <NotificationDropdown />
+        {/* <NotificationDropdown /> 알람 주석처리*/}
         <UserDropdown />
       </Box>
     </Box>

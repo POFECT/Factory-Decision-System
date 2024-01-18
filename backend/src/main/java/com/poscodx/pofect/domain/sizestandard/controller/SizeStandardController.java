@@ -13,6 +13,7 @@ import com.poscodx.pofect.domain.sizestandard.service.SizeStandardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -63,8 +64,8 @@ public class SizeStandardController {
 
     @PatchMapping("")
 //    @ApiOperation(value = "OS_MAIN_STATUS_CD_N 수정", notes = "여러 주문의 OS_MAIN_STATUS_CD_N를 원하는 값으로 수정한다.")
-    public ResponseEntity<ResponseDto> updateSizeStandard(@RequestBody List<SizeStandardReqDto> dtoList) {
-        sizeStandardService.updateSizeStandard(dtoList);
+    public ResponseEntity<ResponseDto> updateSizeStandard(@RequestBody List<SizeStandardReqDto> dtoList, HttpServletRequest request) {
+        sizeStandardService.updateSizeStandard(dtoList,request);
         return new ResponseEntity<>(new ResponseDto(dtoList), HttpStatus.OK);
     }
 

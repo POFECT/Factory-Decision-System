@@ -19,8 +19,8 @@ const options = {
           {
             from: -1,
             to: 0,
-            color: "#8ECEFF",
-            name: "low",
+            color: "#e2e2e2",
+            name: "공장 주문",
           },
         ],
       },

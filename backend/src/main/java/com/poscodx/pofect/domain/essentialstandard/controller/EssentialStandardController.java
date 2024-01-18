@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Api(value = "EssentialStandard API", tags = {"필수재기준"})
@@ -48,8 +49,8 @@ public class EssentialStandardController {
 
     @PostMapping("/essential-standard")
     @ApiOperation(value = "필수재 기준 추가", notes = "필수재 기준을 추가한다.")
-    public ResponseEntity<ResponseDto> addEssential(@RequestBody EssentialStandardReqDto essentialStandardReqDto) {
-        EssentialStandardResDto result = essentialStandardService.addEssential(essentialStandardReqDto);
+    public ResponseEntity<ResponseDto> addEssential(@RequestBody EssentialStandardReqDto essentialStandardReqDto, HttpServletRequest request) {
+        EssentialStandardResDto result = essentialStandardService.addEssential(essentialStandardReqDto,request);
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 }

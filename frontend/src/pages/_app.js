@@ -57,26 +57,38 @@ const App = (props) => {
   const getLayout =
     Component.getLayout ?? ((page) => <UserLayout>{page}</UserLayout>);
 
+  const urlList = [
+    "/main-capacity",
+    "/main-confirm/",
+    "/capacity",
+    "/size-standard/",
+    "/essential-goods/",
+    "/pass-standard/",
+    "/",
+    "/lot/",
+    "/log/"
+  ]
 
   try {
     const asPath = props.router?.asPath;
 
     //console.log(asPath);
-    if (asPath === '/user/login/') {
+    if (urlList.includes(asPath)) {
       return (
-        <SessionProvider session={session}>
-          <SettingsConsumer>
-            {({ settings }) => (
-              <ThemeComponent settings={settings}>
-                {getLayout(<Component {...pageProps} />)}
-              </ThemeComponent>
-            )}
-          </SettingsConsumer>
-        </SessionProvider>
+        <Layout>
+          <SessionProvider session={session}>
+            <SettingsConsumer>
+              {({ settings }) => (
+                <ThemeComponent settings={settings}>
+                  {getLayout(<Component {...pageProps} />)}
+                </ThemeComponent>
+              )}
+            </SettingsConsumer>
+          </SessionProvider>
+        </Layout>
       );
     }
     return (
-      <Layout>
         <SessionProvider session={session}>
           <SettingsConsumer>
             {({ settings }) => (
@@ -86,7 +98,6 @@ const App = (props) => {
             )}
           </SettingsConsumer>
         </SessionProvider>
-      </Layout>
     );
   } catch (error) {
     // 오류가 발생한 경우 처리

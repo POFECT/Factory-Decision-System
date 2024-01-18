@@ -9,9 +9,25 @@ spring:
     activate:
       on-profile: development
     import: optional:configserver:http://localhost:7777
+
+jasypt:
+  key: Pofect!LeeCS123Qtkdlek
+  encryptor:
+    bean: jasyptStringEncryptor
+
+mail:
+  password: ENC(v5BWN9vokXKaqPc/oj4DNee7Ih/nYUJi5Wxu24EL+K4=)
 ---
 spring:
   config:
     activate:
       on-profile: production
-    import: optional:configserver:http://localhost:7777
+    import: optional:configserver:http://52.79.114.216:7777
+
+jasypt:
+  key: Pofect!LeeCS123Qtkdlek
+  encryptor:
+    bean: jasyptStringEncryptor
+
+mail:
+  password: ENC(v5BWN9vokXKaqPc/oj4DNee7Ih/nYUJi5Wxu24EL+K4=)

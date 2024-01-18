@@ -46,7 +46,7 @@ const InputStatusBar = () => {
     labels: labels,
     datasets: [
       {
-        label: "품종",
+        label: "품종별 건 수",
         data: inputStatusData,
         backgroundColor: "#FB4560",
       },

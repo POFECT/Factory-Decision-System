@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Api(value = "PossibleStandard API", tags = {"가통확통기준 / 가통조회 "})
@@ -42,8 +43,8 @@ public class PossibleFactoryStandardController {
 
     @PatchMapping("/updatePossibleFactory")
     @ApiOperation(value="가통기준 상세에서 코드 변환", notes="가통기준 상세에서 코드 변환하기")
-    public ResponseEntity<ResponseDto> updatePossibleFactory(@RequestBody PossibleChangeReqDto checkedFactory) {
-        PossibleChangeResultResDto result = possibleFactoryStandardService.updateFeasibleRoutingGroup(checkedFactory);
+    public ResponseEntity<ResponseDto> updatePossibleFactory(@RequestBody PossibleChangeReqDto checkedFactory,HttpServletRequest request) {
+        PossibleChangeResultResDto result = possibleFactoryStandardService.updateFeasibleRoutingGroup(checkedFactory, request);
         return new ResponseEntity<>(new ResponseDto(result), HttpStatus.OK);
     }
 

@@ -1,51 +1,71 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Link, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import { useEffect, useState } from "react";
-import PassStandardApi from "src/pages/api/pofect/ProcessStandardApi";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUpLong } from "@fortawesome/free-solid-svg-icons";
+import { faDownLong } from "@fortawesome/free-solid-svg-icons";
+import EssentialStandardApi from "src/pages/api/pofect/EssentialStandardApi";
+
 const EssentialDash = () => {
-  const [passStandard, setPassStandard] = useState([]);
+  const [essentialList, setessentialList] = useState([]);
+  const count = 58;
 
   useEffect(() => {
-    PassStandardApi.getList((data) => {
-      setPassStandard(data.response);
-      console.log(data.response);
+    EssentialStandardApi.getEssentialStandardList((data) => {
+      setessentialList(data.response);
     });
   }, []);
   return (
-    <Card elevation={3} style={{ padding: "15px" }}>
+    <Card
+      elevation={3}
+      style={{
+        padding: "15px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
       <div>필수재 기준</div>
       <div
         style={{
           display: "flex",
           justifyContent: "space-around",
           marginTop: "20px",
+          alignItems: "center",
         }}
       >
-        <div>
+        <div style={{ display: "flex" }}>
           <Typography variant="h4" sx={{ mr: 2 }} style={{ color: "#212121" }}>
-            52개
+            {essentialList.length}개
           </Typography>
-          <div style={{ color: "#4dd6d3" }}>+2</div>
+          <div style={{ color: "red" }}>+{essentialList.length - count}</div>
         </div>
-        <ArrowUpwardIcon
-          style={{
-            fontWeight: "bold",
-            width: "60px",
-            height: "50px",
-            color: "#4dd6d3",
-          }}
-        />
+        <FontAwesomeIcon icon={faUpLong} size="2x" style={{ color: "red" }} />
       </div>
-      <Button
-        size="small"
-        type="submit"
-        variant="contained"
-        style={{ backgroundColor: "#E29E21" }}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          width: "90%",
+          justifyContent: "center",
+        }}
       >
-        경유 공정
-      </Button>
+        <Link href="/essential-goods/" style={{ width: "100%" }}>
+          <Button
+            size="small"
+            type="submit"
+            variant="contained"
+            style={{
+              backgroundColor: "rgb(10, 83, 128)",
+              whiteSpace: "nowrap",
+              fontSize: "15px",
+              width: "100%",
+            }}
+          >
+            필수재 기준
+          </Button>
+        </Link>
+      </div>
     </Card>
   );
 };
