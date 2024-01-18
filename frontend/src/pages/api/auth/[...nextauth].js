@@ -4,13 +4,13 @@ import KeycloakProvider from "next-auth/providers/keycloak";
 async function getKeycloakUserInfo(accessToken) {
   try {
     const res = await axios.get(
-      // "http://localhost:5555/realms/pofect-realm/protocol/openid-connect/userinfo",
-      "http://52.79.114.216:5555/realms/pofect-realm/protocol/openid-connect/userinfo",
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
+        // "http://localhost:5555/realms/pofect-realm/protocol/openid-connect/userinfo",
+        "http://52.79.114.216:5555/realms/pofect-realm/protocol/openid-connect/userinfo",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
     );
     return res.data;
   } catch (err) {
@@ -30,9 +30,9 @@ export const authOptions = {
     async jwt({ token, account }) {
       // Persist the OAuth access_token to the token right after signin
       if (account) {
-        console.log("---------------------");
-        console.log(account);
-        console.log("---------------------");
+        // console.log("---------------------");
+        // console.log(account);
+        // console.log("---------------------");
         token.accessToken = account.access_token;
         const userInfo = await getKeycloakUserInfo(token.accessToken);
         token.roles = userInfo.roles;
@@ -44,9 +44,9 @@ export const authOptions = {
       session.accessToken = token.accessToken;
       session.permissions = token.permissions;
       session.roles = token.roles || []; // 역할 정보 추가, 기본값은 빈 배열
-      console.log(session);
-      console.log(session.permissions);
-      console.log(session.roles);
+      // console.log(session);
+      // console.log(session.permissions);
+      // console.log(session.roles);
       return session;
     },
   },
