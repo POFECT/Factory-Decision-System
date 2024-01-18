@@ -47,9 +47,7 @@ const VerticalNavHeader = (props) => {
         display: "flex",
         justifyContent: "left",
         background: "#0A5380",
-        paddingLeft:"20px",
-        paddingTop:"7px",
-        paddingBottom:"7px"
+        paddingLeft: "10px",
       }}
     >
       {userVerticalNavMenuBranding ? (
@@ -62,20 +60,22 @@ const VerticalNavHeader = (props) => {
               cursor: "pointer",
               fontFamily: "JalnanGothic",
               color: "white",
-              alignItems:"baseline",
-              display: "flex", // 추가
-              alignItems: "center",
+              alignItems: "baseline",
             }}
-          ><Image
-          src="/images/pofect_logo_reverse4.png"
-          alt="POFECT Logo"
-          width={50}
-          height={50}
-          style={{ paddingRight: "10px",
-          paddingRight:"0px", 
-          marginBottom: "4px" }}
-        />
-            POFECT
+          >
+            <Image
+              src="/images/pofect_logo_reverse2.png"
+              alt="POFECT Logo"
+              width={50}
+              height={50}
+              style={{
+                paddingRight: "10px",
+                marginTop: "10px",
+                marginRight: "10px",
+                objectFit: "cover",
+              }}
+            />
+            <div style={{ paddingTop: "8px", paddingLeft: "8px" }}>POFECT</div>
           </div>
         </Link>
       )}
