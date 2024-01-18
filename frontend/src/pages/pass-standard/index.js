@@ -76,9 +76,16 @@ const PassStandard = () => {
   const passClose = () => {
     setOpenPassStandard(false);
   };
-  const openFun = (check) => {
+  const openFun = (check, popperId) => {
     setOpen(check);
+    setCurrentPopperId(check ? popperId : null);
   };
+
+  const searchList=()=>{
+    setOpen(false);
+    setTest((test) => !test);
+  }
+
   useEffect(() => {
     PassStandardApi.getPossibleList((data) => {
       const dataMap = data.response.reduce(
@@ -123,28 +130,28 @@ const PassStandard = () => {
   }, [test]);
   //가통 컬럼
   const possibleColumns = [
-    { field: "id", headerName: "Code", width: 158, headerAlign: "center" },
-    { field: "10", headerName: "제강", width: 154, headerAlign: "center" },
-    { field: "20", headerName: "열연", width: 154, headerAlign: "center" },
-    { field: "30", headerName: "열연정정", width: 154, headerAlign: "center" },
-    { field: "40", headerName: "냉간압연", width: 154, headerAlign: "center" },
-    { field: "50", headerName: "1차소둔", width: 154, headerAlign: "center" },
-    { field: "60", headerName: "2차소둔", width: 154, headerAlign: "center" },
-    { field: "70", headerName: "도금", width: 154, headerAlign: "center" },
-    { field: "80", headerName: "정정", width: 154, headerAlign: "center" },
+    { field: "id", headerName: "Code", width: 158, headerAlign: "center",sortable: false },
+    { field: "10", headerName: "제강", width: 154, headerAlign: "center",sortable: false },
+    { field: "20", headerName: "열연", width: 154, headerAlign: "center",sortable: false },
+    { field: "30", headerName: "열연정정", width: 154, headerAlign: "center",sortable: false },
+    { field: "40", headerName: "냉간압연", width: 154, headerAlign: "center",sortable: false },
+    { field: "50", headerName: "1차소둔", width: 154, headerAlign: "center",sortable: false },
+    { field: "60", headerName: "2차소둔", width: 154, headerAlign: "center",sortable: false },
+    { field: "70", headerName: "도금", width: 154, headerAlign: "center",sortable: false },
+    { field: "80", headerName: "정정", width: 154, headerAlign: "center",sortable: false },
   ];
 
   //확통 컬럼
   const confirmColumns = [
-    { field: "id", headerName: "Code", width: 158, headerAlign: "center" },
-    { field: "10", headerName: "제강", width: 154, headerAlign: "center" },
-    { field: "20", headerName: "열연", width: 154, headerAlign: "center" },
-    { field: "30", headerName: "열연정정", width: 154, headerAlign: "center" },
-    { field: "40", headerName: "냉간압연", width: 154, headerAlign: "center" },
-    { field: "50", headerName: "1차소둔", width: 154, headerAlign: "center" },
-    { field: "60", headerName: "2차소둔", width: 154, headerAlign: "center" },
-    { field: "70", headerName: "도금", width: 154, headerAlign: "center" },
-    { field: "80", headerName: "정정", width: 154, headerAlign: "center" },
+    { field: "id", headerName: "Code", width: 158, headerAlign: "center",sortable: false },
+    { field: "10", headerName: "제강", width: 154, headerAlign: "center",sortable: false },
+    { field: "20", headerName: "열연", width: 154, headerAlign: "center",sortable: false },
+    { field: "30", headerName: "열연정정", width: 154, headerAlign: "center",sortable: false },
+    { field: "40", headerName: "냉간압연", width: 154, headerAlign: "center",sortable: false },
+    { field: "50", headerName: "1차소둔", width: 154, headerAlign: "center",sortable: false },
+    { field: "60", headerName: "2차소둔", width: 154, headerAlign: "center",sortable: false },
+    { field: "70", headerName: "도금", width: 154, headerAlign: "center",sortable: false },
+    { field: "80", headerName: "정정", width: 154, headerAlign: "center",sortable: false },
   ];
   let pPopupProcessCd = null;
   let feasibleArray = null;
@@ -292,7 +299,7 @@ const PassStandard = () => {
             </Select>
           </FormControl>
         </div>
-        <div style={{ width: "40%", textAlign: "right" }}>
+        <div style={{ width: "60%", textAlign: "right" }}>
           <Button
             size="small"
             type="submit"
@@ -307,12 +314,13 @@ const PassStandard = () => {
             size="small"
             type="submit"
             variant="contained"
+            onClick={searchList} // 조회 버튼 클릭 시 searchList 함수 호출
             style={{ backgroundColor: "#E29E21" }}
           >
             조회
           </Button>
           <Button
-            sx={{ width: "25%" }}
+            sx={{ width: "130px" }}
             size="small"
             type="submit"
             variant="contained"
@@ -322,7 +330,7 @@ const PassStandard = () => {
             가통 Excel
           </Button>
           <Button
-            sx={{ width: "25%" }}
+            sx={{ width: "130px" }}
             size="small"
             type="submit"
             variant="contained"
@@ -396,7 +404,7 @@ const PassStandard = () => {
                 <Typography sx={{ p: 4, backgroundColor: "#f4f5fa" }}>
                   <PossibleDetail
                     a={a}
-                    openFun={openFun}
+                    openFun={(check) => openFun(check, a.btiPosbPsFacTp)}
                     checkNone={(value) => {
                       setTest(value);
                     }}
