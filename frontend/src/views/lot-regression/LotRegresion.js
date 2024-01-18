@@ -49,30 +49,23 @@ const EssentialModal = ({ open, handleClose }) => {
     const inputValue = Number(objectData.x3);
     if (!isNaN(inputValue) && inputValue >= 10000 && inputValue <= 1000000) {
       const apiUrl = "http://localhost:4000/predict";
-      // modalOpen();
+      modalOpen();
       // 기존의 setTimeout 제거
-      // if (clearTimeoutId) {
-      //   clearTimeout(clearTimeoutId);
-      //   setClearTimeoutId(null);
-      // }
-      // const newTimeoutId = setTimeout(() => {
-      //   modalClose();
-      //   axios.get(apiUrl, { params: objectData }).then((response) => {
-      //     setRegressionData(response.data.prediction);
-      //     setRemainData(objectData.x3 - response.data.prediction);
-      //     Notify.success("출강 LOT 투입량을 예측하였습니다.", {
-      //       showOnlyTheLastOne: false,
-      //     });
-      //   });
-      // }, 4000);
-      // setClearTimeoutId(newTimeoutId);
-      axios.get(apiUrl, { params: objectData }).then((response) => {
-        setRegressionData(response.data.prediction);
-        setRemainData(objectData.x3 - response.data.prediction);
-        Notify.success("출강 LOT 투입량을 예측하였습니다.", {
-          showOnlyTheLastOne: false,
+      if (clearTimeoutId) {
+        clearTimeout(clearTimeoutId);
+        setClearTimeoutId(null);
+      }
+      const newTimeoutId = setTimeout(() => {
+        modalClose();
+        axios.get(apiUrl, { params: objectData }).then((response) => {
+          setRegressionData(response.data.prediction);
+          setRemainData(objectData.x3 - response.data.prediction);
+          Notify.success("출강 LOT 투입량을 예측하였습니다.", {
+            showOnlyTheLastOne: false,
+          });
         });
-      });
+      }, 4000);
+      setClearTimeoutId(newTimeoutId);
     } else {
       Notify.failure("투입량은 10000이상 1,000,000이하");
     }
@@ -117,7 +110,6 @@ const EssentialModal = ({ open, handleClose }) => {
           maxHeight: "100vh",
           overflowY: "auto",
           padding: "10px",
-          overflow: "hidden",
         }}
       >
         <DialogContent>
@@ -148,7 +140,7 @@ const EssentialModal = ({ open, handleClose }) => {
                 </IconButton>
               </Tooltip>
             </Grid>
-            <Card style={{ padding: "20px" }}>
+            <Card style={{ padding: "30px" }}>
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <FormControl
                   sx={{ m: 1 }}
@@ -233,20 +225,12 @@ const EssentialModal = ({ open, handleClose }) => {
                   />
                 </FormControl>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginBottom: "20px",
-                }}
-              >
-                <Image
-                  src="/images/fire.jpg"
-                  alt="My Image"
-                  width={200}
-                  height={200}
-                />
-              </div>
+              <Image
+                src="/images/fire.jpg"
+                alt="My Image"
+                width={200}
+                height={200}
+              />
               <div style={{ display: "flex", fontSize: "18px" }}>
                 출강 LOT 투입 예측량 :
                 <div style={{ color: "red" }}>{regressionData.toFixed(2)}</div>
@@ -303,9 +287,9 @@ const EssentialModal = ({ open, handleClose }) => {
           >
             <Box sx={style}>
               <img
-                src="/images/test.gif"
+                src="/images/test2.gif"
                 alt="GIF"
-                style={{ width: "200px", height: "200px" }}
+                style={{ width: "100%", height: "100%" }}
               />
             </Box>
           </Modal>
