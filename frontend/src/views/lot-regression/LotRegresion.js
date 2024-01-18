@@ -108,11 +108,11 @@ const EssentialModal = ({ open, handleClose }) => {
         style={{
           width: "600px",
           maxHeight: "100vh",
-          overflowY: "auto",
+          overflowY: "hidden",
           padding: "10px",
         }}
       >
-        <DialogContent>
+        <DialogContent style={{ paddingBottom: "10px" }}>
           <div style={{ height: "100%", width: "100%" }}>
             <Grid
               item
@@ -225,12 +225,20 @@ const EssentialModal = ({ open, handleClose }) => {
                   />
                 </FormControl>
               </div>
-              <Image
-                src="/images/fire.jpg"
-                alt="My Image"
-                width={200}
-                height={200}
-              />
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginBottom: "20px",
+                }}
+              >
+                <Image
+                  src="/images/fire.jpg"
+                  alt="My Image"
+                  width={200}
+                  height={200}
+                />
+              </div>
               <div style={{ display: "flex", fontSize: "18px" }}>
                 출강 LOT 투입 예측량 :
                 <div style={{ color: "red" }}>{regressionData.toFixed(2)}</div>
@@ -251,7 +259,7 @@ const EssentialModal = ({ open, handleClose }) => {
             variant="contained"
             onClick={regressionClick}
             style={{
-              backgroundColor: "darkred",
+              backgroundColor: "#0A5380",
             }}
           >
             예측 하기
@@ -260,7 +268,7 @@ const EssentialModal = ({ open, handleClose }) => {
             size="small"
             type="submit"
             variant="contained"
-            style={{ backgroundColor: "#0A5380" }}
+            style={{ backgroundColor: "rgb(190, 46, 34)" }}
             onClick={() => {
               handleClose();
               setObjectData({
