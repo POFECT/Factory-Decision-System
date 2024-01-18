@@ -90,24 +90,6 @@ const LoginPage = () => {
               justifyContent: "center",
             }}
           >
-            {/*<Image
-              src="/images/pofect_logo4.png"
-              alt="POFECT Logo"
-              width={40}
-              height={40}
-            />
-            <Typography
-              variant="h6"
-              sx={{
-                ml: 3,
-                lineHeight: 1,
-                fontWeight: 600,
-                textTransform: "uppercase",
-                fontSize: "1.5rem !important",
-              }}
-            >
-              POFECT
-            </Typography>*/} 
             <Image
               src="/images/pofect_logo5.png"
               alt="POFECT Logo"
@@ -172,7 +154,7 @@ const LoginPage = () => {
                 신규회원가입 및 비밀번호 문의는
               </Typography>
               <Typography variant="body2">
-                공장 결정 시스템 관리자 (pofect@gmail.com)
+                공장 결정 시스템 관리자 (pofect2@gmail.com)
               </Typography>
             </Box>
           </form>

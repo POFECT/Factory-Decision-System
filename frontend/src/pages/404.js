@@ -52,16 +52,16 @@ const Error404 = () => {
           <Typography variant='h5' sx={{ mb: 1, fontSize: '1.5rem !important' }}>
             Page Not Found ⚠️
           </Typography>
-          <Typography variant='body2'>We couldn&prime;t find the page you are looking for.</Typography>
+          <Typography variant='body1'>존재하지 않는 페이지 입니다.</Typography>
         </BoxWrapper>
-        <Img height='487' alt='error-illustration' src='/images/pages/404.png' />
+        <Img height='487' alt='error-illustration' src='/images/pofect_logo3.png' />
         <Link passHref href='/'>
-          <Button component='a' variant='contained' sx={{ px: 5.5 }}>
-            Back to Home
+          <Button component='a' variant='contained' sx={{ px: 5.5,width: '50%'}}>
+            Go Dashboard
           </Button>
         </Link>
       </Box>
-      <FooterIllustrations image={<TreeIllustration alt='tree' src='/images/pages/tree.png' />} />
+      <FooterIllustrations image={<TreeIllustration />} />
     </Box>
   )
 }
