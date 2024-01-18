@@ -15,11 +15,10 @@ import {
   DialogActions,
   Button as MuiButton,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EssentialStandardApi from "src/pages/api/pofect/EssentialStandardApi";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-import { TuiDatePicker } from "nextjs-tui-date-picker";
 import { Notify } from "src/notifix/notiflix-notify-aio";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
@@ -89,6 +88,7 @@ const EssentialModal = ({
       }
       // pplMmatCngMgtNo 조건 검사
       if (
+        addData.pplMmatCngMgtNo <= 0 ||
         addData.pplMmatCngMgtNo === null ||
         typeof addData.pplMmatCngMgtNo !== "string" ||
         addData.pplMmatCngMgtNo.length > 11
@@ -101,6 +101,7 @@ const EssentialModal = ({
       }
       // seq 조건 검사
       if (
+        addData.seq <= 0 ||
         addData.seq === null ||
         typeof addData.seq !== "string" ||
         addData.seq.length > 22
@@ -192,6 +193,8 @@ const EssentialModal = ({
       }
       // 연산 5
       if (
+        addData.orderThickMin < 0 ||
+        addData.orderThickMax < 0 ||
         (addData.conCalcOpxa05 === "value < a <= value" &&
           !(addData.orderThickMin < addData.orderThickMax)) ||
         (addData.conCalcOpxa05 === "value <= a < value" &&
@@ -216,6 +219,8 @@ const EssentialModal = ({
 
       // 연산 6
       if (
+        addData.orderWidthMin < 0 ||
+        addData.orderWidthMax < 0 ||
         (addData.conCalcOpxa06 === "value < a <= value" &&
           !(addData.orderWidthMin < addData.orderWidthMax)) ||
         (addData.conCalcOpxa06 === "value <= a < value" &&
@@ -364,9 +369,15 @@ const EssentialModal = ({
     setAddData((prev) => ({ ...prev, millCd: event.target.value }));
   };
   const pplMmatCngMgtNoChange = (event) => {
+    if (event.target.value < 0) {
+      event.target.value = "";
+    }
     setAddData((prev) => ({ ...prev, pplMmatCngMgtNo: event.target.value }));
   };
   const seqChange = (event) => {
+    if (event.target.value < 0) {
+      event.target.value = "";
+    }
     setAddData((prev) => ({ ...prev, seq: event.target.value }));
   };
   const processCdChange = (event) => {
@@ -660,6 +671,7 @@ const EssentialModal = ({
     <MenuItem value={"04"}>04</MenuItem>,
     <MenuItem value={"06"}>06</MenuItem>,
   ];
+
   return (
     <Dialog
       open={open}
@@ -1448,6 +1460,16 @@ const EssentialModal = ({
                 specificationCdN: null,
                 addDataId: null,
               });
+              setCheck01(false);
+              setCheck02(false);
+              setCheck03(false);
+              setCheck04(false);
+              setCheck05(0);
+              setCheck06(0);
+              setCheck07(false);
+              setCheck08(false);
+              setCheck09(false);
+              setCheck10(false);
               handleClose();
             }}
           >

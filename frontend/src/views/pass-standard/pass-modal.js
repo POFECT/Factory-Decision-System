@@ -187,8 +187,17 @@ const PassModal = ({ open, handleClose }) => {
     handleSearch();
   }, []);
 
+  useEffect(() => {
+    if (!open) {
+      setShowAlert(false);
+      setRowSelectionModel([]);
+    }
+    handleSearch();
+  }, [open]);
+
   const handleSearch = () => {
 
+    setRowSelectionModel([]);
     if (codeNameList.select === "ALL") {
       PassStandardApi.getList((data) => {
         const passStandardList = data.response;
@@ -487,17 +496,17 @@ const PassModal = ({ open, handleClose }) => {
               </divdafdsfads>
             )}
 
-            {insertMode ? (
-              <Grid
-                item
-                xs={4}
-                sx={{ paddingBottom: 1, paddingTop: 3, paddingLeft: 3 }}
-              >
-                <Typography variant="h5"> 데이터 추가 </Typography>
-              </Grid>
-            ) : (
-              <></>
-            )}
+            {/*{insertMode ? (*/}
+            {/*  <Grid*/}
+            {/*    item*/}
+            {/*    xs={4}*/}
+            {/*    sx={{ paddingBottom: 1, paddingTop: 3, paddingLeft: 3 }}*/}
+            {/*  >*/}
+            {/*    <Typography variant="h5"> 데이터 추가 </Typography>*/}
+            {/*  </Grid>*/}
+            {/*) : (*/}
+            {/*  <></>*/}
+            {/*)}*/}
 
             <div
               style={{
@@ -592,9 +601,21 @@ const PassModal = ({ open, handleClose }) => {
         ) : (
           <>
             <DialogActions>
-              <Button onClick={handleClose} color="primary">
+              <Button
+                  size="small"
+                  type="submit"
+                  variant="contained"
+                  onClick={handleClose}
+                  style={{
+                    backgroundColor: "darkred",
+                    whiteSpace: "nowrap",
+                  }}
+              >
                 닫기
               </Button>
+              {/*<Button onClick={handleClose} color="primary">*/}
+              {/*  닫기*/}
+              {/*</Button>*/}
             </DialogActions>
           </>
         )}

@@ -30,10 +30,10 @@ const SizeDesignModal = ({ open, handleClose }) => {
   ]);
 
   const [rows, setRows] = useState([
-    { id: 1, name: "두께", value: "thick", inputValue: 0 },
-    { id: 2, name: "폭", value: "width", inputValue: 0 },
-    { id: 3, name: "길이", value: "length", inputValue: 0 },
-    { id: 4, name: "단중", value: "roll", inputValue: 0 },
+    { id: 1, name: "두께(mm)", value: "thick", inputValue: 0 },
+    { id: 2, name: "폭(mm)", value: "width", inputValue: 0 },
+    { id: 3, name: "길이(mm)", value: "length", inputValue: 0 },
+    { id: 4, name: "단중(ton)", value: "roll", inputValue: 0 },
   ]);
 
   const [resultSize, setResultSize] = useState([]);
@@ -105,8 +105,13 @@ const SizeDesignModal = ({ open, handleClose }) => {
   };
 
   const handleCellEditCommit = (params) => {
-    const updatedList = rows.map((item) =>
-      item.id === params.id ? params : item
+    const updatedList = rows.map((item) => {
+      if(params.inputValue < 0) {
+          return item;
+        } else {
+          return item.id === params.id ? params : item;
+        }
+    }
     );
     setRows(updatedList);
   };

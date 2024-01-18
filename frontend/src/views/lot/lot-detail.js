@@ -110,12 +110,12 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
       },
     },
   };
-  const labels = ["970", "1270", "1570", "1570~", "합계량"];
+  const labels = ["970m", "1270m", "1570m", "1570m~", "합계량"];
   const data = {
     labels,
     datasets: [
       {
-        label: "1공장",
+        label: "1공장(ton)",
         data: [
           barData.width_9701,
           barData.width_12701,
@@ -126,7 +126,7 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
-        label: "2공장",
+        label: "2공장(ton)",
         data: [
           barData.width_9702,
           barData.width_12702,
@@ -174,7 +174,7 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
     labels,
     datasets: [
       {
-        label: "대기량",
+        label: "대기량(ton)",
         data: [
           standBarData.width_970_stand,
           standBarData.width_1270_stand,
@@ -187,10 +187,10 @@ const LotDetail = ({ open, handleClose, selectedCellValue }) => {
     ],
   };
   const test = {
-    labels: ["투입대기", "기투입"],
+    labels: ["투입대기(ton)", "기투입(ton)"],
     datasets: [
       {
-        label: "합계량",
+        label: "합계량(ton)",
         data: [standBarData.sum_stand, barData.sum + barData.sum2],
         backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)"],
         borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
