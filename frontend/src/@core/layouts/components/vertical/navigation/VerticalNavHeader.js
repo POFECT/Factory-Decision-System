@@ -60,9 +60,7 @@ const VerticalNavHeader = (props) => {
               cursor: "pointer",
               fontFamily: "JalnanGothic",
               color: "white",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              alignItems: "baseline",
             }}
           >
             <Image
