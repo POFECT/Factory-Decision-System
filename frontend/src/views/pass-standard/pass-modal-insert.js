@@ -117,7 +117,7 @@ const InsertFormComponent = ({
       <Dialog
           open={open}
           onClose={handleClose}
-          sx={{ width: "100%",     overflow: 'hidden',
+          sx={{ width: "100%",
           }}
           maxWidth="xl"
       >
@@ -129,7 +129,7 @@ const InsertFormComponent = ({
           </Grid>
         </DialogTitle>
         <DialogContent sx={{
-          overflowY: 'hidden',
+          overflowX: 'hidden',
         }}>
           <DialogContentText>
             <divdafdsfads

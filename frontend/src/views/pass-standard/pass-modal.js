@@ -72,7 +72,7 @@ const PassModal = ({ open, handleClose }) => {
   // 품종
   const [codeNameList, setCodeNameList] = useState({
     list: [],
-    select: "ALL",
+    select: "All",
   });
 
   // Alert
@@ -198,7 +198,7 @@ const PassModal = ({ open, handleClose }) => {
   const handleSearch = () => {
 
     setRowSelectionModel([]);
-    if (codeNameList.select === "ALL") {
+    if (codeNameList.select === "All") {
       PassStandardApi.getList((data) => {
         const passStandardList = data.response;
         setPassStandard(passStandardList);
@@ -393,7 +393,7 @@ const PassModal = ({ open, handleClose }) => {
                     <Select
                       labelId="분류"
                       id="demo-multiple-name"
-                      defaultValue="ALL"
+                      defaultValue="All"
                       input={<OutlinedInput label="품종" />}
                       onChange={(e) => {
                         setCodeNameList(
@@ -404,7 +404,7 @@ const PassModal = ({ open, handleClose }) => {
                       }}
                       style={{ height: 40 }}
                     >
-                      <MenuItem value="ALL">ALL</MenuItem>
+                      <MenuItem value="All">All</MenuItem>
                       {codeNameList.list.map((code, idx) => (
                         <MenuItem key={idx} value={code.cdNm}>
                           {code.cdNm}

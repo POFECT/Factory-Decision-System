@@ -55,4 +55,22 @@ public class DashBoardServiceImpl implements DashBoardService{
         }
         return dashBoardOrderInquiryResDtoList;
     }
+
+    @Override
+    public List<DashBoardInputStatusResDto> getInputStatusListApp(String week) {
+        List<Object[]> result = factoryOrderInfoRepository.getInputStatusApp(week);
+        List<DashBoardInputStatusResDto> dashBoardInputStatusResDtoList = new ArrayList<>();
+
+        for (Object[] array : result) {
+            DashBoardInputStatusResDto dto = new DashBoardInputStatusResDto();
+            if (array.length > 0) {
+                dto.setOrdPdtItpCdN((String) array[0]);
+            }
+            if (array.length > 1) {
+                Long countValue = (Long) array[1];
+                dto.setCount(countValue.intValue());
+            }
+            dashBoardInputStatusResDtoList.add(dto);
+        }
+        return dashBoardInputStatusResDtoList;    }
 }

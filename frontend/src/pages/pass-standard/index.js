@@ -76,9 +76,8 @@ const PassStandard = () => {
   const passClose = () => {
     setOpenPassStandard(false);
   };
-  const openFun = (check, popperId) => {
+  const openFun = (check) => {
     setOpen(check);
-    setCurrentPopperId(check ? popperId : null);
   };
 
   const searchList=()=>{
