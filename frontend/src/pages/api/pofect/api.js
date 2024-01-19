@@ -1,6 +1,6 @@
 import axios from "axios";
 const DEV = "http://localhost:8888/service-pofect/api";
-const HOST = "https://gateway.pofect.store";
+const HOST = "https://gateway.pofect.store/service-pofect/api";
 
 const AuthApi = axios.create({
   baseURL: HOST,
