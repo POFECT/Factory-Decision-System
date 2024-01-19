@@ -15,13 +15,14 @@ import {
   DialogActions,
   Button as MuiButton,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EssentialStandardApi from "src/pages/api/pofect/EssentialStandardApi";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import { Notify } from "src/notifix/notiflix-notify-aio";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import PassStandardApi from "src/pages/api/pofect/ProcessStandardApi";
 
 const EssentialModal = ({
   open,
@@ -160,7 +161,11 @@ const EssentialModal = ({
         (addData.ordPdtItdsCdN == null ||
           typeof addData.ordPdtItdsCdN !== "string" ||
           addData.ordPdtItdsCdN.trim() === "" ||
-          addData.ordPdtItdsCdN.length > 4)
+          addData.ordPdtItdsCdN.length > 4 ||
+          addData.ordPdtItpCdN == null || // 추가된 조건
+          (typeof addData.ordPdtItpCdN === "string" &&
+            addData.ordPdtItpCdN.slice(0, 2) !==
+              addData.ordPdtItdsCdN.slice(0, 2))) // 추가된 조건
       ) {
         Notify.failure("[품명] 조건을 만족하지 않습니다.");
         console.error("ordPdtItdsCdN 조건을 만족하지 않습니다.");
@@ -354,7 +359,16 @@ const EssentialModal = ({
         specificationCdN: null,
         addDataId: null,
       });
-
+      setCheck01(false);
+      setCheck02(false);
+      setCheck03(false);
+      setCheck04(false);
+      setCheck05(0);
+      setCheck06(0);
+      setCheck07(false);
+      setCheck08(false);
+      setCheck09(false);
+      setCheck10(false);
       handleClose();
 
       return true;
@@ -512,6 +526,7 @@ const EssentialModal = ({
 
   const [check06, setCheck06] = useState(0);
   const conCalcOpxa06Change = (event) => {
+    console.log(event.target.value);
     if (
       event.target.value === "value >= a" ||
       event.target.value === "value > a" ||
@@ -538,9 +553,11 @@ const EssentialModal = ({
   };
 
   const orderWidthMinChange = (event) => {
+    console.log("min값" + event.target.value);
     setAddData((prev) => ({ ...prev, orderWidthMin: event.target.value }));
   };
   const orderWidthMaxChange = (event) => {
+    console.log("max값" + event.target.value);
     setAddData((prev) => ({ ...prev, orderWidthMax: event.target.value }));
   };
 
@@ -672,6 +689,20 @@ const EssentialModal = ({
     <MenuItem value={"06"}>06</MenuItem>,
   ];
 
+  // 품종
+  const [codeNameList, setCodeNameList] = useState({
+    list: [],
+    select: "All",
+  });
+
+  useEffect(() => {
+    PassStandardApi.getCodeNameList((data) => {
+      const list = data.response;
+      setCodeNameList((prev) => {
+        return { ...prev, list };
+      });
+    });
+  }, []);
   return (
     <Dialog
       open={open}
@@ -970,12 +1001,18 @@ const EssentialModal = ({
                 {!check01 ? null : (
                   <FormControl style={{ width: "100%", marginLeft: "10px" }}>
                     <FormControl>
-                      <TextField
-                        style={{ background: "#F6FAFE" }}
-                        label="주문 품종 코드"
-                        variant="outlined"
+                      <InputLabel>품종</InputLabel>
+                      <Select
+                        label="품종"
                         onChange={ordPdtItpCdNChange}
-                      />
+                        style={{ background: "#F6FAFE" }}
+                      >
+                        {codeNameList.list.map((code, idx) => (
+                          <MenuItem key={idx} value={code.cdNm}>
+                            {code.cdNm}
+                          </MenuItem>
+                        ))}
+                      </Select>
                     </FormControl>
                   </FormControl>
                 )}
@@ -1140,7 +1177,7 @@ const EssentialModal = ({
                     <MenuItem value={"value <= a < value"}>
                       {"value <= a < value"}
                     </MenuItem>
-                    <MenuItem value={"value <= a <= value"}>
+                    <MenuItem value={"value < a < value"}>
                       {"value < a < value"}
                     </MenuItem>
                     <MenuItem value={"value <= a <= value"}>
@@ -1207,7 +1244,7 @@ const EssentialModal = ({
                     <MenuItem value={"value <= a < value"}>
                       {"value <= a < value"}
                     </MenuItem>
-                    <MenuItem value={"value <= a <= value"}>
+                    <MenuItem value={"value < a < value"}>
                       {"value < a < value"}
                     </MenuItem>
                     <MenuItem value={"value <= a <= value"}>

@@ -194,7 +194,7 @@ const EssentialGoods = () => {
     {
       field: "conCalcOpxa05",
       headerName: "연산자",
-      width: 100,
+      width: 180,
       headerAlign: "center",
     },
     {
@@ -212,7 +212,7 @@ const EssentialGoods = () => {
     {
       field: "conCalcOpxa06",
       headerName: "연산자",
-      width: 130,
+      width: 180,
       headerAlign: "center",
     },
     {
