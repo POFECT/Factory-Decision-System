@@ -15,13 +15,14 @@ import {
   DialogActions,
   Button as MuiButton,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EssentialStandardApi from "src/pages/api/pofect/EssentialStandardApi";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import { Notify } from "src/notifix/notiflix-notify-aio";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import PassStandardApi from "src/pages/api/pofect/ProcessStandardApi";
 
 const EssentialModal = ({
   open,
@@ -672,6 +673,20 @@ const EssentialModal = ({
     <MenuItem value={"06"}>06</MenuItem>,
   ];
 
+  // 품종
+  const [codeNameList, setCodeNameList] = useState({
+    list: [],
+    select: "All",
+  });
+
+  useEffect(() => {
+    PassStandardApi.getCodeNameList((data) => {
+      const list = data.response;
+      setCodeNameList((prev) => {
+        return { ...prev, list };
+      });
+    });
+  }, []);
   return (
     <Dialog
       open={open}
@@ -970,12 +985,18 @@ const EssentialModal = ({
                 {!check01 ? null : (
                   <FormControl style={{ width: "100%", marginLeft: "10px" }}>
                     <FormControl>
-                      <TextField
-                        style={{ background: "#F6FAFE" }}
-                        label="주문 품종 코드"
-                        variant="outlined"
+                      <InputLabel>품종</InputLabel>
+                      <Select
+                        label="품종"
                         onChange={ordPdtItpCdNChange}
-                      />
+                        style={{ background: "#F6FAFE" }}
+                      >
+                        {codeNameList.list.map((code, idx) => (
+                          <MenuItem key={idx} value={code.cdNm}>
+                            {code.cdNm}
+                          </MenuItem>
+                        ))}
+                      </Select>
                     </FormControl>
                   </FormControl>
                 )}
