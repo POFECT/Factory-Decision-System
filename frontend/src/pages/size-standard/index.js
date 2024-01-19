@@ -177,7 +177,7 @@ const Standard = () => {
       "확인",
       () => {
         if (updateFlag) {
-          Notify.failure("데이터를 확인해주세요.");
+          Notify.failure("min값이 max값보다 클 수 없습니다. 데이터를 확인해주세요.");
 
         } else if (!updateFlag) {
           SizeStandardApi.updateSize(sizeStandardList, (data) => {

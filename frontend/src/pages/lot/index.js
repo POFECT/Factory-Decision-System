@@ -654,7 +654,7 @@ const Lot = () => {
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
-      width: 260,
+      width: 306,
     }),
   };
 
