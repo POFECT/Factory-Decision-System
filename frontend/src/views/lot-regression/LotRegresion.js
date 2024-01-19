@@ -123,17 +123,17 @@ const EssentialModal = ({ open, handleClose }) => {
               <Typography variant="h4">출강 LOT 투입 예측</Typography>
 
               <Tooltip
-                title={
-                  <Typography
-                    fontSize={15}
-                    style={{
-                      color: "white",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    투입량은 최소 10000 최대 1,000,000 까지 가능합니다
-                  </Typography>
-                }
+                // <Typography
+                //   fontSize={15}
+                //   style={{
+                //     color: "white",
+                //     whiteSpace: "nowrap",
+                //   }}
+                // >
+                //   투입량은 최소 10000 최대 1,000,000 까지 가능합니다
+                // </Typography>
+                title={"투입량은 최소 10000 최대 1,000,000 까지 가능합니다 "}
+                style={{ fontSize: "30px" }}
               >
                 <IconButton>
                   <HelpIcon />
