@@ -207,7 +207,7 @@ const CapacityMgt = () => {
       headerAlign: "center",
       sortable: false,
         type: "number",
-
+        valueFormatter: (params) => Math.max(0, params.value)
     },
     {
       field: "progressQty",

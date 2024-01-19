@@ -16,6 +16,10 @@ public interface FactoryOrderInfoRepository extends JpaRepository<FactoryOrderIn
     @Query("SELECT f.ordPdtItpCdN, COUNT(f) FROM FactoryOrderInfo f GROUP BY f.ordPdtItpCdN")
     List<Object[]> getInputStatus();
 
+    //App(week 기준)
+    @Query("SELECT f.ordPdtItpCdN, COUNT(f.id) FROM FactoryOrderInfo f WHERE f.ordThwTapWekCd = :week GROUP BY f.ordPdtItpCdN")
+    List<Object[]> getInputStatusApp(@Param("week") String week);
+
     @Query(value = "SELECT ord_pdt_itp_cd_n, " +
             "SUM(CASE WHEN FA_CONFIRM_FLAG = 'A' THEN 1 ELSE 0 END) AS A, " +
             "SUM(CASE WHEN FA_CONFIRM_FLAG = 'B' THEN 1 ELSE 0 END) AS B, " +
@@ -76,7 +80,6 @@ public interface FactoryOrderInfoRepository extends JpaRepository<FactoryOrderIn
             "GROUP BY" +
             "  ord_thw_tap_Wek_Cd",nativeQuery = true)
     List<Object[]> getCfrmOrderCount();
-
 
 
 }
