@@ -161,7 +161,11 @@ const EssentialModal = ({
         (addData.ordPdtItdsCdN == null ||
           typeof addData.ordPdtItdsCdN !== "string" ||
           addData.ordPdtItdsCdN.trim() === "" ||
-          addData.ordPdtItdsCdN.length > 4)
+          addData.ordPdtItdsCdN.length > 4 ||
+          addData.ordPdtItpCdN == null || // 추가된 조건
+          (typeof addData.ordPdtItpCdN === "string" &&
+            addData.ordPdtItpCdN.slice(0, 2) !==
+              addData.ordPdtItdsCdN.slice(0, 2))) // 추가된 조건
       ) {
         Notify.failure("[품명] 조건을 만족하지 않습니다.");
         console.error("ordPdtItdsCdN 조건을 만족하지 않습니다.");
@@ -355,7 +359,16 @@ const EssentialModal = ({
         specificationCdN: null,
         addDataId: null,
       });
-
+      setCheck01(false);
+      setCheck02(false);
+      setCheck03(false);
+      setCheck04(false);
+      setCheck05(0);
+      setCheck06(0);
+      setCheck07(false);
+      setCheck08(false);
+      setCheck09(false);
+      setCheck10(false);
       handleClose();
 
       return true;
