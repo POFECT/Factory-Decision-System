@@ -526,6 +526,7 @@ const EssentialModal = ({
 
   const [check06, setCheck06] = useState(0);
   const conCalcOpxa06Change = (event) => {
+    console.log(event.target.value);
     if (
       event.target.value === "value >= a" ||
       event.target.value === "value > a" ||
@@ -552,9 +553,11 @@ const EssentialModal = ({
   };
 
   const orderWidthMinChange = (event) => {
+    console.log("min값" + event.target.value);
     setAddData((prev) => ({ ...prev, orderWidthMin: event.target.value }));
   };
   const orderWidthMaxChange = (event) => {
+    console.log("max값" + event.target.value);
     setAddData((prev) => ({ ...prev, orderWidthMax: event.target.value }));
   };
 
@@ -1174,7 +1177,7 @@ const EssentialModal = ({
                     <MenuItem value={"value <= a < value"}>
                       {"value <= a < value"}
                     </MenuItem>
-                    <MenuItem value={"value <= a <= value"}>
+                    <MenuItem value={"value < a < value"}>
                       {"value < a < value"}
                     </MenuItem>
                     <MenuItem value={"value <= a <= value"}>
@@ -1241,7 +1244,7 @@ const EssentialModal = ({
                     <MenuItem value={"value <= a < value"}>
                       {"value <= a < value"}
                     </MenuItem>
-                    <MenuItem value={"value <= a <= value"}>
+                    <MenuItem value={"value < a < value"}>
                       {"value < a < value"}
                     </MenuItem>
                     <MenuItem value={"value <= a <= value"}>
