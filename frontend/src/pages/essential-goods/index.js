@@ -163,7 +163,7 @@ const EssentialGoods = () => {
     {
       field: "ordPdtItdsCdN",
       headerName: "주문품명코드",
-      width: 320,
+      width: 180,
       headerAlign: "center",
       headerAlign: "center",
     },
