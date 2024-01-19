@@ -7,6 +7,8 @@ import {
   Button,
   TextField,
   Backdrop,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
 import {
   Dialog,
@@ -18,11 +20,11 @@ import {
 import { useEffect, useState } from "react";
 import EssentialStandardApi from "src/pages/api/pofect/EssentialStandardApi";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
 import { Notify } from "src/notifix/notiflix-notify-aio";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import PassStandardApi from "src/pages/api/pofect/ProcessStandardApi";
+import HelpIcon from "@mui/icons-material/Help";
 
 const EssentialModal = ({
   open,
@@ -748,12 +750,37 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                법인
-              </Typography>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Typography style={{ color: "gray" }} variant="h6">
+                    법인
+                  </Typography>
+                  <p style={{ color: "red" }}>*</p>
+                </div>
+                <Tooltip
+                  title={
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        maxWidth: "none",
+                      }}
+                    >
+                      필수 요소입니다
+                    </div>
+                  }
+                >
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
               <FormControl>
                 <InputLabel>법인</InputLabel>
                 <Select
@@ -775,12 +802,37 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                공적계획박판Mill구분
-              </Typography>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Typography style={{ color: "gray" }} variant="h6">
+                    공적계획박판Mill구분
+                  </Typography>
+                  <p style={{ color: "red" }}>*</p>
+                </div>
+                <Tooltip
+                  title={
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        maxWidth: "none",
+                      }}
+                    >
+                      필수 요소입니다
+                    </div>
+                  }
+                >
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
               <FormControl>
                 <InputLabel>공적계획박판Mill구분</InputLabel>
                 <Select
@@ -802,12 +854,37 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                공정계획필수재변경관리번호
-              </Typography>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Typography style={{ color: "gray" }} variant="h6">
+                    공정계획필수재변경관리번호
+                  </Typography>
+                  <p style={{ color: "red" }}>*</p>
+                </div>
+                <Tooltip
+                  title={
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        maxWidth: "none",
+                      }}
+                    >
+                      필수 요소이며, 최대 11글자까지 입력 가능합니다
+                    </div>
+                  }
+                >
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
               <FormControl>
                 <TextField
                   style={{ background: "#F6FAFE" }}
@@ -827,12 +904,37 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                일련번호
-              </Typography>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Typography style={{ color: "gray" }} variant="h6">
+                    일련번호
+                  </Typography>
+                  <p style={{ color: "red" }}>*</p>
+                </div>
+                <Tooltip
+                  title={
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        maxWidth: "none",
+                      }}
+                    >
+                      필수 요소이며, 최대 22글자까지 입력 가능합니다
+                    </div>
+                  }
+                >
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
               <FormControl>
                 <TextField
                   style={{ background: "#F6FAFE" }}
@@ -852,12 +954,37 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                박판계획공정구분
-              </Typography>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Typography style={{ color: "gray" }} variant="h6">
+                    박판계획공정구분
+                  </Typography>
+                  <p style={{ color: "red" }}>*</p>
+                </div>
+                <Tooltip
+                  title={
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        maxWidth: "none",
+                      }}
+                    >
+                      필수 요소입니다
+                    </div>
+                  }
+                >
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
               <FormControl>
                 <InputLabel>박판계획공정구분</InputLabel>
                 <Select
@@ -886,12 +1013,17 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                공정계획필수재해지적용일자
-              </Typography>
+                <Typography style={{ color: "gray" }} variant="h6">
+                  공정계획필수해지적용일자
+                </Typography>
+              </div>
               <div style={{ background: "#F6FAFE" }}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
@@ -920,10 +1052,7 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
-              >
+              <Typography style={{ color: "gray" }} variant="h6">
                 공정계획기준가등록구분
               </Typography>
               <FormControl>
@@ -947,12 +1076,34 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                박판가능통과공장구분
-              </Typography>
+                <Typography style={{ color: "gray" }} variant="h6">
+                  박판가능통과공장구분
+                </Typography>
+                <Tooltip
+                  title={
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        maxWidth: "none",
+                      }}
+                    >
+                      박판계획공정구분 선택 후 선택 가능합니다
+                    </div>
+                  }
+                >
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
               <FormControl>
                 <InputLabel>박판가능통과공장구분</InputLabel>
                 <Select
@@ -990,12 +1141,17 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                품종
-              </Typography>
+                <Typography style={{ color: "gray" }} variant="h6">
+                  품종
+                </Typography>
+              </div>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
                   <InputLabel>연산자 없음</InputLabel>
@@ -1037,12 +1193,34 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                품명
-              </Typography>
+                <Typography style={{ color: "gray" }} variant="h6">
+                  품명
+                </Typography>
+                <Tooltip
+                  title={
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        maxWidth: "none",
+                      }}
+                    >
+                      품종 값이 품명 앞 두글자에 포함되어야 합니다
+                    </div>
+                  }
+                >
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
                   <InputLabel>연산자 없음</InputLabel>
@@ -1078,12 +1256,34 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                고객사코드
-              </Typography>
+                <Typography style={{ color: "gray" }} variant="h6">
+                  고객사코드
+                </Typography>
+                <Tooltip
+                  title={
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        maxWidth: "none",
+                      }}
+                    >
+                      최대 10글자까지 입력 가능합니다
+                    </div>
+                  }
+                >
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
                   <InputLabel>연산자 없음</InputLabel>
@@ -1119,12 +1319,34 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                주문용도지정코드
-              </Typography>
+                <Typography style={{ color: "gray" }} variant="h6">
+                  주문용도지정코드
+                </Typography>
+                <Tooltip
+                  title={
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        maxWidth: "none",
+                      }}
+                    >
+                      최대 6글자까지 입력 가능합니다
+                    </div>
+                  }
+                >
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
                   <InputLabel>연산자 없음</InputLabel>
@@ -1161,12 +1383,17 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                제품두께
-              </Typography>
+                <Typography style={{ color: "gray" }} variant="h6">
+                  제품두께
+                </Typography>
+              </div>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
                   <InputLabel>연산자 없음</InputLabel>
@@ -1229,12 +1456,17 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                제품주문폭
-              </Typography>
+                <Typography style={{ color: "gray" }} variant="h6">
+                  제품주문폭
+                </Typography>
+              </div>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
                   <InputLabel>연산자 없음</InputLabel>
@@ -1295,12 +1527,35 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                제품규격약효
-              </Typography>
+                <Typography style={{ color: "gray" }} variant="h6">
+                  제품규격약호
+                </Typography>
+                <Tooltip
+                  title={
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        maxWidth: "none",
+                      }}
+                    >
+                      최대 30글자까지 입력 가능합니다
+                    </div>
+                  }
+                >
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
+
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
                   <InputLabel>연산자 없음</InputLabel>
@@ -1338,12 +1593,34 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                판매고객사지역대분류구분
-              </Typography>
+                <Typography style={{ color: "gray" }} variant="h6">
+                  판매고객사지역대분류구분
+                </Typography>
+                <Tooltip
+                  title={
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        maxWidth: "none",
+                      }}
+                    >
+                      최대 1글자까지 입력 가능합니다
+                    </div>
+                  }
+                >
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
                   <InputLabel>연산자 없음</InputLabel>
@@ -1380,12 +1657,34 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                출강목표번호
-              </Typography>
+                <Typography style={{ color: "gray" }} variant="h6">
+                  출강목표번호
+                </Typography>
+                <Tooltip
+                  title={
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        maxWidth: "none",
+                      }}
+                    >
+                      최대 14글자까지 입력 가능합니다
+                    </div>
+                  }
+                >
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
                   <InputLabel>연산자 없음</InputLabel>
@@ -1421,12 +1720,34 @@ const EssentialModal = ({
                 padding: "15px 0 15px 0",
               }}
             >
-              <Typography
-                style={{ marginBottom: "15px", color: "gray" }}
-                variant="h6"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "10px",
+                }}
               >
-                주문제품후처리방법지정코드
-              </Typography>
+                <Typography style={{ color: "gray" }} variant="h6">
+                  주문제품후처리방법지정코드
+                </Typography>
+                <Tooltip
+                  title={
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        maxWidth: "none",
+                      }}
+                    >
+                      최대 3글자까지 입력 가능합니다
+                    </div>
+                  }
+                >
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
               <div style={{ display: "flex" }}>
                 <FormControl style={{ width: "100%", marginRight: "10px" }}>
                   <InputLabel>연산자 없음</InputLabel>
