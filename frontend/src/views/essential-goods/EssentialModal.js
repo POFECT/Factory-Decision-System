@@ -350,7 +350,7 @@ const EssentialModal = ({
         orderWidthMin: null,
         postTreatmentMethodCdN: null,
         pplBasPsgnoTp: null,
-        pplMmatCancAppDt: null,
+        pplMmatCancAppDt: new Date(),
         pplMmatCngMgtNo: null,
         processCd: null,
         salCusLocLClsTp: null,
@@ -397,11 +397,21 @@ const EssentialModal = ({
   const processCdChange = (event) => {
     setAddData((prev) => ({ ...prev, processCd: event.target.value }));
   };
+  // const [selectedDate, setSelectedDate] = useState(dayjs(new Date()));
+  // const pplMmatCancAppDtChange = (selectDate) => {
+  //   setAddData((prev) => ({ ...prev, pplMmatCancAppDt: new Date(selectDate) }));
+  //   setSelectedDate(new Date(selectDate));
+  // };
   const [selectedDate, setSelectedDate] = useState(dayjs(new Date()));
   const pplMmatCancAppDtChange = (selectDate) => {
-    setAddData((prev) => ({ ...prev, pplMmatCancAppDt: new Date(selectDate) }));
-    setSelectedDate(new Date(selectDate));
+    const newDayjsDate = dayjs(selectDate); // dayjs 객체로 변환
+    setAddData((prev) => ({
+      ...prev,
+      pplMmatCancAppDt: new Date(newDayjsDate),
+    }));
+    setSelectedDate(newDayjsDate);
   };
+
   const pplBasPsgnoTpChange = (event) => {
     setAddData((prev) => ({ ...prev, pplBasPsgnoTp: event.target.value }));
   };
@@ -1488,7 +1498,7 @@ const EssentialModal = ({
                 orderWidthMin: null,
                 postTreatmentMethodCdN: null,
                 pplBasPsgnoTp: null,
-                pplMmatCancAppDt: null,
+                pplMmatCancAppDt: new Date(),
                 pplMmatCngMgtNo: null,
                 processCd: null,
                 salCusLocLClsTp: null,
