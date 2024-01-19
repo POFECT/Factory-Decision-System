@@ -10,4 +10,5 @@ public interface DashBoardService {
     List<DashBoardInputStatusResDto> getInputStatusList();
     List<DashBoardOrderInquiryResDto> getOrderInquiry();
 
+    List<DashBoardInputStatusResDto> getInputStatusListApp(String week);
 }
