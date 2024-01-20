@@ -196,6 +196,24 @@ const MainCapacity = ({ userData }) => {
 
       /** 리스트 update */
       getOrders(codeNameList.select, weekList.select);
+
+      //** 체크된 주문 리스트에서 설계 오류인 주문 제외하기  */
+
+      // 선택된 행 중에서 공장결정확정구분이 'C'인 행을 제외한 행들
+      const rowsToRemove = orderList.list
+        .filter(
+          (row) =>
+            rowSelectionModel.includes(row.id) && row.faConfirmFlag === "C"
+        )
+        .map((row) => row.id);
+
+      // 선택된 행 중에서 "flag" 컬럼이 "C"가 아닌 행들의 ID
+      const filteredRowIds = rowSelectionModel.filter(
+        (id) => !rowsToRemove.includes(id)
+      );
+
+      // 필터링된 행으로 rowSelectionModel 업데이트
+      setRowSelectionModel(filteredRowIds);
     }, time * 1000);
   };
 
