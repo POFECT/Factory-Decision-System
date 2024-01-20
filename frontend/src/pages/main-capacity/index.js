@@ -168,7 +168,10 @@ const MainCapacity = ({ userData }) => {
     });
 
     // 설계 modal, progress bar start
-    const time = allCnt * 0.2;
+    const time = 0;
+    if (allCnt < 5) time = 1;
+    else allCnt * 0.2;
+
     setModal((prev) => {
       return { ...prev, open: true, time };
     });
@@ -179,13 +182,17 @@ const MainCapacity = ({ userData }) => {
         return { ...prev, open: false };
       });
 
-      Notify.success(res.success + "/" + allCnt + "건 성공", {
-        showOnlyTheLastOne: false,
-      });
-      Notify.failure(res.fail + "/" + allCnt + "건 실패", {
-        showOnlyTheLastOne: false,
-      });
-      setRowSelectionModel([]);
+      if (res.success > 0) {
+        Notify.success(res.success + "건 성공", {
+          showOnlyTheLastOne: false,
+        });
+      }
+      if (res.fail > 0) {
+        Notify.failure(res.fail + "건 실패", {
+          showOnlyTheLastOne: false,
+        });
+      }
+      // setRowSelectionModel([]);
 
       /** 리스트 update */
       getOrders(codeNameList.select, weekList.select);
@@ -371,7 +378,7 @@ const MainCapacity = ({ userData }) => {
       renderCell: (params) => {
         const flag = params.value;
 
-        if (flag === "D") {
+        if (flag === "A") {
           return (
             <Chip
               variant="outlined"
@@ -381,11 +388,21 @@ const MainCapacity = ({ userData }) => {
             />
           );
         }
-        if (flag === "E") {
+        if (flag === "B") {
           return (
             <Chip
               variant="outlined"
               color="success"
+              size="small"
+              label={params.value}
+            />
+          );
+        }
+        if (flag === "C") {
+          return (
+            <Chip
+              variant="outlined"
+              color="error"
               size="small"
               label={params.value}
             />

@@ -208,14 +208,17 @@ const MainConfirm = ({ userData }) => {
 
     await MainApi.confirmDecision(userData.name, selectedIdList, (data) => {
       const res = data.response;
-      Notify.success(res.success + "/" + allCnt + "건 성공", {
-        showOnlyTheLastOne: false,
-      });
-      Notify.failure(res.fail + "/" + allCnt + "건 실패", {
-        showOnlyTheLastOne: false,
-      });
 
-      setRowSelectionModel([]);
+      if (res.success > 0) {
+        Notify.success(res.success + "건 성공", {
+          showOnlyTheLastOne: false,
+        });
+      }
+      if (res.fail > 0) {
+        Notify.failure(res.fail + "건 실패", {
+          showOnlyTheLastOne: false,
+        });
+      }
 
       /** 리스트 update */
       getOrders(codeNameList.select, weekList.select);
