@@ -113,68 +113,42 @@ const CapacityDetail = (props) => {
         /> */}
           <Card>
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+              <Table
+                sx={{
+                  minWidth: 700,
+                  "& .MuiTableCell-head, & .css-1det703-MuiTableBody-root": {
+                    fontSize: 17,
+                  },
+                }}
+                aria-label="spanning table"
+              >
                 <TableHead>
                   <TableRow>
-                    <TableCell
-                      rowSpan={2}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell rowSpan={2} align="center">
                       적용
                     </TableCell>
-                    <TableCell
-                      colSpan={2}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell colSpan={2} align="center">
                       제강
                     </TableCell>
-                    <TableCell
-                      colSpan={2}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell colSpan={2} align="center">
                       열연
                     </TableCell>
-                    <TableCell
-                      colSpan={2}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell colSpan={2} align="center">
                       열연정정
                     </TableCell>
-                    <TableCell
-                      colSpan={3}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell colSpan={3} align="center">
                       냉간압연
                     </TableCell>
-                    <TableCell
-                      colSpan={3}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell colSpan={3} align="center">
                       1차소둔
                     </TableCell>
-                    <TableCell
-                      colSpan={2}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell colSpan={2} align="center">
                       2차소둔
                     </TableCell>
-                    <TableCell
-                      colSpan={2}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell colSpan={2} align="center">
                       도금
                     </TableCell>
-                    <TableCell align="center" style={{ fontSize: 17 }}>
-                      정정
-                    </TableCell>
+                    <TableCell align="center">정정</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell align="center">1</TableCell>

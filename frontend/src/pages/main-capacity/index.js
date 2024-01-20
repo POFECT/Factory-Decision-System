@@ -192,13 +192,11 @@ const MainCapacity = ({ userData }) => {
           showOnlyTheLastOne: false,
         });
       }
-      // setRowSelectionModel([]);
 
       /** 리스트 update */
       getOrders(codeNameList.select, weekList.select);
 
       //** 체크된 주문 리스트에서 설계 오류인 주문 제외하기  */
-
       // 선택된 행 중에서 공장결정확정구분이 'C'인 행을 제외한 행들
       const rowsToRemove = orderList.list
         .filter(
@@ -825,7 +823,6 @@ const MainCapacity = ({ userData }) => {
                     select: e.target.value,
                   })
                 );
-                // setSelectCodeName(e.target.value);
               }}
               style={{ height: 40 }}
             >

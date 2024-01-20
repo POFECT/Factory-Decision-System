@@ -184,7 +184,10 @@ const MainConfirm = ({ userData }) => {
           " 출강주의 투입 능력 데이터가 없습니다.<br />데이터를 추가해주세요.",
         "확인",
         () => {
-          router.push("/capacity");
+          router.push({
+            pathname: "/capacity",
+            query: { week: weekResult[0] },
+          });
         },
         "취소",
         // () => {},
