@@ -756,7 +756,7 @@ const MainCapacity = ({ userData }) => {
                   setFlag(["A", "B", "C"]);
                 }}
               >
-                ALL
+                All
               </MenuItem>
               <MenuItem
                 value={1}

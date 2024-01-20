@@ -771,7 +771,7 @@ const MainConfirm = ({ userData }) => {
                   setFlag(["D", "E"]);
                 }}
               >
-                ALL
+                All
               </MenuItem>
               <MenuItem
                 value={1}

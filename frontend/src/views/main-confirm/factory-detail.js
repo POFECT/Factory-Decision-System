@@ -80,15 +80,7 @@ const FactoryDetail = (props) => {
   return (
     <>
       <Card style={{ marginBottom: 10 }}>
-        <TableContainer
-          style={
-            {
-              // background: "#FFFFFF",
-              // display: "flex",
-              // flexDirection: "row",
-            }
-          }
-        >
+        <TableContainer>
           <Table aria-label="custom pagination table">
             <TableBody>
               <TableRow>
