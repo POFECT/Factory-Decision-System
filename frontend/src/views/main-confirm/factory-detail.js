@@ -129,42 +129,44 @@ const FactoryDetail = (props) => {
                 </TableHead>
 
                 <TableBody>
-                  {factoryList.list.map((f) => {
-                    return (
-                      <TableRow key={f.firmPsFacTp}>
-                        <TableCell
-                          align="center"
-                          style={{ width: "80px", whiteSpace: "nowrap" }}
-                        >
-                          {f.factoryName}
-                        </TableCell>
-                        <TableCell align="center">
-                          {f.faAdjustmentWgt - f.progressQty}
-                        </TableCell>
-                        <TableCell align="center">
-                          {props.factory.code == f.firmPsFacTp
-                            ? props.order.orderLineQty
-                            : ""}
-                        </TableCell>
-                        <TableCell>
-                          <FormControlLabel
-                            value={f.firmPsFacTp}
-                            onChange={() => {
-                              handleFactory(f.firmPsFacTp);
-                            }}
-                            control={<Radio />}
-                            style={{ margin: "auto" }}
-                            disabled={
-                              props.factory.code == " " ||
-                              props.order.cfirmPassOpCd == null
-                                ? true
-                                : false
-                            }
-                          />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
+                  {props.factory.name != ""
+                    ? factoryList.list.map((f) => {
+                        return (
+                          <TableRow key={f.firmPsFacTp}>
+                            <TableCell
+                              align="center"
+                              style={{ width: "80px", whiteSpace: "nowrap" }}
+                            >
+                              {f.factoryName}
+                            </TableCell>
+                            <TableCell align="center">
+                              {f.faAdjustmentWgt - f.progressQty}
+                            </TableCell>
+                            <TableCell align="center">
+                              {props.factory.code == f.firmPsFacTp
+                                ? props.order.orderLineQty
+                                : ""}
+                            </TableCell>
+                            <TableCell>
+                              <FormControlLabel
+                                value={f.firmPsFacTp}
+                                onChange={() => {
+                                  handleFactory(f.firmPsFacTp);
+                                }}
+                                control={<Radio />}
+                                style={{ margin: "auto" }}
+                                disabled={
+                                  props.factory.code == " " ||
+                                  props.order.cfirmPassOpCd == null
+                                    ? true
+                                    : false
+                                }
+                              />
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })
+                    : null}
                 </TableBody>
               </Table>
             </RadioGroup>
