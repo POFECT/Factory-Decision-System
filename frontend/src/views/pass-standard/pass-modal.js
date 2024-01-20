@@ -68,6 +68,7 @@ const PassModal = ({ open, handleClose }) => {
 
   // 경유공정
   const [passStandard, setPassStandard] = useState([]);
+  const [originalPassStandard, setOriginalPassStandard] = useState([]);//변경 확인을 위한 passStandard
 
   // 품종
   const [codeNameList, setCodeNameList] = useState({
@@ -97,7 +98,6 @@ const PassModal = ({ open, handleClose }) => {
 
   };
 
-
   const handleInsertSave = (newRecordData) => {
 
     const maxId = passStandard.reduce((max, record) => (record.id > max ? record.id : max), 0);
@@ -119,7 +119,7 @@ const PassModal = ({ open, handleClose }) => {
     PassStandardApi.insertSave(newPassStandard, (data) => {
       // alert("저장되었습니다.");
       Notify.success("저장되었습니다.");
-      // setShowAlert(true);
+      setOriginalData([...passStandard]);//저장 성공 후 원래 데이터 업데이트
     });
   };
 
@@ -175,6 +175,7 @@ const PassModal = ({ open, handleClose }) => {
   useEffect(() => {
     PassStandardApi.getList((data) => {
       setPassStandard(data.response);
+      setOriginalPassStandard(data.response); // 원래 상태를 저장(변경여부확인용)
     });
 
     PassStandardApi.getCodeNameList((data) => {
@@ -204,7 +205,6 @@ const PassModal = ({ open, handleClose }) => {
         setPassStandard(passStandardList);
         const ordPdtItdsCdNList = passStandardList.map((item) => item.ordPdtItdsCdN);
         setExistingOrdPdtItdsCdNList(ordPdtItdsCdNList);
-
       });
     } else {
       PassStandardApi.getListByItem(codeNameList.select, (data) => {
@@ -252,30 +252,37 @@ const PassModal = ({ open, handleClose }) => {
         for (let i = 1; i <= 8; i++) {
           const columnName = `availablePassFacCdN${i}`;
           const value = item[columnName];
-
           if (value !== null && value !== '' && value !== '*' &&  value !== ' ') {
             updateFlag = 2;
             return true; // Exit the loop
           }
         }
-
         return false; // Continue the loop
       });
     }
 
-
-    if (updateFlag === 2) {
-      Notify.failure("수정할 데이터를 확인해주세요.\n(* 또는 빈값만 가능)");
-      handleSearch();
-    } else if (updateFlag === 1) {
-      Notify.failure("모든 공정의 값이 비어 수정이 불가합니다.");
-      handleSearch();
-    } else {
-      await PassStandardApi.updateSave(passStandard, (data) => {
-        Notify.success("저장되었습니다.", {
-          showOnlyTheLastOne: false });
+    const isModified = JSON.stringify(passStandard) !== JSON.stringify(originalPassStandard);
+    if(!isModified){
+        Notify.failure("변경된 값이 없습니다.");
         handleSearch();
-      });
+    }else{
+      if (updateFlag === 2) {
+        Notify.failure("수정할 데이터를 확인해주세요.\n(* 또는 빈값만 가능)");
+        handleSearch();
+      } else if (updateFlag === 1) {
+        Notify.failure("모든 공정의 값이 비어 수정이 불가합니다.");
+        handleSearch();
+      }else{
+        await PassStandardApi.updateSave(passStandard, (data) => {
+          Notify.success("저장되었습니다.", {
+            showOnlyTheLastOne: false });
+          handleSearch();
+        });
+        PassStandardApi.getList((data) => {
+          setPassStandard(data.response);
+          setOriginalPassStandard(data.response); // 원래 상태를 저장(변경여부확인용)
+        });
+      }
     }
   };
 
@@ -495,18 +502,6 @@ const PassModal = ({ open, handleClose }) => {
                 </div>
               </divdafdsfads>
             )}
-
-            {/*{insertMode ? (*/}
-            {/*  <Grid*/}
-            {/*    item*/}
-            {/*    xs={4}*/}
-            {/*    sx={{ paddingBottom: 1, paddingTop: 3, paddingLeft: 3 }}*/}
-            {/*  >*/}
-            {/*    <Typography variant="h5"> 데이터 추가 </Typography>*/}
-            {/*  </Grid>*/}
-            {/*) : (*/}
-            {/*  <></>*/}
-            {/*)}*/}
 
             <div
               style={{
