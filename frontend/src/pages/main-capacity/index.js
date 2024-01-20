@@ -16,10 +16,10 @@ import MainApi from "src/pages/api/pofect/MainApi";
 import Card from "@mui/material/Card";
 import { Notify } from "src/notifix/notiflix-notify-aio";
 
-import CapacityDetail from "../../views/main-capacity/capacity-detail";
-
 import * as FileSaver from "file-saver";
 import XLSX from "sheetjs-style";
+
+import CapacityDetail from "../../views/main-capacity/capacity-detail";
 import CapacityModal from "src/views/main-capacity/capacity-modal";
 import withAuth from "../api/auth/withAuth";
 
@@ -193,10 +193,132 @@ const MainCapacity = ({ userData }) => {
   };
 
   const exportToExcel = async () => {
+    const koreanHeaderMap = {
+      gcsCompCode: "법인",
+      millCd: "소구분",
+      orderHeadLineNo: "주문번호",
+      creationDate: "생성일자",
+      osMainStatusCd: "진도",
+      faConfirmFlag: "공장결정확정구분",
+      posbPassFacCdN: "가능통과공정코드",
+      posbPassFacUpdateDate: "가능통과공정설계일자",
+      cfirmPassOpCd: "확정통과공정코드",
+      ordPdtItpCdN: "품종",
+      ordPdtItdsCdN: "품명",
+      adjustConsBktStartDttm: "ATP조정일",
+      customerNumber: "고객사코드",
+      customerName: "고객사명",
+      ordThwTapWekCd: "출강주",
+      orderType: "수주구분",
+      orderLineQty: "주문량",
+      orderThick: "두께",
+      orderWidth: "폭",
+      orderLength: "길이",
+      orderUsageCdN: "용도",
+      orderEdgeCode: "Edge",
+      stockCode: "제품재고판매",
+      salesPerson: "영업담당자",
+      salesCodeN: "판매특기",
+      salCusManDblTp: "판매고객사 대표산업",
+      salCusLocLClsTp: "판매고객사 지역대분류",
+      prodStdPackTolMin: "제품정포장하한중량",
+      prodStdPackTolMax: "제품정포장상한중량",
+      specificationCdN: "제품규격약호",
+      surfaceFinishCd: "표면지정코드",
+      postTreatmentMethodCdN: "후처리코드",
+      oilingMethodCd: "도유코드",
+      planningItemCodeN: "PlanningItem코드",
+      smSteelGrdN: "출강목표번호",
+      moltenSteelCharCdN: "용강특성",
+      tsAim: "목표TS",
+      unitWeight: "제품칫수계산단중",
+      hrSpComposite: "열연SkinPass합성지정",
+      surfaceGrd: "표면등급",
+      shapeGrd: "형상등급",
+      poscoProdGrdN: "제품사내보증번호",
+      hrProdThkAim: "열연목표두께",
+      hrProdWthAim: "열연목표폭",
+      hrRollUnitWgtMax: "압연상한중량",
+      sm2ndRfnCd: "제강2차정련코드",
+      skinpassFlag: "제품SkinPass지정여부",
+      packingType: "포장방법",
+      facAllocWgt: "소내공장결정중량",
+      faAllocDate: "생산가능공장결정일자",
+      errorMessage: "ErrorMessage",
+      msgcode: "박판공정계획Message코드",
+      lastUpdateDate: "최종수정일자",
+    };
+
+    const originalHeader = [
+      "gcsCompCode",
+      "millCd",
+      "orderHeadLineNo",
+      "creationDate",
+      "osMainStatusCd",
+      "faConfirmFlag",
+      "posbPassFacCdN",
+      "posbPassFacUpdateDate",
+      "cfirmPassOpCd",
+      "ordPdtItpCdN",
+      "ordPdtItdsCdN",
+      "adjustConsBktStartDttm",
+      "customerNumber",
+      "customerName",
+      "ordThwTapWekCd",
+      "orderType",
+      "orderLineQty",
+      "orderThick",
+      "orderWidth",
+      "orderLength",
+      "orderUsageCdN",
+      "orderEdgeCode",
+      "stockCode",
+      "salesPerson",
+      "salesCodeN",
+      "salCusManDblTp",
+      "salCusLocLClsTp",
+      "prodStdPackTolMin",
+      "prodStdPackTolMax",
+      "specificationCdN",
+      "surfaceFinishCd",
+      "postTreatmentMethodCdN",
+      "oilingMethodCd",
+      "planningItemCodeN",
+      "smSteelGrdN",
+      "moltenSteelCharCdN",
+      "tsAim",
+      "unitWeight",
+      "hrSpComposite",
+      "surfaceGrd",
+      "shapeGrd",
+      "poscoProdGrdN",
+      "hrProdThkAim",
+      "hrProdWthAim",
+      "hrRollUnitWgtMax",
+      "sm2ndRfnCd",
+      "skinpassFlag",
+      "packingType",
+      "facAllocWgt",
+      "faAllocDate",
+      "errorMessage",
+      "msgcode",
+      "lastUpdateDate",
+    ];
+
+    const sortedOrderList = [...orderList.list].sort((a, b) => a.id - b.id);
+    const excelData = sortedOrderList.map((item) =>
+      originalHeader.map((key) => item[key])
+    );
+    const koreanHeader = originalHeader.map(
+      (englishKey) => koreanHeaderMap[englishKey] || englishKey
+    );
+
     const fileType =
       "application/vnd.openxmlformats-officedcoument.spreadsheetml.sheet;charset=UTF-8";
     const fileExtension = ".xlsx";
-    const ws = XLSX.utils.json_to_sheet(orderList.list);
+
+    const ws = XLSX.utils.aoa_to_sheet([koreanHeader, ...excelData]);
+    // const ws = XLSX.utils.json_to_sheet(orderList.list);
     const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const data = new Blob([excelBuffer], { type: fileType });
@@ -209,7 +331,6 @@ const MainCapacity = ({ userData }) => {
       field: "gcsCompCode",
       headerName: "법인",
       width: 100,
-
       editable: false,
       headerAlign: "center",
     },
@@ -217,7 +338,6 @@ const MainCapacity = ({ userData }) => {
       field: "millCd",
       headerName: "소구분",
       width: 100,
-
       editable: false,
       headerAlign: "center",
     },
@@ -239,7 +359,6 @@ const MainCapacity = ({ userData }) => {
       field: "osMainStatusCd",
       headerName: "진도",
       width: 100,
-
       editable: false,
       headerAlign: "center",
     },
@@ -252,7 +371,7 @@ const MainCapacity = ({ userData }) => {
       renderCell: (params) => {
         const flag = params.value;
 
-        if (flag === "A") {
+        if (flag === "D") {
           return (
             <Chip
               variant="outlined"
@@ -262,7 +381,7 @@ const MainCapacity = ({ userData }) => {
             />
           );
         }
-        if (flag === "B") {
+        if (flag === "E") {
           return (
             <Chip
               variant="outlined"
@@ -272,17 +391,6 @@ const MainCapacity = ({ userData }) => {
             />
           );
         }
-        if (flag === "C") {
-          return (
-            <Chip
-              variant="outlined"
-              color="error"
-              size="small"
-              label={params.value}
-            />
-          );
-        }
-        // <Chip icon={isRejected ? <WarningIcon/> : <CheckIcon/>}  label={params.value} variant={"outlined"} color={isRejected ? "error" : "success"} />;
       },
     },
     {
