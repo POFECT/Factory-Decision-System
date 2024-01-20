@@ -575,7 +575,10 @@ const PossibleModal = ({ open, handleClose, possibleList }) => {
       sx={{ width: "100%" }}
       maxWidth="xl"
     >
-      <div style={{ maxWidth: "1200px" }}>
+      <div
+        style={{ width: "920px" }}
+        // style={{ maxWidth: "1200px" }}
+      >
         <DialogTitle>
           <Grid item xs={12} sx={{ paddingBottom: 4 }}>
             {/* <Card></Card> */}
