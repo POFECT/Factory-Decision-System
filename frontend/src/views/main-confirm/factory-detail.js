@@ -79,39 +79,40 @@ const FactoryDetail = (props) => {
 
   return (
     <>
-      {/* order: {props.order.id} :{props.factory.code} */}
-      <Card style={{ marginBottom: 20 }}>
+      <Card style={{ marginBottom: 10 }}>
         <TableContainer
-          style={{
-            // background: "#FFFFFF",
-            display: "flex",
-            flexDirection: "row",
-          }}
+          style={
+            {
+              // background: "#FFFFFF",
+              // display: "flex",
+              // flexDirection: "row",
+            }
+          }
         >
-          <Table aria-label="spanning table">
-            <TableHead>
+          <Table aria-label="custom pagination table">
+            <TableBody>
               <TableRow>
                 <TableCell
                   align="center"
                   style={{
-                    width: "40%",
+                    width: 140,
                     backgroundColor: "#0A5380",
                     color: "#FFFFFF",
-                    fontSize: 17,
+                    whiteSpace: "nowrap",
                   }}
                 >
                   공정
                 </TableCell>
-                <TableCell align="center" style={{ fontSize: 17 }}>
-                  {props.factory.name}
-                </TableCell>
+                <TableCell align="center">{props.factory.name}</TableCell>
               </TableRow>
-            </TableHead>
+            </TableBody>
           </Table>
         </TableContainer>
       </Card>
       <Card>
-        <TableContainer>
+        <TableContainer
+          sx={{ "& .css-1nrlq1o-MuiFormControl-root": { display: "flex" } }}
+        >
           <FormControl>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
@@ -120,42 +121,18 @@ const FactoryDetail = (props) => {
             >
               <Table aria-label="spanning table">
                 <TableHead>
-                  <TableRow>
-                    <TableCell
-                      align="center"
-                      style={{
+                  <TableRow
+                    sx={{
+                      "& .MuiTableCell-head": {
                         fontSize: 17,
                         whiteSpace: "nowrap",
-                      }}
-                    >
-                      공장
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      style={{
-                        fontSize: 17,
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      능력 여유량
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      style={{
-                        fontSize: 17,
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      능력 사용량
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      style={{
-                        fontSize: 17,
-                      }}
-                    >
-                      선택
-                    </TableCell>
+                      },
+                    }}
+                  >
+                    <TableCell align="center">공장</TableCell>
+                    <TableCell align="center">능력 여유량</TableCell>
+                    <TableCell align="center">능력 사용량</TableCell>
+                    <TableCell align="center">선택</TableCell>
                   </TableRow>
                 </TableHead>
 
@@ -178,11 +155,6 @@ const FactoryDetail = (props) => {
                             : ""}
                         </TableCell>
                         <TableCell>
-                          {/* <Checkbox
-                          checked={
-                            props.factory.code == f.firmPsFacTp ? true : false
-                          }
-                        /> */}
                           <FormControlLabel
                             value={f.firmPsFacTp}
                             onChange={() => {
