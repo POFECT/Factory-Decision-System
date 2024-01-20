@@ -16,6 +16,7 @@ import java.util.List;
 
 /*
 http://localhost:8080/api/swagger-ui/index.html#/
+https://service.pofect.store/api/swagger-ui/index.html#/
  */
 
 @Configuration
@@ -58,7 +59,7 @@ public class SwaggerConfig {
                 .title("POFECT API")
                 .description("Factory Decesion System 관련 API 테스트 상세소개 및 사용법")
                 .version("0.0.1")
-                .contact(new Contact("pofect", "http://52.79.114.216", "wendy0301666@gmail.com"))
+                .contact(new Contact("pofect", "https://service.pofect.store", "wendy0301666@gmail.com"))
                 .build();
     }
 
