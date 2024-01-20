@@ -11,25 +11,6 @@ import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
 
 const CapacityDetail = (props) => {
-  const [order, setOrder] = useState({
-    id: 0,
-    orderHeadLineNo: null,
-    posbPassFacUpdateDate: null,
-    posbPassFacCdN: null,
-  });
-
-  useEffect(async () => {
-    // await MainCapacityApi.getOrder(props.order.id, (data) => {
-    //   const order = data.response;
-    //   setOrder({
-    //     id: order.id,
-    //     orderHeadLineNo: order.orderHeadLineNo,
-    //     posbPassFacUpdateDate: order.posbPassFacUpdateDate,
-    //     posbPassFacCdN: order.posbPassFacCdN,
-    //   });
-    // });
-  }, [props.order]);
-
   return (
     <>
       <div
@@ -56,19 +37,14 @@ const CapacityDetail = (props) => {
               <Table
                 aria-label="custom pagination table"
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-evenly",
                   backgroundColor: "#FFFFFF",
                 }}
               >
-                <TableBody
-                // style={{ border: "1px solid #8E8E8E" }}
-                >
-                  <TableRow key="1" style={{ padding: 0 }}>
+                <TableBody>
+                  <TableRow>
                     <TableCell
                       style={{
-                        width: 160,
+                        width: "14%",
                         backgroundColor: "#0A5380",
                         color: "#FFFFFF",
                       }}
@@ -77,14 +53,14 @@ const CapacityDetail = (props) => {
                       주문번호
                     </TableCell>
                     <TableCell
-                      style={{ width: 200, color: "000000" }}
+                      style={{ width: "21%", color: "000000" }}
                       align="center"
                     >
                       {props.order.orderHeadLineNo}
                     </TableCell>
                     <TableCell
                       style={{
-                        width: 160,
+                        width: "14%",
                         backgroundColor: "#0A5380",
                         color: "#FFFFFF",
                       }}
@@ -93,14 +69,14 @@ const CapacityDetail = (props) => {
                       설계 일시
                     </TableCell>
                     <TableCell
-                      style={{ width: 200, color: "000000" }}
+                      style={{ width: "18%", color: "000000" }}
                       align="center"
                     >
                       {props.order.posbPassFacUpdateDate}
                     </TableCell>
                     <TableCell
                       style={{
-                        width: 160,
+                        width: "14%",
                         backgroundColor: "#0A5380",
                         color: "#FFFFFF",
                       }}
@@ -109,7 +85,7 @@ const CapacityDetail = (props) => {
                       설계 결과
                     </TableCell>
                     <TableCell
-                      style={{ width: 200, color: "000000" }}
+                      style={{ width: "19%", color: "000000" }}
                       align="center"
                     >
                       {props.order.posbPassFacCdN}
@@ -137,68 +113,42 @@ const CapacityDetail = (props) => {
         /> */}
           <Card>
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+              <Table
+                sx={{
+                  minWidth: 700,
+                  "& .MuiTableCell-head, & .css-1det703-MuiTableBody-root": {
+                    fontSize: 17,
+                  },
+                }}
+                aria-label="spanning table"
+              >
                 <TableHead>
                   <TableRow>
-                    <TableCell
-                      rowSpan={2}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell rowSpan={2} align="center">
                       적용
                     </TableCell>
-                    <TableCell
-                      colSpan={2}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell colSpan={2} align="center">
                       제강
                     </TableCell>
-                    <TableCell
-                      colSpan={2}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell colSpan={2} align="center">
                       열연
                     </TableCell>
-                    <TableCell
-                      colSpan={2}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell colSpan={2} align="center">
                       열연정정
                     </TableCell>
-                    <TableCell
-                      colSpan={3}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell colSpan={3} align="center">
                       냉간압연
                     </TableCell>
-                    <TableCell
-                      colSpan={3}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell colSpan={3} align="center">
                       1차소둔
                     </TableCell>
-                    <TableCell
-                      colSpan={2}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell colSpan={2} align="center">
                       2차소둔
                     </TableCell>
-                    <TableCell
-                      colSpan={2}
-                      align="center"
-                      style={{ fontSize: 17 }}
-                    >
+                    <TableCell colSpan={2} align="center">
                       도금
                     </TableCell>
-                    <TableCell align="center" style={{ fontSize: 17 }}>
-                      정정
-                    </TableCell>
+                    <TableCell align="center">정정</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell align="center">1</TableCell>

@@ -352,6 +352,7 @@ const Log = () => {
           style={{
             flexBasis: "50%",
             padding: "16px",
+            height: "750px",
           }}
         >
           <Grid

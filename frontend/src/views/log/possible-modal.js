@@ -72,6 +72,7 @@ function Row(props) {
                     "& .MuiTableCell-head": {
                       border: "1px solid rgba(225, 234, 239, 1)",
                       fontSize: 14,
+                      backgroundColor: "#F9FAFC",
                     },
                   }}
                 >
