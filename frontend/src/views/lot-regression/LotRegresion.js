@@ -48,7 +48,7 @@ const EssentialModal = ({ open, handleClose }) => {
   const regressionClick = () => {
     const inputValue = Number(objectData.x3);
     if (!isNaN(inputValue) && inputValue >= 10000 && inputValue <= 1000000) {
-      const apiUrl = "http://localhost:4000/predict";
+      const apiUrl = "https://ai.pofect.store/predict";
       modalOpen();
       // 기존의 setTimeout 제거
       if (clearTimeoutId) {
