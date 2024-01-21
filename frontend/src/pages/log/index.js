@@ -154,6 +154,7 @@ const Log = () => {
       }
     }
 
+    console.log(updatedSteps);
     setSteps(updatedSteps); // 업데이트된 배열을 상태로 설정
   };
 
@@ -162,17 +163,27 @@ const Log = () => {
   }, []);
 
   useEffect(() => {
+    console.log(orderList.order);
+    
     /** stepper 단계 설정 */
     const flag = orderList.order.faConfirmFlag;
+
+    console.log(flag);
+
     if (flag == "A") {
+      console.log("Step 1");
       setActiveStep((prevActiveStep) => 1);
     } else if (flag == "B" || flag == "C") {
+      console.log("Step 2");
       setActiveStep((prevActiveStep) => 2);
     } else if (flag == "D") {
+      console.log("Step 3");
       setActiveStep((prevActiveStep) => 3);
     } else if (flag == "E") {
+      console.log("Step 4");
       setActiveStep((prevActiveStep) => 4);
     } else if (flag == "F") {
+      console.log("Step 5");
       setActiveStep((prevActiveStep) => 5);
     }
 
