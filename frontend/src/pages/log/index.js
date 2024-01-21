@@ -93,7 +93,6 @@ const Log = () => {
   const getLogs = async () => {
     await LogApi.getLogList(orderList.order.id, (data) => {
       const list = data.response;
-      console.log(list);
       setLogList((prev) => {
         return { ...prev, list };
       });
@@ -161,9 +160,10 @@ const Log = () => {
     getOrders(null, null, null, null);
   }, []);
 
-  useEffect(() => {
+  useEffect(() => {    
     /** stepper 단계 설정 */
     const flag = orderList.order.faConfirmFlag;
+
     if (flag == "A") {
       setActiveStep((prevActiveStep) => 1);
     } else if (flag == "B" || flag == "C") {
