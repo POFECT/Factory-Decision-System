@@ -93,6 +93,7 @@ const Log = () => {
   const getLogs = async () => {
     await LogApi.getLogList(orderList.order.id, (data) => {
       const list = data.response;
+      console.log(list);
       setLogList((prev) => {
         return { ...prev, list };
       });
