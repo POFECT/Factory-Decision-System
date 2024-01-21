@@ -155,7 +155,7 @@ const MyD3Heatmap = ({ capacity }) => {
 
                 const clickedValue = transformedData2[row][col];
 
-                console.log('Clicked Cell:', { value: d, row, col, clickedValue });
+                // console.log('Clicked Cell:', { value: d, row, col, clickedValue });
                 setClickedCell({ value: d, row, col, clickedValue });
             });
         svg.selectAll('.cellText')
@@ -173,7 +173,7 @@ const MyD3Heatmap = ({ capacity }) => {
 
     return (
         <>
-            <p style={{ fontSize: 19 }}>선택된 공장의 잔여량: <span style={{ color: 'blue' }}>{clickedCell.clickedValue}(ton)</span></p>
+            <p style={{ fontSize: 19 }}>선택된 공장의 잔여량: <span style={{ color: 'blue' }}>{clickedCell.clickedValue}(t)</span></p>
             <animated.div style={{ fadeInAnimation, display: 'flex' }}>
                 <div>
                     {/* <p>Hovered Cell: {hoveredCell}</p> */}
