@@ -109,14 +109,18 @@ const CapacityDetail = (props) => {
               <Table
                 sx={{
                   minWidth: 700,
-                  "& .MuiTableCell-head, & .MuiTableCell-body": {
+                  "& .MuiTableCell-head": {
                     fontSize: 17,
                     fontWeight: "bold",
                     textAlign: "center",
                     border: "1px solid rgba(225, 234, 239, 1)",
-                  },
-                  "& .MuiTableCell-head": {
                     backgroundColor: "#F9FAFC",
+                  },
+                  "& .MuiTableCell-body": {
+                    fontSize: 17,
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    border: "1px solid rgba(225, 234, 239, 1)",
                   },
                 }}
                 aria-label="spanning table"
