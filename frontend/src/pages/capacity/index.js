@@ -87,6 +87,7 @@ const CapacityMgt = () => {
   const [capacity, setCapacity] = useState([]);
   const [labels, setLabels] = useState([]);
 
+  const [originalCapacity, setoriginalCapacity] = useState([]);//변경 확인을 위한 capacity
   // 출강주
   const [weekList, setWeekList] = useState({
     list: [],
@@ -101,7 +102,7 @@ const CapacityMgt = () => {
 
   //Update
   const handleCellEditCommit = (params) => {
-    console.log(params);
+    // console.log(params);
     const updatedList = capacity.map((item) =>
       item.id === params.id ? params : item
     );
@@ -110,8 +111,10 @@ const CapacityMgt = () => {
   };
 
   const capacityApi = () => {
-    CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
+    CapacityStandardApi.getCapacityListByWeek(weekList, (data) => {
       setCapacity(data.response);
+      setoriginalCapacity(data.response); // 원래 상태를 저장(변경여부확인용)
+
     });
   };
 
@@ -125,7 +128,7 @@ const CapacityMgt = () => {
       if (router.query.week === undefined) select = list[0];
       else select = router.query.week;
 
-      console.log("select ", select);
+      // console.log("select ", select);
       setWeekList((prev) => {
         return { ...prev, list, select };
       });
@@ -133,6 +136,8 @@ const CapacityMgt = () => {
       CapacityStandardApi.getCapacityListByWeek(select, (data) => {
         setCapacity(data.response);
         setLoading(false);
+        setoriginalCapacity(data.response); // 원래 상태를 저장(변경여부확인용)
+
       });
     });
   }, []);
@@ -162,8 +167,8 @@ const CapacityMgt = () => {
   };
 
   const handleSearch = async () => {
-    console.log("Selected week:", weekList.select);
-    capacityApi();
+    // console.log("Selected week:", weekList.select);
+    // capacityApi();
 
     const data = await new Promise((resolve, reject) => {
       CapacityStandardApi.getCapacityListByWeek(weekList.select, (data) => {
@@ -172,6 +177,7 @@ const CapacityMgt = () => {
     });
 
     setCapacity(data.response);
+    setoriginalCapacity(data.response);
   };
 
   const handleInsert = () => {
@@ -234,38 +240,47 @@ const CapacityMgt = () => {
   const updateCapacity = async () => {
     const updateFlag = false;
 
-    capacity.map((item) => {
-      if (isNaN(item.faAdjustmentWgt)) {
-        Notify.failure("공정 조정량은 숫자만 가능합니다.");
-        updateFlag = true;
-      } else if (
-        item.faAdjustmentWgt === undefined ||
-        item.faAdjustmentWgt === null ||
-        item.faAdjustmentWgt === ""
-      ) {
-        Notify.failure("공정 조정량이 비어있습니다.");
-        updateFlag = true;
-      }
-    });
+    const isModified = JSON.stringify(capacity) !== JSON.stringify(originalCapacity);
+    if(!isModified) {
+      Notify.failure("변경된 값이 없습니다.");
 
-    if (updateFlag) {
-      // alert(result);
-    } else if (!updateFlag) {
-      Report.warning(
-        "",
-        "조정량 수정 값을 저장하시겠습니까?",
-        "확인",
-        () => {
-          CapacityStandardApi.updateSave(capacity, (data) => {
-            Notify.success("저장되었습니다.");
-            capacityApi();
-          });
-        },
-        "취소",
-        {
-          backOverlayClickToClose: true,
+    } else {
+      capacity.map((item) => {
+        if (isNaN(item.faAdjustmentWgt)) {
+          Notify.failure("공정 조정량은 숫자만 가능합니다.");
+          updateFlag = true;
+        } else if (
+            item.faAdjustmentWgt === undefined ||
+            item.faAdjustmentWgt === null ||
+            item.faAdjustmentWgt === ""
+        ) {
+          Notify.failure("공정 조정량이 비어있습니다.");
+          updateFlag = true;
         }
-      );
+      });
+
+      if (updateFlag) {
+        // alert(result);
+      } else if (!updateFlag) {
+        Report.warning(
+            "",
+            "조정량 수정 값을 저장하시겠습니까?",
+            "확인",
+            () => {
+              CapacityStandardApi.updateSave(capacity, (data) => {
+                Notify.success("저장되었습니다.");
+                // capacityApi();
+                handleSearch();
+                setoriginalCapacity(data.response); // 원래 상태를 저장(변경여부확인용)
+
+              });
+            },
+            "취소",
+            {
+              backOverlayClickToClose: true,
+            }
+        );
+      }
     }
   };
 
@@ -351,7 +366,7 @@ const CapacityMgt = () => {
               defaultValue="T"
               input={<OutlinedInput label="구분" />}
               onChange={(e) => {
-                console.log(e);
+                // console.log(e);
               }}
               style={{ height: 40 }}
             >
