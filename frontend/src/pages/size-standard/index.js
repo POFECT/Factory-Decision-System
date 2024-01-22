@@ -63,6 +63,7 @@ const Standard = () => {
   const [editedCellValue, setEditedCellValue] = useState("");
   const [sizeDesign, setSizeDesign] = useState(false);
   const [badData, setBadDatas] = useState([]);
+  const [originalSize, setoriginalSize] = useState([]);
 
   const handleCellEditCommit = (params) => {
     const updatedList = sizeStandardList.map((item) => {
@@ -111,6 +112,7 @@ const Standard = () => {
       });
 
       setSizeStandardList(resultData);
+      setoriginalSize(resultData);
     });
   };
 
@@ -118,79 +120,87 @@ const Standard = () => {
     const updateFlag = false;
     const result = "다음 데이터를 확인해주세요.\n\n";
 
-    sizeStandardList.map((item) => {
-      if (
-        item.orderThickMin < 0 ||
-        item.orderThickMax < 0 ||
-        item.orderThickMin > item.orderThickMax
-      ) {
-        const badData = [
-          {
-            id: item.id,
-            min: "orderThickMin",
-            max: "orderThickMax",
-          },
-        ];
-        console.log(badData);
-        result += item.processCd + " " + item.firmPsFacTp + "공장 두께\n";
-        updateFlag = true;
-        setBadDatas((prevData) => [...prevData, badData]);
-      }
-      if (
-        item.orderWidthMin < 0 ||
-        item.orderWidthMax < 0 ||
-        item.orderWidthMin > item.orderWidthMax
-      ) {
-        const badData = [
-          {
-            id: item.id,
-            min: "orderWidthMin",
-            max: "orderWidthMax",
-          },
-        ];
-        console.log(badData);
-        result += item.processCd + " " + item.firmPsFacTp + "공장 폭\n";
-        updateFlag = true;
-        setBadDatas((prevData) => [...prevData, badData]);
-      }
-      if (
-        item.orderLengthMin < 0 ||
-        item.orderLengthMax < 0 ||
-        item.orderLengthMin > item.orderLengthMax
-      ) {
-        result += item.processCd + " " + item.firmPsFacTp + "공장 길이\n";
-        updateFlag = true;
-      }
-      if (
-        item.hrRollUnitWgtMax1 < 0 ||
-        item.hrRollUnitWgtMax2 < 0 ||
-        item.hrRollUnitWgtMax1 > item.hrRollUnitWgtMax2
-      ) {
-        result += item.processCd + " " + item.firmPsFacTp + "공장 단중\n";
-        updateFlag = true;
-      }
-    });
+    const isModified = JSON.stringify(sizeStandardList) !== JSON.stringify(originalSize);
+    if(!isModified) {
+      Notify.failure("변경된 값이 없습니다.");
 
-    Report.warning(
-      "",
-      "사이즈 기준을 저장하시겠습니까",
-      "확인",
-      () => {
-        if (updateFlag) {
-          Notify.failure("min값이 max값보다 클 수 없습니다. 데이터를 확인해주세요.");
-
-        } else if (!updateFlag) {
-          SizeStandardApi.updateSize(sizeStandardList, (data) => {
-            Notify.success("저장되었습니다.");
-            getSizeStadards();
-          });
+    } else { 
+      sizeStandardList.map((item) => {
+        if (
+          item.orderThickMin < 0 ||
+          item.orderThickMax < 0 ||
+          item.orderThickMin > item.orderThickMax
+        ) {
+          const badData = [
+            {
+              id: item.id,
+              min: "orderThickMin",
+              max: "orderThickMax",
+            },
+          ];
+          console.log(badData);
+          result += item.processCd + " " + item.firmPsFacTp + "공장 두께\n";
+          updateFlag = true;
+          setBadDatas((prevData) => [...prevData, badData]);
         }
-      },
-      "취소",
-      {
-        backOverlayClickToClose: true,
-      }
-    );
+        if (
+          item.orderWidthMin < 0 ||
+          item.orderWidthMax < 0 ||
+          item.orderWidthMin > item.orderWidthMax
+        ) {
+          const badData = [
+            {
+              id: item.id,
+              min: "orderWidthMin",
+              max: "orderWidthMax",
+            },
+          ];
+          console.log(badData);
+          result += item.processCd + " " + item.firmPsFacTp + "공장 폭\n";
+          updateFlag = true;
+          setBadDatas((prevData) => [...prevData, badData]);
+        }
+        if (
+          item.orderLengthMin < 0 ||
+          item.orderLengthMax < 0 ||
+          item.orderLengthMin > item.orderLengthMax
+        ) {
+          result += item.processCd + " " + item.firmPsFacTp + "공장 길이\n";
+          updateFlag = true;
+        }
+        if (
+          item.hrRollUnitWgtMax1 < 0 ||
+          item.hrRollUnitWgtMax2 < 0 ||
+          item.hrRollUnitWgtMax1 > item.hrRollUnitWgtMax2
+        ) {
+          result += item.processCd + " " + item.firmPsFacTp + "공장 단중\n";
+          updateFlag = true;
+        }
+      });
+  
+      Report.warning(
+        "",
+        "사이즈 기준을 저장하시겠습니까",
+        "확인",
+        () => {
+          if (updateFlag) {
+            Notify.failure("min값이 max값보다 클 수 없습니다. 데이터를 확인해주세요.");
+  
+          } else if (!updateFlag) {
+            SizeStandardApi.updateSize(sizeStandardList, (data) => {
+              Notify.success("저장되었습니다.");
+              getSizeStadards();
+            });
+          }
+        },
+        "취소",
+        {
+          backOverlayClickToClose: true,
+        }
+      );
+    }
+
+    
   };
 
   const columns = [
