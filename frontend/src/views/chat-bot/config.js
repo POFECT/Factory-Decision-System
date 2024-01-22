@@ -3,7 +3,6 @@ import styled from "styled-components";
 import ChatMessage from "../chat-bot/ChatMessage.js";
 import Options from "../chat-bot/Options.js";
 import QuestionChatBot from "./QuestionChatBot.js";
-import { useState } from "react";
 
 const HeaderContainer = styled.div`
   background: rgb(92, 130, 255);
@@ -350,7 +349,7 @@ const config = {
           },
           {
             questions: "경유공정 추가",
-            answer: "경유공정 추가하는 방법은 ~ 입니다.",
+            answer: "구분, 품종 및 품명을 입력한 후 경유가 가능한 공정을 선택하여 기준을 추가합니다.",
             id: 4,
           },
           {
@@ -384,7 +383,7 @@ const config = {
           },
           {
             questions: "공장 부하 현황",
-            answer: "공장 부하 현황 ~?",
+            answer: "현재 줄강주에 따른 각 공정별 공장에 대한 능력량에 대한 투입량의 퍼센티지로 부하 현황을 나타냅니다.",
             id: 4,
           },
          
