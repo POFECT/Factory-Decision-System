@@ -21,12 +21,9 @@ public class SendMailBatch {
             MimeMessageDto mimeMessage = userService.poll();
             System.out.println(mimeMessage.getMimeMessage());
             try {
-                System.out.println("send1");
                 userService.mailSend(mimeMessage.getMimeMessage());
-                System.out.println("send2");
             } catch (MessagingException e ) {
                 mailResult = "Fail: " + e.getMessage();
-                System.out.println("fail : " + e.getMessage());
             }
             Thread.sleep(50);
         }
