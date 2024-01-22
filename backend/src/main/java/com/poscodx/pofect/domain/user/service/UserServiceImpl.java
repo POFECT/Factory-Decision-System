@@ -39,6 +39,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void mailSend(MimeMessage mimeMessage) throws MessagingException, TaskRejectedException {
+        System.out.println("메일 전송");
         Transport.send(mimeMessage);
     }
 
@@ -49,10 +50,13 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public MimeMessageDto poll() {
+
+        System.out.println("메시지 가져오기");
         return mimeMessageQueue.poll();
     }
 
     public void addSendMailToList(MimeMessage mimeMessage,String toEmail) {
+        System.out.println("메시지 넣기");
         mimeMessageQueue.add(
                 MimeMessageDto.of(mimeMessage, toEmail)
         );
@@ -102,6 +106,7 @@ public class UserServiceImpl implements UserService{
     }
     private MimeMessage getMimeMessage(Properties properties) {
         String sender = "pofect2@gmail.com";
+        System.out.println("password : " + password);
 
         Session session = Session.getInstance(properties,
                 new javax.mail.Authenticator() {
@@ -123,6 +128,8 @@ public class UserServiceImpl implements UserService{
         if (Objects.isNull(origin)) {
             origin = request.getRemoteAddr();
         }
+
+        System.out.println("origin : " + origin);
 
         messageHelper.setFrom(new InternetAddress(sender, userName, "utf-8"));
         messageHelper.setTo(toEmail);
