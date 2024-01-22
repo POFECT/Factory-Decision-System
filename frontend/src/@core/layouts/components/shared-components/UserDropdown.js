@@ -71,7 +71,7 @@ const UserDropdown = ({ userData }) => {
         alt="Profile_image"
         onClick={handleDropdownOpen}
         sx={{ width: 40, height: 40, marginLeft: "10px" }}
-        src="/images/mypage/pofect_logo_ract2.png"
+        src="/images/mypage/profile_square.png"
       />
       <Menu
         anchorEl={anchorEl}
@@ -85,7 +85,7 @@ const UserDropdown = ({ userData }) => {
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Avatar
               alt="Profile_image"
-              src="/images/mypage/pofect_logo_ract2.png"
+              src="/images/mypage/profile_square.png"
               sx={{ width: "2.5rem", height: "2.5rem" }}
             />
             <Box
