@@ -17,6 +17,7 @@ public class SendMailBatch {
     public void sendMailSchedule() throws InterruptedException {
         String mailResult = "Success";
 
+        System.out.println("batch gogo");
         while (userService.hasNext()) {
             MimeMessageDto mimeMessage = userService.poll();
             System.out.println(mimeMessage.getMimeMessage());

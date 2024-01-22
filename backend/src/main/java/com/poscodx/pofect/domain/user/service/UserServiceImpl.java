@@ -67,11 +67,18 @@ public class UserServiceImpl implements UserService{
         MailSendCode resultCode = MailSendCode.SUCCESS;
 
         try {
+            System.out.println(111);
             Properties properties = this.getProperty(toEmail);
+            System.out.println(222);
             MimeMessage mimeMessage = this.getMimeMessage(properties);
+            System.out.println(333);
             MimeMessageHelper messageHelper = this.getMimeMessageHelper(mimeMessage);
+            System.out.println(444);
             this.setMessageHelper(messageHelper, toEmail, standardType, type,endpoint, request);
+            System.out.println(555);
+            System.out.println("mime:" + mimeMessage.getMessageID());
             this.addSendMailToList(mimeMessage, toEmail);
+            System.out.println(666);
 //            this.mailSend(mimeMessage);
 
         } catch (Exception e) {
@@ -144,6 +151,7 @@ public class UserServiceImpl implements UserService{
         FileSystemResource fsr2 = new FileSystemResource(file2);
         messageHelper.addInline("poscodx-email-footer", fsr1);
         messageHelper.addInline("poscodx-email-footer2", fsr2);
+
 
     }
 
