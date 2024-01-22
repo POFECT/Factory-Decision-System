@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpLong } from "@fortawesome/free-solid-svg-icons";
 import { faDownLong } from "@fortawesome/free-solid-svg-icons";
 import MainApi from "src/pages/api/pofect/MainApi";
+import { faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const InjectionDash = () => {
   const [confirmList, setConfirmList] = useState([]);
@@ -37,9 +38,30 @@ const InjectionDash = () => {
           <Typography variant="h4" sx={{ mr: 2 }} style={{ color: "#212121" }}>
             {confirmList.length}개
           </Typography>
-          <div style={{ color: "red" }}>+{confirmList.length - count}</div>
+          {confirmList.length - count > 0 ? (
+            <div style={{ color: "red" }}>+{confirmList.length - count}</div>
+          ) : null}
+          {confirmList.length - count < 0 ? (
+            <div style={{ color: "blue" }}>{confirmList.length - count}</div>
+          ) : null}
         </div>
-        <FontAwesomeIcon icon={faUpLong} size="2x" style={{ color: "red" }} />
+        {confirmList.length - count > 0 ? (
+          <FontAwesomeIcon icon={faUpLong} size="2x" style={{ color: "red" }} />
+        ) : null}
+        {confirmList.length - count < 0 ? (
+          <FontAwesomeIcon
+            icon={faDownLong}
+            size="2x"
+            style={{ color: "blue" }}
+          />
+        ) : null}
+        {confirmList.length - count === 0 ? (
+          <FontAwesomeIcon
+            icon={faMinus}
+            size="2x"
+            style={{ color: "black" }}
+          />
+        ) : null}
       </div>
       <div
         style={{
