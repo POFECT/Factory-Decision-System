@@ -44,7 +44,7 @@ const LotChart = ({ open, handleClose, sumValue }) => {
           family: "JalnanGothic",
         },
       },
-      
+
     },
     scales: {
       x: {
@@ -102,7 +102,7 @@ const LotChart = ({ open, handleClose, sumValue }) => {
           family: "JalnanGothic",
         },
       },
-      
+
     },
     scales: {
       x: {
@@ -188,24 +188,29 @@ const LotChart = ({ open, handleClose, sumValue }) => {
               paddingTop: "15px",
             }}
           >
-            <Card style={{
-              width: 400,
-              height: 200
-            }}>
-              <Bar options={optionStand} data={dataStand} />
-            </Card>
-            <Card style={{
-              width: 400,
-              height: 200
-            }}>
-              <Bar options={options} data={data} />
-            </Card>
-            <Card style={{
-              width: 400,
-              height: 400,
-            }}>
-              <Doughnut data={test} />
-            </Card>
+            <div>
+              <Card style={{
+                width: 400,
+                height: 200
+              }}>
+                <Bar options={optionStand} data={dataStand} />
+              </Card>
+              <Card style={{
+                width: 400,
+                height: 200
+              }}>
+                <Bar options={options} data={data} />
+              </Card>
+            </div>
+            <div style={{ paddingLeft: "10px" }}>
+              <Card style={{
+                width: 400,
+                height: 400,
+              }}>
+                <Doughnut data={test} />
+              </Card>
+            </div>
+
           </div>
         </DialogContentText>
       </DialogContent>
