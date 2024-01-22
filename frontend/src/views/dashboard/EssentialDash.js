@@ -8,7 +8,7 @@ import EssentialStandardApi from "src/pages/api/pofect/EssentialStandardApi";
 
 const EssentialDash = () => {
   const [essentialList, setessentialList] = useState([]);
-  const count = 58;
+  const count = 52;
 
   useEffect(() => {
     EssentialStandardApi.getEssentialStandardList((data) => {
@@ -38,9 +38,30 @@ const EssentialDash = () => {
           <Typography variant="h4" sx={{ mr: 2 }} style={{ color: "#212121" }}>
             {essentialList.length}개
           </Typography>
-          <div style={{ color: "red" }}>+{essentialList.length - count}</div>
+          {essentialList.length - count > 0 ? (
+            <div style={{ color: "red" }}>+{essentialList.length - count}</div>
+          ) : null}
+          {essentialList.length - count < 0 ? (
+            <div style={{ color: "blue" }}>{essentialList.length - count}</div>
+          ) : null}
         </div>
-        <FontAwesomeIcon icon={faUpLong} size="2x" style={{ color: "red" }} />
+        {essentialList.length - count > 0 ? (
+          <FontAwesomeIcon icon={faUpLong} size="2x" style={{ color: "red" }} />
+        ) : null}
+        {essentialList.length - count < 0 ? (
+          <FontAwesomeIcon
+            icon={faDownLong}
+            size="2x"
+            style={{ color: "blue" }}
+          />
+        ) : null}
+        {essentialList.length - count === 0 ? (
+          <FontAwesomeIcon
+            icon={faMinus}
+            size="2x"
+            style={{ color: "black" }}
+          />
+        ) : null}
       </div>
       <div
         style={{
