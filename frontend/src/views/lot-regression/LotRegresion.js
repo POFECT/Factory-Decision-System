@@ -48,7 +48,7 @@ const EssentialModal = ({ open, handleClose }) => {
   const regressionClick = () => {
     const inputValue = Number(objectData.x3);
     if (!isNaN(inputValue) && inputValue >= 10000 && inputValue <= 1000000) {
-      const apiUrl = "http://localhost:4000/predict";
+      const apiUrl = "https://ai.pofect.store/predict";
       modalOpen();
       // 기존의 setTimeout 제거
       if (clearTimeoutId) {
@@ -121,19 +121,18 @@ const EssentialModal = ({ open, handleClose }) => {
               style={{ display: "flex", justifyContent: "space-between" }}
             >
               <Typography variant="h4">출강 LOT 투입 예측</Typography>
-
               <Tooltip
-                // <Typography
-                //   fontSize={15}
-                //   style={{
-                //     color: "white",
-                //     whiteSpace: "nowrap",
-                //   }}
-                // >
-                //   투입량은 최소 10000 최대 1,000,000 까지 가능합니다
-                // </Typography>
-                title={"투입량은 최소 10000 최대 1,000,000 까지 가능합니다 "}
-                style={{ fontSize: "30px" }}
+                title={
+                  <div
+                    style={{
+                      fontSize: "12px",
+                      whiteSpace: "nowrap",
+                      maxWidth: "none",
+                    }}
+                  >
+                    투입량은 최소 10000 최대 1,000,000 까지 가능합니다
+                  </div>
+                }
               >
                 <IconButton>
                   <HelpIcon />

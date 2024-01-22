@@ -160,9 +160,10 @@ const Log = () => {
     getOrders(null, null, null, null);
   }, []);
 
-  useEffect(() => {
+  useEffect(() => {    
     /** stepper 단계 설정 */
     const flag = orderList.order.faConfirmFlag;
+
     if (flag == "A") {
       setActiveStep((prevActiveStep) => 1);
     } else if (flag == "B" || flag == "C") {
@@ -179,54 +180,6 @@ const Log = () => {
       getLogs();
     }
   }, [orderList.order]);
-
-  //컬럼
-  const columns = [
-    {
-      field: "processName",
-      rowspan: "rowspan",
-      headerName: "공정",
-      width: 115,
-      headerAlign: "center",
-      sortable: false,
-    },
-    {
-      field: "firmPsFacTp",
-      headerName: "공장",
-      width: 65,
-      headerAlign: "center",
-      sortable: false,
-    },
-    {
-      field: "planQty",
-      headerName: "능력량",
-      width: 110,
-      headerAlign: "center",
-      sortable: false,
-    },
-    {
-      field: "faAdjustmentWgt",
-      headerName: "조정량",
-      width: 110,
-      editable: true,
-      headerAlign: "center",
-      sortable: false,
-    },
-    {
-      field: "progressQty",
-      headerName: "투입량",
-      width: 110,
-      headerAlign: "center",
-      sortable: false,
-    },
-    {
-      field: "remainQty",
-      headerName: "잔여량",
-      width: 110,
-      headerAlign: "center",
-      sortable: false,
-    },
-  ];
 
   return (
     <>
@@ -287,10 +240,9 @@ const Log = () => {
                 >
                   <StepLabel
                     sx={{
-                      ".css-1xot491-MuiStepLabel-label.Mui-completed, .css-1xot491-MuiStepLabel-label":
-                        {
-                          fontSize: "20px",
-                        },
+                      "& .css-1wh1125, & .css-1xot491-MuiStepLabel-label": {
+                        fontSize: "20px",
+                      },
                     }}
                   >
                     {step.label}
@@ -352,6 +304,7 @@ const Log = () => {
           style={{
             flexBasis: "50%",
             padding: "16px",
+            height: "750px",
           }}
         >
           <Grid
