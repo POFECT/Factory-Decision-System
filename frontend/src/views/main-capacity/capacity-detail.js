@@ -110,7 +110,7 @@ const CapacityDetail = (props) => {
                 sx={{
                   minWidth: 700,
                   "& .MuiTableCell-head": {
-                    fontSize: 17,
+                    fontSize: "17px !important",
                     fontWeight: "bold",
                     textAlign: "center",
                     border: "1px solid rgba(225, 234, 239, 1)",

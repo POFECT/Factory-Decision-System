@@ -131,12 +131,13 @@ public class UserServiceImpl implements UserService{
         messageHelper.setText(message, true);
 
         //이미지 첨부
-        File file1 = new ClassPathResource("/static/images/poscodx-email-footer.png").getFile();
-        FileSystemResource fsr1 = new FileSystemResource(file1);
-        File file2 = new ClassPathResource("/static/images/poscodx-email-footer2.png").getFile();
-        FileSystemResource fsr2 = new FileSystemResource(file2);
-        messageHelper.addInline("poscodx-email-footer", fsr1);
-        messageHelper.addInline("poscodx-email-footer2", fsr2);
+//        File file1 = new ClassPathResource("/static/images/poscodx-email-footer.png").getFile();
+//        FileSystemResource fsr1 = new FileSystemResource(file1);
+//        File file2 = new ClassPathResource("/static/images/poscodx-email-footer2.png").getFile();
+//        FileSystemResource fsr2 = new FileSystemResource(file2);
+//        messageHelper.addInline("poscodx-email-footer", fsr1);
+//        messageHelper.addInline("poscodx-email-footer2", fsr2);
+
 
     }
 
