@@ -76,11 +76,10 @@ const EssentialModal = ({ open, handleClose }) => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 600,
-    height: 400,
+    width: 400,
+    height: 300,
     bgcolor: "background.paper", //"#7A7A7D",
     boxShadow: 24,
-    p: 2,
     borderRadius: "10px",
   };
   const x0Click = (event) => {
@@ -294,7 +293,7 @@ const EssentialModal = ({ open, handleClose }) => {
           >
             <Box sx={style}>
               <img
-                src="/images/test2.gif"
+                src="/images/spinner.gif"
                 alt="GIF"
                 style={{ width: "100%", height: "100%" }}
               />
