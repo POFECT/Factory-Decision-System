@@ -438,6 +438,7 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
         //이메일 보내기 기능 추가
         userService.sendMailService("cheerup313@naver.com","필수재 기준","추가","essential-goods",request);
         userService.sendMailService("chemi0313@gmail.com","필수재 기준","추가","essential-goods",request);
+        userService.sendMailService("wendy0301@naver.com","필수재 기준","추가","essential-goods",request);
 
         return EssentialStandardResDto.toDto(savedEntity);
     }

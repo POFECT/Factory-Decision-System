@@ -109,6 +109,7 @@ public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStanda
                 SseEmitter emitter = new SseEmitter();
                 userService.sendMailService("cheerup313@naver.com","가능 통과 공장 기준","수정","pass-standard",request);
                 userService.sendMailService("chemi0313@gmail.com","가능 통과 공장 기준","수정","pass-standard",request);
+                userService.sendMailService("wendy0301@naver.com","가능 통과 공장 기준","수정","pass-standard",request);
 
             }else{
                 result.setResult("Fail");
@@ -120,6 +121,7 @@ public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStanda
             sseController.sendAlert("pass-standard","Delete");
             userService.sendMailService("cheerup313@naver.com","가능 통과 공장 기준","삭제","pass-standard",request);
             userService.sendMailService("chemi0313@gmail.com","가능 통과 공장 기준","삭제","pass-standard",request);
+            userService.sendMailService("wendy0301@naver.com","가능 통과 공장 기준","삭제","pass-standard",request);
 
         }else{//현재 존재하지 않는 값을 insert
             int sameCount = possibleFactoryStandardRepository.checkFeasibleRoutingGroupSame(processCd,checkedList);
@@ -130,6 +132,7 @@ public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStanda
                 sseController.sendAlert("pass-standard","Insert");
                 userService.sendMailService("cheerup313@naver.com","가능 통과 공장 기준","추가","pass-standard",request);
                 userService.sendMailService("chemi0313@gmail.com","가능 통과 공장 기준","추가","pass-standard",request);
+                userService.sendMailService("wendy0301@naver.com","가능 통과 공장 기준","추가","pass-standard",request);
             }else{
                 result.setResult("Fail");
             }

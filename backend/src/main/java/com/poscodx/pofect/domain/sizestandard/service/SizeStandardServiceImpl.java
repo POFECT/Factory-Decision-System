@@ -121,6 +121,8 @@ public class SizeStandardServiceImpl implements SizeStandardService {
         }
         userService.sendMailService("cheerup313@naver.com","사이즈 기준","수정","size-standard",request);
         userService.sendMailService("chemi0313@gmail.com","사이즈 기준","수정","size-standard",request);
+        userService.sendMailService("wendy0301@naver.com","사이즈 기준","수정","size-standard",request);
+
     }
 
     @Override
