@@ -75,6 +75,8 @@ public class ProcessStandardServiceImpl implements ProcessStandardService {
         //이메일 보내기 기능 추가
         userService.sendMailService("cheerup313@naver.com","경유 공정 기준","수정","pass-standard",request);
         userService.sendMailService("chemi0313@gmail.com","경유 공정 기준","수정","pass-standard",request);
+        userService.sendMailService("wendy0301@naver.com","경유 공정 기준","수정","pass-standard",request);
+
     }
 
     @Transactional
@@ -89,6 +91,7 @@ public class ProcessStandardServiceImpl implements ProcessStandardService {
         //이메일 보내기 기능 추가
         userService.sendMailService("cheerup313@naver.com","경유 공정 기준","추가","pass-standard",request);
         userService.sendMailService("chemi0313@gmail.com","경유 공정 기준","추가","pass-standard",request);
+        userService.sendMailService("wendy0301@naver.com","경유 공정 기준","추가","pass-standard",request);
 
         return processStandardRepository.save(processStandard);
         }
@@ -101,6 +104,7 @@ public class ProcessStandardServiceImpl implements ProcessStandardService {
         //이메일 보내기 기능 추가
         userService.sendMailService("cheerup313@naver.com","경유 공정 기준","삭제","pass-standard",request);
         userService.sendMailService("chemi0313@gmail.com","경유 공정 기준","삭제","pass-standard",request);
+        userService.sendMailService("wendy0301@naver.com","경유 공정 기준","추가","pass-standard",request);
 
     }
 }
