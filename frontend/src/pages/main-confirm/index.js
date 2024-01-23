@@ -94,14 +94,18 @@ const MainConfirm = ({ userData }) => {
     });
   }, []);
 
-  const getOrders = (kind, week) => {
+  const getOrders = (kind, week, selectedOrderId) => {
     if (kind == 0) kind = null;
     if (week == 0) week = null;
+
     MainApi.getOrderList(kind, week, osMainStatusCd, flag, (data) => {
       const list = data.response;
-      const order = list[0];
-      // console.log(list);
-      // console.log(order);
+      const order = {};
+      if (selectedOrderId == undefined) order = list[0];
+      else {
+        order = list.find((obj) => obj.id === selectedOrderId);
+      }
+
       setOrderList((prev) => {
         return { ...prev, list, order };
       });
