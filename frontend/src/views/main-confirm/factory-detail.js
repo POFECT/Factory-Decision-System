@@ -15,13 +15,19 @@ import TableRow from "@mui/material/TableRow";
 import TableHead from "@mui/material/TableHead";
 import MainApi from "src/pages/api/pofect/MainApi";
 import { Notify } from "src/notifix/notiflix-notify-aio";
+import withAuth from "src/pages/api/auth/withAuth";
+import { useSession } from "next-auth/react";
 
 const FactoryDetail = (props) => {
+  const { data: session } = useSession();
+  const reversedName = session.user.name.split(" ").reverse().join("");
+
   const [factoryList, setFactoryList] = useState({
     list: [],
   });
   const [selectedFac, setSelectedFac] = useState(null);
   const [changeData, setChangeData] = useState({
+    userName: "",
     orderId: 0,
     processCd: "",
     prevFactory: "",
@@ -34,6 +40,7 @@ const FactoryDetail = (props) => {
     setChangeData((prev) => {
       return {
         ...prev,
+        userName: reversedName,
         orderId: props.order.id,
         processCd: props.factory.no,
         prevFactory: props.factory.code,
@@ -53,7 +60,6 @@ const FactoryDetail = (props) => {
   }, [props.factory, props.order]);
 
   const handleFactory = (facNo) => {
-    console.log(facNo);
     setSelectedFac(facNo);
 
     setChangeData((prev) => {
@@ -68,12 +74,10 @@ const FactoryDetail = (props) => {
     // 이전 값이랑 같으면 pass
     if (props.factory.code == selectedFac) return;
 
-    console.log(changeData);
-
     MainApi.changeFactory(changeData, (data) => {
       const res = data.response;
       Notify.success("변경되었습니다.");
-      props.getOrder(null, null);
+      props.getOrder(null, null, props.order.id);
     });
   };
 
@@ -184,4 +188,4 @@ const FactoryDetail = (props) => {
     </>
   );
 };
-export default FactoryDetail;
+export default withAuth(FactoryDetail, { userData: true });
