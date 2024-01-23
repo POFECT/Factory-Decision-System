@@ -19,7 +19,6 @@ public class SendMailBatch {
 
         while (userService.hasNext()) {
             MimeMessageDto mimeMessage = userService.poll();
-            System.out.println(mimeMessage.getMimeMessage());
             try {
                 userService.mailSend(mimeMessage.getMimeMessage());
             } catch (MessagingException e ) {
