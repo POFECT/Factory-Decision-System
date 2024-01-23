@@ -37,9 +37,34 @@ const SizeDash = () => {
           <Typography variant="h4" sx={{ mr: 2 }} style={{ color: "#212121" }}>
             {sizeStandardList.length}개
           </Typography>
-          <div style={{ color: "red" }}>+{sizeStandardList.length - count}</div>
+          {sizeStandardList.length - count > 0 ? (
+            <div style={{ color: "red" }}>
+              +{sizeStandardList.length - count}
+            </div>
+          ) : null}
+          {sizeStandardList.length - count < 0 ? (
+            <div style={{ color: "blue" }}>
+              {sizeStandardList.length - count}
+            </div>
+          ) : null}
         </div>
-        <FontAwesomeIcon icon={faUpLong} size="2x" style={{ color: "red" }} />
+        {sizeStandardList.length - count > 0 ? (
+          <FontAwesomeIcon icon={faUpLong} size="2x" style={{ color: "red" }} />
+        ) : null}
+        {sizeStandardList.length - count < 0 ? (
+          <FontAwesomeIcon
+            icon={faDownLong}
+            size="2x"
+            style={{ color: "blue" }}
+          />
+        ) : null}
+        {sizeStandardList.length - count === 0 ? (
+          <FontAwesomeIcon
+            icon={faMinus}
+            size="2x"
+            style={{ color: "black" }}
+          />
+        ) : null}
       </div>
       <div
         style={{
