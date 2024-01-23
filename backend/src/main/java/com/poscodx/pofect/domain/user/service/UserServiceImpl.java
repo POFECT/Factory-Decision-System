@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService{
                                   String standardType, String type, String endpoint, HttpServletRequest request) throws IOException, MessagingException {
         String sender = "pofect2@gmail.com";
         String userName = "POFECT";
-        String message = getFileContent("mailForm.html");
+        String message = "";
         String origin = request.getHeader("Origin");
 
         if (Objects.isNull(origin)) {

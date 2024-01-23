@@ -16,7 +16,7 @@ jasypt:
     bean: jasyptStringEncryptor
 
 mail:
-  password: ENC(v5BWN9vokXKaqPc/oj4DNee7Ih/nYUJi5Wxu24EL+K4=)
+  password: ENC(+lH9+DRrN5lDGem1GGaT18z0BIJcB1Qfpiio96m4+MA=)
 ---
 spring:
   config:
