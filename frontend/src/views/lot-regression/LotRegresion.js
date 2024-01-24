@@ -107,7 +107,6 @@ const EssentialModal = ({ open, handleClose }) => {
         style={{
           width: "600px",
           maxHeight: "100vh",
-          overflowY: "hidden",
           padding: "10px",
         }}
       >
