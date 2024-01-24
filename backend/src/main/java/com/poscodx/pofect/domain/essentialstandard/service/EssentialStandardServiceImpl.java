@@ -103,11 +103,11 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
                             // 여기서 = 이 들어오는데, 퍼센트 연산자가 앞에 있는지 뒤에 있는지 앞뒤 다 있는지 세번 비교해서 각각 다르게
                             // 앞 뒤 다 %가 있는 경우
                             if (filterStandard.getOrderUsageCdN().startsWith("%") && filterStandard.getOrderUsageCdN().endsWith("%")) {
-                                System.out.println("여기 걸리고");
+                                //System.out.println("여기 걸리고");
                                 if (!filterStandard.getOrderUsageCdN().substring(1, filterStandard.getOrderUsageCdN().length() - 1).equals(factoryOrderInfoResDto.getOrderUsageCdN())) {
-                                    System.out.println("여기 안걸리고");
+/*                                    System.out.println("여기 안걸리고");
                                     System.out.println(filterStandard.getOrderUsageCdN().substring(1, filterStandard.getOrderUsageCdN().length() - 1));
-                                    System.out.println(factoryOrderInfoResDto.getOrderUsageCdN());
+                                    System.out.println(factoryOrderInfoResDto.getOrderUsageCdN());*/
                                     isChecked = false;
                                     break;
                                 }
@@ -243,16 +243,16 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
                     // 제품규격약효
                     if (j == 6) {
                         if (filterStandard.getConCalcOpxa07() == null) {
-                            System.out.println(filterStandard.getSpecificationCdN());
+                            //System.out.println(filterStandard.getSpecificationCdN());
                         } else {
                             // 여기서 = 이 들어오는데, 퍼센트 연산자가 앞에 있는지 뒤에 있는지 앞뒤 다 있는지 세번 비교해서 각각 다르게
                             // 앞 뒤 다 %가 있는 경우
                             if (filterStandard.getSpecificationCdN().startsWith("%") && filterStandard.getSpecificationCdN().endsWith("%")) {
-                                System.out.println("여기 걸리고");
+                                //System.out.println("여기 걸리고");
                                 if (!filterStandard.getSpecificationCdN().substring(1, filterStandard.getSpecificationCdN().length() - 1).equals(factoryOrderInfoResDto.getSpecificationCdN())) {
-                                    System.out.println("여기 안걸리고");
+                                    /*System.out.println("여기 안걸리고");
                                     System.out.println(filterStandard.getSpecificationCdN().substring(1, filterStandard.getSpecificationCdN().length() - 1));
-                                    System.out.println(factoryOrderInfoResDto.getSpecificationCdN());
+                                    System.out.println(factoryOrderInfoResDto.getSpecificationCdN());*/
                                     isChecked = false;
                                     break;
                                 }
@@ -291,7 +291,7 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
                             // 여기서 = 이 들어오는데, 퍼센트 연산자가 앞에 있는지 뒤에 있는지 앞뒤 다 있는지 세번 비교해서 각각 다르게
                             // 앞 뒤 다 %가 있는 경우
                             if (filterStandard.getSalCusLocLClsTp().startsWith("%") && filterStandard.getSalCusLocLClsTp().endsWith("%")) {
-                                System.out.println("여기 걸리고");
+                                //System.out.println("여기 걸리고");
                                 if (!filterStandard.getSalCusLocLClsTp().substring(1, filterStandard.getSalCusLocLClsTp().length() - 1).equals(factoryOrderInfoResDto.getSalCusLocLClsTp())) {
                                     isChecked = false;
                                     break;
@@ -326,12 +326,12 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
                     // 출강목표번호
                     if (j == 8) {
                         if (filterStandard.getConCalcOpxa09() == null) {
-                            System.out.println(filterStandard.getSmSteelGrdN());
+                            //System.out.println(filterStandard.getSmSteelGrdN());
                         } else {
                             // 여기서 = 이 들어오는데, 퍼센트 연산자가 앞에 있는지 뒤에 있는지 앞뒤 다 있는지 세번 비교해서 각각 다르게
                             // 앞 뒤 다 %가 있는 경우
                             if (filterStandard.getSmSteelGrdN().startsWith("%") && filterStandard.getSmSteelGrdN().endsWith("%")) {
-                                System.out.println("여기 걸리고");
+                                //System.out.println("여기 걸리고");
                                 if (!filterStandard.getSmSteelGrdN().substring(1, filterStandard.getSmSteelGrdN().length() - 1).equals(factoryOrderInfoResDto.getSmSteelGrdN())) {
                                     isChecked = false;
                                     break;
@@ -366,12 +366,12 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
                     // 주문제품후처리방법지정코드
                     if (j == 9) {
                         if (filterStandard.getConCalcOpxa10() == null) {
-                            System.out.println(filterStandard.getPostTreatmentMethodCdN());
+                            //System.out.println(filterStandard.getPostTreatmentMethodCdN());
                         } else {
                             // 여기서 = 이 들어오는데, 퍼센트 연산자가 앞에 있는지 뒤에 있는지 앞뒤 다 있는지 세번 비교해서 각각 다르게
                             // 앞 뒤 다 %가 있는 경우
                             if (filterStandard.getPostTreatmentMethodCdN().startsWith("%") && filterStandard.getPostTreatmentMethodCdN().endsWith("%")) {
-                                System.out.println("여기 걸리고");
+                                //System.out.println("여기 걸리고");
                                 if (!filterStandard.getPostTreatmentMethodCdN().substring(1, filterStandard.getPostTreatmentMethodCdN().length() - 1).equals(factoryOrderInfoResDto.getPostTreatmentMethodCdN())) {
                                     isChecked = false;
                                     break;
@@ -405,9 +405,9 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
                     }
                 }
                 if(isChecked){
-                    System.out.println("공정 : "+processCD);
+/*                    System.out.println("공정 : "+processCD);
                     System.out.println("통과 코드 : " + filterStandard.getBtiPosbPsFacTp());
-                    System.out.println("seq" + filterStandard.getSeq());
+                    System.out.println("seq" + filterStandard.getSeq());*/
                     if (!btiPosbPsFacTpList.contains(filterStandard.getBtiPosbPsFacTp())) {
                         btiPosbPsFacTpList.add(filterStandard.getBtiPosbPsFacTp());
                     }
@@ -436,9 +436,8 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
         EssentialStandard savedEntity = essentialStandardRepository.save(essentialStandard);
 
         //이메일 보내기 기능 추가
-        userService.sendMailService("cheerup313@naver.com","필수재 기준","추가","essential-goods",request);
+        userService.sendMailService("yyhjin228@gmail.com","필수재 기준","추가","essential-goods",request);
         userService.sendMailService("chemi0313@gmail.com","필수재 기준","추가","essential-goods",request);
-        userService.sendMailService("wendy0301@naver.com","필수재 기준","추가","essential-goods",request);
 
         return EssentialStandardResDto.toDto(savedEntity);
     }
