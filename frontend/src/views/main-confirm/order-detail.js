@@ -10,40 +10,16 @@ import FactoryDetail from "./factory-detail";
 
 const OrderDetail = (props) => {
   const [cfCode, setCfCode] = useState("");
-  const [factory, setFactory] = useState({
-    no: "10",
-    name: props.order.cfirmPassOpCd == null ? "" : "제강",
-    code:
-      props.order.cfirmPassOpCd == null
-        ? null
-        : props.order.cfirmPassOpCd.charAt(0),
-  });
-
   useEffect(() => {
-    // if (props.order.cfirmPassOpCd != null) {
-    //   setCfCode(props.order.cfirmPassOpCd.padEnd(8, " "));
-    // }
     setCfCode(
       props.order.cfirmPassOpCd != null
         ? props.order.cfirmPassOpCd.padEnd(8, " ")
         : ""
     );
-
-    setFactory((prev) => {
-      return {
-        ...prev,
-        no: props.order.cfirmPassOpCd == null ? " " : "10",
-        name: props.order.cfirmPassOpCd == null ? "" : "제강",
-        code:
-          props.order.cfirmPassOpCd == null
-            ? null
-            : props.order.cfirmPassOpCd.charAt(0),
-      };
-    });
   }, [props.order]);
 
   const changeFactory = (e, code) => {
-    setFactory((prev) => {
+    props.setFactory((prev) => {
       return {
         ...prev,
         no: e.target.accessKey,
@@ -173,7 +149,9 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(0));
                         }}
                         style={{
-                          color: `${factory.no === "10" ? "darkred" : ""}`,
+                          color: `${
+                            props.factory.no === "10" ? "darkred" : ""
+                          }`,
                         }}
                       >
                         제강
@@ -185,7 +163,9 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(1));
                         }}
                         style={{
-                          color: `${factory.no === "20" ? "darkred" : ""}`,
+                          color: `${
+                            props.factory.no === "20" ? "darkred" : ""
+                          }`,
                         }}
                       >
                         열연
@@ -197,7 +177,9 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(2));
                         }}
                         style={{
-                          color: `${factory.no === "30" ? "darkred" : ""}`,
+                          color: `${
+                            props.factory.no === "30" ? "darkred" : ""
+                          }`,
                         }}
                       >
                         열연정정
@@ -209,7 +191,9 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(3));
                         }}
                         style={{
-                          color: `${factory.no === "40" ? "darkred" : ""}`,
+                          color: `${
+                            props.factory.no === "40" ? "darkred" : ""
+                          }`,
                         }}
                       >
                         냉간압연
@@ -221,7 +205,9 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(4));
                         }}
                         style={{
-                          color: `${factory.no === "50" ? "darkred" : ""}`,
+                          color: `${
+                            props.factory.no === "50" ? "darkred" : ""
+                          }`,
                         }}
                       >
                         1차소둔
@@ -233,7 +219,9 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(5));
                         }}
                         style={{
-                          color: `${factory.no === "60" ? "darkred" : ""}`,
+                          color: `${
+                            props.factory.no === "60" ? "darkred" : ""
+                          }`,
                         }}
                       >
                         2차소둔
@@ -245,7 +233,9 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(6));
                         }}
                         style={{
-                          color: `${factory.no === "70" ? "darkred" : ""}`,
+                          color: `${
+                            props.factory.no === "70" ? "darkred" : ""
+                          }`,
                         }}
                       >
                         도금
@@ -257,7 +247,9 @@ const OrderDetail = (props) => {
                           changeFactory(e, cfCode.charAt(7));
                         }}
                         style={{
-                          color: `${factory.no === "80" ? "darkred" : ""}`,
+                          color: `${
+                            props.factory.no === "80" ? "darkred" : ""
+                          }`,
                         }}
                       >
                         정정
@@ -292,7 +284,7 @@ const OrderDetail = (props) => {
           </div>
           <div style={{ marginLeft: "20px", width: "55%" }}>
             <FactoryDetail
-              factory={factory}
+              factory={props.factory}
               order={props.order}
               getOrder={props.getOrder}
             />

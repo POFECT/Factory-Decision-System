@@ -74,6 +74,12 @@ const MainConfirm = ({ userData }) => {
 
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
 
+  const [factory, setFactory] = useState({
+    no: " ",
+    name: "",
+    code: null,
+  });
+
   useEffect(() => {
     getOrders(null, null);
 
@@ -108,6 +114,17 @@ const MainConfirm = ({ userData }) => {
 
       setOrderList((prev) => {
         return { ...prev, list, order };
+      });
+
+      const idx = factory.no / 10 - 1;
+      setFactory((prev) => {
+        return {
+          ...prev,
+          code:
+            order.cfirmPassOpCd == null
+              ? null
+              : order.cfirmPassOpCd.charAt(idx),
+        };
       });
     });
   };
@@ -1005,6 +1022,18 @@ const MainConfirm = ({ userData }) => {
                   order: e.row,
                 })
               );
+
+              setFactory((prev) => {
+                return {
+                  ...prev,
+                  no: e.row.cfirmPassOpCd == null ? " " : "10",
+                  name: e.row.cfirmPassOpCd == null ? "" : "제강",
+                  code:
+                    e.row.cfirmPassOpCd == null
+                      ? null
+                      : e.row.cfirmPassOpCd.charAt(0),
+                };
+              });
             }}
             slots={{
               cell: MyCell,
@@ -1015,7 +1044,12 @@ const MainConfirm = ({ userData }) => {
       </Card>
 
       {orderList.order ? (
-        <OrderDetail order={orderList.order} getOrder={getOrders} />
+        <OrderDetail
+          order={orderList.order}
+          getOrder={getOrders}
+          factory={factory}
+          setFactory={setFactory}
+        />
       ) : null}
     </>
   );
