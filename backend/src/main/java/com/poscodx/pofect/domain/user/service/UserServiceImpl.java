@@ -102,6 +102,8 @@ public class UserServiceImpl implements UserService{
     }
     private MimeMessage getMimeMessage(Properties properties) {
         String sender = "pofect2@gmail.com";
+        System.out.println(">> Sender = "+sender);
+        System.out.println(">> Password = "+password);
 
         Session session = Session.getInstance(properties,
                 new javax.mail.Authenticator() {
