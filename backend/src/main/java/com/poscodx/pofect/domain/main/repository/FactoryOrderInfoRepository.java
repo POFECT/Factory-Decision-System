@@ -31,8 +31,8 @@ public interface FactoryOrderInfoRepository extends JpaRepository<FactoryOrderIn
             "GROUP BY ord_pdt_itp_cd_n", nativeQuery = true)
     List<Object[]> getOrderInquiry();
 
-
-    FactoryOrderInfo findByOrderHeadLineNo(String orderHeadLineNo);
+    @Query(value = "SELECT * FROM factory_order_info WHERE order_head_line_no = :orderHeadLineNo ORDER BY id DESC LIMIT 1", nativeQuery = true)
+    FactoryOrderInfo findByOrderHeadLineNo(@Param("orderHeadLineNo") String orderHeadLineNo);
 
     // 실수.... -> getOrd로 들고옴
     @Query(value = "SELECT f.ORD_THW_TAP_WEK_CD as ordThwTapYMDCd, COUNT(f.id) as ordCnt " +
