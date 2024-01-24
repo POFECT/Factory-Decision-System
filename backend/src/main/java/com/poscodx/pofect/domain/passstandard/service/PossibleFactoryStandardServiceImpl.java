@@ -107,9 +107,8 @@ public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStanda
                 sseController.sendAlert("pass-standard","Update");
                 //알람보내기
                 SseEmitter emitter = new SseEmitter();
-                userService.sendMailService("cheerup313@naver.com","가능 통과 공장 기준","수정","pass-standard",request);
+                userService.sendMailService("yyhjin228@gmail.com","가능 통과 공장 기준","수정","pass-standard",request);
                 userService.sendMailService("chemi0313@gmail.com","가능 통과 공장 기준","수정","pass-standard",request);
-                userService.sendMailService("wendy0301@naver.com","가능 통과 공장 기준","수정","pass-standard",request);
 
             }else{
                 result.setResult("Fail");
@@ -119,9 +118,8 @@ public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStanda
             System.out.println("삭제된 내용 있을 때 >>"+deletedCount);
             result.setResult("Delete");
             sseController.sendAlert("pass-standard","Delete");
-            userService.sendMailService("cheerup313@naver.com","가능 통과 공장 기준","삭제","pass-standard",request);
+            userService.sendMailService("yyhjin228@gmail.com","가능 통과 공장 기준","삭제","pass-standard",request);
             userService.sendMailService("chemi0313@gmail.com","가능 통과 공장 기준","삭제","pass-standard",request);
-            userService.sendMailService("wendy0301@naver.com","가능 통과 공장 기준","삭제","pass-standard",request);
 
         }else{//현재 존재하지 않는 값을 insert
             int sameCount = possibleFactoryStandardRepository.checkFeasibleRoutingGroupSame(processCd,checkedList);
@@ -130,9 +128,8 @@ public class PossibleFactoryStandardServiceImpl implements PossibleFactoryStanda
                 int insertCount = possibleFactoryStandardRepository.insertFeasibleRoutingGroup(btiPosbPsFacTp,processCd,checkedList,checkedExpl);
                 if(insertCount>0) result.setResult("Insert");
                 sseController.sendAlert("pass-standard","Insert");
-                userService.sendMailService("cheerup313@naver.com","가능 통과 공장 기준","추가","pass-standard",request);
+                userService.sendMailService("yyhjin228@gmail.com","가능 통과 공장 기준","추가","pass-standard",request);
                 userService.sendMailService("chemi0313@gmail.com","가능 통과 공장 기준","추가","pass-standard",request);
-                userService.sendMailService("wendy0301@naver.com","가능 통과 공장 기준","추가","pass-standard",request);
             }else{
                 result.setResult("Fail");
             }

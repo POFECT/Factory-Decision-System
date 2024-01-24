@@ -23,6 +23,7 @@ public class SendMailBatch {
                 userService.mailSend(mimeMessage.getMimeMessage());
             } catch (MessagingException e ) {
                 mailResult = "Fail: " + e.getMessage();
+                System.out.println("mailResult : "+mailResult);
             }
             Thread.sleep(50);
         }

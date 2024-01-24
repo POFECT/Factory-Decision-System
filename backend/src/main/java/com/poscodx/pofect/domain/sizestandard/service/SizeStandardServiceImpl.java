@@ -119,9 +119,8 @@ public class SizeStandardServiceImpl implements SizeStandardService {
                 }
             }
         }
-        userService.sendMailService("cheerup313@naver.com","사이즈 기준","수정","size-standard",request);
+        userService.sendMailService("yyhjin228@gmail.com","사이즈 기준","수정","size-standard",request);
         userService.sendMailService("chemi0313@gmail.com","사이즈 기준","수정","size-standard",request);
-        userService.sendMailService("wendy0301@naver.com","사이즈 기준","수정","size-standard",request);
 
     }
 
@@ -161,7 +160,7 @@ public class SizeStandardServiceImpl implements SizeStandardService {
 
         FactoryOrderInfoResDto dto = objectMapper.convertValue(map, FactoryOrderInfoResDto.class);
 //        objectMapper.readValue(responseDto.getResponse(), FactoryOrderInfoResDto.class);
-        System.out.println("가능? : " + dto.getId());
+        //System.out.println("가능? : " + dto.getId());
     }
 
     private static List<SizeStandardSetDto> getSizeStandardSetDtos(Map<String, List<SizeStandardResDto>> result, Double hrProdThkAim, Double hrProdWthAim, String orderLength, Double hrRollUnitWgtMax) {
