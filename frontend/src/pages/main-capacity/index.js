@@ -170,7 +170,7 @@ const MainCapacity = ({ userData }) => {
     // 설계 modal, progress bar start
     const time = 0;
     if (allCnt < 5) time = 1;
-    else allCnt * 0.2;
+    else time = allCnt * 0.2;
 
     setModal((prev) => {
       return { ...prev, open: true, time };
