@@ -259,7 +259,7 @@ const FactoryGuage = () => {
   };
 
   useEffect(() => {
-    CapacityStandardApi.getCapacityListByWeek(20240123, (data) => {
+    CapacityStandardApi.getCapacityListByWeek(20240131, (data) => {
       setCapacity(data.response);
       const filterCapacity = data.response.filter((c) => c.processCd === "10");
 
