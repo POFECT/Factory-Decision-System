@@ -35,6 +35,7 @@ const FactoryDetail = (props) => {
   });
 
   useEffect(() => {
+    console.log(props.factory);
     setSelectedFac(props.factory.code);
 
     setChangeData((prev) => {

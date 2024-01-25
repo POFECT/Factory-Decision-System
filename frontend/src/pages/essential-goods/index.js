@@ -397,7 +397,6 @@ const EssentialGoods = () => {
   const fileExtension = ".xlsx";
 
   const exportToExcel = async () => {
-    // 한글 헤더 매핑 (엑셀용)
     const koreanHeaderMap = {
       gcsCompCode: "법인",
       millCd: "공정계획박판Mill구분",
@@ -678,7 +677,6 @@ const EssentialGoods = () => {
           <DataGrid
             className="custom-data-grid"
             experimentalFeatures={{ columnGrouping: true }}
-            checkboxSelection
             disableRowSelectionOnClick
             rows={essentialList}
             columns={columns}
