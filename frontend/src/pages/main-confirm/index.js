@@ -116,16 +116,18 @@ const MainConfirm = ({ userData }) => {
         return { ...prev, list, order };
       });
 
-      const idx = factory.no / 10 - 1;
-      setFactory((prev) => {
-        return {
-          ...prev,
-          code:
-            order.cfirmPassOpCd == null
-              ? null
-              : order.cfirmPassOpCd.charAt(idx),
-        };
-      });
+      if (list.size > 0) {
+        const idx = factory.no / 10 - 1;
+        setFactory((prev) => {
+          return {
+            ...prev,
+            code:
+              order.cfirmPassOpCd == null
+                ? null
+                : order.cfirmPassOpCd.charAt(idx),
+          };
+        });
+      }
     });
   };
 
