@@ -93,13 +93,15 @@ const InsertFormComponent = ({
   const handleOrdPdtItdsCdNChange = (e) => {
     const inputValue = e.target.value.toUpperCase();
 
-    {
-      setOrdPdtItdsCdN(inputValue.slice(0, 4));
-    }
-    if (/[^A-Z]/.test(inputValue.slice(2, 4))) {
-      setError("품명에는 대문자만 입력 가능합니다.");
+    if (/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(inputValue)) {
+      setError("품명에는 영문만 입력 가능합니다.");
     } else {
-      setError("");
+      setOrdPdtItdsCdN(inputValue.slice(0, 4));
+      if (/[^A-Z]/.test(inputValue.slice(2, 4))) {
+        setError("품명에는 대문자만 입력 가능합니다.");
+      } else {
+        setError("");
+      }
     }
   };
 
