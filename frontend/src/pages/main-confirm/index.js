@@ -116,7 +116,7 @@ const MainConfirm = ({ userData }) => {
         return { ...prev, list, order };
       });
 
-      if (list.size > 0) {
+      if (list.length > 0) {
         const idx = factory.no / 10 - 1;
         setFactory((prev) => {
           return {
