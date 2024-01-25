@@ -107,7 +107,11 @@ const FactoryDetail = (props) => {
       </Card>
       <Card>
         <TableContainer
-          sx={{ "& .css-1nrlq1o-MuiFormControl-root": { display: "flex" } }}
+          sx={{
+            "& .css-1nrlq1o-MuiFormControl-root, & .css-13sljp9": {
+              display: "flex",
+            },
+          }}
         >
           <FormControl>
             <RadioGroup
