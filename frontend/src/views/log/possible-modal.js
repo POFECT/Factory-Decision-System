@@ -622,7 +622,7 @@ const PossibleModal = ({ open, handleClose, possibleList }) => {
           <Button
             size="small"
             variant="contained"
-            style={{ backgroundColor: "#0A5380" }}
+            style={{ backgroundColor: "#BE2E22" }}
             onClick={handleClose}
           >
             닫기
