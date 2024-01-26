@@ -525,7 +525,7 @@ const EssentialGoods = () => {
     setOpenPassStandard(true);
   };
   const passClose = (event, reason) => {
-    if (reason !== "backdropClick") {
+    if (reason !== "backdropClick" && reason !== "escapeKeyDown") {
       setOpenPassStandard(false);
     }
   };
