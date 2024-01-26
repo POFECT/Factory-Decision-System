@@ -1781,7 +1781,7 @@ const EssentialModal = ({
             size="small"
             type="submit"
             variant="contained"
-            style={{ backgroundColor: "#E29E21" }}
+            style={{ backgroundColor: "#0A5380" }}
             onClick={() => {
               addEssentailRowCallBack();
             }}
@@ -1792,7 +1792,7 @@ const EssentialModal = ({
             size="small"
             type="submit"
             variant="contained"
-            style={{ backgroundColor: "#0A5380" }}
+            style={{ backgroundColor: "#BE2E22" }}
             onClick={() => {
               setAddData({
                 btiPosbPsFacTp: null,

@@ -106,13 +106,12 @@ const SizeDesignModal = ({ open, handleClose }) => {
 
   const handleCellEditCommit = (params) => {
     const updatedList = rows.map((item) => {
-      if(params.inputValue < 0) {
-          return item;
-        } else {
-          return item.id === params.id ? params : item;
-        }
-    }
-    );
+      if (params.inputValue < 0) {
+        return item;
+      } else {
+        return item.id === params.id ? params : item;
+      }
+    });
     setRows(updatedList);
   };
 
@@ -198,7 +197,6 @@ const SizeDesignModal = ({ open, handleClose }) => {
                 elevation={3}
                 style={{
                   flexBasis: "85",
-                  marginRight: "16px ",
                   padding: "10px",
                   height: "100%",
                 }}
