@@ -92,16 +92,38 @@ const MainCapacity = ({ userData }) => {
     });
   }, []);
 
-  const getOrders = (kind, week) => {
+  const getOrders = async (kind, week, updateRows) => {
     if (kind == 0) kind = null;
     if (week == 0) week = null;
-    MainApi.getOrderList(kind, week, osMainStatusCd, flag, (data) => {
+    await MainApi.getOrderList(kind, week, osMainStatusCd, flag, (data) => {
       const list = data.response;
       const order = list[0];
       setOrderList((prev) => {
         return { ...prev, list, order };
       });
+
+      if (updateRows === true) {
+        updateRowSelection(list);
+      }
     });
+  };
+
+  const updateRowSelection = async (list) => {
+    //** 체크된 주문 리스트에서 설계 오류인 주문 제외하기  */
+    // 선택된 행 중에서 공장결정확정구분이 'C'인 행을 제외한 행들
+    const rowsToRemove = list
+      .filter(
+        (row) => rowSelectionModel.includes(row.id) && row.faConfirmFlag === "C"
+      )
+      .map((row) => row.id);
+
+    // 선택된 행 중에서 "flag" 컬럼이 "C"가 아닌 행들의 ID
+    const filteredRowIds = rowSelectionModel.filter(
+      (id) => !rowsToRemove.includes(id)
+    );
+
+    // 필터링된 행으로 rowSelectionModel 업데이트
+    setRowSelectionModel(filteredRowIds);
   };
 
   const updateConfirmFlag = async () => {
@@ -161,16 +183,16 @@ const MainCapacity = ({ userData }) => {
 
     const allCnt = selectedIdList.length;
 
-    // 가통 설계 start
-    const res = {};
-    await MainApi.possibleDecision(userData.name, selectedIdList, (data) => {
-      res = data.response;
-    });
-
     // 설계 modal, progress bar start
     const time = 0;
     if (allCnt < 5) time = 1;
     else time = allCnt * 0.2;
+
+    // 가통 설계 start
+    const res = {};
+    MainApi.possibleDecision(userData.name, selectedIdList, (data) => {
+      res = data.response;
+    });
 
     setModal((prev) => {
       return { ...prev, open: true, time };
@@ -193,25 +215,8 @@ const MainCapacity = ({ userData }) => {
         });
       }
 
-      /** 리스트 update */
-      getOrders(codeNameList.select, weekList.select);
-
-      //** 체크된 주문 리스트에서 설계 오류인 주문 제외하기  */
-      // 선택된 행 중에서 공장결정확정구분이 'C'인 행을 제외한 행들
-      const rowsToRemove = orderList.list
-        .filter(
-          (row) =>
-            rowSelectionModel.includes(row.id) && row.faConfirmFlag === "C"
-        )
-        .map((row) => row.id);
-
-      // 선택된 행 중에서 "flag" 컬럼이 "C"가 아닌 행들의 ID
-      const filteredRowIds = rowSelectionModel.filter(
-        (id) => !rowsToRemove.includes(id)
-      );
-
-      // 필터링된 행으로 rowSelectionModel 업데이트
-      setRowSelectionModel(filteredRowIds);
+      /** 리스트 update & C플래그 주문 Select 제외 */
+      getOrders(codeNameList.select, weekList.select, true);
     }, time * 1000);
   };
 
