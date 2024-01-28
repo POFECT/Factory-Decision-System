@@ -40,6 +40,7 @@ const OrderList = (props) => {
     });
 
     setSearchedList(list);
+    setPage(0);
   };
 
   useEffect(async () => {
