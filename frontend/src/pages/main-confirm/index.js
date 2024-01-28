@@ -13,6 +13,8 @@ import {
   Card,
   Box,
   Chip,
+  Modal,
+  Backdrop,
 } from "@mui/material";
 import { Report } from "src/notifix/notiflix-report-aio";
 import { Notify } from "src/notifix/notiflix-notify-aio";
@@ -79,6 +81,15 @@ const MainConfirm = ({ userData }) => {
     name: "",
     code: null,
   });
+
+  // Roading Modal
+  const [modalState, setModalState] = useState(false);
+  const modalOpen = () => setModalState(true);
+  const modalClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setModalState(false);
+    }
+  };
 
   useEffect(() => {
     getOrders(null, null);
@@ -150,6 +161,7 @@ const MainConfirm = ({ userData }) => {
       }
     }
 
+    if (rows.length >= 40) modalOpen();
     /** FLAG 변경할 주문들의 ID 추출 */
     const selectedIdList = rows.map((selectedRow) => {
       const selectedId = orderList.list.find(
@@ -163,6 +175,8 @@ const MainConfirm = ({ userData }) => {
     });
     await MainApi.updateStatus(userData.name, "C", selectedIdList, (data) => {
       const cnt = data.response;
+      modalClose();
+
       Notify.success(cnt + "건 제조투입 완료되었습니다.");
       setRowSelectionModel([]);
 
@@ -222,6 +236,7 @@ const MainConfirm = ({ userData }) => {
       return;
     }
 
+    if (rows.length >= 40) modalOpen();
     // /** 확통 설계할 주문들의 ID 추출 */
     const selectedIdList = rows.map((selectedRow) => {
       const selectedId = orderList.list.find(
@@ -234,6 +249,7 @@ const MainConfirm = ({ userData }) => {
 
     await MainApi.confirmDecision(userData.name, selectedIdList, (data) => {
       const res = data.response;
+      modalClose();
 
       if (res.success > 0) {
         Notify.success(res.success + "건 성공", {
@@ -789,6 +805,18 @@ const MainConfirm = ({ userData }) => {
     },
   ];
 
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    height: 300,
+    bgcolor: "background.paper", //"#7A7A7D",
+    boxShadow: 24,
+    borderRadius: "10px",
+  };
+
   return (
     <>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
@@ -1044,6 +1072,25 @@ const MainConfirm = ({ userData }) => {
           />
         </Box>
       </Card>
+
+      <Modal
+        open={modalState}
+        onClose={modalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          style: { backdropFilter: "blur(0)" },
+        }}
+      >
+        <Box sx={style}>
+          <img
+            src="/images/spinner.gif"
+            alt="GIF"
+            style={{ width: "100%", height: "100%" }}
+          />
+        </Box>
+      </Modal>
 
       {orderList.order ? (
         <OrderDetail
