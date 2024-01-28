@@ -11,6 +11,8 @@ import {
   OutlinedInput,
   Box,
   Chip,
+  Modal,
+  Backdrop,
 } from "@mui/material";
 import MainApi from "src/pages/api/pofect/MainApi";
 import Card from "@mui/material/Card";
@@ -72,6 +74,15 @@ const MainCapacity = ({ userData }) => {
   const [modal, setModal] = useState({ open: false, time: 0 });
 
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
+
+  // Roading Modal
+  const [modalState, setModalState] = useState(false);
+  const modalOpen = () => setModalState(true);
+  const modalClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setModalState(false);
+    }
+  };
 
   useEffect(() => {
     getOrders(null, null);
@@ -145,6 +156,7 @@ const MainCapacity = ({ userData }) => {
       }
     }
 
+    if (rows.length >= 40) modalOpen();
     /** FLAG 변경할 주문들의 ID 추출 */
     const selectedIdList = rows.map((selectedRow) => {
       const selectedId = orderList.list.find(
@@ -153,8 +165,10 @@ const MainCapacity = ({ userData }) => {
       return selectedId.id;
     });
 
-    MainApi.updateFlag(userData.name, "D", selectedIdList, (data) => {
+    await MainApi.updateFlag(userData.name, "D", selectedIdList, (data) => {
       const cnt = data.response;
+      modalClose();
+
       Notify.success(cnt + "건 설계 확정되었습니다.");
       setRowSelectionModel([]);
 
@@ -768,6 +782,18 @@ const MainCapacity = ({ userData }) => {
     },
   ];
 
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    height: 300,
+    bgcolor: "background.paper", //"#7A7A7D",
+    boxShadow: 24,
+    borderRadius: "10px",
+  };
+
   return (
     <>
       <CapacityModal modal={modal} />
@@ -1021,6 +1047,25 @@ const MainCapacity = ({ userData }) => {
           />
         </Box>
       </Card>
+
+      <Modal
+        open={modalState}
+        onClose={modalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          style: { backdropFilter: "blur(0)" },
+        }}
+      >
+        <Box sx={style}>
+          <img
+            src="/images/spinner.gif"
+            alt="GIF"
+            style={{ width: "100%", height: "100%" }}
+          />
+        </Box>
+      </Modal>
 
       {orderList.order ? <CapacityDetail order={orderList.order} /> : null}
     </>
