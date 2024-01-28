@@ -123,9 +123,7 @@ const Log = () => {
     for (const obj of list) {
       // 주문 완료
       if (obj.flag == "A") {
-        updatedSteps[0].description.push(
-          `(${obj.updateDate}) - ${obj.userName}`
-        );
+        updatedSteps[0].description.push(`(${obj.updateDate})`);
       }
       // 가통 설계
       else if (obj.flag == "B" || obj.flag == "C") {
@@ -160,7 +158,7 @@ const Log = () => {
     getOrders(null, null, null, null);
   }, []);
 
-  useEffect(() => {    
+  useEffect(() => {
     /** stepper 단계 설정 */
     const flag = orderList.order.faConfirmFlag;
 
