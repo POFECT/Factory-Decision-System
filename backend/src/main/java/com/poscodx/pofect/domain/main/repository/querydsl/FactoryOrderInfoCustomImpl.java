@@ -47,7 +47,10 @@ public class FactoryOrderInfoCustomImpl extends Querydsl4RepositorySupport imple
                 inFaConfirmFlag(dto.getFaConfirmFlag())
         );
 
-        return getFactoryOrderInfoJPAQuery(option).fetch();
+        return selectFrom(factoryOrderInfo)
+                .where(option)
+                .orderBy(factoryOrderInfo.ordThwTapWekCd.desc())
+                .fetch();  // List로 변환
     }
 
     @Modifying
