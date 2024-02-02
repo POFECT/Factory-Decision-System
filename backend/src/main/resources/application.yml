@@ -2,7 +2,7 @@ spring:
   application:
     name: service-pofect
   profiles:
-    active: production
+    active: development
 ---
 spring:
   config:

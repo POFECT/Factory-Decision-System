@@ -14,7 +14,45 @@
         <h1 style="margin: 0; font-size: 24px;">POFECT 시스템 내부 기준 변경 안내</h1>
     </div>
     <p style="margin-bottom: 30px; font-size: 18px; margin-top: 20px;">안녕하세요, POFECT의 관리자님.</p>
-    <p style="margin-bottom: 30px; font-size: 18px;"><b>{standardType}(이)가 {type}되었음을 안내드립니다.</b></p>
+    <p style="margin-bottom: 30px; font-size: 18px;"><b>{date} 일자에 변경된 기준을 안내드립니다.</b></p>
+    <!-- 테이블 추가 -->
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+        <thead>
+        <tr>
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #f2f2f2;">변경일자</th>
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #f2f2f2;">기준</th>
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #f2f2f2;">변경내용</th>
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #f2f2f2;">변경 관리자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{date} 11:01:24</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">사이즈 기준</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">변경</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">신유경 (pdxx001)</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{date} 11:10:44</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">사이즈 기준</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">변경</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">신유경 (pdxx001)</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{date} 14:50:02</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">필수재기준</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">추가</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">신유경 (pdxx001)</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{date} 14:52:33</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">가능통과공장기준</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">삭제</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">윤혜진 (pdxx002)</td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- 테이블 끝 -->
     <p style="margin-bottom: 30px; font-size: 18px;">변경 사항에 대한 자세한 내용은 아래 링크를 확인해주시기 바랍니다.</p>
     <p align="center"><a href="{url}"
                          style="background-color: rgba(5, 80, 125, 0.87); color: #fff; text-decoration: none; display: inline-block; padding: 12px 24px; border-radius: 5px; font-size: 16px; transition: background-color 0.3s;"

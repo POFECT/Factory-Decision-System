@@ -434,10 +434,10 @@ public class EssentialStandardServiceImpl implements EssentialStandardService {
     public EssentialStandardResDto addEssential(EssentialStandardReqDto essentialStandardReqDto, HttpServletRequest request) {
         EssentialStandard essentialStandard = EssentialStandard.fromDto(essentialStandardReqDto);
         EssentialStandard savedEntity = essentialStandardRepository.save(essentialStandard);
-
-        //이메일 보내기 기능 추가
-        userService.sendMailService("yyhjin228@gmail.com","필수재 기준","추가","essential-goods",request);
-        userService.sendMailService("chemi0313@gmail.com","필수재 기준","추가","essential-goods",request);
+//
+//        //이메일 보내기 기능 추가
+//        userService.sendMailService("yyhjin228@gmail.com","필수재 기준","추가","essential-goods",request);
+//        userService.sendMailService("chemi0313@gmail.com","필수재 기준","추가","essential-goods",request);
 
         return EssentialStandardResDto.toDto(savedEntity);
     }

@@ -28,6 +28,8 @@ import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -126,7 +128,7 @@ public class UserServiceImpl implements UserService{
 
         messageHelper.setFrom(new InternetAddress(sender, userName, "utf-8"));
         messageHelper.setTo(toEmail);
-        messageHelper.setSubject("[POFECT] "+standardType+"이 "+ type +"되었습니다.");
+        messageHelper.setSubject("[POFECT] 전일 기준 변경 여부를 알립니다");
         message = this.createInviteMailContent(origin, endpoint, standardType, type);
         messageHelper.setText(message, true);
 
@@ -143,14 +145,15 @@ public class UserServiceImpl implements UserService{
 
     private String createInviteMailContent(String origin, String endPoint, String standardType, String type) {
 
-        String url = origin + "/" + endPoint;
-
+        //String url = origin + "/";
+        String url = "https://pofect.store/";
         String message = getFileContent("mailForm.html");
 
         if (Objects.nonNull(message)) {
             message = message
                     .replace("{standardType}", standardType)
                     .replace("{type}", type)
+                    .replace("{date}", LocalDate.now().toString())
                     .replace("{url}", url);
         } else {
             message = "none message";
