@@ -13,7 +13,8 @@ public class SendMailBatch {
 
     private final UserService userService;
 
-    @Scheduled(fixedRate = 1000L)
+//    @Scheduled(fixedRate = 1000L)
+    @Scheduled(cron = "0 0 0 * * *")
     public void sendMailSchedule() throws InterruptedException {
         String mailResult = "Success";
 

@@ -31,20 +31,7 @@ public class UserController {
 
     @PostMapping("/mail")
     public ResponseEntity<ResponseDto> sendMail(HttpServletRequest request) throws NoSuchAlgorithmException {
-//        Sha256 sha256 = new Sha256();
-//        String cryptogram = sha256.encrypt(key + "Idle");
-//        PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
-//        SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-//        config.setPassword(cryptogram);
-//        config.setAlgorithm("PBEWithMD5AndDES");
-//        config.setKeyObtentionIterations("1000");
-//        config.setPoolSize("1");
-//        config.setProviderName("SunJCE");
-//        config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
-//        config.setStringOutputType("base64");
-//        encryptor.setConfig(config);
-
-
+        userService.sendMailService("chemi0313@gmail.com","사이즈기준","수정","/size-standard",request);
         return null;
 
     }
