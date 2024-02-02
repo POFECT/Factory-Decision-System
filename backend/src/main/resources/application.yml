@@ -7,7 +7,7 @@ spring:
 spring:
   config:
     activate:
-      on-profile: development
+      on-profile: production
     import: optional:configserver:http://localhost:7777
 
 jasypt:
