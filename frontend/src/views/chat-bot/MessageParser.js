@@ -17,8 +17,10 @@ const MessageParser = ({ children, actions }) => {
     ) {
       messageFlag = true;
       setPremessage("인사");
-      // actions.handleTypingMessage("안녕하세요.");
-      actions.handleApiTest();
+      actions.handleTypingMessage(
+        "안녕하세요 Pofect 챗봇입니다. 궁금한 것이 있으신가요?"
+      );
+      // actions.handleApiTest();
     }
     if (
       message.includes("알겠") ||
@@ -32,7 +34,7 @@ const MessageParser = ({ children, actions }) => {
     ) {
       messageFlag = true;
       setPremessage("");
-      actions.handleTypingMessage("네");
+      actions.handleTypingMessage("네. 추가로 궁금한게 있으시면 질문해주세요");
     }
 
     if (!message) {
@@ -48,6 +50,7 @@ const MessageParser = ({ children, actions }) => {
       preMessage.includes("가능통과공장설계")
     ) {
       messageFlag = true;
+      setPremessage("가능통과공장");
     }
 
     if (
@@ -58,7 +61,6 @@ const MessageParser = ({ children, actions }) => {
       !message.includes("코드")
     ) {
       messageFlag = true;
-      setPremessage("가능통과공장");
       actions.handleTypingMessage(
         "가능통과공장설계에서는 각종 기준(경유 공정, 사이즈, 필수재)들을 적용해서 교집합으로 가통 코드를 설계합니다."
       );
