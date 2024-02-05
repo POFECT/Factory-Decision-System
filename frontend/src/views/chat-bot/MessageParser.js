@@ -1,4 +1,15 @@
+import Image from "next/image";
 import React, { useState } from "react";
+import ConfirmDash from "../dashboard/ConfirmDash";
+import HeatMap from "../dashboard/HeatMap";
+import PassProcessDash from "../dashboard/PassProcessDash";
+import OrderGrid from "../dashboard/OrderGrid";
+import InputStatusBar from "../dashboard/InputStatusBar";
+import FactoryGuage from "../dashboard/FactoryGuage";
+import { Card } from "@mui/material";
+import InjectionDash from "../dashboard/InjectionDash";
+import SizeDash from "../dashboard/SizeDash";
+import EssentialDash from "../dashboard/EssentialDash";
 
 const MessageParser = ({ children, actions }) => {
   const [preMessage, setPremessage] = useState("");
@@ -62,7 +73,123 @@ const MessageParser = ({ children, actions }) => {
     ) {
       messageFlag = true;
       actions.handleTypingMessage(
-        "가능통과공장설계에서는 각종 기준(경유 공정, 사이즈, 필수재)들을 적용해서 교집합으로 가통 코드를 설계합니다."
+        "가능통과공장설계에서는 각종 기준(경유 공정, 사이즈, 필수재)들을 적용해서 교집합으로 가통 코드를 설계합니다. ",
+      );
+      actions.handleTypingMessage(
+        <a href="https://www.pofect.store/main-capacity/"><p>가능통과공장설계 페이지로 이동</p></a>
+      );
+    }
+
+    if (
+      message.includes("공장") &&
+      message.includes("확통") &&
+      message.includes("결정") &&
+      message.includes("현황") 
+    ) {
+      messageFlag = true;
+      actions.handleTypingMessage("네 다음은 출강주별 공장 확통결정 현황을 보여주는 히트맵입니다.");
+      actions.handleTypingMessage(
+        <Card><HeatMap/></Card>
+      );
+    }
+
+    if (
+      message.includes("품종") &&
+      message.includes("주문") &&
+      message.includes("건수")
+    ) {
+      messageFlag = true;
+      actions.handleTypingMessage("네 다음은 출강주별 공장 확통결정 현황을 보여주는 히트맵입니다.");
+      actions.handleTypingMessage(
+        <OrderGrid />
+      );
+    }
+
+    if (
+      message.includes("품종") &&
+      message.includes("투입") &&
+      message.includes("현황")
+    ) {
+      messageFlag = true;
+      actions.handleTypingMessage("네 다음은 품종 별 투입현황 그래프입니다.");
+      actions.handleTypingMessage(
+        <InputStatusBar />
+      );
+    }
+
+    if (
+      message.includes("공장") &&
+      message.includes("부하") &&
+      message.includes("현황") &&
+      message.includes("예상")
+    ) {
+      messageFlag = true;
+      actions.handleTypingMessage("네 다음은 공장 부하 예상 현황 그래프입니다.");
+      actions.handleTypingMessage(
+        <Card><FactoryGuage/></Card>
+      );
+    }
+
+    if (
+      message.includes("제조") &&
+      message.includes("투입") &&
+      message.includes("결정") &&
+      message.includes("변동")
+    ) {
+      messageFlag = true;
+      actions.handleTypingMessage("네 다음은 제조 투입 결정 주문 건수 변동입니다.");
+      actions.handleTypingMessage(
+        <Card><InjectionDash/></Card>
+      );
+    }
+
+    if (
+      message.includes("경유") &&
+      message.includes("공정") &&
+      message.includes("기준") &&
+      message.includes("변동")
+    ) {
+      messageFlag = true;
+      actions.handleTypingMessage("네 다음은 경유 공정 기준 변동입니다.");
+      actions.handleTypingMessage(
+        <Card><PassProcessDash/></Card>
+      );
+    }
+
+    if (
+      message.includes("사이즈") &&
+      message.includes("기준") &&
+      message.includes("변동")
+    ) {
+      messageFlag = true;
+      actions.handleTypingMessage("네 다음은 사이즈 기준 변동입니다.");
+      actions.handleTypingMessage(
+        <Card><SizeDash/></Card>
+      );
+    }
+
+    if (
+      message.includes("필수재") &&
+      message.includes("기준") &&
+      message.includes("변동")
+    ) {
+      messageFlag = true;
+      actions.handleTypingMessage("네 다음은 필수재 기준 변동입니다.");
+      actions.handleTypingMessage(
+        <Card><EssentialDash/></Card>
+      );
+    }
+
+    if (
+      message.includes("확정") &&
+      message.includes("통과") &&
+      message.includes("주문") &&
+      message.includes("변동")
+    ) {
+      messageFlag = true;
+      actions.handleTypingMessage("네 다음은 확정 통과 결정 주문 건수 변동입니다.");
+      actions.handleTypingMessage(
+        <Card><ConfirmDash/></Card>
       );
     }
 
@@ -133,6 +260,9 @@ const MessageParser = ({ children, actions }) => {
       setPremessage("공장결정");
       actions.handleTypingMessage(
         "공장결정 가능통과공정 코드를 기반으로 확정통과공정 코드를 부여하고 공장을 결정합니다."
+      );
+      actions.handleTypingMessage(
+        <a href="https://www.pofect.store/main-confirm/"><p>공장결정 페이지로 이동</p></a>
       );
     }
 
@@ -228,6 +358,9 @@ const MessageParser = ({ children, actions }) => {
       actions.handleTypingMessage(
         "투입 능력 관리에서는 출강주 별로 공정별 공장 능력을 확인할 수 있습니다. 출강주를 선택하고 조회하면 선택한 출강 주에 대한 공장 능력이 나오게 됩니다."
       );
+      actions.handleTypingMessage(
+        <a href="https://www.pofect.store/capacity/"><p>투입 능력 관리 페이지로 이동</p></a>
+      );
     }
 
     if (
@@ -261,6 +394,9 @@ const MessageParser = ({ children, actions }) => {
       setPremessage("사이즈기준");
       actions.handleTypingMessage(
         "사이즈 기준은 공정/공장별 통과할 수 있는 기준들을 확인할 수 있습니다."
+      );
+      actions.handleTypingMessage(
+        <a href="https://www.pofect.store/size-standard/"><p>사이즈 기준 페이지로 이동</p></a>
       );
     }
 
@@ -310,7 +446,7 @@ const MessageParser = ({ children, actions }) => {
     // 필수재 기준
     if (
       message.includes("필수재") &&
-      !message.includes("기준") &&
+      message.includes("기준") &&
       !(
         message.includes("더 설명") &&
         message.includes("알려줘") &&
@@ -324,6 +460,9 @@ const MessageParser = ({ children, actions }) => {
       setPremessage("필수재기준");
       actions.handleTypingMessage(
         "필수재 기준에서는 제품의 공정에 따라서 필수재 기준들을 표시합니다."
+      );
+      actions.handleTypingMessage(
+        <a href="https://www.pofect.store/essential-goods/"><p>필수재 기준 페이지로 이동</p></a>
       );
     }
 

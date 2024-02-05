@@ -3,7 +3,7 @@ const DEV = "http://localhost:8888/service-pofect/api";
 const HOST = "https://gateway.pofect.store/service-pofect/api";
 
 const AuthApi = axios.create({
-  baseURL: HOST,
+  baseURL: DEV,
 });
 
 // 요청 인터셉터
